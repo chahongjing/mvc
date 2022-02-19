@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    master:
+      driver-class-name: org.sqlite.JDBC
+      password:
+      jdbcUrl: jdbc:sqlite:///home/zjy/workspace/mycode/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      username:
+    slave:
+      driver-class-name: org.sqlite.JDBC
+      password:
+      jdbcUrl: jdbc:sqlite:///home/zjy/workspace/mycode/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      username:
+    migration:
+      driver-class-name: org.sqlite.JDBC
+      password:
+      jdbcUrl: jdbc:sqlite:///home/zjy/workspace/mycode/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      username:
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: false
+    interceptors: com.zjy.dao.common.sql.SqlPrint
+
+pagehelper:
+  helperDialect: sqlite
