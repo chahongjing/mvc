@@ -22,12 +22,17 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @Controller
 @Slf4j
@@ -137,5 +142,17 @@ public class IndexController {
         baseActionResult = eventDispatcher.publishEvent(baseActionParam);
         log.info("result:{}", JSON.toJSONString(baseActionResult));
         return "abc";
+    }
+
+    @RequestMapping("/hi")
+    public String hello(Locale locale, Model model) {
+        model.addAttribute("greeting", "Hello!");
+
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+        String formattedDate = dateFormat.format(date);
+        model.addAttribute("currentTime", formattedDate);
+
+        return "hello";
     }
 }

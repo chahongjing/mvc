@@ -15,10 +15,18 @@ import java.nio.charset.StandardCharsets;
 
 public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 
+    /**
+     * isAccessAllowed：判断是否登录,在登录的情况下会走此方法，此方法返回true,则不会再调用onAccessDenied方法,如果isAccessAllowed方法返回Flase,则会继续调用onAccessDenied方法
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         if (isLoginRequest(request, response)) {
             if (isLoginSubmission(request, response)) {
+                // 执行登录，todo 校验验证码？
                 return executeLogin(request, response);
             } else {
                 // 放行 allow them to see the login page ;)
