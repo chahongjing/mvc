@@ -1,5 +1,9 @@
-package com.zjy.entity.enums;
+package com.zjy.baseframework.enums;
 
+import com.zjy.baseframework.annotations.SerializeEnum;
+import com.zjy.baseframework.interfaces.IBaseEnum;
+
+@SerializeEnum
 public enum ResultStatus implements IBaseEnum {
     OK(1, "成功"),
     NO(2, "失败"),

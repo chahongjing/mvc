@@ -1,5 +1,6 @@
 package com.zjy.entity.enums;
 
+import com.zjy.baseframework.interfaces.IBaseEnum;
 import lombok.Getter;
 
 @Getter

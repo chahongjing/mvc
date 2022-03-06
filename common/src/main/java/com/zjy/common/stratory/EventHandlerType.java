@@ -1,6 +1,6 @@
 package com.zjy.common.stratory;
 
-import com.zjy.entity.enums.IBaseEnum;
+import com.zjy.baseframework.interfaces.IBaseEnum;
 
 public enum EventHandlerType implements IBaseEnum {
     CREATE(1, "创建"),

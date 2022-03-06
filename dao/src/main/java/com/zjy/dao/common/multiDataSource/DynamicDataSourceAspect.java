@@ -1,6 +1,6 @@
 package com.zjy.dao.common.multiDataSource;
 
-import com.zjy.entity.constant.Constants;
+import com.zjy.baseframework.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

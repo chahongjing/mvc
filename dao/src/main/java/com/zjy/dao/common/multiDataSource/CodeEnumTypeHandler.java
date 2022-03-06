@@ -1,7 +1,7 @@
 package com.zjy.dao.common.multiDataSource;
 
+import com.zjy.baseframework.interfaces.IBaseEnum;
 import com.zjy.entity.enums.DownTaskStatus;
-import com.zjy.entity.enums.IBaseEnum;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;

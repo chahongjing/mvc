@@ -1,7 +1,6 @@
-package com.zjy.entity;
+package com.zjy.baseframework.enums;
 
-import com.zjy.entity.constant.Constants;
-import com.zjy.entity.enums.ResultStatus;
+import com.zjy.baseframework.common.Constants;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,7 +11,7 @@ public class BaseResult<T> implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     private ResultStatus status;
-    private String message;
+    private String msg;
     private T value;
 
     public ResultStatus getStatus() {
@@ -23,12 +22,12 @@ public class BaseResult<T> implements Serializable {
         this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getValue() {
@@ -41,7 +40,7 @@ public class BaseResult<T> implements Serializable {
 
     @Override
     public String toString() {
-        return Objects.toString(this);
+        return String.format("status: %s; msg: %s; value: %s", status, msg, Objects.toString(value, Constants.EMPTY_STRING));
     }
 
     /// <summary>
@@ -65,8 +64,8 @@ public class BaseResult<T> implements Serializable {
     /// </summary>
     /// <param name="status">返回状态</param>
     /// <param name="message">返回信息</param>
-    public BaseResult(ResultStatus status, String message) {
-        this(status, message, null);
+    public BaseResult(ResultStatus status, String msg) {
+        this(status, msg, null);
     }
 
 
@@ -86,9 +85,9 @@ public class BaseResult<T> implements Serializable {
     /// <param name="status">返回状态</param>
     /// <param name="message">返回信息</param>
     /// <param name="val">记录</param>
-    public BaseResult(ResultStatus status, String message, T val) {
+    public BaseResult(ResultStatus status, String msg, T val) {
         this.status = status;
-        this.message = message;
+        this.msg = msg;
         this.value = val;
     }
 

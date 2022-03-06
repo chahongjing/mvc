@@ -1,6 +1,6 @@
-package com.zjy.entity.enums;
+package com.zjy.baseframework.interfaces;
 
-import com.zjy.entity.constant.Constants;
+import com.zjy.baseframework.common.Constants;
 
 /**
  * Created by Administrator on 2018/5/15.

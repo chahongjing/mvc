@@ -1,6 +1,6 @@
 package com.zjy.common.utils;
 
-import com.zjy.entity.constant.Constants;
+import com.zjy.baseframework.common.Constants;
 
 import java.util.UUID;
 

@@ -3,13 +3,16 @@ package com.zjy.service.component;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -189,18 +192,33 @@ public class RedisUtils {
     }
     // endregion
 
+    // region zet
+    public void zAdd(String key, String value, double score) {
+        stringRedisTemplate.opsForZSet().add(key, value, score);
+    }
+    public void zAddSet(String key, Map<String, Double> map) {
+        Set<ZSetOperations.TypedTuple<String>> set = map.entrySet().stream().map(entry -> new DefaultTypedTuple<>(entry.getKey(), entry.getValue())).collect(Collectors.toSet());
+        stringRedisTemplate.opsForZSet().add(key, set);
+    }
+    public void zRemove(String key, String value) {
+        stringRedisTemplate.opsForZSet().remove(key, value);
+        stringRedisTemplate.opsForZSet().range(key, 0, -1); // -1表示所有元素
+        // zCard，reverseRank，count，reverseRange
+        stringRedisTemplate.opsForZSet().removeRange(key, 0, 20);
+        stringRedisTemplate.opsForZSet().removeRangeByScore(key, 0, 100);
+    }
+    public Set<String> range(String key, double minScore, double maxScore) {
+        return stringRedisTemplate.opsForZSet().rangeByScore(key, minScore, maxScore);
+    }
+    // endregion
+
     // region zset opt
     public void addItem(String instanceId) {
         log.info("添加超时任务：{}", instanceId);
         String key = getZsetCacheKey();
-        // 添加24小时超时
         long deadline = System.currentTimeMillis() + timeout_second * 1000L;
         stringRedisTemplate.opsForZSet().remove(key, instanceId);
         stringRedisTemplate.opsForZSet().add(key, instanceId, deadline);
-        // 批量添加
-//        long deadline = new Date().getTime();
-//        Set<ZSetOperations.TypedTuple<String>> set = entry.getValue().stream().map(m -> new DefaultTypedTuple<String>(String.valueOf(m), (double)deadline)).collect(Collectors.toSet());
-//        redisTemplate.opsForZSet().add(key, set);
     }
 
     public void removeItem(String instanceId) {

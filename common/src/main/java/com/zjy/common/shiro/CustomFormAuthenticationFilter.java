@@ -1,8 +1,8 @@
 package com.zjy.common.shiro;
 
 import com.alibaba.fastjson.JSON;
-import com.zjy.entity.BaseResult;
-import com.zjy.entity.enums.ResultStatus;
+import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.baseframework.enums.ResultStatus;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.http.MediaType;
 
