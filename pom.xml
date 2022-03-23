@@ -22,6 +22,7 @@
         <module>dao</module>
         <module>service</module>
         <module>web</module>
+        <module>baseframework_new</module>
     </modules>
 
     <properties>
