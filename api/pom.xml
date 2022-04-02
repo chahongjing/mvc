@@ -24,7 +24,6 @@
         <dependency>
             <groupId>com.zjy</groupId>
             <artifactId>entity</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

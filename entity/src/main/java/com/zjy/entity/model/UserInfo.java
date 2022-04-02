@@ -1,5 +1,8 @@
 package com.zjy.entity.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +10,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@TableName("UserInfo")
 public class UserInfo {
     /**
      * 创建人
@@ -27,12 +31,13 @@ public class UserInfo {
     /**
      * 用户Guid
      */
-//    @TableId
+    @TableId
     private String userId;
     /**
      * 代码
      */
 //    @JSONField(name="user_code")
+    @TableField("userCode")
     private String userCode;
     /**
      * 名称

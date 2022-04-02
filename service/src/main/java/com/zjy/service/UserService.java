@@ -18,7 +18,7 @@ public class UserService {
     @DBSource
     public UserInfo getFromMaster() {
         PageHelper.startPage(1, 1);
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoDao.getList("1"));
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoDao.getList("45b90fb3-d794-4f8f-b0f6-f4744cb9a704"));
         UserInfo userInfo = null;
         if(pageInfo.getTotal() > 0) {
             userInfo = pageInfo.getList().get(0);
@@ -30,7 +30,13 @@ public class UserService {
     @DBSource("slave")
     public UserInfo getFromSlave() {
         UserInfo userInfo = userInfoDao.get("2");
-        log.info("user slave: {}", userInfo.getUserName());
+        log.info("user slave: {}", userInfo == null ? null : userInfo.getUserName());
         return userInfo;
+    }
+
+    public int testMybatisPlus() {
+        int i = userInfoDao.deleteById("2");
+        log.info("testMybatisPlus: {}", i);
+        return i;
     }
 }

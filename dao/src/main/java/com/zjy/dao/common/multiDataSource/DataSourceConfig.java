@@ -1,11 +1,13 @@
 package com.zjy.dao.common.multiDataSource;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zjy.dao.common.sql.SqlPrint;
-import com.zjy.entity.enums.DownTaskStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.nologging.NoLoggingImpl;
-import org.mybatis.spring.SqlSessionFactoryBean;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -98,8 +100,9 @@ public class DataSourceConfig {
      * 设置工厂类
      */
     @Bean("sqlSessionFactoryBean")
-    public SqlSessionFactoryBean sqlSessionFactoryBean() {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    public FactoryBean<SqlSessionFactory> sqlSessionFactoryBean() {
+//        使用mybatisplus要使用MybatisSqlSessionFactoryBean。SqlSessionFactoryBean
+        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
 
         //此处设置为了解决找不到mapper文件的问题
@@ -107,7 +110,7 @@ public class DataSourceConfig {
             sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().
                     getResources("classpath:mapper/*Mapper.xml"));
 //            sqlSessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml"));
-            org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+            MybatisConfiguration configuration = new MybatisConfiguration();
 //            configuration.setLogImpl(StdOutImpl.class);//标准输出日志
             configuration.setLogImpl(NoLoggingImpl.class);// 不输出日志（）
             configuration.setMapUnderscoreToCamelCase(true);// 开启驼峰命名

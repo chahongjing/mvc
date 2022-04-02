@@ -16,11 +16,17 @@ spring:
       jdbcUrl: jdbc:sqlite:///home/zjy/workspace/mycode/java_ToolSiteMvc4J/web/target/classes/db/app.db
       username:
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-    lazy-loading-enabled: false
-    interceptors: com.zjy.dao.common.sql.SqlPrint
+#mybatis:
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    lazy-loading-enabled: false
+#    interceptors: com.zjy.dao.common.sql.SqlPrint
+
+#mybatis-plus:
+#  configuration:
+#    map-underscore-to-camel-case: false
+##    interceptors: com.zjy.dao.common.sql.SqlPrint
+#    lazy-loading-enabled: false
 
 pagehelper:
   helperDialect: sqlite

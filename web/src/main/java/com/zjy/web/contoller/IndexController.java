@@ -84,6 +84,13 @@ public class IndexController {
         return "testPage";
     }
 
+    @GetMapping("/testMybatisPlus")
+    @ResponseBody
+    public String testMybatisPlus() {
+        int i = userService.testMybatisPlus();
+        return String.valueOf(i);
+    }
+
     @PostMapping("/login")
     @ResponseBody
     public String login() {

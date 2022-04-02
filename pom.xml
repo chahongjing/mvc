@@ -28,7 +28,9 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.version>0.0.1-SNAPSHOT</project.version>
         <mybatis-springboot>2.2.2</mybatis-springboot>
+        <mybatis-plus-springboot>3.5.1</mybatis-plus-springboot>
         <pagehelper-springboot>1.4.1</pagehelper-springboot>
         <shiro-spring>1.8.0</shiro-spring>
         <sqlite-jdbc>3.27.2.1</sqlite-jdbc>
@@ -45,6 +47,11 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-springboot}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-springboot}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -77,6 +84,36 @@
                 <artifactId>guava</artifactId>
                 <version>${guava}</version>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>baseframework_new</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zjy</groupId>
+                <artifactId>service</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
