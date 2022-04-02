@@ -1,7 +1,7 @@
 package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.zjy.common.NoRetry;
+import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.service.component.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -20,20 +20,20 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Aspect
 @Slf4j
-public class NoRetryAspect {
+public class NoRepeatAspect {
     @Resource
     private RedisUtils redisUtils;
 
-    @Pointcut("@annotation(com.zjy.common.NoRetry)")
-    public void noRetry() {
+    @Pointcut("@annotation(com.zjy.baseframework.annotations.NoRepeatOp)")
+    public void noRepeat() {
     }
 
-    @Around(value = "noRetry()")
+    @Around(value = "noRepeat()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature)signature;
         Method targetMethod = methodSignature.getMethod();
-        NoRetry noRetryClass = targetMethod.getAnnotation(NoRetry.class);
+        NoRepeatOp noRetryClass = targetMethod.getAnnotation(NoRepeatOp.class);
         int timeout = noRetryClass.timeout();
 
         Object[] args = pjp.getArgs();
@@ -50,6 +50,6 @@ public class NoRetryAspect {
                 redisUtils.del(key);
             }
         }
-        throw new Exception("重复请求");
+        throw new RuntimeException("重复请求");
     }
 }
