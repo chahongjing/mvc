@@ -117,6 +117,7 @@ public class DataSourceConfig {
             configuration.setLazyLoadingEnabled(false);
             configuration.setCallSettersOnNulls(true);// 开启在属性为null也调用setter方法
             sqlSessionFactoryBean.setConfiguration(configuration);
+            sqlSessionFactoryBean.setTypeEnumsPackage("com.zjy.entity.enums");
             if(sqlPrint != null) {
                 sqlSessionFactoryBean.setPlugins(sqlPrint);
             }

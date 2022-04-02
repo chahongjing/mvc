@@ -2,6 +2,7 @@ package com.zjy.dao.common.multiDataSource;
 
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import com.zjy.entity.enums.DownTaskStatus;
+import com.zjy.entity.enums.Sex;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
@@ -13,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@MappedTypes({DownTaskStatus.class})
+@MappedTypes({DownTaskStatus.class, Sex.class})
 public class CodeEnumTypeHandler<E extends Enum<E> & IBaseEnum> extends BaseTypeHandler<IBaseEnum> {
 
     private Class<E> type;

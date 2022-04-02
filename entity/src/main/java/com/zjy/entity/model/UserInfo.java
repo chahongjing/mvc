@@ -3,6 +3,7 @@ package com.zjy.entity.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zjy.entity.enums.Sex;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,4 +48,7 @@ public class UserInfo {
      * 密码
      */
     private String password;
+
+    @TableField("sex")
+    private Sex sex;
 }
