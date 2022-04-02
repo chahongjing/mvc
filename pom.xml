@@ -27,6 +27,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mybatis-springboot>2.2.2</mybatis-springboot>
         <pagehelper-springboot>1.4.1</pagehelper-springboot>
         <shiro-spring>1.8.0</shiro-spring>
