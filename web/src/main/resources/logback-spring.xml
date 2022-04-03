@@ -11,7 +11,7 @@
     <!-- DENY，日志将立即被抛弃不再经过其他过滤器；返回NEUTRAL，有序列表里的下个过滤器过接着处理日志；返回ACCEPT，日志会被立即处理，不再经过剩余过滤器。 -->
     <appender name="CONSOLE-LOG" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] %green(%-5p) [%t] %cyan(%30.30c) [%magenta(%L)] %m%n</pattern>
+            <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%highlight(%-5p)] [%t] %cyan(%30.30c) [%magenta(%L)] %m%n</pattern>
         </layout>
     </appender>
     <!--获取比info级别高(包括info级别)但除error级别的日志-->

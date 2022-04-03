@@ -50,7 +50,11 @@ public class IndexController {
     @GetMapping("/index")
     @ResponseBody
     public String index() {
+        log.trace("/comm/getEnums");
+        log.debug("/comm/getEnums");
         log.info("/comm/getEnums");
+        log.warn("/comm/getEnums");
+        log.error("it is error!");
         return "abc";
     }
     @GetMapping("/comm/getEnums")
