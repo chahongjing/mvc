@@ -7,12 +7,13 @@ import com.zjy.entity.enums.Sex;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @TableName("UserInfo")
-public class UserInfo {
+public class UserInfo implements Serializable {
     /**
      * 创建人
      */

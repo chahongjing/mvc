@@ -17,9 +17,15 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -138,9 +144,24 @@ public class ShiroConfiguration {
         return credentialsMatcher;
     }
 
+    /**
+     * session放在本地内存中
+     * @return
+     */
     @Bean
+    @ConditionalOnMissingBean(RedisTemplate.class)
     public MemoryConstrainedCacheManager memoryConstrainedCacheManager() {
         return new MemoryConstrainedCacheManager();
+    }
+
+    /**
+     * session放在redis中，用redis管理
+     * @return
+     */
+    @Bean
+    @ConditionalOnBean(RedisTemplate.class)
+    public RedisCacheManager<String, Object> redisCacheManager(@Autowired RedisTemplate<String, Object> objRedisTemplate) {
+        return new RedisCacheManager<>(objRedisTemplate);
     }
     // endregion
 
