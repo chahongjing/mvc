@@ -33,7 +33,6 @@
         <mybatis-plus-springboot>3.5.1</mybatis-plus-springboot>
         <pagehelper-springboot>1.4.1</pagehelper-springboot>
         <shiro-spring>1.8.0</shiro-spring>
-        <sqlite-jdbc>3.27.2.1</sqlite-jdbc>
         <fastjson>1.2.78</fastjson>
         <commons-csv>1.9.0</commons-csv>
         <commons-io>2.6</commons-io>
