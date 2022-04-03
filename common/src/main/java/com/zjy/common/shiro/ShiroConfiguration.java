@@ -155,7 +155,7 @@ public class ShiroConfiguration {
     }
 
     /**
-     * session放在redis中，用redis管理
+     * session放在redis中，用redis管理。也可使用EnableRedisHttpSession注解
      * @return
      */
     @Bean
