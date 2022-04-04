@@ -34,17 +34,17 @@ public class UserInfo implements Serializable {
      * 用户Guid
      */
     @TableId
-    private String userId;
+    private String id;
     /**
      * 代码
      */
 //    @JSONField(name="user_code")
-    @TableField("userCode")
-    private String userCode;
+    @TableField("code")
+    private String code;
     /**
      * 名称
      */
-    private String userName;
+    private String name;
     /**
      * 密码
      */

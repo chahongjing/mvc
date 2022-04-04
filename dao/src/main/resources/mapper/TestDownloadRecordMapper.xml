@@ -2,30 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zjy.dao.TestDownloadRecordDao">
     <insert id="insert">
-        INSERT INTO TestDownloadRecord(<include refid="field"></include>)
-        VALUES(#{userId, jdbcType=VARCHAR}, #{userCode, jdbcType=VARCHAR}, #{userName, jdbcType=VARCHAR})
+        INSERT INTO test_download_record(<include refid="field"></include>)
+        VALUES(#{user_id, jdbcType=VARCHAR}, #{user_code, jdbcType=VARCHAR}, #{user_name, jdbcType=VARCHAR})
     </insert>
     <!-- 获取 -->
     <select id="get" resultType="com.zjy.entity.model.TestDownloadRecord">
         SELECT
         <include refid="fieldWithPrefix">
-            <property name="tableName" value="TestDownloadRecord"/>
+            <property name="tableName" value="test_download_record"/>
         </include>
-        FROM TestDownloadRecord
-        WHERE UserId = #{id, jdbcType = VARCHAR}
+        FROM test_download_record
+        WHERE user_id = #{id, jdbcType = VARCHAR}
     </select>
     <select id="queryList" resultType="com.zjy.entity.model.TestDownloadRecord">
         SELECT
         <include refid="fieldWithPrefix">
-            <property name="tableName" value="TestDownloadRecord"/>
+            <property name="tableName" value="test_download_record"/>
         </include>
-        FROM TestDownloadRecord
+        FROM test_download_record
     </select>
     <sql id="field">
-        userId, userCode, userName
+        user_id, user_code, user_name
     </sql>
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
-        ${tableName}.userId, ${tableName}.userCode, ${tableName}.userName
+        ${tableName}.user_id, ${tableName}.user_code, ${tableName}.user_name
     </sql>
 </mapper>

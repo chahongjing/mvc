@@ -22,7 +22,7 @@ public class UserService {
         UserInfo userInfo = null;
         if(pageInfo.getTotal() > 0) {
             userInfo = pageInfo.getList().get(0);
-            log.info("user master: {}", userInfo.getUserName());
+            log.info("user master: {}", userInfo.getName());
         }
         return userInfo;
     }
@@ -30,7 +30,7 @@ public class UserService {
     @DBSource("slave")
     public UserInfo getFromSlave() {
         UserInfo userInfo = userInfoDao.get("2");
-        log.info("user slave: {}", userInfo == null ? null : userInfo.getUserName());
+        log.info("user slave: {}", userInfo == null ? null : userInfo.getName());
         return userInfo;
     }
 

@@ -3,17 +3,17 @@ spring:
     master:
       driver-class-name: org.sqlite.JDBC
       password:
-      jdbcUrl: jdbc:sqlite://D:/workspace/code/my/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      jdbcUrl: jdbc:sqlite::resource:db/db.db3
       username:
     slave:
       driver-class-name: org.sqlite.JDBC
       password:
-      jdbcUrl: jdbc:sqlite://D:/workspace/code/my/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      jdbcUrl: jdbc:sqlite::resource:db/db.db3
       username:
     migration:
       driver-class-name: org.sqlite.JDBC
       password:
-      jdbcUrl: jdbc:sqlite://D:/workspace/code/my/java_ToolSiteMvc4J/web/target/classes/db/app.db
+      jdbcUrl: jdbc:sqlite::resource:db/db.db3
       username:
 
 #mybatis:

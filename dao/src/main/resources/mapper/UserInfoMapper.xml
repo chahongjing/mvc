@@ -5,23 +5,23 @@
     <select id="get" resultType="com.zjy.entity.model.UserInfo">
         SELECT
         <include refid="fieldWithPrefix">
-            <property name="tableName" value="UserInfo"/>
+            <property name="tableName" value="user_info"/>
         </include>
-        FROM UserInfo
-        WHERE UserId = #{id, jdbcType = VARCHAR}
+        FROM user_info
+        WHERE id = #{id, jdbcType = VARCHAR}
     </select>
     <select id="getList" resultType="com.zjy.entity.model.UserInfo">
         SELECT
         <include refid="fieldWithPrefix">
-            <property name="tableName" value="UserInfo"/>
+            <property name="tableName" value="user_info"/>
         </include>
-        FROM UserInfo
-        WHERE UserId = #{id, jdbcType = VARCHAR}
+        FROM user_info
+        WHERE id = #{id, jdbcType = VARCHAR}
     </select>
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
-        ${tableName}.UserId, ${tableName}.UserCode, ${tableName}.UserName, ${tableName}.Sex,
-        ${tableName}.Birthday, ${tableName}.isSystem, ${tableName}.isDisabled, ${tableName}.createdBy, ${tableName}.createdOn,
-        ${tableName}.modifiedBy, ${tableName}.modifiedOn
+        ${tableName}.id, ${tableName}.code, ${tableName}.name, ${tableName}.sex,
+        ${tableName}.birthday, ${tableName}.origin, ${tableName}.status, ${tableName}.created_by,
+        ${tableName}.created_on, ${tableName}.modified_by, ${tableName}.modified_on
     </sql>
 </mapper>
