@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-@TableName("UserInfo")
+@TableName("user_info")
 public class UserInfo implements Serializable {
     /**
      * 创建人
