@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: mybatis, common
+    include: mybatis, common, @profiles.active@
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -12,3 +12,6 @@ server:
     include-exception: true
     include-message: always
   port: 8088
+
+ttkey:
+  ab: @mykey@

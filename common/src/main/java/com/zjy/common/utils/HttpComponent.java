@@ -23,6 +23,7 @@ public class HttpComponent {
         return factory;
     }
 
+//    https://www.cnblogs.com/54chensongxia/p/11414923.html
     // Map<String, String> vars = Collections.singletonMap("hotel", "42");
     // String result = restTemplate.getForObject("https://example.com/hotels/{hotel}/rooms/{hotel}", String.class, vars);
 }
