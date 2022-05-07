@@ -38,6 +38,7 @@
         <commons-io>2.6</commons-io>
         <guava>27.0.1-jre</guava>
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
+        <maven.resources.plugin>3.0.2</maven.resources.plugin>
     </properties>
 
     <dependencyManagement>
