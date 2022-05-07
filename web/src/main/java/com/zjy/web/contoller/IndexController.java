@@ -32,7 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -163,6 +165,9 @@ public class IndexController {
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
         String formattedDate = dateFormat.format(date);
         model.addAttribute("currentTime", formattedDate);
+
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("map", map);
 
         return "hello";
     }
