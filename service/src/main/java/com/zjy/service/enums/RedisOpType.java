@@ -1,7 +1,9 @@
 package com.zjy.service.enums;
 
+import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 
+@SerializeEnum
 public enum RedisOpType implements IBaseEnum {
     GET(0, "获取"),
     SET(1, "设置（覆盖）"),

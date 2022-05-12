@@ -1,8 +1,9 @@
 package com.zjy.service.enums;
 
-
+import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 
+@SerializeEnum
 public enum RedisDataType implements IBaseEnum {
     STRING(0, "字符串"),
     SET(1, "集合"),
