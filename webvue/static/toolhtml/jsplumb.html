@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'> 
+    <title>jsPlumb</title>
+    <style>
+        .demo {
+            height: 300px;
+        }
+
+        .item {
+            width: 100px;
+            height: 50px;
+            border: 3px solid green;
+            position: absolute;
+        }
+
+        .item1 {
+            left: 400px;
+            top: 100px;
+        }
+
+        .item2 {
+            left: 300px;
+            top: 250px;
+        }
+
+        .item3 {
+            left: 500px;
+            top: 250px;
+        }
+
+        .item4 {
+            left: 200px;
+            top: 400px;
+        }
+
+        .item5 {
+            left: 400px;
+            top: 400px;
+        }
+
+        .item6 {
+            left: 600px;
+            top: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class='demo' id='demo'>
+    <div class='item item1' id='item1'>1</div>
+    <div class='item item2' id='item2'>2</div>
+    <div class='item item3' id='item3'>3</div>
+    <div class='item item4' id='item4'>4</div>
+    <div class='item item5' id='item5'>5</div>
+    <div class='item item6' id='item6'>6</div>
+</div>
+<!--<script src='../js/jquery-3.3.1.min.js'></script>-->
+<script src="../js/jsplumb.min.js"></script>
+<script>
+    jsPlumb.ready(function () {
+        var color = '#222';
+        var instance = jsPlumb.getInstance({
+            //连线
+            Connector: ['Bezier', {curviness: 50}],
+            //拖动时的演示
+            DragOptions: {cursor: 'pointer', zIndex: 2000},
+            //连接线的样式
+            //PaintStyle:{strokeStyle:'steelblue', lineWidth:3},
+            //连接点的样式
+            //EndpointStyle:{radius:6, fillStyle:'#222'},
+            EndpointStyle: {radius: 7, fill: "#7a1"},
+            EndpointHoverStyle: {radius: 8, fill: "#666"},
+            //hover时线样式
+            HoverPaintStyle: {strokeStyle: 'green'},
+            PaintStyle: {lineWidth: 8, stroke: "red"},
+            //hover时点的样式
+            Container: 'demo'    //Either an element id, a DOM element, or a selector from the underlying library
+            , ConnectionsDetachable: false
+        });
+        instance.setContainer('demo');
+
+        instance.doWhileSuspended(function () {
+            var arrowCommon = {foldback: .7, fillStyle: color, width: 14},
+                overlays = [
+                    DragFlowoverlay('测试'),
+                    ['Arrow', {location: .8}, arrowCommon],
+                    // ['Arrow', {location:.3, direction:-1}, arrowCommon],
+                ];
+            var windows = jsPlumb.getSelector('.item');
+
+            for (var i = 0; i < windows.length; i++) {
+                instance.addEndpoint(windows[i], {
+                    uuid: windows[i].getAttribute('id') + '-bottom',
+                    anchor: 'Bottom',
+                    maxConnections: -1
+                });
+                instance.addEndpoint(windows[i], {
+                    uuid: windows[i].getAttribute('id') + '-top',
+                    anchor: 'Top',
+                    maxConnections: -1
+                });
+            }
+            //connect 函数
+            instance.connect({
+                uuids: ['item3-bottom', 'item6-top'],
+                overlays: overlays,
+                detachable: true,
+                reattach: true
+            });
+            instance.connect({uuids: ['item1-bottom', 'item2-top'], overlays: overlays});
+            instance.connect({uuids: ['item1-bottom', 'item3-top'], overlays: overlays});
+            instance.connect({uuids: ['item2-bottom', 'item4-top'], overlays: overlays});
+            instance.connect({uuids: ['item2-bottom', 'item5-top'], overlays: overlays});
+            //jquery ui里的draggable功能
+            //instance.draggable(windows);
+            instance.draggable('item1', {containment: 'parent'})
+            instance.draggable('item2', {containment: 'parent'})
+            instance.draggable('item3', {containment: 'parent'})
+        });
+        jsPlumb.fire('jsPlumbdemoLoaded', instance);
+
+        // $(window).resize(function () {
+        //     jsPlumb.repaintEverything();
+        // });
+    })
+
+    var DragFlowoverlay = function (title) {
+        return ["Label", {
+            cssClass: "mylabel",
+            label: title == "" ? "" : title, //线上显示信息
+            location: 0.4,
+            id: "mylabel",
+            events: {
+                "click": function (label, evt) {
+                    // alert(label.component.targetId);
+                    // alert("clicked on label for connection " + label.component.id);
+                }
+            }
+        }];
+    }
+</script>
+</body>
+</html>

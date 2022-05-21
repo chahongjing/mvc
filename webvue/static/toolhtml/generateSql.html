@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'> 
+	<title>sql自动生成</title>
+	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='../font-awesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' type='text/css' href='../css/common.css'>
+	<style>
+	    #myApp{width:100%;height:100%;padding:15px;}
+	    .mt20 {
+            margin-top: 20px;
+        }
+
+        .ml15 {
+            margin-left: 15px;
+        }
+
+        .mr15 {
+            margin-right: 15px;
+        }
+
+        .w100p {
+            width: 100%;
+        }
+
+        .form-group > div, .form-group > label {
+            margin-top: 10px;
+        }
+
+        .background-readonly {
+            background-color: #eaeaea;
+        }
+        .myform .form-group{width:50%;float:left;height:45px;}
+    </style>
+</head> 
+<body>
+	<div id='myApp'>
+	    <form class='myform form-label-w120 clearfix'>
+	        <div class="form-group">
+	            <label class="form-label">数据库类型:</label>
+	            <div class="form-content">
+	                <select class="form-control" v-model="selectedDbType">
+	                    <option value="" disabled>--全部--</option>
+	                    <option v-for="item in dbTypes" :value="item.value" v-text="item.name"></option>
+	                </select>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="form-label">操作类型:</label>
+	            <div class="form-content">
+	                <select class="form-control" v-model="operatorType">
+	                    <option value="" disabled>--全部--</option>
+	                    <option v-for="item in operatorTypes" :value="item.value" v-text="item.name"></option>
+	                </select>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="form-label">对象类型:</label>
+	            <div class="form-content">
+	                <select class="form-control" v-model="selectedSubject">
+	                    <option value="" disabled>--全部--</option>
+	                    <option v-for="item in subjects" :value="item.value" v-text="item.name"></option>
+	                </select>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+
+
+	        <div class="form-group">
+	            <label class="form-label">对象类型:</label>
+	            <div class="form-content">
+	                <input class="form-control" type="text" v-model="firstObj"
+	                       onfocus="this.select();"
+	                       :placeholder="subjectName"/>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="form-label">字段类型:</label>
+	            <div class="form-content">
+	                <select class="form-control" v-model="selectedFieldType">
+	                    <option value="" disabled>--全部--</option>
+	                    <option v-for="item in fieldTypes" :value="item.value" v-text="item.name"></option>
+	                </select>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="form-label">字段名:</label>
+	            <div class="form-content">
+	                <input class="form-control" type="text" v-model="secondObj"
+	                       onfocus="this.select();"
+	                       placeholder="字段名"/>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="form-label">备注:</label>
+	            <div class="form-content">
+	                <input class="form-control" type="text" v-model="remark"
+	                       onfocus="this.select();"
+	                       placeholder=""/>
+	            </div>
+	            <div class='form-info'>
+	                <i class='fa'></i>
+	            </div>
+	        </div>
+	    </form>
+    	<div class='text-center w100p'>
+	        <button type="button" class="btn btn-info" @click="getResult()">
+	            <i class="fa fa-hand-o-down"></i>获取Sql
+	        </button>
+    	</div>
+	    <div class="row mt20 ml0 mr0" style='height:calc(100% - 285px);'>
+	        <div class="row w100p ml0 mr0">
+	            <div class="col-md-12 col-sm-12 col-xs-12 ml0 mr0">
+	            	<textarea class="txt w100p h100p background-readonly" rows="20" cols="150" v-model="result"
+	            	    style="overflow-x: hidden;overflow-y: auto;" placeholder="输入信息后得出结果" readonly="readonly">
+	            	</textarea>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+<script src='../js/jquery-3.3.1.min.js'></script>
+<script src='../js/Utility.js'></script>
+<script src='../js/vue.js'></script>
+<script>
+	var vm = new Vue({
+        el: '#myApp',
+        data: {
+        	author: 'jyzeng',
+            selectedDbType: 'mysql',
+            operatorType: 'add',
+            selectedSubject: 'field',
+            selectedFieldType: 'VARCHAR(XXX)',
+            subjectName: '表名',
+            firstObj: '',
+            secondObj: '',
+            remark: '',
+            result: '',
+            authorReg: /\{author\}/g,
+            datetimeReg: /\{datetime\}/g,
+            firstNameReg: /\{firstName\}/g,
+            secondNameReg: /\{secondName\}/g,
+            remarkReg: /\{remark\}/g,
+            functionNameReg: /\{functionName\}/g,
+            dbTypes:[],
+            operatorTypes:[],
+            subjects:[],
+            fieldTypes:[]
+        },
+        methods: {
+        	getTemplate(id) {
+        		id = id.replace('.', '\\.');
+        		return $('script[id=' + id + ']').html();
+        	},
+        	getResult: function () {
+	            var result;
+	            switch (this.selectedSubject) {
+	                case 'table':
+	                    result = this.getTableSql();
+	                    break;
+	                case 'field':
+	                    result = this.getFieldSql();
+	                    break;
+	                case 'proc':
+	                    result = this.getProcSql();
+	                    break;
+	                case 'function':
+	                    result = this.getFunctionSql();
+	                    break;
+	                case 'view':
+	                    result = this.getViewSql();
+	                    break;
+	                case 'trigger':
+	                    result = this.getTriggerSql();
+	                    break;
+	                case 'seq':
+	                    result = this.getSeqSql();
+	                    break;
+	                default:
+	                    result = '';
+	                    break;
+	            }
+
+	            result = result || '';
+	            result = result.replace(this.authorReg, this.author).replace(this.datetimeReg, new Date().format('yyyy-MM-dd HH:mm:ss'))
+	                    .replace(this.firstNameReg, this.firstObj).replace(this.secondNameReg, this.secondObj)
+	                    .replace(this.remarkReg, this.remark || '请填写备注说明');
+	            this.result = result.trim();
+	        },
+	        getAllDbType: function() {
+                var dbTypes = [];
+                dbTypes.push({value: 'oracle', name: 'Oracle'});
+                dbTypes.push({value: 'mysql', name: 'mysql'});
+                dbTypes.push({value: 'sqlserver', name: 'Sql Server'});
+                return dbTypes;
+            },
+
+            getAllOperatorTypes:function () {
+                var operatorTypes = [];
+                operatorTypes.push({value: 'add', name: '新增'});
+                operatorTypes.push({value: 'alter', name: '修改'});
+                operatorTypes.push({value: 'delete', name: '删除'});
+                return operatorTypes;
+            },
+
+            getAllSubject:function () {
+                var subjects = [];
+                subjects.push({value: 'table', name: '表'});
+                subjects.push({value: 'field', name: '字段'});
+                subjects.push({value: 'proc', name: '存储过程'});
+                subjects.push({value: 'function', name: '函数'});
+                subjects.push({value: 'view', name: '视图'});
+                subjects.push({value: 'trigger', name: '触发器'});
+                subjects.push({value: 'seq', name: '序列'});
+                return subjects;
+            },
+
+            getSqlServerFieldTypes:function () {
+                var fieldTypes = [];
+                fieldTypes.push({value: 'BIGINT(XXX)', name: 'BIGINT'});
+                fieldTypes.push({value: 'BINARY(XXX)', name: 'BINARY'});
+                fieldTypes.push({value: 'BIT(XXX)', name: 'BIT'});
+                fieldTypes.push({value: 'CHAR(XXX)', name: 'CHAR'});
+                fieldTypes.push({value: 'DATE(XXX)', name: 'DATE'});
+                fieldTypes.push({value: 'DATETIME(XXX)', name: 'DATETIME'});
+                fieldTypes.push({value: 'DATETIME2(XXX)', name: 'DATETIME2'});
+                fieldTypes.push({value: 'DATETIMEOFFSET(XXX)', name: 'DATETIMEOFFSET'});
+                fieldTypes.push({value: 'DECIMAL(XXX)', name: 'DECIMAL'});
+                fieldTypes.push({value: 'FLOAT(XXX)', name: 'FLOAT'});
+                fieldTypes.push({value: 'IMAGE(XXX)', name: 'IMAGE'});
+                fieldTypes.push({value: 'INT(XXX)', name: 'INT'});
+                fieldTypes.push({value: 'MONEY(XXX)', name: 'MONEY'});
+                fieldTypes.push({value: 'NCHAR(XXX)', name: 'NCHAR'});
+                fieldTypes.push({value: 'NTEXT(XXX)', name: 'NTEXT'});
+                fieldTypes.push({value: 'NUMERIC(XXX)', name: 'NUMERIC'});
+                fieldTypes.push({value: 'NVARCHAR(XXX)', name: 'NVARCHAR'});
+                fieldTypes.push({value: 'REAL(XXX)', name: 'REAL'});
+                fieldTypes.push({value: 'ROWVERSION(XXX)', name: 'ROWVERSION'});
+                fieldTypes.push({value: 'SMALLDATETIME(XXX)', name: 'SMALLDATETIME'});
+                fieldTypes.push({value: 'SMALLINT(XXX)', name: 'SMALLINT'});
+                fieldTypes.push({value: 'SMALLMONEY(XXX)', name: 'SMALLMONEY'});
+                fieldTypes.push({value: 'TEXT(XXX)', name: 'TEXT'});
+                fieldTypes.push({value: 'TIME(XXX)', name: 'TIME'});
+                fieldTypes.push({value: 'TIMESTAMP(XXX)', name: 'TIMESTAMP'});
+                fieldTypes.push({value: 'TINYINT(XXX)', name: 'TINYINT'});
+                fieldTypes.push({value: 'UNIQUEIDENTIFIER(XXX)', name: 'UNIQUEIDENTIFIER'});
+                fieldTypes.push({value: 'VARBINARY(XXX)', name: 'VARBINARY'});
+                fieldTypes.push({value: 'VARCHAR(XXX)', name: 'VARCHAR'});
+                fieldTypes.push({value: 'XML(XXX)', name: 'XML'});
+                fieldTypes.push({value: 'SQL_VARIANT(XXX)', name: 'SQL_VARIANT'});
+                return fieldTypes;
+            },
+            getTableSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleTableSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverTableSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    return this.getMysqlTableSql();
+                }
+            },
+            getOracleTableSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('oracleAddTable.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建表'));
+                } else if (this.operatorType == 'alter') {
+                    throw new Error('unimplement error！');
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getSqlserverTableSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('sqlserverAddTable.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建表'));
+                } else if (this.operatorType == 'alter') {
+                    throw new Error('unimplement error！');
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getMysqlTableSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('mysqlAddTable.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建表'));
+                } else if (this.operatorType == 'alter') {
+                    throw new Error('unimplement error！');
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getFieldSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleFieldSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverFieldSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    return this.getMysqlFieldSql();
+                }
+            },
+            getOracleFieldSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('oracleAddField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('添加字段'));
+                } else if (this.operatorType == 'alter') {
+                    result = this.getTemplate('oracleAlterField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('修改字段'));
+                } else if (this.operatorType == 'delete') {
+                    result = this.getTemplate('oracleDropField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('删除字段'));
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getSqlserverFieldSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('sqlserverAddField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('添加字段'));
+                } else if (this.operatorType == 'alter') {
+                    result = this.getTemplate('sqlserverAlterField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('修改字段'));
+                } else if (this.operatorType == 'delete') {
+                    result = this.getTemplate('sqlserverDropField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('删除字段'));
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getMysqlFieldSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('mysqlAddField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('添加字段'));
+                } else if (this.operatorType == 'alter') {
+                    result = this.getTemplate('mysqlAlterField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('修改字段'));
+                } else if (this.operatorType == 'delete') {
+                    result = this.getTemplate('mysqlDropField.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('删除字段'));
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getProcSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleProcSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverProcSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    throw new Error('unimplement error！');
+                }
+            },
+            getOracleProcSql:function () {
+                var result;
+                if (this.operatorType == 'add' || this.operatorType == 'alter') {
+                    result = this.getTemplate('oracleAddProc.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建/修改存储过程')).replace(this.secondNameReg, this.secondObj);
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getSqlserverProcSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('sqlserverAddProc.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建存储过程'));
+                } else if (this.operatorType == 'alter') {
+                    throw new Error('unimplement error！');
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getFunctionSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleFunctionSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverFunctionSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    throw new Error('unimplement error！');
+                }
+            },
+            getOracleFunctionSql:function () {
+                throw new Error('unimplement error！');
+            },
+            getSqlserverFunctionSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('sqlserverAddFunction.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建函数'));
+                } else if (this.operatorType == 'alter') {
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getViewSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleViewSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverViewSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    throw new Error('unimplement error！');
+                }
+            },
+            getOracleViewSql:function () {
+                throw new Error('unimplement error！');
+            },
+            getSqlserverViewSql:function() {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('sqlserverAddView.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建视图'));
+                } else if (this.operatorType == 'alter') {
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getTriggerSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleTriggerSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverTriggerSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    throw new Error('unimplement error！');
+                }
+            },
+            getOracleTriggerSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('oracleAddTrigger.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建触发器'));
+                } else if (this.operatorType == 'alter') {
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getSqlserverTriggerSql:function () {
+                throw new Error('unimplement error！');
+            },
+            getSeqSql:function () {
+                if (this.selectedDbType == 'oracle') {
+                    return this.getOracleSeqSql();
+                } else if (this.selectedDbType == 'sqlserver') {
+                    return this.getSqlserverSeqSql();
+                } else if (this.selectedDbType == 'mysql') {
+                    throw new Error('unimplement error！');
+                }
+            },
+            getOracleSeqSql:function () {
+                var result;
+                if (this.operatorType == 'add') {
+                    result = this.getTemplate('oracleAddSeq.html');
+                    result = result.replace(this.functionNameReg, this.getRemark('创建序列'));
+                } else if (this.operatorType == 'alter') {
+                    throw new Error('unimplement error！');
+                } else if (this.operatorType == 'delete') {
+                    throw new Error('unimplement error！');
+                } else {
+                    throw new Error('unimplement error！');
+                }
+                return result;
+            },
+            getSqlserverSeqSql: function () {
+                throw new Error('unimplement error！');
+            },
+            getRemark:function (remark) {
+                return remark + ' ' + (this.remark || '请填写备注说明') + '：' + this.firstObj + (this.secondObj ? ('.' + this.secondObj) : '');
+            }
+        },
+        mounted: function() {
+        	this.dbTypes = this.getAllDbType();
+            this.operatorTypes = this.getAllOperatorTypes();
+            this.subjects = this.getAllSubject();
+            this.fieldTypes = this.getSqlServerFieldTypes();
+        }
+    });
+</script>
+<script type="text/x-template" id="oracleAddTable.html">
+-- {author} {datetime} {functionName}
+DECLARE
+  num NUMBER;
+  tableName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  SELECT COUNT(1) INTO num FROM USER_TABLES WHERE UPPER(TABLE_NAME) = UPPER(tableName) ;
+  IF num = 0 THEN
+    EXECUTE IMMEDIATE '
+    CREATE TABLE {firstName}(
+      id INT PRIMARY KEY
+    )
+    ';
+  END IF;
+END;
+/
+COMMENT ON TABLE {firstName} IS '{remark}';
+COMMENT ON COLUMN {firstName}.id is '主键';
+/
+
+
+-- {author} {datetime} {functionName}
+DECLARE
+  num NUMBER;
+  tableName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  SELECT COUNT(1) INTO num FROM USER_TABLES WHERE UPPER(TABLE_NAME) = UPPER(tableName) ;
+  IF num > 0 THEN
+    EXECUTE IMMEDIATE 'DROP TABLE ' || tableName;
+  END IF;
+END;
+/
+CREATE TABLE {firstName}
+(
+id INT PRIMARY KEY
+);
+/
+COMMENT ON TABLE {firstName} IS '{remark}';
+COMMENT ON COLUMN {firstName}.id is '主键';
+/
+</script>
+<script type="text/x-template" id="sqlserverAddTable.html">
+    -- {author} {datetime} {functionName}
+    IF(OBJECT_ID('{firstName}', 'U')IS NULL)
+    BEGIN
+    CREATE TABLE [DBO].[{firstName}]
+    (
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    FieldName UNIQUEIDENTIFIER NOT NULL,
+    FieldName NVARCHAR(50),
+    FieldName INT,
+    FieldName DECIMAL(18, 2),
+    FieldName DATETIME,
+    FieldName MONEY
+    );
+    EXEC sys.sp_addextendedproperty @name = N'MS_Description', @value = '{remark}', @level0type = N'SCHEMA', @level0name = N'dbo',
+    @level1type = N'TABLE', @level1name = '{firstName}'
+
+    EXEC sys.sp_addextendedproperty @name = N'MS_Description', @value = '主键', @level0type = N'SCHEMA', @level0name = N'dbo',
+    @level1type = N'TABLE', @level1name = '{firstName}', @level2type = N'COLUMN', @level2name = 'ID'
+    END
+    GO
+</script>
+<script type="text/x-template" id="mysqlAddTable.html">
+    -- {author} {datetime} {functionName}
+    CREATE TABLE IF NOT EXISTS {firstName}(
+      id INT PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+      name VARCHAR(100) COMMENT '名称'
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{remark}';
+    -- ALTER TABLE {firstName} COMMENT '{remark}';
+</script>
+<script type="text/x-template" id="oracleAddProc.html">
+    -- {author} {datetime} {functionName}
+    CREATE OR REPLACE PROCEDURE {secondName}
+    (
+    ret OUT SYS_REFCURSOR,
+
+    biaoMing in varchar2,
+    lieMing in varchar2,
+    zhuTi in varchar2,
+    XuHao out int
+    )AS
+    TYPE ref_cursor_type IS REF CURSOR;
+    myrow SYS_USER%rowType;
+    --cursor ret is select * from SYS_USER;
+    mc ref_cursor_type;
+    msql varchar2(200) := 'select * from SYS_USER where rownum < 2';
+
+    newXuHao int;
+    BEGIN
+    OPEN ret FOR SELECT * FROM sys_user WHERE ROWNUM < 5;
+    FETCH ret INTO myrow;
+    WHILE(ret%found)
+    LOOP
+    DBMS_OUTPUT.PUT_LINE(myrow.username);
+    FETCH ret INTO myrow ;
+    END LOOP;
+    CLOSE ret;
+    DBMS_OUTPUT.PUT_LINE('--------');
+    OPEN mc FOR msql;
+    FETCH mc INTO myrow;
+    WHILE(mc%found)
+    LOOP
+    DBMS_OUTPUT.PUT_LINE(myrow.username);
+    FETCH mc INTO myrow ;
+    END LOOP;
+    CLOSE mc;
+    EXECUTE IMMEDIATE msql
+    INTO myrow;
+    DBMS_OUTPUT.PUT_LINE('--------');
+    DBMS_OUTPUT.PUT_LINE(myrow.username);
+
+
+    SELECT XuHao INTO newXuHao FROM Xt_XuHao WHERE BiaoMing = biaoMing AND LieMing = lieMing AND XuHaoZhuTi = zhuTi;
+    DBMS_OUTPUT.PUT_LINE('----newXuHao----');
+    DBMS_OUTPUT.PUT_LINE(newXuHao);
+    IF(newXuHao IS NULL)THEN
+    newXuHao := 1;
+    INSERT INTO Xt_XuHao(BiaoMing, LieMing, XuHaoZhuTi, XuHao) VALUES (biaoMing, lieMing, zhuTi, newXuHao);
+    ELSE
+    newXuHao := newXuHao + 1;
+    UPDATE Xt_XuHao SET XuHao = newXuHao WHERE BiaoMing = biaoMing AND LieMing = lieMing AND XuHaoZhuTi = zhuTi;
+    END IF;
+    XuHao := newXuHao;
+    DBMS_OUTPUT.PUT_LINE('----newXuHao----');
+    DBMS_OUTPUT.PUT_LINE(newXuHao);
+    END;
+    /
+    SET SERVEROUTPUT ON;
+    DECLARE
+    ret SYS_REFCURSOR;
+    BEGIN
+    {secondName}(ret);
+    END;
+</script>
+<script type="text/x-template" id="sqlserverAddProc.html">
+    -- {author} {datetime} {functionName}
+    IF(OBJECT_ID('{firstName}', 'P')IS NOT NULL)
+    BEGIN
+    DROP PROC [DBO].[{firstName}];
+    END
+    GO
+    CREATE PROC [DBO].[{firstName}]
+    AS
+    BEGIN
+
+    END
+    -- EXEC [DBO].[{firstName}]
+    GO
+</script>
+<script type="text/x-template" id="sqlserverAddFunction.html">
+    -- {author} {datetime} {functionName}
+    IF(OBJECT_ID('{firstName}')IS NOT NULL)
+    BEGIN
+    DROP FUNCTION [DBO].[{firstName}];
+    END
+    GO
+    CREATE FUNCTION [DBO].[{firstName}]
+    ()
+    RETURNS TABLE
+    AS
+    BEGIN
+
+    END
+    -- SELECT * FROM [DBO].[{firstName}]
+    GO
+</script>
+<script type="text/x-template" id="sqlserverAddView.html">
+    -- {author} {datetime} {functionName}
+    IF(OBJECT_ID('{firstName}', 'V')IS NOT NULL)
+    BEGIN
+    DROP VIEW [DBO].[{firstName}];
+    END
+    GO
+    CREATE VIEW [DBO].[{firstName}]
+    AS
+
+    -- SELECT * FROM [DBO].[{firstName}];
+    GO
+</script>
+<script type="text/x-template" id="oracleAddField.html">
+-- {author} {datetime} {functionName}
+DECLARE
+  num NUMBER;
+  tableName VARCHAR2(100);
+  fieldName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  fieldName := '{secondName}';
+  SELECT COUNT(1) INTO num FROM COLS
+   WHERE UPPER(TABLE_NAME) = UPPER(tableName)
+    AND UPPER(COLUMN_NAME) = UPPER(fieldName);
+  IF num = 0 THEN
+    EXECUTE IMMEDIATE 'ALTER TABLE {firstName} ADD({secondName} VARCHAR2(100), {secondName} VARCHAR2(100))';
+  END IF;
+END;
+/
+COMMENT ON COLUMN {firstName}.{secondName} is '{remark}';
+/
+
+
+-- {author} {datetime} {functionName}
+DECLARE
+num NUMBER;
+  tableName VARCHAR2(100);
+  fieldName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  fieldName := '{secondName}';
+  SELECT COUNT(1) INTO num FROM COLS
+   WHERE UPPER(TABLE_NAME) = UPPER(tableName)
+     AND UPPER(COLUMN_NAME) = UPPER(fieldName);
+  IF num > 0 THEN
+    EXECUTE IMMEDIATE 'ALTER TABLE ' || tableName || ' DROP COLUMN ' || fieldName;
+  END IF;
+END;
+/
+ALTER TABLE {firstName} ADD({secondName} VARCHAR2(100));
+COMMENT ON COLUMN {firstName}.{secondName} is '{remark}';
+/
+</script>
+<script type="text/x-template" id="oracleAlterField.html">
+-- {author} {datetime} {functionName}
+DECLARE
+  num NUMBER;
+  tableName VARCHAR2(100);
+  fieldName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  fieldName := '{secondName}';
+  SELECT COUNT(1) INTO num FROM COLS
+   WHERE UPPER(TABLE_NAME) = UPPER(tableName)
+    AND UPPER(COLUMN_NAME) = UPPER(fieldName);
+  IF num > 0 THEN
+    EXECUTE IMMEDIATE 'ALTER TABLE ' || tableName || ' MODIFY(' || fieldName || ' VARCHAR2(XXX))';
+    -- EXECUTE IMMEDIATE 'ALTER TABLE ' || tableName || ' DROP(' || fieldName || ')';
+  END IF;
+END;
+/
+</script>
+<script type="text/x-template" id="oracleDropField.html">
+-- {author} {datetime} {functionName}
+DECLARE
+  num NUMBER;
+  tableName VARCHAR2(100);
+  fieldName VARCHAR2(100);
+BEGIN
+  tableName := '{firstName}';
+  fieldName := '{secondName}';
+  SELECT COUNT(1) INTO num FROM COLS
+   WHERE UPPER(TABLE_NAME) = UPPER(tableName)
+     AND UPPER(COLUMN_NAME) = UPPER(fieldName);
+  IF num > 0 THEN
+    EXECUTE IMMEDIATE 'ALTER TABLE ' || tableName || ' DROP(' || fieldName || ')';
+  END IF;
+END;
+/
+</script>
+<script type="text/x-template" id="sqlserverAddField.html">
+    -- {author} {datetime} {functionName}
+    IF(COL_LENGTH('{firstName}', '{secondName}') IS NULL)
+    BEGIN
+    ALTER TABLE [DBO].[{firstName}]
+    ADD [{secondName}] NVARCHAR(XXX);
+    EXEC sys.sp_addextendedproperty @name = N'MS_Description', @value = '{remark}', @level0type = N'SCHEMA', @level0name = N'dbo',
+    @level1type = N'TABLE', @level1name = '{firstName}', @level2type = N'COLUMN', @level2name = '{secondName}'
+    END
+    GO
+</script>
+<script type="text/x-template" id="sqlserverAlterField.html">
+    -- {author} {datetime} {functionName}
+    IF(COL_LENGTH('{firstName}', '{secondName}') IS NOT NULL)
+    BEGIN
+    ALTER TABLE [DBO].[{firstName}]
+    ALTER COLUMN [{secondName}] MONEY;
+    EXEC sys.sp_updateextendedproperty @name = N'MS_Description', @value = @Reference, @level0type = N'SCHEMA', @level0name = N'dbo',
+    @level1type = N'TABLE', @level1name = '{firstName}', @level2type = N'COLUMN', @level2name = '{secondName}'
+
+    -- {author} {datetime} {functionName}
+    ALTER TABLE [DBO].[{firstName}]
+    DROP COLUMN [{secondName}];
+    END
+    GO
+</script>
+<script type="text/x-template" id="sqlserverDropField.html">
+</script>
+<script type="text/x-template" id="mysqlAddField.html">
+    -- {author} {datetime} {functionName}
+    DROP PROCEDURE IF EXISTS add_column_if;
+DELIMITER //
+CREATE PROCEDURE add_column_if(IN v_table varchar(50), IN v_column varchar(50), IN v_type varchar(100), IN v_discription varchar(1000))
+begin
+  declare stmt varchar(2000);
+  declare v_flag int;
+  select count(*) into v_flag from information_schema.columns where UPPER(table_schema) = UPPER((select DATABASE())) and UPPER(table_name) = UPPER(v_table) and UPPER(column_name) = UPPER(v_column);
+  if(v_flag = 0)
+  then
+    set @sqlstr = concat('ALTER TABLE ', v_table, ' ADD COLUMN ', v_column, ' ', v_type, ' COMMENT ''', v_discription, ''', ADD COLUMN ', v_column, ' ', v_type, ' COMMENT ''', v_discription, '''');
+
+    select @sqlstr;
+    prepare stmt from @sqlstr;
+    execute stmt;
+  end if;
+  commit;
+end ;//
+DELIMITER ;
+
+call add_column_if('myuser', 'test', 'int', '新字段');
+</script>
+<script type="text/x-template" id="mysqlAlterField.html">
+    -- {author} {datetime} {functionName}
+    DROP PROCEDURE IF EXISTS modify_column_if;
+DELIMITER //
+CREATE PROCEDURE modify_column_if(IN v_table varchar(50), IN v_column varchar(50), IN v_type varchar(100), IN v_discription varchar(1000))
+begin
+  declare stmt varchar(2000);
+  declare v_flag int;
+  declare remark varchar(200);
+  select count(*) into v_flag from information_schema.columns where UPPER(table_schema) = UPPER((select DATABASE())) and UPPER(table_name) = UPPER(v_table) and UPPER(column_name) = UPPER(v_column);
+  select column_comment into remark from information_schema.columns where UPPER(table_schema) = UPPER((select DATABASE())) and UPPER(table_name) = UPPER(v_table) and UPPER(column_name) = UPPER(v_column);
+  if(v_flag = 1)
+  then
+    set @sqlstr = concat('ALTER TABLE ', v_table, ' MODIFY COLUMN ', v_column, ' ', v_type);
+    if(v_discription <> '') then
+      set remark = v_discription;
+    end if;
+    set @sqlstr = concat(@sqlstr, ' COMMENT ''', remark, '''');
+    select @sqlstr;
+    prepare stmt from @sqlstr;
+    execute stmt;
+  end if;
+  commit;
+end ;//
+DELIMITER ;
+
+call modify_column_if('myuser', 'test', 'int', '新字段');
+-- 修改字段的注释，注意：字段名和字段类型都要写上
+-- ALTER TABLE myuser MODIFY COLUMN test VARCHAR(40) COMMENT '姓名';
+</script>
+<script type="text/x-template" id="mysqlDropField.html">
+    -- {author} {datetime} {functionName}
+    DROP PROCEDURE IF EXISTS drop_column_if;
+DELIMITER //
+CREATE PROCEDURE drop_column_if(IN v_table varchar(50), IN v_column varchar(50))
+begin
+  declare stmt varchar(2000);
+  declare v_flag int;
+  select count(*) into v_flag from information_schema.columns where UPPER(table_schema) = UPPER((select DATABASE())) and UPPER(table_name) = UPPER(v_table) and UPPER(column_name) = UPPER(v_column);
+  if(v_flag = 1)
+  then 
+    set @sqlstr = concat('ALTER TABLE ', v_table, ' DROP COLUMN ', v_column);
+    select @sqlstr;
+    prepare stmt from @sqlstr;
+    execute stmt;
+  end if;
+  commit;
+end ;//
+DELIMITER ;
+
+call drop_column_if('myuser', 'test');
+</script>
+<script type="text/x-template" id="oracleAddSeq.html">
+    -- {author} {datetime} {functionName}
+    DECLARE
+    num NUMBER;
+    seqName VARCHAR2(100);
+    BEGIN
+    seqName := '{firstName}';
+    SELECT COUNT(1) INTO num FROM USER_SEQUENCES WHERE UPPER(SEQUENCE_NAME) = UPPER(seqName) ;
+    IF num = 0 THEN
+    EXECUTE IMMEDIATE 'CREATE SEQUENCE {firstName}
+    MINVALUE 1
+    NOMAXVALUE
+    START WITH 1
+    INCREMENT BY 1
+    -- 一直累加，不循环
+    NOCYCLE
+    -- 不缓存
+    -- NOCACHE
+    -- 缓存10条
+    CACHE 10
+    ';
+    END IF;
+    END;
+    /
+</script>
+<script type="text/x-template" id="oracleAddTrigger.html">
+    -- {author} {datetime} {functionName}
+    CREATE OR REPLACE TRIGGER {firstName}
+    BEFORE INSERT ON {secondName}
+    FOR EACH ROW
+    BEGIN
+    SELECT 序列名称.NEXTVAL INTO:NEW.字段名 FROM SYS.DUAL;
+    END;
+</script>
+<script type="text/x-template" id="oracleJudge.html">
+    -- {author} {datetime} {functionName}
+    SET SERVEROUTPUT ON;
+    DECLARE
+    num NUMBER;
+    tableName VARCHAR2(100);
+    fieldName VARCHAR2(100);
+    BEGIN
+    SELECT neirong.zidianneirongid INTO num
+    FROM xt_zidianmulu mulu
+    INNER JOIN xt_zidianneirong neirong ON mulu.zidianmuluid = neirong.zidianmuluid
+    WHERE mulu.biaoming = 'tk_shijuan'
+    AND mulu.lieming = 'shijuanzhuangtai'
+    AND neirong.bianma = 'shijuan_caogao';
+    IF num > 0 THEN
+    DELETE FROM tk_shijuan WHERE shijuanzhuangtai = num;
+    DELETE FROM tk_shijuanshiti_temp;
+    DELETE FROM tk_shijuanshiti shijuanshiti WHERE NOT EXISTS (SELECT * FROM tk_shijuan shijuan WHERE shijuan.shijuanid = shijuanshiti.shijuanid);
+    END IF;
+    END;
+</script>
+</body> 
+</html>

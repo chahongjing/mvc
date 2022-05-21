@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/redis")
 public class RedisController {
-//    @Autowired
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     /**
@@ -38,7 +38,7 @@ public class RedisController {
      * @param value
      * @return
      */
-    @GetMapping("/optRedis")
+    @PostMapping("/optRedis")
     public BaseResult<Object> optRedis(RedisDataType dataType, RedisOpType opType, String key, String field, String value, Double score) {
         UserInfo user = new UserInfo();
         List<String> canOperaterList = Arrays.asList("3150270580", "1269590795");

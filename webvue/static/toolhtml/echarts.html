@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>学习echarts</title>
+	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='../css/common.css'>
+	<style>
+		.row{margin:0;}
+	</style>
+</head>
+<body>
+	<div class="row">
+	    <div class="col-sm-6">
+	        <!-- 折线 -->
+	        <div id="dashBoard" style="width: 100%; height: 400px;"></div>
+	    </div>
+	    <div class="col-sm-6">
+	        <!-- 折线 -->
+	        <div id="lineChart" style="width: 100%; height: 400px;"></div>
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="col-sm-6">
+	        <!-- 柱状图 -->
+	        <div id="histogram" style="width: 100%; height: 400px;"></div>
+	    </div>
+	    <div class="col-sm-6">
+	        <!-- 雷达图 -->
+	        <div id="radar" style="width: 100%; height: 400px;"></div>
+	    </div>
+	</div>
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- 饼图 -->
+      <div id="pie" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div class="col-sm-6">
+      <!-- 饼图 -->
+      <div id="normalDistribution" style="width: 100%; height: 400px;"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- 饼图 -->
+      <div id="circle" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div class="col-sm-6">
+      <div id="comHis" style="width: 100%; height: 400px;"></div>
+    </div>
+  </div>
+	<script src='../js/jquery-3.3.1.min.js'></script>
+	<script src='../js/Utility.js'></script>
+	<script src='../js/echarts.min.js'></script>
+	<script>
+        // dom结构
+        var dashBoard = echarts.init(document.getElementById('dashBoard'));
+        var lineChart = echarts.init(document.getElementById('lineChart'));
+        var histogram = echarts.init(document.getElementById('histogram'));
+        var radar = echarts.init(document.getElementById('radar'));
+        var pie = echarts.init(document.getElementById('pie'));
+        var normalDistribution = echarts.init(document.getElementById('normalDistribution'));
+        var normalDistribution = echarts.init(document.getElementById('normalDistribution'));
+        var circle = echarts.init(document.getElementById('circle'));
+        var comHis = echarts.init(document.getElementById('comHis'));
+
+        // 页面加载
+        $.get(Utility.getServerUrl() + '/echarts/getChartsOption').then(function(resp) {
+        	// 准备数据
+	        var optionDashBoard = JSON.parse(resp.value.dashBoard);
+	        var optionLineChart = JSON.parse(resp.value.lineChart);
+	        var optionHistogram = JSON.parse(resp.value.histogram);
+	        var optionRadar = JSON.parse(resp.value.radar);
+	        var optionPie = JSON.parse(resp.value.pie);
+	        var optionNormalDistribution = JSON.parse(resp.value.normalDistribution);
+	        var optionCircle = {"title":{"text":"知识点","x":"center","y":"top","textStyle":{"fontSize":20}},"tooltip":{"trigger":"item"},"legend":{"orient":"vertical","x":"center","y":"bottom","data":["学科知识点: 30","lantu知识点: 20"]},"grid":{"left":"3%","top":"50%"},"series":[{"name":"百分比统计","type":"pie","radius":["50%","70%"],"avoidLabelOverlap":false,"label":{"normal":{"show":false,"position":"center"},"emphasis":{"show":false,"textStyle":{"fontSize":"12","fontWeight":"bold"}}},"labelLine":{"normal":{"show":false}},"center":["50%","43%"],"hoverAnimation":false,"data":[{"name":"lantu知识点: 20","value":20,"trueName":"lantu知识点"},{"name":"学科知识点: 30","value":30,"totalValue":30,"trueName":"学科知识点"}],"itemStyle":{"normal":{}}}],"graphic":[{"type":"text","left":"center","top":"36%","z":2,"zlever":100,"style":{"text":"覆盖率","textAlign":"center"}},{"type":"text","left":"center","top":"45%","z":2,"zlever":100,"style":{"text":"33%","textAlign":"center","font":"bolder 20px \"Microsoft YaHei\""}}]};
+	        var optionComHis = {"tooltip":{"trigger":"axis","axisPointer":{"type":"shadow"}},"legend":{"data":["A","B","C","D"]},"grid":{"left":"3%","right":"10%","bottom":"5%","containLabel":true},"xAxis":{"name":"作答时间段","nameTextStyle":{"fontSize":14},"nameLocation":"middle","nameGap":20,"type":"category","data":["[0-10)","[10-20)","[20-30)","[30-40)","[40-50)","[50-60)","[60-70)","[70-80)","[80-90)","[90-100)","[100-110]"]},"yAxis":{"name":"人数","nameTextStyle":{"fontSize":14},"nameLocation":"middle","nameGap":30,"type":"value"},"series":[{"name":"A","type":"bar","stack":"全部","barMaxWidth":40,"data":[0,0,0,1,0,0,0,0,0,0,0]},{"name":"B","type":"bar","stack":"全部","barMaxWidth":40,"data":[0,0,0,0,0,0,0,1,1,0,0]},{"name":"C","type":"bar","stack":"全部","barMaxWidth":40,"data":[0,0,0,0,0,0,0,1,3,0,0]},{"name":"D","type":"bar","stack":"全部","barMaxWidth":40,"data":[20,0,0,1,0,0,1,2,1,4,3]}]};
+
+            var markLine= {
+                itemStyle: {normal: { lineStyle: { type: 'solid', color:'#975fe5' },label: { show: true, position:'left' }}},
+                data: [{name: '平均线',memo:"支持 'average', 'min', 'max'",type: 'average'},{name: 'Y 轴值为 100 的水平线',yAxis: 75},
+                //[{memo:"起点和终点的项会共用一个 name",name: '最小值到最大值',type: 'min'},{type: 'max'}],[{name: '两个坐标之间的标线',coord: [10, 20]},{coord: [20, 30]}], [{memo:"固定起点的 x 像素位置，用于模拟一条指向最大值的水平线",yAxis: 'max',x: '90%'}, {type: 'max'}],[{name: '两个屏幕坐标之间的标线',x: 100,y: 100},{x: 500,y: 200}]
+                ]
+            };
+            optionLineChart.series[0].markLine = markLine;
+
+            // 基于准备好的dom，初始化仪表盘实例
+            dashBoard.setOption(optionDashBoard, true);
+            // 基于准备好的dom，初始化折线图实例
+            lineChart.setOption(optionLineChart, true);
+            // 基于准备好的dom，初始化柱状图实例
+            histogram.setOption(optionHistogram, true);
+            // 基于准备好的dom，初始化雷达实例
+            radar.setOption(optionRadar, true);
+            // 基于准备好的dom，初始化饼图实例
+            pie.setOption(optionPie, true);
+            // 基于准备好的dom，初始化正态分布图实例
+            normalDistribution.setOption(optionNormalDistribution, true);
+            // 环状图
+            circle.setOption(optionCircle, true);
+            // 复杂图
+            comHis.setOption(optionComHis, true);
+	    });
+
+        // 图表自适应大小
+        window.onresize = function () {
+            dashBoard.resize();
+            lineChart.resize();
+            histogram.resize();
+            radar.resize();
+            pie.resize();
+            normalDistribution.resize();
+            circle.resize();
+            comHis.resize();
+        }
+	</script>
+</body>
+</html>

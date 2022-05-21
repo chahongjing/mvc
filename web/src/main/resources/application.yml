@@ -4,6 +4,8 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+  mvc:
+    static-path-pattern: /static/**
 #  redis:
 #    host: 127.0.0.1
 

@@ -49,9 +49,14 @@ public class IndexController {
     @Autowired
     private EventDispatcher eventDispatcher;
 
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping("/index")
     @ResponseBody
-    public String index() {
+    public String index2() {
         log.trace("/comm/getEnums");
         log.debug("/comm/getEnums");
         log.info("/comm/getEnums");
@@ -97,7 +102,7 @@ public class IndexController {
         return String.valueOf(i);
     }
 
-    @PostMapping("/login")
+    @PostMapping({"/login", "/user/login"})
     @ResponseBody
     public String login() {
         Subject subject = SecurityUtils.getSubject();

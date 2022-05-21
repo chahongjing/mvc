@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang='zh'>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>工作台</title>
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+  <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="static/css/common.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script src="static/js/jquery-3.3.1.min.js"></script>
+  <script src="static/js/Utility.js"></script>
+  <% if(process.env.NODE_ENV === 'production') { %>
+    <script src="<%= process.env.context %>/comm/getEnums"></script>
+  <% } else { %>
+    <script src="<%= process.env.targetHost %>:<%= process.env.targetPort %><%= process.env.context %>/comm/getEnums"></script>
+  <% } %>
+</body>
+</html>

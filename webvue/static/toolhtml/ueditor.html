@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'> 
+	<title>学习ueditor</title>
+	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='../css/common.css'>
+</head> 
+<body class='elearn'>
+<div id="myeditor"></div>
+	<h2></h2>
+	<p>
+
+	</p>
+	<hr>
+
+<script>
+	var opt = {
+		imageUrl: "${ctx}/learn/ueditorPicUpload.do",
+		serverUrl: '${ctx}/learn/ueditorServer.do',
+		imagePath: '',
+		toolbar: ['image',
+		' undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
+		'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize',
+		'| justifyleft justifycenter justifyright justifyjustify |'
+
+		],
+		initialFrameHeight: 300,
+		autoHeightEnabled: true,
+		autoFloatEnabled: true,
+		width: "100%",
+		opt: {zIndex: 100},
+		isBase64: true
+	};
+	UE.getEditor('myeditor', opt);
+</script>
+</body> 
+</html>

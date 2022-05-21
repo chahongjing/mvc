@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'> 
+	<title>表转实体</title>
+	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='../css/common.css'>
+	<style>
+        .connList .key{display:inline-block;width:100px;border:1px solid #444;padding:5px 10px;border-right:none;}
+        .connList .value{display:inline-block;border:1px solid #444;padding:5px 10px;}
+        .w100{width:100px;}
+        .inline-block{display:inline-block;}
+    </style>
+</head> 
+<body>
+	<div id='myApp'>
+		连接地址<input type="text" style="width:400px;" v-model="url"/><br>
+	    样例：
+	    <ul class="connList">
+	    	<li v-for='item in demoList'>
+	    		<span class="key" v-text='item.name'></span><span class="value" v-text='item.url'></span>
+	    	</li>
+	    </ul>
+	    <br>
+	    <span class="form-label w100 inline-block">用户名</span><input type="text" v-model="user"/><br>
+	    <span class="form-label w100 inline-block">密码</span><input type="text" v-model="password"/><br>
+	    <span class="form-label w100 inline-block">表名</span><input type="text" v-model="tableName"/><br>
+	    <button @click="getTableInfo()">测试</button>
+
+	    <textarea v-model="result" style="display:block;width:50%;margin:auto;min-height:400px;"></textarea>
+	</div>
+	<script src='../js/jquery-3.3.1.min.js'></script>
+<script src='../js/Utility.js'></script>
+<script src='../js/vue.js'></script>
+<script>
+	var vm = new Vue({
+        el: '#myApp',
+        data: {
+        	demoList:[],
+        	url:null,user:null,password:null,tableName:null,result:null
+        },
+        methods:{
+        	getDefaultData:function() {
+        		var me = this;
+        		$.get(Utility.getServerUrl() + '/tool/getDriverUrlList').then(function(resp) {
+                	me.url = resp.value.dbUrl;
+                	me.user = resp.value.dbUser;
+                	me.password = resp.value.dbPassword;
+                	me.demoList = resp.value.dbSet;
+		        });
+        	},
+        	getTableInfo: function () {
+                if (!this.url) {
+                    alert("请输入url地址！");
+                    return;
+                }
+                var type = "oracle";
+                if (/oracle/i.test(this.url)) {
+                    type = "oracle";
+                } else if (/mysql/i.test(this.url)) {
+                    type = "mysql";
+                } else if (/sqlserver/i.test(this.url)) {
+                    type = "sqlserver";
+                } else if (/sqlite/i.test(this.url)) {
+                    type = "sqlite";
+                }
+                var param = {
+                    type: type,
+                    url: this.url,
+                    user: this.user,
+                    password: this.password,
+                    tableName: this.tableName
+                };
+                var me = this;
+                $.get(Utility.getServerUrl() + '/tool/getTableInfo?' + $.param(param)).then(function(resp) {
+                	me.result = resp.value;
+		        });
+            }
+        },
+        mounted: function() {
+        	this.getDefaultData();
+        }
+    });
+</script>
+</body> 
+</html>

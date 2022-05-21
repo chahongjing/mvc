@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'> 
+	<title>vue demo</title>
+	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='../font-awesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' type='text/css' href='../css/common.css'>
+	<style>
+		body{padding:15px;}
+		.red{color:red;}
+	</style>
+</head> 
+<body>
+	<div id='myApp'>
+		<p><b>input</b></p>
+		<input type="text" v-model="inputValue"/>
+		<input type="text" v-model="inputValue" :disabled="true"/>
+		<br/><br/>
+		<p><b>radio</b></p>
+		<label class="radio_checkbox" v-for="item in repeatList">
+			<input type='radio' name="radio" :value="item.value" v-model="radioChecked"
+			:disabled="radioDisabled" />
+			<i></i>
+			<span v-text="item.name"></span>
+		</label>
+		<span v-text="radioChecked"></span>
+		<br/><br/>
+		<p><b>checkbox</b></p>
+		<label class="radio_checkbox">
+			<input type='checkbox' name="checkbox" v-model="checkAll" :disabled="checkboxDisabled" @change='checkAllBox()' />
+			<i></i>
+			<span>全选</span>
+		</label>
+		<label class="radio_checkbox" v-for="item in repeatList">
+			<input type='checkbox' name="checkbox" :value="item.value" v-model="checkboxChecked" :disabled="checkboxDisabled"
+			@change='checkSingle(item)' />
+			<i></i>
+			<span v-text="item.name"></span>
+		</label>
+		<span v-text="checkboxChecked"></span>
+		<br/><br/>
+		<p><b>select</b></p>
+		<select v-model="selectedValue">
+			<option value="" disabled>--全部--</option>
+			<option v-for="item in repeatList" :value="item.value" v-text="item.name"></option>
+		</select>
+		<span v-text="selectedValue"></span>
+		<br/><br/>
+		<p><b>event</b></p>
+		<input type="button" value="测试事件" @click="toggle()"/>
+		<span v-show="showSpan">show显示和隐藏, v-hide</span>
+		<span v-if="!showSpan">v-if, v-else, v-else-if</span>
+		<br><br>
+		<p>once</p>
+		<span v-once="showSpan" v-text="'只调用一次' + showSpan"></span>
+		<br/><br/>
+		<p><b>span</b></p>
+		<p class="testclass" v-text="inputValue" :class="{'red': hasClass}"></p>
+		<span v-text="'v-text: ' + htmlValue"></span><br>
+		<span v-html="'v-html: ' + htmlValue"></span>
+		<br><br>
+		<p>style</p>
+		<div :class="getClass()" :style="getStyle()">abc</div>
+		<br><br>
+
+		<ul>
+			<todo-item v-for="item in repeatList" v-bind:key="item.id" v-bind:todo="item">
+			</todo-item>
+		</ul>
+
+		<hello hello></hello>
+
+		<div>
+		  <span>测试：</span><span id='compileSpan'></span>
+		</div>
+	</div>
+	<script src='../js/vue.js'></script>
+	<script>
+		var list = [];
+		list.push({name: '电影', value: 1});
+		list.push({name: '看书', value: 2});
+		list.push({name: '打游戏', value: 3});
+
+		vueData = {
+			inputValue: '测试数据',
+			hasClass: true,
+			radioChecked: 2,
+			radioDisabled: false,
+			repeatList: list,
+			checkboxChecked:[3],
+			checkboxDisabled: false,
+			selectedValue: 3,
+			htmlValue: '<span class="red">v-bind:id绑定属性，可简写为 :id；v-on:click绑定事件，可简写为 @click</span>',
+			showSpan:true,
+			checkAll: false
+		};
+
+		vueMethods = {
+			getClass: function () {
+				return {
+					bold: true,
+					red: true
+				}
+			},
+			getStyle: function () {
+				return {
+					backgroundColor: '#eee'
+				}
+			},
+			testMe: function (a) {
+				console.log(a.value);
+			},
+			toggle: function () {
+				this.showSpan = !this.showSpan;
+				this.hasClass = !this.hasClass;
+				console.log('myapp');
+			},
+			checkAllBox:function() {
+				var list = [];
+				if(this.checkAll) {
+					for(var i = 0; i < this.repeatList.length; i++) {
+						list.push(this.repeatList[i].value);
+					}
+				}
+				this.checkboxChecked = list;
+			},
+			checkSingle:function() {
+				if(!this.repeatList || this.repeatList.length == 0) {
+				    this.checkAll = false;
+					return;
+				}
+				var isAllCheck = true;
+				this.checkboxChecked = this.checkboxChecked ? this.checkboxChecked : [];
+			    for(var i = 0; i < this.repeatList.length; i++) {
+				    if(!this.checkboxChecked.includes(this.repeatList[i].value)) {
+					    isAllCheck = false;
+						break;
+					}
+				}
+				this.checkAll = isAllCheck;
+			}
+		};
+
+		var vm = new Vue({
+			el: '#myApp',
+			data: vueData,
+			methods: vueMethods,
+			mounted: function() {
+				var el = document.getElementById('compileSpan');
+				var html = '<span v-html="inputValue"></span>';
+				el.innerHTML = html;
+			}
+		});
+	</script>
+</body>
+</html>
