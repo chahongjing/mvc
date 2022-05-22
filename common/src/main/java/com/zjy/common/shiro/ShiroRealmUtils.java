@@ -20,7 +20,7 @@ public class ShiroRealmUtils {
         return (UserInfo) SecurityUtils.getSubject().getPrincipal();
     }
 
-    public static String getCurrentUserId() {
+    public static Long getCurrentUserId() {
         return getCurrentUser().getId();
     }
 

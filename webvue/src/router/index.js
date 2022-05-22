@@ -351,7 +351,7 @@ router.beforeEach(function (to, from, next) {
   if(Vue.config.devtools) {
     console.log(to);
   }
-  if(!user.userId && to && to.path != '/login') {
+  if(!user.id && to && to.path != '/login') {
     next({
      path: 'login',
      query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由

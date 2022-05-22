@@ -5,5 +5,5 @@ import com.zjy.dao.vo.RolePermissionVo;
 import java.util.List;
 
 public interface RolePermissionService {
-    List<RolePermissionVo> queryRolePermission(List<String> roleIdList);
+    List<RolePermissionVo> queryRolePermission(List<Long> roleIdList);
 }

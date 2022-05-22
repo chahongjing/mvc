@@ -19,7 +19,7 @@ public class UserInfo implements Serializable {
     /**
      * 创建人
      */
-    private String createdBy;
+    private Long createdBy;
     /**
      * 创建日期
      */
@@ -27,7 +27,7 @@ public class UserInfo implements Serializable {
     /**
      * 修改人
      */
-    private String modifiedBy;
+    private Long modifiedBy;
     /**
      * 修改日期
      */
@@ -36,7 +36,7 @@ public class UserInfo implements Serializable {
      * 用户Guid
      */
     @TableId
-    private String id;
+    private Long id;
     /**
      * 代码
      */

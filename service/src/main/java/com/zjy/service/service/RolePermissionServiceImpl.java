@@ -16,9 +16,8 @@ import java.util.List;
 @Service
 public class RolePermissionServiceImpl extends BaseService<RolePermissionDao, RolePermission> implements RolePermissionService {
     @Override
-    public List<RolePermissionVo> queryRolePermission(List<String> roleIdList) {
+    public List<RolePermissionVo> queryRolePermission(List<Long> roleIdList) {
         if (CollectionUtils.isEmpty(roleIdList)) return Collections.emptyList();
-//        return dao.queryByRoleList(roleIdList);
-        throw new NotImplementedException();
+        return dao.queryByRoleIdList(roleIdList);
     }
 }

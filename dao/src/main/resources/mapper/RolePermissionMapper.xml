@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.dao.RolePermissionDao">
+	<select id="queryByRoleIdList" resultType="com.zjy.dao.vo.RolePermissionVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="rp"/></include>,
+		r.code as roleCode, p.code as permissionCode
+		FROM role_permission rp
+		left join role_info r on rp.role_id = r.id
+		left join permission p on rp.permission_id = p.id
+		<where>
+			<if test='roleIdList != null and roleIdList.size() > 0'>
+				and rp.role_id in (
+				<foreach collection="roleIdList" item="roleId" index="index" separator="," open="" close="">
+					#{roleId, jdbcType=VARCHAR}
+				</foreach>
+				)
+			</if>
+		</where>
+	</select>
+
+	<!-- 公共信息 -->
+	<!-- 字段 -->
+	<sql id="field">
+		role_id, permission_id
+	</sql>
+	<!-- 带前缀的字段 -->
+	<sql id="fieldWithPrefix">
+		${tableName}.role_id, ${tableName}.permission_id
+	</sql>
+</mapper>

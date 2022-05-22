@@ -22,7 +22,7 @@ public interface UserInfoService extends IUserService {
 
     void save(UserInfoVo vo);
 
-    UserInfoVo getVo(String id);
+    UserInfoVo getVo(Long id);
 
     PageBean<? extends UserInfo> queryPageList(UserInfoRequest request);
 

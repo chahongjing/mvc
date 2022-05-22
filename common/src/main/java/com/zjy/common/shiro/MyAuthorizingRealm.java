@@ -35,12 +35,13 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         UserInfo user = userInfoSvc.getByCode(token.getUsername());
+        if(user == null) return null;
 //        UserInfo user = new UserInfo();
 //        user.setCode("zjy");
 //        if(token.getCredentials() == null) {
 //            return null;
 //        }
-        user.setPassword(this.getMd5Hash(new String((char[])token.getCredentials()), token.getUsername()));
+//        user.setPassword(this.getMd5Hash(new String((char[])token.getCredentials()), token.getUsername()));
         if (null != user) {
             return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getCode()), getName());
         } else {

@@ -36,8 +36,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@Controller
 @Slf4j
+@Controller
 public class IndexController extends BaseController {
 
     @Autowired
@@ -74,12 +74,6 @@ public class IndexController extends BaseController {
         log.info("/comm/getEnums");
         log.warn("/comm/getEnums");
         log.error("it is error!");
-        return "abc";
-    }
-    @GetMapping("/comm/getEnums")
-    @ResponseBody
-    public String getEnums() {
-        int a = 1, b = 0;
         return "abc";
     }
 

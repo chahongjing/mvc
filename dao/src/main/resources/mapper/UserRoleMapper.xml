@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.dao.UserRoleDao">
+    <select id="queryListByUserId" resultType="com.zjy.dao.vo.UserRoleVo">
+        SELECT <include refid="fieldWithPrefix"><property name="tableName" value="ur"/></include>,
+        r.code as roleCode
+        FROM user_role ur
+        inner join role_info r on ur.role_id = r.id
+        <where>
+            <if test='roleId != null and roleId != ""'>
+                and ur.role_id = #{roleId, jdbcType=BIGINT}
+            </if>
+            <if test='userId != null and userId != ""'>
+                and ur.user_id = #{userId, jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <!-- 带前缀的字段 -->
+    <sql id="fieldWithPrefix">
+		${tableName}.user_id, ${tableName}.role_id
+	</sql>
+</mapper>

@@ -93,19 +93,19 @@ axios.interceptors.response.use(function (resp) {
   // 对响应错误做点什么
   if(!error.response) {
     error.data.status = ResultStatus.ERROR.key;
-    error.data.message = '访问服务器失败！';
+    error.data.msg = '访问服务器失败！';
   } else if (error.response.status == 401) {
     // 用户未授权
     error.data.status = ResultStatus.UNAUTHORIZED.key;
-    error.data.message = '未授权！';
+    error.data.msg = '未授权！';
   } else if (error.response.status == 403) {
     // 用户未授权
     error.data.status = ResultStatus.UNAUTHENTICATION.key;
-    error.data.message = '未登录！';
+    error.data.msg = '未登录！';
   } else if(error.response.status == 404) {
     console.log(error.response);
     // error.data.code = ResultStatus.UNAUTHENTICATION.code;
-    // error.data.message = '未登录！';
+    // error.data.msg = '未登录！';
   } else if (error.response.status == 500) {
     if(error.response.data instanceof ArrayBuffer) {
        var res = JSON.parse(Utility.readArrayBufferAsText(error.response.data));
@@ -114,14 +114,14 @@ axios.interceptors.response.use(function (resp) {
       Utility.readBlobAsText(error.response.data, function (data) {
         var res = {};
         res.data = JSON.parse(data);
-        toaster.error(res.message);
+        toaster.error(res.msg);
       });
       error.status = ResultStatus.ERROR.key;
-      error.data.message = '下载出错！';
+      error.data.msg = '下载出错！';
     }
   } else {
     error.data.status = ResultStatus.ERROR.key;
-    error.data.message = '未知错误！';
+    error.data.msg = '未知错误！';
   }
   // return Promise.resolve(result);
   filterResp(error);
@@ -131,13 +131,13 @@ axios.interceptors.response.use(function (resp) {
 function filterResp(resp) {
   var showMsg = resp.config.showMsg
   if (resp.data.status == ResultStatus.NO.key && showMsg) {
-    toaster.warning(resp.data.message);
+    toaster.warning(resp.data.msg);
   } else if (resp.data.status == ResultStatus.ERROR.key) {
-    toaster.error(resp.data.message);
+    toaster.error(resp.data.msg);
   } else if(resp.data.status == ResultStatus.UNAUTHENTICATION.key) {
     window.location.hash = "/login";
   } else if(resp.data.status == ResultStatus.UNAUTHORIZED.key) {
-    toaster.error(resp.data.message);
+    toaster.error(resp.data.msg);
   }
 }
 

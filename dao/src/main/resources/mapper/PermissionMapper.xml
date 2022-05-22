@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.bll.dao.PermissionDao">
+	<!-- 基本操作区 -->
+	<!-- 添加 -->
+<!--	<insert id="add">-->
+<!--		INSERT INTO Permission(<include refid="field"></include>)-->
+<!--		VALUES(#{permissionId, jdbcType=VARCHAR}, #{functionId, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{code, jdbcType=VARCHAR}, #{seq, jdbcType=INTEGER})-->
+<!--	</insert>-->
+
+<!--	&lt;!&ndash; 更新 &ndash;&gt;-->
+<!--	<update id="update">-->
+<!--        update Permission-->
+<!--        <set>-->
+<!--			<if test='functionId != null and functionId != ""'>-->
+<!--				functionId = #{functionId, jdbcType=VARCHAR},-->
+<!--			</if>-->
+<!--			<if test='name != null and name != ""'>-->
+<!--				name = #{name, jdbcType=VARCHAR},-->
+<!--			</if>-->
+<!--			<if test='code != null and code != ""'>-->
+<!--				code = #{code, jdbcType=VARCHAR},-->
+<!--			</if>-->
+<!--			<if test='seq != null'>-->
+<!--				seq = #{seq, jdbcType=INTEGER},-->
+<!--			</if>-->
+<!--		</set>-->
+<!--         where permissionId = #{permissionId, jdbcType=VARCHAR}-->
+<!--	</update>-->
+
+<!--	&lt;!&ndash; 删除 &ndash;&gt;-->
+<!--	<delete id="delete">-->
+<!--		DELETE FROM permission WHERE permissionId = #{id, jdbcType=VARCHAR}-->
+<!--	</delete>-->
+
+<!--	&lt;!&ndash; 获取 &ndash;&gt;-->
+<!--	<select id="get" resultType="com.zjy.bll.vo.PermissionVo">-->
+<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="p"/></include>,-->
+<!--		        f.name as functionName-->
+<!--		  FROM permission p-->
+<!--		 inner join functioninfo f on p.functionId = f.functionId-->
+<!--		 WHERE p.permissionId = #{id, jdbcType = VARCHAR}-->
+<!--	</select>-->
+
+<!--	&lt;!&ndash; 查询简单列表 &ndash;&gt;-->
+<!--	<select id="query" resultType="com.zjy.bll.vo.PermissionVo">-->
+<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="p"/></include>,-->
+<!--		        f.name as functionName-->
+<!--		FROM permission p-->
+<!--		inner join functioninfo f on p.functionId = f.functionId-->
+<!--		<where>-->
+<!--			<if test='functionId != null and functionId != ""'>-->
+<!--				and p.functionId = #{functionId, jdbcType=VARCHAR}-->
+<!--			</if>-->
+<!--			<if test='name != null and name != ""'>-->
+<!--				and p.name like '%' || #{name, jdbcType=VARCHAR} || '%'-->
+<!--			</if>-->
+<!--		</where>-->
+<!--		order by f.seq, p.seq-->
+<!--	</select>-->
+
+<!--	&lt;!&ndash; 查询复杂列表 &ndash;&gt;-->
+<!--	<select id="queryByMapFilter" resultType="com.zjy.bll.vo.PermissionVo">-->
+<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="permission"/></include>-->
+<!--		FROM permission-->
+<!--	</select>-->
+
+<!--	&lt;!&ndash; 查询是否重复 &ndash;&gt;-->
+<!--	<select id="queryRepeatCount" resultType="Map">-->
+<!--		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount-->
+<!--		  from permission-->
+<!--		 where permissionId &lt;&gt; #{permissionId, jdbcType=VARCHAR}-->
+<!--	</select>-->
+
+<!--	&lt;!&ndash; 其它操作区 &ndash;&gt;-->
+<!--	<select id="queryAllPermissionList" resultType="com.zjy.bll.vo.PermissionVo">-->
+<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="permission"/></include>-->
+<!--		FROM permission-->
+<!--		order by seq-->
+<!--	</select>-->
+
+	<!-- 公共信息 -->
+	<!-- 字段 -->
+	<sql id="field">
+		permissionId, functionId, name, code, seq
+	</sql>
+	 <!-- 带前缀的字段 -->
+	<sql id="fieldWithPrefix">
+		${tableName}.permissionId, ${tableName}.functionId, ${tableName}.name, ${tableName}.code, ${tableName}.seq
+	</sql>
+</mapper>

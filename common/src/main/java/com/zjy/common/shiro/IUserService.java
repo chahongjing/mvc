@@ -9,7 +9,7 @@ public interface IUserService {
 
     UserInfo getByCode(String code);
 
-    List<String> queryRoleCodeListByUserId(Serializable id);
+    List<String> queryRoleCodeListByUserId(Long id);
 
-    List<String> getPermissionListByUserId(Serializable id);
+    List<String> getPermissionListByUserId(Long id);
 }

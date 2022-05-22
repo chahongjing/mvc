@@ -107,12 +107,12 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
     }
 
     @Override
-    public UserInfoVo get(String id) {
+    public UserInfoVo get(Long id) {
         return (UserInfoVo) super.get(id);
     }
 
     @Override
-    public UserInfoVo getVo(String id) {
+    public UserInfoVo getVo(Long id) {
         UserInfoVo vo = get(id);
         if (vo == null) {
             vo = new UserInfoVo();
@@ -266,15 +266,15 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
     }
 
     @Override
-    public List<String> queryRoleCodeListByUserId(Serializable userId) {
+    public List<String> queryRoleCodeListByUserId(Long userId) {
         List<UserRoleVo> userRoleVos = userRoleSrv.queryListByUserId(userId);
         return userRoleVos.stream().map(UserRoleVo::getRoleCode).collect(Collectors.toList());
     }
 
     @Override
-    public List<String> getPermissionListByUserId(Serializable userId) {
+    public List<String> getPermissionListByUserId(Long userId) {
         List<UserRoleVo> userRoleList = userRoleSrv.queryListByUserId(userId);
-        List<String> roleIdList = userRoleList.stream().map(UserRoleVo::getRoleId).distinct().collect(Collectors.toList());
+        List<Long> roleIdList = userRoleList.stream().map(UserRoleVo::getRoleId).distinct().collect(Collectors.toList());
         List<RolePermissionVo> permissionList = rolePermissionSrv.queryRolePermission(roleIdList);
         return permissionList.stream().filter(item -> StringUtils.isNotBlank(item.getPermissionCode()))
                 .map(RolePermissionVo::getPermissionCode).distinct().collect(Collectors.toList());

@@ -6,5 +6,5 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface UserRoleService {
-    List<UserRoleVo> queryListByUserId(Serializable userId);
+    List<UserRoleVo> queryListByUserId(Long userId);
 }

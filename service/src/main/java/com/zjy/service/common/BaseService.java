@@ -69,7 +69,7 @@ public class BaseService<Dao extends BaseMapper<T>, T> {
      * @param id
      * @return
      */
-    public T get(String id) {
+    public T get(Long id) {
         log.info("调用get方法:id: {}", id);
         return dao.selectById(id);
     }
