@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zjy.bll.dao.MenuDao">
+<mapper namespace="com.zjy.dao.MenuDao">
+	<!-- 查询简单列表 -->
+	<select id="query" resultType="com.zjy.dao.vo.MenuVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>,
+		parent.name as pName
+		FROM menu
+		left join menu parent on menu.pid = parent.id
+		<where>
+			<if test='name != null and name != ""'>
+				and menu.name like '%' || #{name, jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+		order by parent.seq, menu.seq
+	</select>
+
 	<!-- 基本操作区 -->
 	<!-- 添加 -->
 <!--	<insert id="add">-->
@@ -94,10 +108,10 @@
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">
-		menuId, pId, name, code, seq, url, icon
+		id, pid, name, code, seq, url, icon
 	</sql>
 	 <!-- 带前缀的字段 -->
 	<sql id="fieldWithPrefix">
-		${tableName}.menuId, ${tableName}.pId, ${tableName}.name, ${tableName}.code, ${tableName}.seq, ${tableName}.url, ${tableName}.icon
+		${tableName}.id, ${tableName}.pid, ${tableName}.name, ${tableName}.code, ${tableName}.seq, ${tableName}.url, ${tableName}.icon
 	</sql>
 </mapper>

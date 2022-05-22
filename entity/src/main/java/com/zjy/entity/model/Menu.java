@@ -6,8 +6,8 @@ import com.zjy.baseframework.interfaces.IHierarchyBase;
 import java.util.List;
 
 public class Menu implements IHierarchyBase<Menu> {
-    private String menuId;
-    private String pId;
+    private Long id;
+    private Long pId;
     private String name;
     private String code;
     private String url;
@@ -16,19 +16,19 @@ public class Menu implements IHierarchyBase<Menu> {
 
     private List<Menu> children;
 
-    public String getMenuId() {
-        return menuId;
+    public Long getMenuId() {
+        return id;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getPId() {
+    public Long getPId() {
         return pId;
     }
 
-    public void setPId(String pId) {
+    public void setPId(Long pId) {
         this.pId = pId;
     }
 
@@ -77,8 +77,8 @@ public class Menu implements IHierarchyBase<Menu> {
     }
 
     @Override
-    public String getId() {
-        return getMenuId();
+    public Long getId() {
+        return id;
     }
 
     @Override

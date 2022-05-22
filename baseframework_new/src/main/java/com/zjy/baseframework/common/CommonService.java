@@ -13,7 +13,7 @@ public class CommonService {
      */
     public static <T extends IHierarchyBase> List<T> buildTree(List<T> list) {
         // 先按父级分组
-        Map<String, List<T>> group = new HashMap<>();
+        Map<Long, List<T>> group = new HashMap<>();
         List<T> children;
         for (T node : list) {
             // 找到分组

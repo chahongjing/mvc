@@ -60,11 +60,11 @@
                 }
               }
               var parents = resp.data.value.filter(function (item) {
-                return !item.pId;
+                return !item.pid;
               });
               for (var i = 0; i < parents.length; i++) {
                 parents[i].children = resp.data.value.filter(function (item) {
-                  return item.pId == parents[i].id;
+                  return item.pid == parents[i].id;
                 });
                 if(i == 0) {
                   parents[i].isSelected = true;

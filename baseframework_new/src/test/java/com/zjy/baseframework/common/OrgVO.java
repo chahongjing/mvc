@@ -9,9 +9,10 @@ import java.util.List;
 @Getter
 @Setter
 public class OrgVO implements IHierarchyBase<OrgVO> {
-    private String id;
+    private Long id;
     private String name;
-    private String pId;
+    private Long pId;
     private int seq;
     private List<OrgVO> children;
+
 }

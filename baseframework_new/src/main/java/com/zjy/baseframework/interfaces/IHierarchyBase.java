@@ -7,8 +7,8 @@ import java.util.List;
  * 层级关系实体接口
  */
 public interface IHierarchyBase<T extends IHierarchyBase> {
-    String getId();
-    String getPId();
+    Long getId();
+    Long getPId();
     int getSeq();
     void setChildren(List<T> children);
 }

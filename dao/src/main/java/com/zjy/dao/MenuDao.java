@@ -13,6 +13,6 @@ import java.util.Map;
 @Mapper
 public interface MenuDao extends BaseMapper<Menu> {
     Map<String, BigDecimal> queryRepeatCount(@Param("menuId") String menuId, @Param("code") String code);
-    List<MenuVo> queryParentList();
+    List<MenuVo> query(Menu menu);
     List<MenuVo> queryPageMenuList();
 }
