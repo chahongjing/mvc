@@ -98,7 +98,7 @@ export default {
         value: this.value,
         score: this.score
       };
-      me.$axios.post('http://localhost:8088/redis/optRedis', param).then(function (resp) {
+      me.$axios.post('/redis/optRedis', param).then(function (resp) {
         if(resp.data.status === ResultStatus.OK.key) {
           me.$toaster.success('操作成功！');
           me.opResult = JSON.stringify(resp.data.value);

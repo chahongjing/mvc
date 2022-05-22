@@ -3,7 +3,9 @@ package com.zjy.entity.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.zjy.baseframework.enums.YesNo;
 import com.zjy.entity.enums.Sex;
+import com.zjy.entity.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,4 +54,13 @@ public class UserInfo implements Serializable {
 
     @TableField("sex")
     private Sex sex;
+    /**
+     * 是否系统级
+     */
+    private YesNo isSystem;
+
+    /**
+     * 是否禁用
+     */
+    private UserStatus status;
 }

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/redis")
-public class RedisController {
+public class RedisController extends BaseController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 

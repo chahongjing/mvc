@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zjy.dao.UserInfoDao">
+    <!-- 通过编码获取 -->
+    <select id="getByCode" resultType="com.zjy.dao.vo.UserInfoVo">
+        SELECT
+        <include refid="fieldWithPrefix">
+            <property name="tableName" value="user_info"/>
+        </include>, user_info.password
+        FROM user_info
+        WHERE code = #{code, jdbcType = VARCHAR}
+    </select>
+
+    <!-- 查询是否重复 -->
+    <select id="queryRepeatCount" resultType="Map">
+		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount
+		  from user_info
+		 where id &lt;&gt; #{id, jdbcType=VARCHAR}
+	</select>
+
+    <update id="updateUserPassword">
+        update user_info
+        set password = #{password, jdbcType=VARCHAR}
+        where id = #{id, jdbcType=VARCHAR}
+    </update>
+
+
+
     <!-- 获取 -->
     <select id="get" resultType="com.zjy.entity.model.UserInfo">
         SELECT
@@ -21,7 +46,7 @@
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
         ${tableName}.id, ${tableName}.code, ${tableName}.name, ${tableName}.sex,
-        ${tableName}.birthday, ${tableName}.origin, ${tableName}.status, ${tableName}.created_by,
+        ${tableName}.is_system, ${tableName}.birthday, ${tableName}.status, ${tableName}.created_by,
         ${tableName}.created_on, ${tableName}.modified_by, ${tableName}.modified_on
     </sql>
 </mapper>

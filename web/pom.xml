@@ -112,6 +112,14 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${maven.resources.plugin}</version>
                 <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>db3</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

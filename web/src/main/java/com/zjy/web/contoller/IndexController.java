@@ -38,7 +38,7 @@ import java.util.Map;
 
 @Controller
 @Slf4j
-public class IndexController {
+public class IndexController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -53,6 +53,18 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/index")
     @ResponseBody
@@ -102,7 +114,7 @@ public class IndexController {
         return String.valueOf(i);
     }
 
-    @PostMapping({"/login", "/user/login"})
+    @PostMapping({"/login"})
     @ResponseBody
     public String login() {
         Subject subject = SecurityUtils.getSubject();

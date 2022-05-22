@@ -28,6 +28,8 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <mybatis-springboot>2.2.2</mybatis-springboot>
         <mybatis-plus-springboot>3.5.1</mybatis-plus-springboot>
@@ -38,7 +40,8 @@
         <commons-io>2.6</commons-io>
         <guava>27.0.1-jre</guava>
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
-        <maven.resources.plugin>3.2.0</maven.resources.plugin>
+        <maven.resources.plugin>3.1.0</maven.resources.plugin>
+<!--        <sqlite-jdbc.version>3.27.2.1</sqlite-jdbc.version>-->
     </properties>
 
     <dependencyManagement>
@@ -135,7 +138,9 @@
                             <nonFilteredFileExtension>eot</nonFilteredFileExtension>
                             <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
                             <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>db3</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
             </plugins>

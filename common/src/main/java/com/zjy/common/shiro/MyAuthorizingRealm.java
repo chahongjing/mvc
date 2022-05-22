@@ -1,6 +1,7 @@
 package com.zjy.common.shiro;
 
 import com.zjy.entity.model.UserInfo;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,11 +14,16 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MyAuthorizingRealm extends AuthorizingRealm {
+
+    protected IUserService userInfoSvc;
+
+    public MyAuthorizingRealm(IUserService userInfoSvc) {
+        this.userInfoSvc = userInfoSvc;
+    }
     /**
      * 获取当前登录用户数据库信息
      *
@@ -28,12 +34,12 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-//        UserInfo user = userInfoSvc.getByUserCode(token.getUsername());
-        UserInfo user = new UserInfo();
-        user.setCode("zjy");
-        if(token.getCredentials() == null) {
-            return null;
-        }
+        UserInfo user = userInfoSvc.getByCode(token.getUsername());
+//        UserInfo user = new UserInfo();
+//        user.setCode("zjy");
+//        if(token.getCredentials() == null) {
+//            return null;
+//        }
         user.setPassword(this.getMd5Hash(new String((char[])token.getCredentials()), token.getUsername()));
         if (null != user) {
             return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getCode()), getName());
@@ -55,11 +61,8 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         UserInfo user = (UserInfo) principals.getPrimaryPrincipal();
-//        List<String> roles = userRoleSrv.queryUserRoleCodeList(user.getUserId());
-//        List<String> permissions = rolePermissionSrv.getPermissions(user.getUserId());
-
-        List<String> roles = new ArrayList<>();
-        List<String> permissions = new ArrayList<>();
+        List<String> roles = userInfoSvc.queryRoleCodeListByUserId(user.getId());
+        List<String> permissions = userInfoSvc.getPermissionListByUserId(user.getId());
 
         permissions.add("myPer");
 
@@ -79,5 +82,15 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
 //        Sha512Hash sha512Hash = new Sha512Hash(password, salt, credentialsMatcher.getHashIterations());
 //        return simpleHash.toBase64();
         return simpleHash.toString();
+    }
+
+    /**
+     * 获取权限
+     *
+     * @return
+     */
+    public Set<String> getPermissions() {
+        AuthorizationInfo authorizationInfo = getAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+        return (Set<String>) authorizationInfo.getStringPermissions();
     }
 }

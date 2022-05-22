@@ -42,7 +42,7 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
@@ -72,6 +72,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/learn/testangluar", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/bootstrap/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/js/**", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/403", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/logout", DefaultFilter.logout.name());
         filterChainDefinitionMap.put("/**", DefaultFilter.authc.name());
@@ -121,8 +122,8 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    public Realm myShiroRealm(CredentialsMatcher credentialsMatcher, CacheManager cacheManager) {
-        MyAuthorizingRealm realm = new MyAuthorizingRealm();
+    public Realm myShiroRealm(CredentialsMatcher credentialsMatcher, CacheManager cacheManager, IUserService userService) {
+        MyAuthorizingRealm realm = new MyAuthorizingRealm(userService);
         realm.setCredentialsMatcher(credentialsMatcher);
         realm.setCacheManager(cacheManager);
         realm.setAuthenticationTokenClass(UsernamePasswordToken.class);

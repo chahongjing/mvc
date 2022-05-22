@@ -56,3 +56,7 @@ vssver2.scc
 .vscode
 *.suo
 *.sln
+
+/web/src/main/resources/static/
+/web/src/main/resources/templates/index.html
+/web/src/main/resources/templates/favicon.ico

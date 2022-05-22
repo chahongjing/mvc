@@ -10,11 +10,11 @@
           <input type="hidden" id="RedirectUrl" name="RedirectUrl" value=""/>
           <h4 class="header blue"><i class="fa fa-coffee green"></i>请输入您的信息</h4>
           <div class="form-control">
-            <input type="text" name="UserCode" maxlength="30" placeholder="请输入账户"
+            <input type="text" name="code" maxlength="30" placeholder="请输入账户"
                    v-focus/><i class="fa fa-user"></i>
           </div>
           <div class="form-control">
-            <input type="password" name="Password" maxlength="30" placeholder="请输入密码"/>
+            <input type="password" name="password" maxlength="30" placeholder="请输入密码"/>
             <i class="fa fa-lock"></i>
           </div>
           <div class="form-button">
@@ -41,7 +41,7 @@
       $('.form-control i').click(function () {
         $(this).siblings('input').focus();
       });
-      $('input[name=UserCode], input[name=Password]').bind('keypress', function (event) {
+      $('input[name=code], input[name=password]').bind('keypress', function (event) {
         if (event && event.keyCode == "13") {
           $("#btnLogin").click();
         }
@@ -51,10 +51,10 @@
     methods: {
       login: function () {
         this.allDisabled = true;
-        var userCode = $("input[name=UserCode]");
-        var password = $("input[name=Password]");
+        var code = $("input[name=code]");
+        var password = $("input[name=password]");
 
-        if ($.trim(userCode.val()) == "") {
+        if ($.trim(code.val()) == "") {
           this.$toaster.warning('请输入用户名!');
           this.allDisabled = false;
           return false;
@@ -66,7 +66,7 @@
         }
         var me = this;
         this.$axios.post('/user/login', {
-          userCode: $.trim(userCode.val()),
+          code: $.trim(code.val()),
           password: $.trim(password.val())
         }).then(function (resp) {
           if (resp.data.status == ResultStatus.OK.key) {
