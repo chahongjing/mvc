@@ -9,6 +9,7 @@ import com.zjy.entity.model.TestDownloadRecord;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.DownlaodTaskService;
 import com.zjy.service.UserService;
+import com.zjy.service.component.JacksonUtil;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import lombok.extern.slf4j.Slf4j;

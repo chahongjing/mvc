@@ -63,4 +63,8 @@ public class UserInfo implements Serializable {
      * 是否禁用
      */
     private UserStatus status;
+    /**
+     * 出生日期
+     */
+    private Date birthday;
 }
