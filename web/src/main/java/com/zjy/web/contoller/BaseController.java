@@ -5,6 +5,7 @@ import com.zjy.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -17,6 +18,8 @@ import java.util.Date;
  * Created by Administrator on 2018/1/2.
  */
 public class BaseController {
+    //    @Autowired
+    protected StringRedisTemplate stringRedisTemplate;
 
     @ModelAttribute
     public void init(Model model) {

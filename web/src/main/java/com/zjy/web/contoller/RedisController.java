@@ -6,9 +6,7 @@ import com.zjy.service.enums.RedisDataType;
 import com.zjy.service.enums.RedisOpType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/redis")
-public class RedisController extends BaseController {
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+public class RedisController extends BaseController{
 
     /**
      * 操作redis
@@ -41,17 +37,18 @@ public class RedisController extends BaseController {
     @PostMapping("/optRedis")
     public BaseResult<Object> optRedis(RedisDataType dataType, RedisOpType opType, String key, String field, String value, Double score) {
         UserInfo user = new UserInfo();
-        List<String> canOperaterList = Arrays.asList("3150270580", "1269590795");
+        user.setId(1L);
+        List<Long> canOperaterList = Arrays.asList(1L);
         if(opType != RedisOpType.GET && !canOperaterList.contains(user.getId())) {
             return BaseResult.error("没有操作权限");
         }
         if(dataType == null || opType == null || StringUtils.isBlank(key)) {
             return BaseResult.error("参数不能为空");
         }
-        if(dataType == RedisDataType.HASH && StringUtils.isBlank(field)) {
+        if(dataType == RedisDataType.HASH && StringUtils.isBlank(field) && opType != RedisOpType.DEL) {
             return BaseResult.error("参数不能为空");
         }
-        if(dataType == RedisDataType.ZSET && score == null) {
+        if(dataType == RedisDataType.ZSET && score == null && (opType == RedisOpType.SET || opType == RedisOpType.ADD_ITEM)) {
             return BaseResult.error("参数不能为空");
         }
         log.warn("{} optRedis.dataType:{},opType:{},key:{},field:{},value:{}", user.getId(), dataType, opType, key, field, value);
@@ -65,7 +62,7 @@ public class RedisController extends BaseController {
             case STRING: result = opString(opType, key, value); break;
             // list
             case LIST: result = opList(opType, key, value); break;
-                // set
+            // set
             case SET: result = opSet(opType, key, value); break;
             // zset
             case ZSET: result = opZset(opType, key, value, score); break;
@@ -124,11 +121,11 @@ public class RedisController extends BaseController {
         return map;
     }
 
-    private Map<String, Object> opZset(RedisOpType opType, String key, String value, double score) {
+    private Map<String, Object> opZset(RedisOpType opType, String key, String value, Double score) {
         // todo: test
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForZSet().range(key, 0, -1));
+            map.put("result", stringRedisTemplate.opsForZSet().rangeWithScores(key, 0, -1));
             map.put("ttl", stringRedisTemplate.getExpire(key));
         } else if (opType == RedisOpType.SET) {
             stringRedisTemplate.delete(key);

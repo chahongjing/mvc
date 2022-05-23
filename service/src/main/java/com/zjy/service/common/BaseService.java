@@ -7,9 +7,8 @@ import com.github.pagehelper.PageHelper;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.SqlSessionFactoryBean;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.Map;
