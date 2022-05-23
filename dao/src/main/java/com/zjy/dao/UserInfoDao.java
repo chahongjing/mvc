@@ -19,8 +19,6 @@ public interface UserInfoDao extends BaseMapper<UserInfo> {
 
     int updateUserPassword(@Param("userId") Long userId, @Param("password") String password);
 
-
-    UserInfo get(String id);
     @SqlLog
     List<UserInfo> getList(String id);
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.dao.OperateLogDao">
+    <!-- 公共信息 -->
+    <!-- 字段 -->
+    <sql id="field">
+		id, user_id, controller, method, log_level, content, create_on
+	</sql>
+    <!-- 带前缀的字段 -->
+    <sql id="fieldWithPrefix">
+		${tableName}.id, ${tableName}.user_id, ${tableName}.controller, ${tableName}.method, ${tableName}.log_level, ${tableName}.content, ${tableName}.create_on
+	</sql>
+</mapper>

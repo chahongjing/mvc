@@ -1,15 +1,11 @@
 package com.zjy.service.request;
 
 import com.zjy.service.common.PageInfomation;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class MenuRequest extends PageInfomation {
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     private String name;
 }

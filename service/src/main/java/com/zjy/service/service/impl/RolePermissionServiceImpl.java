@@ -1,9 +1,10 @@
-package com.zjy.service.service;
+package com.zjy.service.service.impl;
 
 import com.zjy.dao.RolePermissionDao;
 import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.entity.model.RolePermission;
 import com.zjy.service.common.BaseService;
+import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;

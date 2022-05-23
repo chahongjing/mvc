@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.PageHelper;
 import com.zjy.common.shiro.ShiroRealmUtils;
+import com.zjy.dao.common.sql.SqlLog;
 import com.zjy.entity.model.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -35,7 +36,7 @@ public class BaseService<Dao extends BaseMapper<T>, T> {
      * @param entity
      * @return
      */
-    public int add(T entity) {
+    public int insert(T entity) {
         log.info("调用add   方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
         return dao.insert(entity);
     }
@@ -57,7 +58,7 @@ public class BaseService<Dao extends BaseMapper<T>, T> {
      * @param id
      * @return
      */
-    public int delete(String id) {
+    public int delete(Long id) {
         log.info("调用delete方法:id: {}", id);
         return dao.deleteById(id);
     }
@@ -80,7 +81,7 @@ public class BaseService<Dao extends BaseMapper<T>, T> {
      * @return
      */
     public List<? extends T> queryList(Wrapper<T> entity) {
-        log.info("调用queryList方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
+        log.info("调用queryList方法:{}: {}", entity.getClass().getName(), entity.getTargetSql());
         return dao.selectList(entity);
     }
 
@@ -91,7 +92,7 @@ public class BaseService<Dao extends BaseMapper<T>, T> {
      * @return
      */
     public PageBean<? extends T> queryPageList(PageInfomation pi, Wrapper<T> entity) {
-        log.info("调用queryPageList方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
+        log.info("调用queryPageList方法:{}: {}", entity.getClass().getName(), entity.getTargetSql());
         PageHelper.startPage(pi.getPageNum(), pi.getPageSize()).setOrderBy(pi.getOrderBy());
         return new PageBean<>(this.queryList(entity));
     }

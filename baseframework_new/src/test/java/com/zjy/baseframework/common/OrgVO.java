@@ -11,7 +11,7 @@ import java.util.List;
 public class OrgVO implements IHierarchyBase<OrgVO> {
     private Long id;
     private String name;
-    private Long pId;
+    private Long pid;
     private int seq;
     private List<OrgVO> children;
 

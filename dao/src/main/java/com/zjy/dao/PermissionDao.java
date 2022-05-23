@@ -11,7 +11,4 @@ import java.util.Map;
 
 @Mapper
 public interface PermissionDao extends BaseMapper<Permission> {
-    Map<String, Integer> queryRepeatCount(@Param("permissionId") String permissionId, @Param("code") String code);
-
-    List<PermissionVo> queryAllPermissionList();
 }

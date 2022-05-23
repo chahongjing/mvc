@@ -25,16 +25,6 @@
     </update>
 
 
-
-    <!-- 获取 -->
-    <select id="get" resultType="com.zjy.entity.model.UserInfo">
-        SELECT
-        <include refid="fieldWithPrefix">
-            <property name="tableName" value="user_info"/>
-        </include>
-        FROM user_info
-        WHERE id = #{id, jdbcType = VARCHAR}
-    </select>
     <select id="getList" resultType="com.zjy.entity.model.UserInfo">
         SELECT
         <include refid="fieldWithPrefix">
@@ -43,10 +33,16 @@
         FROM user_info
         WHERE id = #{id, jdbcType = VARCHAR}
     </select>
+
+    <!-- 公共信息 -->
+    <!-- 字段 -->
+    <sql id="field">
+        id, code, name, sex, type, birthday, status, created_by, created_on, modified_by, $modified_on
+	</sql>
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
-        ${tableName}.id, ${tableName}.code, ${tableName}.name, ${tableName}.sex,
-        ${tableName}.is_system, ${tableName}.birthday, ${tableName}.status, ${tableName}.created_by,
-        ${tableName}.created_on, ${tableName}.modified_by, ${tableName}.modified_on
+        ${tableName}.id, ${tableName}.code, ${tableName}.name, ${tableName}.sex, ${tableName}.type,
+        ${tableName}.birthday, ${tableName}.status, ${tableName}.created_by, ${tableName}.created_on,
+        ${tableName}.modified_by, ${tableName}.modified_on
     </sql>
 </mapper>

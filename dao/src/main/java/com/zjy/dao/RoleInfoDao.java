@@ -12,7 +12,4 @@ import java.util.Map;
 
 @Mapper
 public interface RoleInfoDao extends BaseMapper<RoleInfo> {
-    Map<String, BigDecimal> queryRepeatCount(@Param("roleId") String roleId, @Param("code") String code);
-
-    List<RoleInfoVo> queryAllRole();
 }

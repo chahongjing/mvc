@@ -15,103 +15,13 @@
 		order by parent.seq, menu.seq
 	</select>
 
-	<!-- 基本操作区 -->
-	<!-- 添加 -->
-<!--	<insert id="add">-->
-<!--		INSERT INTO menu(<include refid="field"></include>)-->
-<!--		VALUES(#{menuId, jdbcType=VARCHAR}, #{pId, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{code, jdbcType=VARCHAR}, #{seq, jdbcType=INTEGER},-->
-<!--		#{url, jdbcType=VARCHAR}, #{icon, jdbcType=VARCHAR})-->
-<!--	</insert>-->
-
-<!--	&lt;!&ndash; 更新 &ndash;&gt;-->
-<!--	<update id="update">-->
-<!--        update menu-->
-<!--        <set>-->
-<!--			<if test='pId != null and pId != ""'>-->
-<!--				pId = #{pId, jdbcType=VARCHAR},-->
-<!--			</if>-->
-<!--			<if test='name != null and name != ""'>-->
-<!--				name = #{name, jdbcType=VARCHAR},-->
-<!--			</if>-->
-<!--			<if test='code != null and code != ""'>-->
-<!--				code = #{code, jdbcType=VARCHAR},-->
-<!--			</if>-->
-<!--			<if test='seq != null'>-->
-<!--				seq = #{seq, jdbcType=INTEGER},-->
-<!--			</if>-->
-<!--			<if test='url != null and url != ""'>-->
-<!--				url = #{url, jdbcType=VARCHAR},-->
-<!--			</if>-->
-<!--			<if test='icon != null and icon != ""'>-->
-<!--				icon = #{icon, jdbcType=VARCHAR},-->
-<!--			</if>-->
-<!--		</set>-->
-<!--         where menuId = #{menuId, jdbcType=VARCHAR}-->
-<!--	</update>-->
-
-<!--	&lt;!&ndash; 删除 &ndash;&gt;-->
-<!--	<delete id="delete">-->
-<!--		DELETE FROM menu WHERE menuId = #{id, jdbcType=VARCHAR}-->
-<!--	</delete>-->
-
-<!--	&lt;!&ndash; 获取 &ndash;&gt;-->
-<!--	<select id="get" resultType="com.zjy.bll.vo.MenuVo">-->
-<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>-->
-<!--		  FROM menu-->
-<!--		 WHERE menuId = #{id, jdbcType = VARCHAR}-->
-<!--	</select>-->
-
-<!--	&lt;!&ndash; 查询简单列表 &ndash;&gt;-->
-<!--	<select id="query" resultType="com.zjy.bll.vo.MenuVo">-->
-<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>,-->
-<!--		     parent.name as pName-->
-<!--		FROM menu-->
-<!--		left join menu parent on menu.pid = parent.menuid-->
-<!--		<where>-->
-<!--			<if test='name != null and name != ""'>-->
-<!--				and menu.name like '%' || #{name, jdbcType=VARCHAR} || '%'-->
-<!--			</if>-->
-<!--		</where>-->
-<!--		order by parent.seq, menu.seq-->
-<!--	</select>-->
-
-<!--	&lt;!&ndash; 查询复杂列表 &ndash;&gt;-->
-<!--	<select id="queryByMapFilter" resultType="com.zjy.bll.vo.MenuVo">-->
-<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>-->
-<!--		FROM menu-->
-<!--	</select>-->
-
-<!--	&lt;!&ndash; 查询是否重复 &ndash;&gt;-->
-<!--	<select id="queryRepeatCount" resultType="Map">-->
-<!--		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount-->
-<!--		  from menu-->
-<!--		 where menuId &lt;&gt; #{menuId, jdbcType=VARCHAR}-->
-<!--	</select>-->
-
-<!--	<select id="queryParentList" resultType="com.zjy.bll.vo.MenuVo">-->
-<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>-->
-<!--		FROM menu-->
-<!--		WHERE pId is null or pId = ''-->
-<!--		order by seq-->
-<!--	</select>-->
-
-<!--	<select id="queryPageMenuList" resultType="com.zjy.bll.vo.MenuVo">-->
-<!--		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>-->
-<!--		FROM menu-->
-<!--		WHERE url is not null and url &lt;&gt; ''-->
-<!--		order by seq-->
-<!--	</select>-->
-
-	<!-- 其它操作区 -->
-
-
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">
-		id, pid, name, code, seq, url, icon
+		id, pid, name, code, url, seq, icon
 	</sql>
 	 <!-- 带前缀的字段 -->
 	<sql id="fieldWithPrefix">
-		${tableName}.id, ${tableName}.pid, ${tableName}.name, ${tableName}.code, ${tableName}.seq, ${tableName}.url, ${tableName}.icon
+		${tableName}.id, ${tableName}.pid, ${tableName}.name, ${tableName}.code, ${tableName}.url, ${tableName}.seq, ${tableName}.icon
 	</sql>
 </mapper>

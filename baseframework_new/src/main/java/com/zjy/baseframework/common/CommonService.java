@@ -17,7 +17,7 @@ public class CommonService {
         List<T> children;
         for (T node : list) {
             // 找到分组
-            children = group.computeIfAbsent(node.getPId(), k -> new ArrayList<>());
+            children = group.computeIfAbsent(node.getPid(), k -> new ArrayList<>());
             children.add(node);
         }
         // 树的一级列表
@@ -25,7 +25,7 @@ public class CommonService {
         // 开始构建树
         for (T node : list) {
             // 一级数据，是需要返回的
-            if (node.getPId() == null || Constants.EMPTY_STRING.equals(node.getPId())){
+            if (node.getPid() == null || Constants.EMPTY_STRING.equals(node.getPid())){
                 firstLevelTreeNodeList.add(node);
             }
             // 设置当前节点的孩子节点

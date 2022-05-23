@@ -29,7 +29,7 @@ public class UserService {
 
     @DBSource("slave")
     public UserInfo getFromSlave() {
-        UserInfo userInfo = userInfoDao.get("2");
+        UserInfo userInfo = userInfoDao.selectById("2");
         log.info("user slave: {}", userInfo == null ? null : userInfo.getName());
         return userInfo;
     }

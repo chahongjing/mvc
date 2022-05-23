@@ -1,20 +1,23 @@
-package com.zjy.service.service;
+package com.zjy.service.service.impl;
 
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
-import com.zjy.baseframework.enums.YesNo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.dao.UserInfoDao;
 import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
+import com.zjy.entity.enums.UserTypeEnum;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.BaseService;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.dao.vo.UserInfoVo;
+import com.zjy.service.service.RolePermissionService;
+import com.zjy.service.service.UserInfoService;
+import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +57,10 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
      */
     @Override
     @Transactional
-    public int add(UserInfo entity) {
+    public int insert(UserInfo entity) {
         entity.setCreatedBy(getCurrentUser().getId());
         entity.setCreatedOn(new Date());
-        return super.add(entity);
+        return super.insert(entity);
     }
 
     /**
@@ -83,7 +85,7 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
      */
     @Override
     @Transactional
-    public int delete(String id) {
+    public int delete(Long id) {
         return super.delete(id);
     }
 
@@ -102,7 +104,7 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
             update(vo);
         } else {
             vo.setPassword(ShiroRealmUtils.getMd5Hash(vo.getPassword(), vo.getCode()));
-            add(vo);
+            insert(vo);
         }
     }
 
@@ -119,7 +121,7 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
             vo.setId(id);
             vo.setSex(Sex.MALE);
             vo.setIsSave(false);
-            vo.setIsSystem(YesNo.NO);
+            vo.setType(UserTypeEnum.NORMAL);
             vo.setStatus(UserStatus.NORMAL);
             vo.setCreatedOn(new Date());
             vo.setCreatedBy(getCurrentUser().getId());

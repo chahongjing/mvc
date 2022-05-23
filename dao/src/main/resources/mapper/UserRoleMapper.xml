@@ -16,6 +16,11 @@
         </where>
     </select>
 
+    <!-- 公共信息 -->
+    <!-- 字段 -->
+    <sql id="field">
+		user_id, role_id
+	</sql>
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
 		${tableName}.user_id, ${tableName}.role_id

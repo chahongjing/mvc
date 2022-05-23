@@ -172,13 +172,7 @@
         this.reload();
       },
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/kvConfig/edit', query: {id: resp.data.value}});
-          }
-        });
-
+        this.$router.push({path: '/kvConfig/edit', query: {id: null}});
       },
       edit(entity) {
         this.$router.push({path: '/kvConfig/edit', query: {id: entity.id}});
@@ -216,7 +210,7 @@
         var me = this;
         me.allDisabled = true;
         me.historyPager.loading = true;
-        this.$axios.get('/kvConfigLog/queryPageList', {
+        this.$axios.get('/kvConfig/queryLogPageList', {
           pageNum: this.historyPager.pageNum,
           pageSize: this.historyPager.pageSize,
           kvId: this.historyItem.id,

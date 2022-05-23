@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.dao.KvConfigDao">
+	<!-- 查询简单列表 -->
+	<select id="query" resultType="com.zjy.dao.vo.KvConfigVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfig"/></include>
+		FROM kv_config
+		<where>
+			<if test='code != null and code != ""'>
+				and code like '%' || #{code, jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+		order by id desc
+	</select>
+
+	<select id="getByCode" resultType="com.zjy.dao.vo.KvConfigVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfig"/></include>
+		FROM kv_config
+		<where>
+			and code = #{code, jdbcType=VARCHAR}
+		</where>
+	</select>
+
+    <!-- 公共信息 -->
+    <!-- 字段 -->
+    <sql id="field">
+		id, code, value, create_time, memo
+	</sql>
+    <!-- 带前缀的字段 -->
+    <sql id="fieldWithPrefix">
+		${tableName}.id, ${tableName}.code, ${tableName}.value, ${tableName}.create_time, ${tableName}.memo
+	</sql>
+</mapper>

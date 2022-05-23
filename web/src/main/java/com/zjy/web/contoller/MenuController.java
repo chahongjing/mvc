@@ -27,8 +27,8 @@ public class MenuController extends BaseController {
         TreeNode node;
         for (MenuVo menu : list) {
             node = new TreeNode();
-            node.setId(menu.getMenuId());
-            node.setPId(menu.getPId());
+            node.setId(menu.getId());
+            node.setPid(menu.getPid());
             node.setName(menu.getName());
             node.setSeq(menu.getSeq());
             node.setData(menu);

@@ -8,6 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface TestDownloadRecordDao extends BaseMapper<TestDownloadRecord> {
-    int insert(TestDownloadRecord record);
     List<TestDownloadRecord> queryList();
 }

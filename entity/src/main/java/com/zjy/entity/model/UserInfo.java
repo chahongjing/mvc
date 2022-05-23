@@ -3,9 +3,9 @@ package com.zjy.entity.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zjy.baseframework.enums.YesNo;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
+import com.zjy.entity.enums.UserTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,22 +16,6 @@ import java.util.Date;
 @Setter
 @TableName("user_info")
 public class UserInfo implements Serializable {
-    /**
-     * 创建人
-     */
-    private Long createdBy;
-    /**
-     * 创建日期
-     */
-    private Date createdOn;
-    /**
-     * 修改人
-     */
-    private Long modifiedBy;
-    /**
-     * 修改日期
-     */
-    private Date modifiedOn;
     /**
      * 用户Guid
      */
@@ -57,14 +41,29 @@ public class UserInfo implements Serializable {
     /**
      * 是否系统级
      */
-    private YesNo isSystem;
-
+    private UserTypeEnum type;
+    /**
+     * 出生日期
+     */
+    private Date birthday;
     /**
      * 是否禁用
      */
     private UserStatus status;
     /**
-     * 出生日期
+     * 创建人
      */
-    private Date birthday;
+    private Long createdBy;
+    /**
+     * 创建日期
+     */
+    private Date createdOn;
+    /**
+     * 修改人
+     */
+    private Long modifiedBy;
+    /**
+     * 修改日期
+     */
+    private Date modifiedOn;
 }

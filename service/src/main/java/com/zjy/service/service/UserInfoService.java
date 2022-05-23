@@ -14,11 +14,9 @@ import java.util.List;
  * @create 2016-12-05 22:16
  */
 public interface UserInfoService extends IUserService {
-    int add(UserInfo po);
-
     int update(UserInfo po);
 
-    int delete(String id);
+    int delete(Long id);
 
     void save(UserInfoVo vo);
 

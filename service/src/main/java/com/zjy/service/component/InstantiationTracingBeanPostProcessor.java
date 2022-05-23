@@ -26,7 +26,7 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         //root application context 没有parent，他就是老大.
-        if (((ContextRefreshedEvent) event).getApplicationContext().getParent() != null) return;
+        if (event instanceof ContextRefreshedEvent && ((ContextRefreshedEvent) event).getApplicationContext().getParent() != null) return;
         //需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
         if (event instanceof ContextClosedEvent) {
             log.info(event.getClass().getSimpleName() + " 事件已发生！");

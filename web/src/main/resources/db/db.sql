@@ -6,7 +6,7 @@ create table user_info
 	name VARCHAR(20),
 	password VARCHAR(50),
 	sex SMALLINT,
-	is_system SMALLINT,
+	type SMALLINT,
 	birthday DATE,
 	status SMALLINT,
 	created_by INTEGER,
@@ -14,9 +14,9 @@ create table user_info
 	modified_by INTEGER,
 	modified_on DATE
 );
-insert into user_info(id,code,name,password,sex,is_system,birthday,status)
-values(1, 'admin','系统管理员','8c16fa7743119806880db2cc4780f576',1,1,'1990-02 12:10:23:59',0),
-(2, 'zjy','曾军毅','25c278f2b306449559f6b79b36c7b2e9',0,0,'1990-02 12:10:23:59',0);
+insert into user_info(id,code,name,password,sex,type,birthday,status)
+values(1, 'admin','系统管理员','8c16fa7743119806880db2cc4780f576',1,1,'1990-02-12 10:23:59',0),
+(2, 'zjy','曾军毅','25c278f2b306449559f6b79b36c7b2e9',0,0,'1990-02-12 10:23:59',0);
 
 create table role_info
 (

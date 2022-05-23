@@ -1,4 +1,4 @@
-package com.zjy.service.service;
+package com.zjy.service.service.impl;
 
 import com.zjy.dao.MenuDao;
 import com.zjy.dao.vo.MenuVo;
@@ -6,6 +6,9 @@ import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.model.Menu;
 import com.zjy.service.common.BaseService;
+import com.zjy.service.service.MenuService;
+import com.zjy.service.service.RolePermissionService;
+import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +32,16 @@ public class MenuServiceImpl extends BaseService<MenuDao, Menu> implements MenuS
         List<Long> roleIdList = roleList.stream().map(UserRoleVo::getRoleId).collect(Collectors.toList());
         List<MenuVo> result = new ArrayList<>();
         List<MenuVo> list = dao.query(null);
-        List<MenuVo> parentList = list.stream().filter(item -> item.getPId() == null).collect(Collectors.toList());
-        List<MenuVo> children = list.stream().filter(item -> item.getPId() != null && item.getPId() > 0).collect(Collectors.toList());
+        List<MenuVo> parentList = list.stream().filter(item -> item.getPid() == null).collect(Collectors.toList());
+        List<MenuVo> children = list.stream().filter(item -> item.getPid() != null && item.getPid() > 0).collect(Collectors.toList());
         List<RolePermissionVo> rolePermissionVos = rolePermissionService.queryRolePermission(roleIdList);
         for (MenuVo parent : parentList) {
-            if (rolePermissionVos.stream().noneMatch(item -> roleIdList.contains(item.getRoleId()) && parent.getMenuId().equals(item.getPermissionId()))) {
+            if (rolePermissionVos.stream().noneMatch(item -> roleIdList.contains(item.getRoleId()) && parent.getId().equals(item.getPermissionId()))) {
                 continue;
             }
             result.add(parent);
-            List<MenuVo> temp = children.stream().filter(item -> item.getPId().equals(parent.getMenuId())
-                    && rolePermissionVos.stream().anyMatch(innerItem -> roleIdList.contains(innerItem.getRoleId()) && item.getMenuId().equals(innerItem.getPermissionId()))
+            List<MenuVo> temp = children.stream().filter(item -> item.getPid().equals(parent.getId())
+                    && rolePermissionVos.stream().anyMatch(innerItem -> roleIdList.contains(innerItem.getRoleId()) && item.getId().equals(innerItem.getPermissionId()))
             ).collect(Collectors.toList());
             result.addAll(temp);
         }

@@ -11,9 +11,4 @@ import java.util.Map;
 
 @Mapper
 public interface FunctionInfoDao extends BaseMapper<FunctionInfo> {
-    Map<String, Integer> queryRepeatCount(@Param("functionId") String permissionId, @Param("code") String code);
-
-    List<FunctionInfoVo> queryFunctionList();
-
-    List<FunctionInfoVo> queryAllFunctionList();
 }

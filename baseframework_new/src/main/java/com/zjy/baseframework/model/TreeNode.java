@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TreeNode implements IHierarchyBase<TreeNode> {
     private Long id;
-    private Long pId;
+    private Long pid;
     private String name;
     private int seq;
     private boolean isLeaf;
@@ -25,12 +25,12 @@ public class TreeNode implements IHierarchyBase<TreeNode> {
     }
 
     @Override
-    public Long getPId() {
-        return pId;
+    public Long getPid() {
+        return pid;
     }
 
-    public void setPId(Long pId) {
-        this.pId = pId;
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     @Override
