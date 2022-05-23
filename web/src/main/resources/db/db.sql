@@ -1,6 +1,6 @@
 create table user_info
 (
-	id INTEGER NOT NULL PRIMARY KEY autoincrement,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	code VARCHAR(20)
 		UNIQUE,
 	name VARCHAR(20),
@@ -20,7 +20,7 @@ values(1, 'admin','系统管理员','8c16fa7743119806880db2cc4780f576',1,1,'1990
 
 create table role_info
 (
-	id INTEGER NOT NULL PRIMARY KEY autoincrement,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	name varchar(50),
 	code varchar(50),
 	seq int
@@ -50,7 +50,7 @@ values(1, null, '后台管理', 'admin', '', 1, 'fa fa-cog fa-spin c66c'),
 (11, 1, 'redis操作', 'redisOpt', '/redis', 10, 'fa fa-puzzle-piece cc03');
 create table menu
 (
-	id INTEGER NOT NULL PRIMARY KEY autoincrement,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	pid INTEGER,
 	name VARCHAR(50),
 	code VARCHAR(50),
@@ -62,7 +62,7 @@ create table menu
 
 create table function_info
 (
-	id INTEGER NOT NULL PRIMARY KEY autoincrement,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	name varchar(50),
 	menu_id INTEGER,
 	code varchar(50),
@@ -95,7 +95,7 @@ insert into function_info(id, name, menu_id, code, path, seq) values(23, 'redis�
 
 create table permission
 (
-	id INTEGER NOT NULL PRIMARY KEY autoincrement,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	function_id INTEGER,
 	name VARCHAR(50),
 	code VARCHAR(50),
@@ -166,4 +166,42 @@ create table user_permission
 	user_id INTEGER,
 	permission_id INTEGER,
 	type tinyint
+);
+
+create table operate_log
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    controller VARCHAR2(300),
+    method VARCHAR2(300),
+    log_level SMALLINT,
+    content VARCHAR2(4000),
+    created_on TIMESTAMP
+);
+create table kv_config
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    code varchar(40) not null,
+    value varchar(2000),
+    create_Time date,
+    memo varchar(200)
+);
+
+create table kv_config_log
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    code varchar(40),
+    value varchar(2000),
+    kv_id INTEGER,
+    create_time date,
+    create_by INTEGER
+);
+
+create table upgrade_log
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    upgrade_time Date,
+    title varchar(100),
+    content varchar(2000),
+    create_time Date
 );
