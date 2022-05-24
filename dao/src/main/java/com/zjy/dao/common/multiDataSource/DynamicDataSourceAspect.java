@@ -1,6 +1,5 @@
 package com.zjy.dao.common.multiDataSource;
 
-import com.zjy.baseframework.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -30,8 +29,8 @@ public class DynamicDataSourceAspect {
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method targetMethod = methodSignature.getMethod();
-        String dataSource = targetMethod.getAnnotation(DBSource.class).value();
-        if(dataSource == null || Constants.EMPTY_STRING.equals(dataSource.trim())) {
+        DataSourceKey dataSource = targetMethod.getAnnotation(DBSource.class).value();
+        if(dataSource == null || dataSource == DataSourceKey.RANDOM) {
             dataSource = DynamicDataSourceContextHolder.getRandomDB();
         }
         //设置数据源

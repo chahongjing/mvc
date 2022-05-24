@@ -3,6 +3,7 @@ package com.zjy.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zjy.dao.UserInfoDao;
+import com.zjy.dao.common.multiDataSource.DataSourceKey;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.dao.common.multiDataSource.DBSource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class UserService {
         return userInfo;
     }
 
-    @DBSource("slave")
+    @DBSource(DataSourceKey.SLAVE)
     public UserInfo getFromSlave() {
         UserInfo userInfo = userInfoDao.selectById("2");
         log.info("user slave: {}", userInfo == null ? null : userInfo.getName());

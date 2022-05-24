@@ -20,6 +20,8 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author yehui
@@ -78,8 +80,8 @@ public class DataSourceConfig {
     public DataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>(4);
-        dataSourceMap.put(DataSourceKey.master.name(), master());
-        dataSourceMap.put(DataSourceKey.slave.name(), slave());
+        dataSourceMap.put(DataSourceKey.MASTER, master());
+        dataSourceMap.put(DataSourceKey.SLAVE, slave());
 
         //设置默认的数据源
         dynamicRoutingDataSource.setDefaultTargetDataSource(master());
@@ -88,7 +90,8 @@ public class DataSourceConfig {
         //设置目标数据源
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
 //        //将数据源的key放在集合中判断是否正常
-        DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(dataSourceMap.keySet());
+        Set<DataSourceKey> sourceKeys = dataSourceMap.keySet().stream().map((item) -> (DataSourceKey) item).collect(Collectors.toSet());
+        DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(sourceKeys);
 //
 //        //实现负载均衡算法   将 Slave 数据源的 key 放在集合中，用于轮循
 //        DynamicDataSourceContextHolder.slaveDataSourceKeys.addAll(dataSourceMap.keySet());
