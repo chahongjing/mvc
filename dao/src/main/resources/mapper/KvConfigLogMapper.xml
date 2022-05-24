@@ -3,8 +3,8 @@
 <mapper namespace="com.zjy.dao.KvConfigLogDao">
 	<!-- 查询简单列表 -->
 	<select id="query" resultType="com.zjy.dao.vo.KvConfigLogVo">
-		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfigLog"/></include>
-		FROM kv_config_log
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="kvConfigLog"/></include>
+		FROM kv_config_log kvConfigLog
 		<where>
 			<if test='kvId != null and kvId != ""'>
 				and kv_id = #{kvId, jdbcType=VARCHAR}
@@ -16,8 +16,8 @@
 	</select>
 
 	<select id="queryByCode" resultType="com.zjy.dao.vo.KvConfigLogVo">
-		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfigLog"/></include>
-		FROM kv_config_log
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="kvConfigLog"/></include>
+		FROM kv_config_log kvConfigLog
 		<where>
 			and code = #{code, jdbcType=VARCHAR}
 		</where>

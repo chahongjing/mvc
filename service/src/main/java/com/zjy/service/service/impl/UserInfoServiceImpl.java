@@ -11,7 +11,7 @@ import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
 import com.zjy.entity.enums.UserTypeEnum;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.dao.vo.UserInfoVo;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> implements UserInfoService {
+public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> implements UserInfoService {
 
     @Autowired
     protected UserRoleService userRoleSrv;
@@ -109,14 +109,10 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
     }
 
     @Override
-    public UserInfoVo get(Long id) {
-        return (UserInfoVo) super.get(id);
-    }
-
-    @Override
     public UserInfoVo getVo(Long id) {
-        UserInfoVo vo = get(id);
-        if (vo == null) {
+        UserInfo userInfo = get(id);
+        UserInfoVo vo = new UserInfoVo();
+        if (userInfo == null) {
             vo = new UserInfoVo();
             vo.setId(id);
             vo.setSex(Sex.MALE);
@@ -126,6 +122,12 @@ public class UserInfoServiceImpl extends BaseService<UserInfoDao, UserInfo> impl
             vo.setCreatedOn(new Date());
             vo.setCreatedBy(getCurrentUser().getId());
         } else {
+            vo.setId(userInfo.getId());
+            vo.setSex(userInfo.getSex());
+            vo.setType(userInfo.getType());
+            vo.setStatus(userInfo.getStatus());
+            vo.setCreatedOn(userInfo.getCreatedOn());
+            vo.setCreatedBy(userInfo.getCreatedBy());
             vo.setIsSave(true);
         }
         return vo;

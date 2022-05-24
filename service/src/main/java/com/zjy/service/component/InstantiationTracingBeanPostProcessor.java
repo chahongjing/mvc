@@ -29,7 +29,7 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
         if (event instanceof ContextRefreshedEvent && ((ContextRefreshedEvent) event).getApplicationContext().getParent() != null) return;
         //需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
         if (event instanceof ContextClosedEvent) {
-            log.info(event.getClass().getSimpleName() + " 事件已发生！");
+            log.debug(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextRefreshedEvent) {
             // 需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
             // 获取所有类型
@@ -38,11 +38,11 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
             EnumHelper.initAllSerializeEnum(classList);
             log.info(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextStartedEvent) {
-            log.info(event.getClass().getSimpleName() + " 事件已发生！");
+            log.debug(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextStoppedEvent) {
-            log.info(event.getClass().getSimpleName() + " 事件已发生！");
+            log.debug(event.getClass().getSimpleName() + " 事件已发生！");
         } else {
-            log.info("有其它事件发生:" + event.getClass().getName());
+            log.debug("有其它事件发生:" + event.getClass().getName());
         }
     }
 }

@@ -1,4 +1,7 @@
 package com.zjy.service.service;
 
-public interface RoleInfoService {
+import com.zjy.entity.model.RoleInfo;
+import com.zjy.service.common.BaseService;
+
+public interface RoleInfoService extends BaseService<RoleInfo> {
 }

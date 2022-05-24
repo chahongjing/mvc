@@ -1,6 +1,6 @@
 package com.zjy.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zjy.dao.common.BaseDao;
 import com.zjy.dao.common.sql.SqlLog;
 import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.entity.model.UserInfo;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface UserInfoDao extends BaseMapper<UserInfo> {
+public interface UserInfoDao extends BaseDao<UserInfo> {
     UserInfoVo getByCode(String userCode);
 
     Map<String, BigDecimal> queryRepeatCount(@Param("userId") Long userId, @Param("userCode") String userCode);

@@ -1,13 +1,11 @@
 package com.zjy.service.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.dao.KvConfigDao;
 import com.zjy.entity.model.KvConfig;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.KvConfigRequest;
 import com.zjy.service.service.KvConfigLogService;
@@ -22,7 +20,7 @@ import java.util.Date;
 
 @Slf4j
 @Service
-public class KvConfigServiceImpl extends BaseService<KvConfigDao, KvConfig> implements KvConfigService {
+public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> implements KvConfigService {
     @Autowired
     private ICache cache;
     private final static String KEY = "kvconfig";
@@ -129,7 +127,8 @@ public class KvConfigServiceImpl extends BaseService<KvConfigDao, KvConfig> impl
 
     @Override
     public PageBean<KvConfig> queryPageList(KvConfigRequest request) {
-        return (PageBean<KvConfig>) super.queryPageList(request, Wrappers.query());
+        KvConfig config = new KvConfig();
+        return (PageBean<KvConfig>) super.queryPageList(request, config);
     }
 
     private String getHKey(String key, String field) {

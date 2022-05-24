@@ -3,8 +3,8 @@
 <mapper namespace="com.zjy.dao.KvConfigDao">
 	<!-- 查询简单列表 -->
 	<select id="query" resultType="com.zjy.dao.vo.KvConfigVo">
-		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfig"/></include>
-		FROM kv_config
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="kvConfig"/></include>
+		FROM kv_config kvConfig
 		<where>
 			<if test='code != null and code != ""'>
 				and code like '%' || #{code, jdbcType=VARCHAR} || '%'
@@ -14,8 +14,8 @@
 	</select>
 
 	<select id="getByCode" resultType="com.zjy.dao.vo.KvConfigVo">
-		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="KvConfig"/></include>
-		FROM kv_config
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="kvConfig"/></include>
+		FROM kv_config kvConfig
 		<where>
 			and code = #{code, jdbcType=VARCHAR}
 		</where>

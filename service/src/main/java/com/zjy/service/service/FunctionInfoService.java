@@ -1,5 +1,8 @@
 package com.zjy.service.service;
 
-public interface FunctionInfoService {
+import com.zjy.entity.model.FunctionInfo;
+import com.zjy.service.common.BaseService;
+
+public interface FunctionInfoService extends BaseService<FunctionInfo> {
 
 }

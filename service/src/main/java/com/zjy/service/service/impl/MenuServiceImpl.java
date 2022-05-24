@@ -5,12 +5,11 @@ import com.zjy.dao.vo.MenuVo;
 import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.model.Menu;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.service.MenuService;
 import com.zjy.service.service.RolePermissionService;
 import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class MenuServiceImpl extends BaseService<MenuDao, Menu> implements MenuService {
+public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements MenuService {
     @Autowired
     private UserRoleService userRoleService;
     @Autowired

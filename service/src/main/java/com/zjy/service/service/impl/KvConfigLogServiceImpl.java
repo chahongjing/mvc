@@ -1,14 +1,11 @@
 package com.zjy.service.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zjy.dao.KvConfigLogDao;
 import com.zjy.dao.vo.KvConfigLogVo;
-import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.entity.model.KvConfig;
 import com.zjy.entity.model.KvConfigLog;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.KvConfigLogRequest;
 import com.zjy.service.service.KvConfigLogService;
@@ -22,7 +19,7 @@ import java.util.Date;
 
 @Slf4j
 @Service
-public class KvConfigLogServiceImpl extends BaseService<KvConfigLogDao, KvConfigLog> implements KvConfigLogService {
+public class KvConfigLogServiceImpl extends BaseServiceImpl<KvConfigLogDao, KvConfigLog> implements KvConfigLogService {
     @Autowired
     private UserInfoService userInfoSrv;
     /**
@@ -59,12 +56,15 @@ public class KvConfigLogServiceImpl extends BaseService<KvConfigLogDao, KvConfig
 
     @Override
     public PageBean<KvConfigLogVo> queryPageById(KvConfigLogRequest request) {
-        LambdaQueryWrapper<KvConfigLog> query = Wrappers.lambdaQuery();
-        query.eq(KvConfigLog::getKvId, request.getKvId());
-        query.orderByDesc(KvConfigLog::getCreateTime);
-        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPageList(request, query);
+//        LambdaQueryWrapper<KvConfigLogVo> query = Wrappers.lambdaQuery();
+//        query.eq(KvConfigLog::getKvId, request.getKvId());
+//        query.orderByDesc(KvConfigLogVo::getCreateTime);
+        KvConfigLog config = new KvConfigLog();
+        config.setKvId(request.getKvId());
+        request.setOrderBy("create_time desc");
+        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPageList(request, config);
         for (KvConfigLogVo kvConfigLogVo : pageBean.getList()) {
-            UserInfoVo user = userInfoSrv.getVo(kvConfigLogVo.getCreateBy());
+            UserInfo user = userInfoSrv.get(kvConfigLogVo.getCreateBy());
             if(user != null) {
                 kvConfigLogVo.setCreateByName(user.getName());
             }
