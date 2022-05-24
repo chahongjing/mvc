@@ -2,6 +2,7 @@ package com.zjy.service.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.dao.UpgradeLogDao;
+import com.zjy.dao.vo.UpgradeLogItem;
 import com.zjy.dao.vo.UpgradeLogVo;
 import com.zjy.entity.model.UpgradeLog;
 import com.zjy.service.common.BaseServiceImpl;
@@ -20,6 +21,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, UpgradeLog> implements UpgradeLogService {
+
+    @Override
+    public UpgradeLog get(Long id) {
+        UpgradeLog upgradeLog = super.get(id);
+        return entityToVo(upgradeLog);
+    }
     /**
      * 保存用户
      *
@@ -41,7 +48,7 @@ public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, Upgrad
     public PageBean<UpgradeLogVo> queryPageList(UpgradeLogRequest request) {
         UpgradeLog po = new UpgradeLog();
 //        po.setName(request.getName());
-        PageBean<UpgradeLogVo> upgradeLogPageBean = (PageBean<UpgradeLogVo>) super.queryPageList(request, po);
+        PageBean<UpgradeLogVo> upgradeLogPageBean = (PageBean<UpgradeLogVo>) super.queryPageListBase(request, po);
         for (UpgradeLogVo upgradeLogVo : upgradeLogPageBean.getList()) {
             convertContent(upgradeLogVo);
         }
@@ -50,7 +57,7 @@ public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, Upgrad
 
     @Override
     public List<UpgradeLogVo> queryList(UpgradeLog log) {
-        List<UpgradeLogVo> upgradeLogVos = (List<UpgradeLogVo>) super.queryList(log);
+        List<UpgradeLogVo> upgradeLogVos = (List<UpgradeLogVo>) super.queryListBase(log);
         for (UpgradeLogVo upgradeLogVo : upgradeLogVos) {
             convertContent(upgradeLogVo);
         }

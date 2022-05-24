@@ -78,7 +78,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @param entity
      * @return
      */
-    public List<? extends T> queryList(T entity) {
+    public List<? extends T> queryListBase(T entity) {
         log.info("调用queryList方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
         return dao.query(entity);
     }
@@ -89,10 +89,10 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @param entity
      * @return
      */
-    public PageBean<? extends T> queryPageList(PageInfomation pi, T entity) {
+    public PageBean<? extends T> queryPageListBase(PageInfomation pi, T entity) {
         log.info("调用queryPageList方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
         PageHelper.startPage(pi.getPageNum(), pi.getPageSize()).setOrderBy(pi.getOrderBy());
-        return new PageBean<>(this.queryList(entity));
+        return new PageBean<>(this.queryListBase(entity));
     }
 
     /**

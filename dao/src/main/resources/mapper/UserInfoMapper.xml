@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zjy.dao.UserInfoDao">
+
+    <select id="query" resultType="com.zjy.dao.vo.UserInfoVo">
+        SELECT
+        <include refid="fieldWithPrefix">
+            <property name="tableName" value="user"/>
+        </include>
+        FROM user_info user
+        <where>
+            <if test='name != null and name != ""'>
+                and (user.name like '%' || #{name, jdbcType=VARCHAR} || '%' or user.code like '%' ||
+                #{name, jdbcType=VARCHAR} || '%')
+            </if>
+            <if test='sex != null'>
+                and user.sex = #{sex, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
     <!-- 通过编码获取 -->
     <select id="getByCode" resultType="com.zjy.dao.vo.UserInfoVo">
         SELECT

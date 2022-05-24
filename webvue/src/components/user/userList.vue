@@ -49,10 +49,10 @@
           <td>
             <a class='block w100p h100p' href='javascript:void(0)' v-text='item.userName' @click='edit(item)'></a>
           </td>
-          <td v-text='item.userCode'></td>
+          <td v-text='item.code'></td>
           <td class='text-center' v-text='$options.filters.formatDate(item.createdOn)'></td>
           <td class='text-center'>
-            <i class='fa mr0' :class='{"fa-female": item.sex == Sex.Female.key,"fa-male": item.sex == Sex.Male.key}'></i>
+            <i class='fa mr0' :class='{"fa-female": item.sex == Sex.FEMALE.key,"fa-male": item.sex == Sex.MALE.key}'></i>
             <span v-text='$options.filters.enumNameFilter(item.sex, "Sex")'></span>
           </td>
           <td class='text-center' v-text='$options.filters.enumNameFilter(item.isSystem, "YesNo")'></td>
@@ -128,7 +128,7 @@
         createdOnOrderBy: {value: null},
         pager: {pageNum: 1, pageSize: 5, loading: true},
         showChangePasswordDialog: false,
-        userCode: null,
+        code: null,
         password: null,
         YesNo: enumMap.YesNo,
         Sex: enumMap.Sex,
@@ -140,16 +140,10 @@
         this.reload();
       },
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/user/userEdit', query: {id: resp.data.value}});
-          }
-        });
-
+        this.$router.push({path: '/user/userEdit', query: {id: null}});
       },
       edit(entity) {
-        this.$router.push({path: '/user/userEdit', query: {id: entity.userId}});
+        this.$router.push({path: '/user/userEdit', query: {id: entity.id}});
       },
       search() {
         this.goPage(1);
@@ -183,7 +177,7 @@
       deleteItem: function (entity) {
         var me = this;
         this.$confirm.confirm('确定要删除用户吗？', function () {
-          me.$axios.get('/user/delete', {id: entity.userId}).then(function (resp) {
+          me.$axios.get('/user/delete', {id: entity.id}).then(function (resp) {
             if(resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.queryList();
@@ -192,7 +186,7 @@
         });
       },
       grant(entity) {
-        this.$router.push({path: '/user/userRole', query: {id: entity.userId}});
+        this.$router.push({path: '/user/userRole', query: {id: entity.id}});
       },
       getEnumList() {
         var list = [];
@@ -215,14 +209,14 @@
         this.queryList();
       },
       setPassword(entity) {
-        this.userCode = entity.userCode;
+        this.code = entity.code;
         this.password = '';
         this.showChangePasswordDialog = true;
       },
       changePassword() {
         var me = this;
-        if (this.userCode === null || this.userCode === undefined
-          || this.userCode === '' || this.userCode.trim() === '') {
+        if (this.code === null || this.code === undefined
+          || this.code === '' || this.code.trim() === '') {
           me.$toaster.warning('当前用户编码不能为空！');
           return;
         }
@@ -232,7 +226,7 @@
           return;
         }
         me.$axios.get('/user/resetPassword', {
-          userCode: this.userCode,
+          code: this.code,
           password: this.password
         }).then(function (resp) {
           if (resp.data.status == ResultStatus.OK.key) {

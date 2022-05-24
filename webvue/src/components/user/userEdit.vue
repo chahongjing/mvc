@@ -8,7 +8,7 @@
             <label class="form-label req colon">编号</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="编号" autofocus
-                     v-model='user.userCode' v-focus :disabled='editSelf'/>
+                     v-model='user.code' v-focus :disabled='editSelf'/>
             </div>
             <div class='form-info'>
               <i class='fa' title='编号重复！'></i>
@@ -149,7 +149,7 @@
       return {
         allDisabled: true,
         user: {
-          userId: null,
+          id: null,
           userName: null,
           password: null,
           passwordAgain: null,

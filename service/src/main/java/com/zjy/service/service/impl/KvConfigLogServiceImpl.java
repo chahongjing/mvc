@@ -62,7 +62,7 @@ public class KvConfigLogServiceImpl extends BaseServiceImpl<KvConfigLogDao, KvCo
         KvConfigLog config = new KvConfigLog();
         config.setKvId(request.getKvId());
         request.setOrderBy("create_time desc");
-        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPageList(request, config);
+        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPageListBase(request, config);
         for (KvConfigLogVo kvConfigLogVo : pageBean.getList()) {
             UserInfo user = userInfoSrv.get(kvConfigLogVo.getCreateBy());
             if(user != null) {

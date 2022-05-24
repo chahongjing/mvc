@@ -25,25 +25,22 @@ public class UpgradeLogControlelr extends BaseController{
     private UpgradeLogService upgradeLogService;
     //endregion
 
-    @RequestMapping("queryPageList")
+    @RequestMapping("/queryPageList")
     public BaseResult<PageBean> queryPageList(UpgradeLogRequest request) {
-        PageBean<UpgradeLogVo> pageBean = upgradeLogService.queryPageList(request);
-        return BaseResult.ok(pageBean);
+        return BaseResult.ok(upgradeLogService.queryPageList(request));
     }
 
-    @RequestMapping("queryList")
+    @RequestMapping("/queryList")
     public BaseResult<List<UpgradeLogVo>> queryList(UpgradeLog log) {
-        List<UpgradeLogVo> list = upgradeLogService.queryList(log);
-        return BaseResult.ok(list);
+        return BaseResult.ok(upgradeLogService.queryList(log));
     }
 
-    @RequestMapping("getDetail")
+    @RequestMapping("/getDetail")
     public BaseResult<UpgradeLog> getDetail(Long id) {
-        UpgradeLog kvConfig = upgradeLogService.get(id);
-        return BaseResult.ok(kvConfig);
+        return BaseResult.ok(upgradeLogService.get(id));
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public BaseResult<String> save(UpgradeLogVo vo) {
         if(CollectionUtils.isNotEmpty(vo.getContentList())) {
             vo.setContent(JSON.toJSONString(vo.getContentList()));
@@ -52,7 +49,7 @@ public class UpgradeLogControlelr extends BaseController{
         return BaseResult.ok();
     }
 
-    @RequestMapping("delete")
+    @RequestMapping("/delete")
     public BaseResult<String> delete(Long id) {
         upgradeLogService.delete(id);
         return BaseResult.ok();

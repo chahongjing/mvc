@@ -1,7 +1,7 @@
 <template>
   <div class='maincontent listcontent'>
     <div class='list-header-but-group'>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="deleteAll()" v-authcode='"operLogList_deleteAll"'>
+      <button type="button inline-block" class="btn btn-outline-purple" @click="deleteAll()" v-authcode='"operateLogList_deleteAll"'>
         <i class='fa fa-trash mr5'></i>删除全部
       </button>
     </div>
@@ -53,10 +53,10 @@
           <td v-text='item.method' :title="item.method"></td>
           <td class="text-center" v-text='$options.filters.formatDate(item.createdOn)'></td>
           <td class="operate">
-            <a class='inline-block mybtn' href='javascript:void(0)' @click='edit(item)' v-authcode='"operLogList_view"' title='查看'><i
+            <a class='inline-block mybtn' href='javascript:void(0)' @click='edit(item)' v-authcode='"operateLogList_view"' title='查看'><i
               class='fa fa-eye cf05'></i>
             </a>
-            <a class='inline-block mybtn' href='javascript:void(0)' @click='deleteItem(item)' v-authcode='"operLogList_delete"' title='删除'><i
+            <a class='inline-block mybtn' href='javascript:void(0)' @click='deleteItem(item)' v-authcode='"operateLogList_delete"' title='删除'><i
               class='fa fa-trash cf05'></i>
             </a>
           </td>
@@ -74,7 +74,7 @@
 <script>
   import commonSrv from '@/common/commonService';
   export default {
-    name: 'operLogList',
+    name: 'operateLogList',
     data () {
       return {
         allDisabled: true,
@@ -86,24 +86,15 @@
       }
     },
     methods: {
-      add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/admin/operLogEdit', query: {id: resp.data.value}});
-          }
-        });
-
-      },
       edit(entity) {
-        this.$router.push({path: '/admin/operLogEdit', query: {id: entity.logID}});
+        this.$router.push({path: '/admin/operateLogEdit', query: {id: entity.logID}});
 
       },
       search() {
         var me = this;
         me.allDisabled = true;
         me.pager.loading = true;
-        this.$axios.get('/operlog/queryPageList', {
+        this.$axios.get('/operateLog/queryPageList', {
           name: this.searchKey,
           logLevel: this.logLevel,
           pageNum: this.pager.pageNum,
@@ -123,7 +114,7 @@
       deleteItem: function (entity) {
         var me = this;
         this.$confirm.confirm('确定要删除日志吗？', function () {
-          me.$axios.get('/operlog/delete', {id: entity.logID}).then(function (resp) {
+          me.$axios.get('/operateLog/delete', {id: entity.logID}).then(function (resp) {
             if(resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.search();
@@ -134,7 +125,7 @@
       deleteAll: function () {
         var me = this;
         this.$confirm.confirm('确定要清空所有日志吗？', function () {
-          me.$axios.get('/operlog/deleteAll').then(function (resp) {
+          me.$axios.get('/operateLog/deleteAll').then(function (resp) {
             if(resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('清空成功！');
               me.search();

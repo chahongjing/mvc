@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -135,23 +136,22 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Override
     public PageBean<? extends UserInfo> queryPageList(UserInfoRequest request) {
-//        UserInfoVo user = new UserInfoVo();
-//        user.setName(request.getUserName());
-//        user.setCode(request.getUserName());
-//        user.setSex(request.getSex());
-//        List<String> orderBy = new ArrayList<>();
-//        if (request.getNameOrderBy() != null) {
-//            orderBy.add("user.userName " + request.getNameOrderBy().toString());
-//        }
-//        if (request.getCodeOrderBy() != null) {
-//            orderBy.add("user.userCode " + request.getCodeOrderBy().toString());
-//        }
-//        if (request.getCreatedOnOrderBy() != null) {
-//            orderBy.add("user.createdOn " + request.getCreatedOnOrderBy().toString());
-//        }
-//        request.setOrderBy(String.join(", ", orderBy));
-//        return super.queryPageList(request, user);
-        throw new NotImplementedException();
+        UserInfoVo user = new UserInfoVo();
+        user.setName(request.getName());
+        user.setCode(request.getName());
+        user.setSex(request.getSex());
+        List<String> orderBy = new ArrayList<>();
+        if (request.getNameOrderBy() != null) {
+            orderBy.add("user.name " + request.getNameOrderBy().toString());
+        }
+        if (request.getCodeOrderBy() != null) {
+            orderBy.add("user.code " + request.getCodeOrderBy().toString());
+        }
+        if (request.getCreatedOnOrderBy() != null) {
+            orderBy.add("user.created_on " + request.getCreatedOnOrderBy().toString());
+        }
+        request.setOrderBy(String.join(", ", orderBy));
+        return super.queryPageListBase(request, user);
     }
 
     /**
@@ -229,13 +229,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     }
 
     @Override
-    public void changePassword(String userCode, String oldPassword, String newPassword) {
+    public void changePassword(String code, String oldPassword, String newPassword) {
         UserInfo currentUser = getCurrentUser();
         if (currentUser == null) {
             throw new ServiceException("用户未登录！");
         }
         String userCodeCur = currentUser.getCode();
-        if (!userCodeCur.equals(userCode)) {
+        if (!userCodeCur.equals(code)) {
             throw new ServiceException("参数错误！");
         }
         UserInfo user = this.getByCode(userCodeCur);
@@ -257,15 +257,15 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     }
 
     @Override
-    public void resetPassword(String userCode, String password) {
-        UserInfo user = this.getByCode(userCode);
+    public void resetPassword(String code, String password) {
+        UserInfo user = this.getByCode(code);
         if (user == null) {
             throw new ServiceException("用户不存在！");
         }
         if (StringUtils.isBlank(password)) {
             throw new ServiceException("密码不能为空！");
         }
-        user.setPassword(ShiroRealmUtils.getMd5Hash(password, userCode));
+        user.setPassword(ShiroRealmUtils.getMd5Hash(password, code));
         dao.updateUserPassword(user.getId(), user.getPassword());
     }
 

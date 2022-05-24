@@ -121,13 +121,7 @@
         this.reload();
       },
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/upgradeLog/edit', query: {id: resp.data.value}});
-          }
-        });
-
+        this.$router.push({path: '/upgradeLog/edit', query: {id: null}});
       },
       preview() {
         this.$router.push({path: '/upgradeLog/preview'});

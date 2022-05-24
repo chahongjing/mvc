@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserInfoRequest extends PageInfomation {
-    private String userName;
+    private String name;
     private Sex sex;
     private OrderByType nameOrderBy;
     private OrderByType codeOrderBy;

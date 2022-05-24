@@ -186,21 +186,21 @@ var router = new Router({
           }
         },
         {
-          path: 'operLogList',
-            name: 'operLogList',
-          component: resolve => require(['@/components/admin/operLogList'], resolve),
+          path: 'operateLogList',
+          name: 'operateLogList',
+          component: resolve => require(['@/components/admin/operateLogList'], resolve),
           meta:{
             breadcurmbName: '日志列表',
-              pageCode: 'operLogList_enter'
+            pageCode: 'operateLogList_enter'
           }
         },
         {
-          path: 'operLogEdit',
-            name: 'operLogEdit',
-          component: resolve => require(['@/components/admin/operLogEdit'], resolve),
+          path: 'operateLogEdit',
+          name: 'operateLogEdit',
+          component: resolve => require(['@/components/admin/operateLogEdit'], resolve),
           meta:{
             breadcurmbName: '日志详情',
-              pageCode: 'operLogEdit_enter'
+            pageCode: 'operateLogEdit_enter'
           }
         },
       ]

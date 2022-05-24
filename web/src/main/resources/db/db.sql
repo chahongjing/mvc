@@ -36,18 +36,7 @@ create table user_role
 insert into user_role(user_id, role_id)
 values(1,1),(2,2);
 
-insert into menu(id, pid, name, code, url, seq, icon)
-values(1, null, '后台管理', 'admin', '', 1, 'fa fa-cog fa-spin c66c'),
-(2, 1, '用户管理', 'user', '/user/userList', 1, 'fa fa-address-book-o c393'),
-(3, 1, '菜单管理', 'menu', '/admin/menuList', 2, 'fa fa-indent cfd7e14'),
-(4, 1, '角色管理', 'role', '/admin/roleList', 3, 'fa fa-user c71a'),
-(5, 1, '功能管理', 'function', '/admin/functionList', 4, 'fa fa-list-alt c933'),
-(6, 1, '配置管理', 'configList', '/admin/configInfoList', 5, 'fa fa-puzzle-piece cc03'),
-(7, 1, '日志管理', 'operLog', '/admin/operLogList', 6, 'fa fa-list-ul c82a'),
-(8, 1, '键值管理', 'kvConfig', '/kvConfig/list', 7, 'fa fa-magnet c82a'),
-(9, 1, '开关控制室', 'switchList', '/switch/list', 8, 'fa fa-toggle-on cfd7e14'),
-(10, 1, '更新日志', 'upgradeLog', '/upgradeLog/list', 9, 'fa fa-file c393'),
-(11, 1, 'redis操作', 'redisOpt', '/redis', 10, 'fa fa-puzzle-piece cc03');
+
 create table menu
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -58,7 +47,18 @@ create table menu
 	seq INTEGER,
 	icon VARCHAR(100)
 );
-
+insert into menu(id, pid, name, code, url, seq, icon)
+values(1, null, '后台管理', 'admin', '', 1, 'fa fa-cog fa-spin c66c'),
+(2, 1, '用户管理', 'user', '/user/userList', 1, 'fa fa-address-book-o c393'),
+(3, 1, '菜单管理', 'menu', '/admin/menuList', 2, 'fa fa-indent cfd7e14'),
+(4, 1, '角色管理', 'role', '/admin/roleList', 3, 'fa fa-user c71a'),
+(5, 1, '功能管理', 'function', '/admin/functionList', 4, 'fa fa-list-alt c933'),
+(6, 1, '配置管理', 'configList', '/admin/configInfoList', 5, 'fa fa-puzzle-piece cc03'),
+(7, 1, '日志管理', 'operateLog', '/admin/operateLogList', 6, 'fa fa-list-ul c82a'),
+(8, 1, '键值管理', 'kvConfig', '/kvConfig/list', 7, 'fa fa-magnet c82a'),
+(9, 1, '开关控制室', 'switchList', '/switch/list', 8, 'fa fa-toggle-on cfd7e14'),
+(10, 1, '更新日志', 'upgradeLog', '/upgradeLog/list', 9, 'fa fa-file c393'),
+(11, 1, 'redis操作', 'redisOpt', '/redis', 10, 'fa fa-puzzle-piece cc03');
 
 create table function_info
 (
@@ -83,8 +83,8 @@ insert into function_info(id, name, menu_id, code, path, seq) values(11, '权限
 insert into function_info(id, name, menu_id, code, path, seq) values(12, '权限编辑', 5, 'permissionEdit', '/admin/permissionEdit', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(13, '配置列表', 6, 'configinfoList', '/admin/configInfoList', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(14, '配置编辑', 6, 'configinfoEdit', '/admin/configInfoEdit', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(15, '日志列表', 7, 'operLogList', '/admin/operLogList', 1);
-insert into function_info(id, name, menu_id, code, path, seq) values(16, '日志编辑', 7, 'operLogEdit', '/admin/operLogEdit', 1);
+insert into function_info(id, name, menu_id, code, path, seq) values(15, '日志列表', 7, 'operateLogList', '/admin/operateLogList', 1);
+insert into function_info(id, name, menu_id, code, path, seq) values(16, '日志编辑', 7, 'operateLogEdit', '/admin/operateLogEdit', 1);
 insert into function_info(id, name, menu_id, code, path, seq) values(17, '键值列表', 8, 'kvConfig', '/kvConfig/list', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(18, '键值详情', 8, 'kvConfig_detail', '/kvConfig/edit', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(19, '开关控制室', 9, 'switchList', '/switch/list', 0);
@@ -138,11 +138,11 @@ insert into permission(id,function_id, name, code, seq)values(34,13,'删除','co
 insert into permission(id,function_id, name, code, seq)values(35,13,'添加','configInfoList_add','0');
 insert into permission(id,function_id, name, code, seq)values(36,14,'进入页面','configInfoEdit_enter','0');
 insert into permission(id,function_id, name, code, seq)values(37,14,'保存','configInfo_save','0');
-insert into permission(id,function_id, name, code, seq)values(38,15,'进入页面','operLogList_enter','0');
-insert into permission(id,function_id, name, code, seq)values(39,15,'查看','operLogList_view','2');
-insert into permission(id,function_id, name, code, seq)values(40,15,'删除','operLogList_delete','3');
-insert into permission(id,function_id, name, code, seq)values(41,15,'清空日志','operLogList_deleteAll','1');
-insert into permission(id,function_id, name, code, seq)values(42,16,'进入页面','operLogEdit_enter','0');
+insert into permission(id,function_id, name, code, seq)values(38,15,'进入页面','operateLogList_enter','0');
+insert into permission(id,function_id, name, code, seq)values(39,15,'查看','operateLogList_view','2');
+insert into permission(id,function_id, name, code, seq)values(40,15,'删除','operateLogList_delete','3');
+insert into permission(id,function_id, name, code, seq)values(41,15,'清空日志','operateLogList_deleteAll','1');
+insert into permission(id,function_id, name, code, seq)values(42,16,'进入页面','operateLogEdit_enter','0');
 insert into permission(id,function_id, name, code, seq)values(43,17,'进入页面','kvConfig_enter','0');
 insert into permission(id,function_id, name, code, seq)values(44,17,'删除','kvConfig_delete','0');
 insert into permission(id,function_id, name, code, seq)values(45,17,'清空所有缓存','kvConfig_clear_cache','0');

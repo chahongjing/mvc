@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zjy.dao.OperateLogDao">
+	<select id="getVo" resultType="com.zjy.dao.vo.OperateLogVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="rz"/></include>,
+		ui.name as userName
+		FROM operate_log rz
+		left join user_info ui on rz.user_id = ui.id
+		WHERE rz.id = #{id, jdbcType = BIGINT}
+	</select>
+
+	<!-- 查询简单列表 -->
+	<select id="query" resultType="com.zjy.dao.vo.OperateLogVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="rz"/></include>,
+		ui.name as userName
+		FROM operate_log rz
+		left join user_info ui on rz.user_id = ui.id
+		<where>
+			<if test='logLevel != null'>
+				and rz.log_level = #{logLevel, jdbcType=INTEGER}
+			</if>
+			<if test='beginDate != null'>
+				and rz.created_on &gt;= #{beginDate, jdbcType=TIMESTAMP}
+			</if>
+			<if test='endDate != null'>
+				and rz.created_on &lt; #{endDate, jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		order by rz.created_on desc
+	</select>
+
+	<delete id="deleteAll">
+		DELETE FROM operate_log
+	</delete>
     <!-- 公共信息 -->
     <!-- 字段 -->
     <sql id="field">

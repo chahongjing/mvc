@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public enum Sex2 implements IEnum<Integer> {
     MALE(0, "男"),
-    FEMAIL(1, "女")
+    FEMALE(1, "女")
     ;
     private final Integer value;
     private final String name;

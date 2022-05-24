@@ -46,11 +46,11 @@
           </a>
         </li>
         <li class='userInfo'>
-          <a class="licontent" :title='user.userName + "\r\n" + user.userCode'>
+          <a class="licontent" :title='user.name + "\r\n" + user.code'>
             <i class="fa fa-user-o mr0 caf0"></i>
-            <span class='blank' v-html='user.userName + "<br>" + user.userCode'></span>
-            <span class='userName ellipsis' v-text='user.userName'></span>
-            <span class='userCode ellipsis' v-text='user.userCode'></span>
+            <span class='blank' v-html='user.name + "<br>" + user.code'></span>
+            <span class='userName ellipsis' v-text='user.name'></span>
+            <span class='userCode ellipsis' v-text='user.code'></span>
           </a>
         </li>
       </ul>
@@ -117,7 +117,7 @@
     name: 'appHeader',
     data () {
       return {
-        user: {userName: '', oldPassword: null, newPassword: null, passwordAgain: null},
+        user: {name: '', oldPassword: null, newPassword: null, passwordAgain: null},
         showMenu: false,
         showchangePasswordDialog: false,
         hoverMenu: false,
@@ -183,7 +183,7 @@
         me.passwordAgainStatus.v = 1;
         me.passwordAgainStatus.t = '';
         me.$axios.get('/user/changePassword', {
-          userCode: this.user.userCode,
+          code: this.user.code,
           oldPassword: this.user.oldPassword,
           newPassword: this.user.newPassword
         }).then(function (resp) {
@@ -219,7 +219,7 @@
       },
       editInfo() {
         var user = this.$root.getUser();
-        this.$router.push({path: '/user/userEdit', query: {id: user.userId, type: 'editSelf'}});
+        this.$router.push({path: '/user/userEdit', query: {id: user.id, type: 'editSelf'}});
         this.showMenu = false;
       }
     },
