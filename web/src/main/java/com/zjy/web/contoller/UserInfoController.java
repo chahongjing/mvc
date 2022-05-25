@@ -79,8 +79,8 @@ public class UserInfoController extends BaseController {
     @RequestMapping("resetPassword")
     @ResponseBody
     @RequiresPermissions(value = {"userList_resetPassword"})
-    public BaseResult<String> resetPassword(String userCode, String password) {
-        userInfoSrv.resetPassword(userCode, password);
+    public BaseResult<String> resetPassword(String code, String password) {
+        userInfoSrv.resetPassword(code, password);
         return BaseResult.ok();
     }
 

@@ -18,8 +18,6 @@ public class Menu implements IHierarchyBase<Menu> {
     private int seq;
     private String icon;
 
-    private List<Menu> children;
-
     @Override
     public void setChildren(List<Menu> children) {
 

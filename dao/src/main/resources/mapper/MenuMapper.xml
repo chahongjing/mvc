@@ -15,6 +15,27 @@
 		order by parent.seq, menu.seq
 	</select>
 
+	<!-- 查询是否重复 -->
+	<select id="queryRepeatCount" resultType="Map">
+		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount
+		from menu
+		where id &lt;&gt; #{id, jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryParentList" resultType="com.zjy.dao.vo.MenuVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>
+		FROM menu
+		WHERE pid is null or pid = ''
+		order by seq
+	</select>
+
+	<select id="queryPageMenuList" resultType="com.zjy.dao.vo.MenuVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>
+		FROM menu
+		WHERE url is not null and url &lt;&gt; ''
+		order by seq
+	</select>
+
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">

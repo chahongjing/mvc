@@ -15,7 +15,10 @@
             </if>
         </where>
     </select>
-
+    <!-- 删除 -->
+    <delete id="deleteEntity">
+        delete from user_role where user_id = #{userId, jdbcType=VARCHAR} and role_id = #{roleId, jdbcType=VARCHAR}
+    </delete>
     <!-- 公共信息 -->
     <!-- 字段 -->
     <sql id="field">

@@ -19,7 +19,7 @@
             <label class="form-label colon">姓名</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="姓名"
-                     v-model='user.userName'>
+                     v-model='user.name'>
             </div>
             <div class='form-info'>
               <i class='fa' title='姓名不能为空！'></i>
@@ -89,10 +89,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label colon">是否禁用</label>
+            <label class="form-label colon">状态</label>
             <div class="form-content">
-              <label class="radio_checkbox mt2" v-for="item in YesNoList">
-                <input type='radio' name="isDisabled" :value="item.key" v-model="user.isDisabled"/>
+              <label class="radio_checkbox mt2" v-for="item in statusList">
+                <input type='radio' name="status" :value="item.key" v-model="user.status"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -102,10 +102,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label colon">是否系统用户</label>
+            <label class="form-label colon">类型</label>
             <div class="form-content">
-              <label class="radio_checkbox mt2" v-for="item in YesNoList">
-                <input type='radio' name="isSystem" :value="item.key" v-model="user.isSystem"/>
+              <label class="radio_checkbox mt2" v-for="item in typeList">
+                <input type='radio' name="type" :value="item.key" v-model="user.type"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -150,20 +150,21 @@
         allDisabled: true,
         user: {
           id: null,
-          userName: null,
+          name: null,
           password: null,
           passwordAgain: null,
           sex: null,
           birthday: null,
-          isDisabled: null,
-          isSystem: null,
+          type: null,
+          status: null,
           isSave: true
         },
         mydate: new Date(),
         dateOpt:{format: 'yyyy-mm-dd hh:ii:ss', minView: 0,disabled:true},
         editSelf: false,
         sexList: [],
-        YesNoList: [],
+        typeList: [],
+        statusList: [],
         interstList: [],
         intertCheck: []
       }
@@ -193,15 +194,20 @@
       },
       getEnumList() {
         var list = [];
-        for (var item in Sex) {
-          list.push(Sex[item]);
+        for (var item in window.enumMap.Sex) {
+          list.push(window.enumMap.Sex[item]);
         }
         this.sexList = list;
         list = [];
-        for (var item in YesNo) {
-          list.push(YesNo[item]);
+        for (var item in window.enumMap.UserTypeEnum) {
+          list.push(window.enumMap.UserTypeEnum[item]);
         }
-        this.YesNoList = list;
+        this.typeList = list;
+        list = [];
+        for (var item in window.enumMap.UserStatus) {
+          list.push(window.enumMap.UserStatus[item]);
+        }
+        this.statusList = list;
       }
     },
     mounted: function () {

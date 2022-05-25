@@ -20,7 +20,7 @@
               <select class="form-control" v-model='menu.pId'
                       placeholder='请选择类型'>
                 <option>--请选择类型--</option>
-                <option v-for='item in menuList' :value="item.menuId" v-text="item.name"></option>
+                <option v-for='item in menuList' :value="item.id" v-text="item.name"></option>
               </select>
             </div>
             <div class='form-info'>
@@ -87,7 +87,7 @@
     data () {
       return {
         allDisabled:true,
-        menu: {menuId: null, name: null, code: null, url: null, seq: null, icon: null},
+        menu: {id: null, name: null, code: null, url: null, seq: null, icon: null},
         menuList: []
       }
     },

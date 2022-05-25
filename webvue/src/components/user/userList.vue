@@ -38,8 +38,8 @@
           <th class='w100 sortheader' :class='getOrderByClass(codeOrderBy)' @click='setOrderBy(codeOrderBy)'>编码</th>
           <th class='w155 sortheader' :class='getOrderByClass(createdOnOrderBy)' @click='setOrderBy(createdOnOrderBy)'>创建时间</th>
           <th class='w70'>性别</th>
-          <th class='w70'>系统用户</th>
-          <th class='w70 text-center'>是否禁用</th>
+          <th class='w90'>类型</th>
+          <th class='w70 text-center'>状态</th>
           <th class='w100'>操作</th>
         </tr>
         </thead>
@@ -47,7 +47,7 @@
         <tr v-for="(item, index) in list">
           <td class="text-center" v-text='((pager.pageNum - 1) * pager.pageSize) + index + 1'></td>
           <td>
-            <a class='block w100p h100p' href='javascript:void(0)' v-text='item.userName' @click='edit(item)'></a>
+            <a class='block w100p h100p' href='javascript:void(0)' v-text='item.name' @click='edit(item)'></a>
           </td>
           <td v-text='item.code'></td>
           <td class='text-center' v-text='$options.filters.formatDate(item.createdOn)'></td>
@@ -55,8 +55,8 @@
             <i class='fa mr0' :class='{"fa-female": item.sex == Sex.FEMALE.key,"fa-male": item.sex == Sex.MALE.key}'></i>
             <span v-text='$options.filters.enumNameFilter(item.sex, "Sex")'></span>
           </td>
-          <td class='text-center' v-text='$options.filters.enumNameFilter(item.isSystem, "YesNo")'></td>
-          <td class='text-center' v-text='$options.filters.enumNameFilter(item.isDisabled, "YesNo")'></td>
+          <td class='text-center' v-text='$options.filters.enumNameFilter(item.type, "UserTypeEnum")'></td>
+          <td class='text-center' v-text='$options.filters.enumNameFilter(item.status, "UserStatus")'></td>
           <td class='operate'>
             <a class='inline-block mybtn' v-authcode='"userList_grant"' href='javascript:void(0)' @click='grant(item)' title='授权'>
               <i class='fa fa-id-badge c66c'></i>
@@ -153,7 +153,7 @@
         me.allDisabled = true;
         me.pager.loading = true;
         this.$axios.get('/user/queryPageList', {
-          userName: this.searchKey,
+          name: this.searchKey,
           sex: this.sexValue,
           pageNum: this.pager.pageNum,
           pageSize: this.pager.pageSize,
@@ -205,7 +205,7 @@
         if(this.createdOnOrderBy != field) {
           this.createdOnOrderBy.value = null;
         }
-        field.value = (field.value == OrderByType.ASC.key ? OrderByType.DESC.key : OrderByType.ASC.key);
+        field.value = (field.value == enumMap.OrderByType.ASC.key ? enumMap.OrderByType.DESC.key : enumMap.OrderByType.ASC.key);
         this.queryList();
       },
       setPassword(entity) {

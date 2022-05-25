@@ -2,9 +2,12 @@ package com.zjy.dao.vo;
 
 import com.zjy.entity.model.Menu;
 
+import java.util.List;
+
 public class MenuVo extends Menu {
     private boolean isSave;
     private String pName;
+    private List<Menu> children;
 
     public boolean getIsSave() {
         return isSave;

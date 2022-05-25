@@ -124,11 +124,16 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
             vo.setCreatedBy(getCurrentUser().getId());
         } else {
             vo.setId(userInfo.getId());
+            vo.setName(userInfo.getName());
+            vo.setCode(userInfo.getCode());
             vo.setSex(userInfo.getSex());
             vo.setType(userInfo.getType());
+            vo.setBirthday(userInfo.getBirthday());
             vo.setStatus(userInfo.getStatus());
             vo.setCreatedOn(userInfo.getCreatedOn());
             vo.setCreatedBy(userInfo.getCreatedBy());
+            vo.setModifiedOn(userInfo.getModifiedOn());
+            vo.setModifiedBy(userInfo.getModifiedBy());
             vo.setIsSave(true);
         }
         return vo;

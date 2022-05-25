@@ -17,7 +17,7 @@ public interface UserInfoDao extends BaseDao<UserInfo> {
 
     Map<String, BigDecimal> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
 
-    int updateUserPassword(@Param("userId") Long userId, @Param("password") String password);
+    int updateUserPassword(@Param("id") Long userId, @Param("password") String password);
 
     @SqlLog
     List<UserInfo> getList(String id);
