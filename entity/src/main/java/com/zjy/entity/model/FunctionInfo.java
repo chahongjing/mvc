@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FunctionInfo {
-    private Long functionId;
+    private Long id;
     private Long menuId;
     private String name;
     private String code;

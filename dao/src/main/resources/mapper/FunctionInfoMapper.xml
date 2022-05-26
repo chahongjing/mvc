@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zjy.bll.dao.FunctionInfoDao">
+<mapper namespace="com.zjy.dao.FunctionInfoDao">
+	<select id="queryAllFunctionList" resultType="com.zjy.dao.vo.FunctionInfoVo">
+		select <include refid="fieldWithPrefix"><property name="tableName" value="f"/></include>
+		from function_info f
+		order by seq
+	</select>
+	<select id="query" resultType="com.zjy.dao.vo.FunctionInfoVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="f"/></include>,
+		menu.name as menuName
+		FROM function_info f
+		left join menu on f.menu_id = menu.id
+		<where>
+			<if test='name != null and name != ""'>
+				and f.name like '%' || #{name, jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+		order by menu.seq, f.seq
+	</select>
+	<!-- 查询是否重复 -->
+	<select id="queryRepeatCount" resultType="Map">
+		select count(1) as codeCount
+		  from function_info
+		 where id &lt;&gt; #{id, jdbcType=BIGINT}
+		   and code = #{code, jdbcType=VARCHAR}
+	</select>
+
+	<!-- 其它操作区 -->
+	<select id="queryFunctionList" resultType="com.zjy.dao.vo.FunctionInfoVo">
+		select <include refid="fieldWithPrefix"><property name="tableName" value="f"/></include>
+		from function_info f
+		order by seq
+	</select>
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">
-		id, name, menuId, code, path, seq
+		id, name, menu_id, code, path, seq
 	</sql>
 	 <!-- 带前缀的字段 -->
 	<sql id="fieldWithPrefix">
-		${tableName}.id, ${tableName}.name, ${tableName}.menuId, ${tableName}.code, ${tableName}.path, ${tableName}.seq
+		${tableName}.id, ${tableName}.name, ${tableName}.menu_id, ${tableName}.code, ${tableName}.path, ${tableName}.seq
 	</sql>
 </mapper>

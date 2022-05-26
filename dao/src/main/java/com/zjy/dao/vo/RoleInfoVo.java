@@ -1,9 +1,13 @@
 package com.zjy.dao.vo;
 
 import com.zjy.entity.model.RoleInfo;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RoleInfoVo extends RoleInfo {
-    private String userId;
+    private Long userId;
     private boolean isSave;
 
     public boolean getIsSave() {
@@ -12,13 +16,5 @@ public class RoleInfoVo extends RoleInfo {
 
     public void setIsSave(boolean isSave) {
         this.isSave = isSave;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

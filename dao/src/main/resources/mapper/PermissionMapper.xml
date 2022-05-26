@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zjy.bll.dao.PermissionDao">
+<mapper namespace="com.zjy.dao.PermissionDao">
+	<select id="queryAllPermissionList" resultType="com.zjy.dao.vo.PermissionVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="permission"/></include>
+		FROM permission
+		order by seq
+	</select>
+	<select id="queryRepeatCount" resultType="Map">
+		select count(1) as codeCount
+		  from permission
+		 where id &lt;&gt; #{id, jdbcType=BIGINT}
+		   and code = #{code, jdbcType=VARCHAR}
+	</select>
+	<!-- 查询简单列表 -->
+	<select id="query" resultType="com.zjy.dao.vo.PermissionVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="p"/></include>,
+		f.name as functionName
+		FROM permission p
+		inner join function_info f on p.function_id = f.id
+		<where>
+			<if test='functionId != null and functionId != ""'>
+				and p.function_id = #{functionId, jdbcType=BIGINT}
+			</if>
+			<if test='name != null and name != ""'>
+				and p.name like '%' || #{name, jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+		order by f.seq, p.seq
+	</select>
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">

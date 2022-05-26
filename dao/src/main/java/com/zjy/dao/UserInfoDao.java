@@ -15,7 +15,7 @@ import java.util.Map;
 public interface UserInfoDao extends BaseDao<UserInfo> {
     UserInfoVo getByCode(String userCode);
 
-    Map<String, BigDecimal> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
+    Map<String, Integer> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
 
     int updateUserPassword(@Param("id") Long userId, @Param("password") String password);
 

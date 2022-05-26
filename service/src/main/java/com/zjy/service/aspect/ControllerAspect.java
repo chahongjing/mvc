@@ -6,6 +6,7 @@ import com.zjy.baseframework.enums.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -142,6 +143,8 @@ public class ControllerAspect {
             if (ex instanceof ServiceException) {
                 response.getWriter().write(JSON.toJSONString(BaseResult.no(ex.getMessage())));
                 log.info("业务异常", ex);
+            } else if(ex instanceof UnauthorizedException) {
+                response.getWriter().write(JSON.toJSONString(BaseResult.no("未授权")));
             } else {
                 Map<String, String> warnMsg = getErrorMsg(ex, request, method);
                 response.getWriter().write(JSON.toJSONString(BaseResult.error(warnMsg.get("msg"))));

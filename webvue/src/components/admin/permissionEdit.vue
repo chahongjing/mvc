@@ -64,7 +64,7 @@
     data () {
       return {
         allDisabled:true,
-        permission: {permissionId: null, name: null, code: null, seq: null}
+        permission: {id: null, name: null, code: null, seq: null}
       }
     },
     methods: {

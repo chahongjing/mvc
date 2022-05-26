@@ -7,7 +7,7 @@
 		FROM kv_config_log kvConfigLog
 		<where>
 			<if test='kvId != null and kvId != ""'>
-				and kv_id = #{kvId, jdbcType=VARCHAR}
+				and kv_id = #{kvId, jdbcType=BIGINT}
 			</if>
 			<if test='code != null and code != ""'>
 				and code = #{code, jdbcType=VARCHAR}

@@ -30,7 +30,7 @@
               <select class="form-control" v-model='functionInfo.menuId'
                       placeholder='请选择类型'>
                 <option>--请选择类型--</option>
-                <option v-for='item in menuList' :value="item.menuId" v-text="item.name"></option>
+                <option v-for='item in menuList' :value="item.id" v-text="item.name"></option>
               </select>
             </div>
             <div class='form-info'>
@@ -77,7 +77,7 @@
     data () {
       return {
         allDisabled:true,
-        functionInfo: {functionId: null, menuId: null, name: null, code: null, path: null, seq: null},
+        functionInfo: {id: null, menuId: null, name: null, code: null, path: null, seq: null},
         menuList: []
       }
     },

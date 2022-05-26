@@ -14,9 +14,9 @@ create table user_info
 	modified_by INTEGER,
 	modified_on DATE
 );
-insert into user_info(id,code,name,password,sex,type,birthday,status)
-values(1, 'admin','系统管理员','8c16fa7743119806880db2cc4780f576',1,0,'1990-02-12 10:23:59',0),
-(2, 'zjy','曾军毅','25c278f2b306449559f6b79b36c7b2e9',0,1,'1990-02-12 10:23:59',0);
+insert into user_info(id,code,name,password,sex,type,birthday,status,create_on)
+values(1, 'admin','系统管理员','8c16fa7743119806880db2cc4780f576',1,0,'1990-02-12 10:23:59',0,'2022-05-26 10:23:59'),
+(2, 'zjy','曾军毅','25c278f2b306449559f6b79b36c7b2e9',0,1,'1990-02-12 10:23:59',0,'2022-05-26 10:23:59');
 
 create table role_info
 (
@@ -53,12 +53,12 @@ values(1, null, '后台管理', 'admin', '', 1, 'fa fa-cog fa-spin c66c'),
 (3, 1, '菜单管理', 'menu', '/admin/menuList', 2, 'fa fa-indent cfd7e14'),
 (4, 1, '角色管理', 'role', '/admin/roleList', 3, 'fa fa-user c71a'),
 (5, 1, '功能管理', 'function', '/admin/functionList', 4, 'fa fa-list-alt c933'),
-(6, 1, '配置管理', 'configList', '/admin/configInfoList', 5, 'fa fa-puzzle-piece cc03'),
-(7, 1, '日志管理', 'operateLog', '/admin/operateLogList', 6, 'fa fa-list-ul c82a'),
-(8, 1, '键值管理', 'kvConfig', '/kvConfig/list', 7, 'fa fa-magnet c82a'),
-(9, 1, '开关控制室', 'switchList', '/switch/list', 8, 'fa fa-toggle-on cfd7e14'),
-(10, 1, '更新日志', 'upgradeLog', '/upgradeLog/list', 9, 'fa fa-file c393'),
-(11, 1, 'redis操作', 'redisOpt', '/redis', 10, 'fa fa-puzzle-piece cc03');
+-- (6, 1, '配置管理', 'configList', '/admin/configInfoList', 5, 'fa fa-puzzle-piece cc03'),
+(6, 1, '日志管理', 'operateLog', '/admin/operateLogList', 6, 'fa fa-list-ul c82a'),
+(7, 1, '键值管理', 'kvConfig', '/kvConfig/list', 7, 'fa fa-magnet c82a'),
+(8, 1, '开关控制室', 'switchList', '/switch/list', 8, 'fa fa-toggle-on cfd7e14'),
+(9, 1, '更新日志', 'upgradeLog', '/upgradeLog/list', 9, 'fa fa-file c393'),
+(10, 1, 'redis操作', 'redisOpt', '/redis', 10, 'fa fa-puzzle-piece cc03');
 
 create table function_info
 (
@@ -81,17 +81,17 @@ insert into function_info(id, name, menu_id, code, path, seq) values(9, '功能�
 insert into function_info(id, name, menu_id, code, path, seq) values(10, '功能编辑', 5, 'functionedit', '/admin/functionEdit', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(11, '权限列表', 5, 'permissionList', '/admin/permissionList', 0);
 insert into function_info(id, name, menu_id, code, path, seq) values(12, '权限编辑', 5, 'permissionEdit', '/admin/permissionEdit', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(13, '配置列表', 6, 'configinfoList', '/admin/configInfoList', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(14, '配置编辑', 6, 'configinfoEdit', '/admin/configInfoEdit', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(15, '日志列表', 7, 'operateLogList', '/admin/operateLogList', 1);
-insert into function_info(id, name, menu_id, code, path, seq) values(16, '日志编辑', 7, 'operateLogEdit', '/admin/operateLogEdit', 1);
-insert into function_info(id, name, menu_id, code, path, seq) values(17, '键值列表', 8, 'kvConfig', '/kvConfig/list', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(18, '键值详情', 8, 'kvConfig_detail', '/kvConfig/edit', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(19, '开关控制室', 9, 'switchList', '/switch/list', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(20, '更新日志列表', 10, 'upgradeLog', '/upgradeLog/list', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(21, '更新日志预览', 10, 'upgradeLogPreview', '/upgradeLog/preview', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(22, '更新日志编辑', 10, 'upgradeLogEdit', '/upgradeLog/edit', 0);
-insert into function_info(id, name, menu_id, code, path, seq) values(23, 'redis操作', 11, 'redisOpt', '/redis', 0);
+-- insert into function_info(id, name, menu_id, code, path, seq) values(13, '配置列表', 6, 'configinfoList', '/admin/configInfoList', 0);
+-- insert into function_info(id, name, menu_id, code, path, seq) values(14, '配置编辑', 6, 'configinfoEdit', '/admin/configInfoEdit', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(15, '日志列表', 6, 'operateLogList', '/admin/operateLogList', 1);
+insert into function_info(id, name, menu_id, code, path, seq) values(16, '日志编辑', 6, 'operateLogEdit', '/admin/operateLogEdit', 1);
+insert into function_info(id, name, menu_id, code, path, seq) values(17, '键值列表', 7, 'kvConfig', '/kvConfig/list', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(18, '键值详情', 7, 'kvConfig_detail', '/kvConfig/edit', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(19, '开关控制室', 8, 'switchList', '/switch/list', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(20, '更新日志列表', 9, 'upgradeLog', '/upgradeLog/list', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(21, '更新日志预览', 9, 'upgradeLogPreview', '/upgradeLog/preview', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(22, '更新日志编辑', 9, 'upgradeLogEdit', '/upgradeLog/edit', 0);
+insert into function_info(id, name, menu_id, code, path, seq) values(23, 'redis操作', 10, 'redisOpt', '/redis', 0);
 
 create table permission
 (

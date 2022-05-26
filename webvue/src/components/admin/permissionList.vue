@@ -71,16 +71,10 @@
     },
     methods: {
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/admin/permissionEdit', query: {id: resp.data.value, functionId: me.functionId}});
-          }
-        });
-
+        this.$router.push({path: '/admin/permissionEdit', query: {id: null, functionId: this.functionId}});
       },
       edit(entity) {
-        this.$router.push({path: '/admin/permissionEdit', query: {id: entity.permissionId}});
+        this.$router.push({path: '/admin/permissionEdit', query: {id: entity.id}});
 
       },
       search() {
@@ -107,7 +101,7 @@
       deleteItem: function (entity) {
         var me = this;
         this.$confirm.confirm('确定要删除权限吗？', function () {
-          me.$axios.get('/permission/delete', {id: entity.permissionId}).then(function (resp) {
+          me.$axios.get('/permission/delete', {id: entity.id}).then(function (resp) {
             if(resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.search();

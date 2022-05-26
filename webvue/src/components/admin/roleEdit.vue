@@ -54,7 +54,7 @@
     data () {
       return {
         allDisabled:true,
-        role: {roleId: null, name: null, code: null, seq: null}
+        role: {id: null, name: null, code: null, seq: null}
       }
     },
     methods: {

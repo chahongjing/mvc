@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PermissionRequest extends PageInfomation {
-    private String functionId;
+    private Long functionId;
     private String name;
 }

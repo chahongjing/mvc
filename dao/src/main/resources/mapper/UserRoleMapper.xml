@@ -17,7 +17,7 @@
     </select>
     <!-- 删除 -->
     <delete id="deleteEntity">
-        delete from user_role where user_id = #{userId, jdbcType=VARCHAR} and role_id = #{roleId, jdbcType=VARCHAR}
+        delete from user_role where user_id = #{userId, jdbcType=BIGINT} and role_id = #{roleId, jdbcType=BIGINT}
     </delete>
     <!-- 公共信息 -->
     <!-- 字段 -->

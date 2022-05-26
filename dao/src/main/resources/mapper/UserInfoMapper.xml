@@ -30,15 +30,16 @@
 
     <!-- 查询是否重复 -->
     <select id="queryRepeatCount" resultType="Map">
-		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount
+		select count(1) as codeCount
 		  from user_info
-		 where id &lt;&gt; #{id, jdbcType=VARCHAR}
+		 where id &lt;&gt; #{id, jdbcType=BIGINT}
+		   and code = #{code, jdbcType=VARCHAR}
 	</select>
 
     <update id="updateUserPassword">
         update user_info
         set password = #{password, jdbcType=VARCHAR}
-        where id = #{id, jdbcType=VARCHAR}
+        where id = #{id, jdbcType=BIGINT}
     </update>
 
 
@@ -48,7 +49,7 @@
             <property name="tableName" value="user_info"/>
         </include>
         FROM user_info
-        WHERE id = #{id, jdbcType = VARCHAR}
+        WHERE id = #{id, jdbcType = BIGINT}
     </select>
 
     <!-- 公共信息 -->

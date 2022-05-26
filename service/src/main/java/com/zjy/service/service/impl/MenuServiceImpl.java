@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 @Service
 public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements MenuService {
     @Autowired
-    protected RoleInfoService roleInfoSrv;
-    @Autowired
     private UserRoleService userRoleService;
     @Autowired
     private RolePermissionService rolePermissionService;
@@ -152,8 +150,9 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
         if (StringUtils.isBlank(po.getName())) {
             throw new ServiceException("请输入功能名称！");
         }
-        Map<String, BigDecimal> map = dao.queryRepeatCount(po.getId(), po.getCode());
-        if (map != null && map.containsKey("CODECOUNT") && map.get("CODECOUNT").intValue() > 0) {
+        Long id = po.getId() == null ? 0L : po.getId();
+        Map<String, Integer> map = dao.queryRepeatCount(id, po.getCode());
+        if (map != null && map.containsKey("codeCount") && map.get("codeCount").intValue() > 0) {
             throw new ServiceException("功能名称重复！");
         }
     }
@@ -171,7 +170,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     public List<MenuVo> queryAllMenu() {
         List<MenuVo> result = new ArrayList<>();
         List<MenuVo> list = (List<MenuVo>) dao.query(null);
-        List<MenuVo> parentList = list.stream().filter(item -> item.getPid() != null && item.getPid() > 0).collect(Collectors.toList());
+        List<MenuVo> parentList = list.stream().filter(item -> item.getPid() == null || item.getPid() == 0).collect(Collectors.toList());
         List<MenuVo> children = list.stream().filter(item -> item.getPid() != null && item.getPid() > 0).collect(Collectors.toList());
         for (MenuVo parent : parentList) {
             result.add(parent);

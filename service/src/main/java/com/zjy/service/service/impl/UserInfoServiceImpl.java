@@ -218,8 +218,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         if (StringUtils.isBlank(vo.getCode())) {
             throw new ServiceException("请输入用户编号！");
         }
-        Map<String, BigDecimal> map = dao.queryRepeatCount(vo.getId(), vo.getCode());
-        if (map != null && map.containsKey("CODECOUNT") && map.get("CODECOUNT").intValue() > 0) {
+        Long id = vo.getId() == null ? 0L : vo.getId();
+        Map<String, Integer> map = dao.queryRepeatCount(id, vo.getCode());
+        if (map != null && map.containsKey("codeCount") && map.get("codeCount").intValue() > 0) {
             throw new ServiceException("编号重复！");
         }
         if (StringUtils.isBlank(vo.getName())) {

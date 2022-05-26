@@ -6,6 +6,23 @@
 		FROM role_info r
 		order by r.seq
 	</select>
+	<!-- 查询是否重复 -->
+	<select id="queryRepeatCount" resultType="Map">
+		select count(1) as codeCount
+		  from role_info
+		 where id &lt;&gt; #{id, jdbcType=BIGINT}
+		   and code = #{code, jdbcType=VARCHAR}
+	</select>
+	<select id="query" resultType="com.zjy.dao.vo.RoleInfoVo">
+		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="r"/></include>
+		FROM role_info r
+		<where>
+			<if test='name != null and name != ""'>
+				and r.name like '%' || #{name, jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+		order by r.seq
+	</select>
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">

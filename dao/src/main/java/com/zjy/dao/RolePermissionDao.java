@@ -10,4 +10,5 @@ import java.util.List;
 @Mapper
 public interface RolePermissionDao extends BaseDao<RolePermission> {
     List<RolePermissionVo> queryByRoleIdList(List<Long> roleIdList);
+    int deleteEntity(RolePermission entity);
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface MenuDao extends BaseDao<Menu> {
     List<MenuVo> query(Menu menu);
-    Map<String, BigDecimal> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
+    Map<String, Integer> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
     List<MenuVo> queryParentList();
     List<MenuVo> queryPageMenuList();
 }

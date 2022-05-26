@@ -72,16 +72,10 @@
     },
     methods: {
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/admin/roleEdit', query: {id: resp.data.value}});
-          }
-        });
-
+        this.$router.push({path: '/admin/roleEdit', query: {id: null}});
       },
       edit(entity) {
-        this.$router.push({path: '/admin/roleEdit', query: {id: entity.roleId}});
+        this.$router.push({path: '/admin/roleEdit', query: {id: entity.id}});
       },
       search() {
         var me = this;
@@ -106,7 +100,7 @@
       deleteItem: function (entity) {
         var me = this;
         this.$confirm.confirm('确定要删除角色吗？', function () {
-          me.$axios.get('/role/delete', {id: entity.roleId}).then(function (resp) {
+          me.$axios.get('/role/delete', {id: entity.id}).then(function (resp) {
             if (resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.search();
@@ -115,7 +109,7 @@
         });
       },
       grant(entity) {
-        this.$router.push({path: '/admin/roleGrantPermission', query: {id: entity.roleId}});
+        this.$router.push({path: '/admin/roleGrantPermission', query: {id: entity.id}});
       }
     },
     mounted: function () {

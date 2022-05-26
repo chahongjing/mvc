@@ -11,12 +11,16 @@
 			<if test='roleIdList != null and roleIdList.size() > 0'>
 				and rp.role_id in (
 				<foreach collection="roleIdList" item="roleId" index="index" separator="," open="" close="">
-					#{roleId, jdbcType=VARCHAR}
+					#{roleId, jdbcType=BIGINT}
 				</foreach>
 				)
 			</if>
 		</where>
 	</select>
+
+	<delete id="deleteEntity">
+		delete from role_permission where role_id = #{roleId, jdbcType=BIGINT} and permission_id = #{permissionId, jdbcType=BIGINT}
+	</delete>
 
 	<!-- 公共信息 -->
 	<!-- 字段 -->

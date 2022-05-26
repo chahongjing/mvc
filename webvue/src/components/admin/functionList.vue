@@ -76,16 +76,10 @@
     },
     methods: {
       add() {
-        var me = this;
-        this.$axios.get('/comm/getNewId').then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
-            me.$router.push({path: '/admin/functionEdit', query: {id: resp.data.value}});
-          }
-        });
-
+        this.$router.push({path: '/admin/functionEdit', query: {id: null}});
       },
       edit(entity) {
-        this.$router.push({path: '/admin/functionEdit', query: {id: entity.functionId}});
+        this.$router.push({path: '/admin/functionEdit', query: {id: entity.id}});
 
       },
       search() {
@@ -121,7 +115,7 @@
       deleteItem: function (entity) {
         var me = this;
         this.$confirm.confirm('确定要删除功能吗？', function () {
-          me.$axios.get('/function/delete', {id: entity.functionId}).then(function (resp) {
+          me.$axios.get('/function/delete', {id: entity.id}).then(function (resp) {
             if (resp.data.status == ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.queryList();
@@ -130,7 +124,7 @@
         });
       },
       permissionList: function (entity) {
-        this.$router.push({path: '/admin/permissionList', query: {functionId: entity.functionId}});
+        this.$router.push({path: '/admin/permissionList', query: {id: entity.id}});
       }
     },
     mounted: function () {

@@ -17,9 +17,10 @@
 
 	<!-- 查询是否重复 -->
 	<select id="queryRepeatCount" resultType="Map">
-		select count(case when code = #{code, jdbcType=VARCHAR} then 1 else null end) as codeCount
+		select count(1) as codeCount
 		from menu
-		where id &lt;&gt; #{id, jdbcType=VARCHAR}
+		where id &lt;&gt; #{id, jdbcType=BIGINT}
+		  and code = #{code, jdbcType=VARCHAR}
 	</select>
 
 	<select id="queryParentList" resultType="com.zjy.dao.vo.MenuVo">

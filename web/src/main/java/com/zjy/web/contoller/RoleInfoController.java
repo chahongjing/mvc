@@ -1,11 +1,71 @@
 package com.zjy.web.contoller;
 
+import com.alibaba.fastjson.JSON;
+import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.dao.vo.RelateCheckVo;
+import com.zjy.dao.vo.RoleInfoVo;
+import com.zjy.service.common.PageBean;
+import com.zjy.service.request.RoleInfoRequest;
+import com.zjy.service.service.RoleInfoService;
+import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
-@RequestMapping("/roleInfo")
+@RequestMapping("/role")
 public class RoleInfoController extends BaseController{
+    @Autowired
+    private RoleInfoService roleInfoSrv;
+    @Autowired
+    private RolePermissionService rolePermissionSrv;
+
+    @RequestMapping("queryPageList")
+    @RequiresPermissions("roleList_enter")
+    public BaseResult<PageBean> queryPageList(RoleInfoRequest request) {
+        PageBean<RoleInfoVo> pageBean = roleInfoSrv.queryPageList(request);
+        return BaseResult.ok(pageBean);
+    }
+
+    @RequestMapping("getDetail")
+    @RequiresPermissions("roleEdit_enter")
+    public BaseResult<RoleInfoVo> getDetail(Long id) {
+        RoleInfoVo userInfo = roleInfoSrv.getVo(id);
+        return BaseResult.ok(userInfo);
+    }
+
+    @PostMapping("save")
+    @RequiresPermissions("roleEdit_save")
+    public BaseResult<String> save(RoleInfoVo vo) {
+        roleInfoSrv.save(vo);
+        return BaseResult.ok();
+    }
+
+    @RequestMapping("delete")
+    @RequiresPermissions("roleList_delete")
+    public BaseResult<String> delete(Long id) {
+        roleInfoSrv.delete(id);
+        return BaseResult.ok();
+    }
+
+    @RequestMapping("getRolePermission")
+    @RequiresPermissions("roleGrantPermission_enter")
+    public BaseResult<List<RelateCheckVo>> getRolePermission(Long id) {
+        List<RelateCheckVo> list = rolePermissionSrv.getRolePermission(id);
+        return BaseResult.ok(list);
+    }
+
+    @PostMapping("saveRolePermission")
+    @RequiresPermissions("roleGrantPermission_enter")
+    public BaseResult saveRolePermission(String listStr) {
+        List<RelateCheckVo> list = JSON.parseArray(listStr, RelateCheckVo.class);
+        rolePermissionSrv.savePermission(list);
+        return BaseResult.ok();
+    }
 }

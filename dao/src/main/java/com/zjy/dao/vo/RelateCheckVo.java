@@ -29,4 +29,12 @@ public class RelateCheckVo {
     public boolean getIsCheck() {
         return this.isCheck;
     }
+
+    public boolean getSingleCheck() {
+        return singleCheck;
+    }
+
+    public void setSingleCheck(boolean singleCheck) {
+        this.singleCheck = singleCheck;
+    }
 }
