@@ -1,7 +1,7 @@
 <template>
   <div class='maincontent listcontent'>
     <div class='list-header-but-group'>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="deleteAll()" v-authcode='"operateLogList_deleteAll"'>
+      <button type="button" class="btn btn-outline-purple inline-block" @click="deleteAll()" v-authcode='"operateLogList_deleteAll"'>
         <i class='fa fa-trash mr5'></i>删除全部
       </button>
     </div>

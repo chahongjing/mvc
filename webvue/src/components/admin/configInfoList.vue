@@ -1,7 +1,7 @@
 <template>
   <div class='maincontent listcontent'>
     <div class='list-header-but-group'>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="add()" v-authcode='"configInfoList_add"'>
+      <button type="button" class="btn btn-outline-purple inline-block" @click="add()" v-authcode='"configInfoList_add"'>
         <i class='fa fa-plus mr5'></i>添加
       </button>
     </div>

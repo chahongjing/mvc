@@ -1,7 +1,7 @@
 <template>
   <div class='maincontent listcontent'>
     <div class='list-header-but-group'>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="add()" v-authcode='"functionList_add"'>
+      <button type="button" class="btn btn-outline-purple inline-block" @click="add()" v-authcode='"functionList_add"'>
         <i class='fa fa-plus mr5'></i>添加
       </button>
     </div>
@@ -94,7 +94,7 @@
           pageNum: me.pager.pageNum,
           pageSize: me.pager.pageSize
         }).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status === ResultStatus.OK.key) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
 
@@ -116,7 +116,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除功能吗？', function () {
           me.$axios.get('/function/delete', {id: entity.id}).then(function (resp) {
-            if (resp.data.status == ResultStatus.OK.key) {
+            if (resp.data.status === ResultStatus.OK.key) {
               me.$toaster.success('删除成功！');
               me.queryList();
             }
@@ -124,7 +124,7 @@
         });
       },
       permissionList: function (entity) {
-        this.$router.push({path: '/admin/permissionList', query: {id: entity.id}});
+        this.$router.push({path: '/admin/permissionList', query: {functionId: entity.id}});
       }
     },
     mounted: function () {

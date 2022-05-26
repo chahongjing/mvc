@@ -1,10 +1,10 @@
 <template>
   <div class='maincontent listcontent'>
     <div class='list-header-but-group'>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="add()" v-authcode='"userList_add"'>
+      <button type="button" class="btn btn-outline-purple inline-block" @click="add()" v-authcode='"userList_add"'>
         <i class='fa fa-plus fa-plus-myrotate mr5'></i>添加
       </button>
-      <button type="button inline-block" class="btn btn-outline-purple" @click="preview()" v-authcode='"userList_add"'>
+      <button type="button" class="btn btn-outline-purple inline-block" @click="preview()" v-authcode='"userList_add"'>
         <i class='fa fa-picture-o mr5'></i>预览
       </button>
     </div>

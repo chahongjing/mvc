@@ -25,7 +25,7 @@
               <i class='fa fa-comment fa-fw'></i><span>测试</span>
             </router-link>
             <div class='mytest'>
-              <button type="button inline-block" class="btn btn-outline-purple">
+              <button type="button" class="btn btn-outline-purple inline-block">
                 <i class='fa fa-plus mr5'></i>alert
               </button>
             </div>
