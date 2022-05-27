@@ -1,5 +1,6 @@
 package com.zjy.dao.vo;
 
+import com.zjy.entity.enums.MenuLevel;
 import com.zjy.entity.enums.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class RelateCheckVo {
     private Long relativeId;
     private boolean isCheck;
     private boolean singleCheck;
+    private MenuLevel menuLevel;
     private PermissionType type;
     private boolean showDetail;
     List<RelateCheckVo> subList;

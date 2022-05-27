@@ -3,7 +3,6 @@ package com.zjy.entity.enums;
 import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Administrator on 2018/11/13.
@@ -11,8 +10,7 @@ import lombok.Setter;
 @Getter
 @SerializeEnum
 public enum PermissionType implements IBaseEnum {
-    FirstMenu(0, "一级菜单"),
-    SecondMenu(1, "二级菜单"),
+    Menu(1, "菜单"),
     FunctionItem(2, "功能"),
     Permission(3, "权限");
 

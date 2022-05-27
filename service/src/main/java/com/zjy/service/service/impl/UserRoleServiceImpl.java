@@ -78,4 +78,6 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
         List<UserRoleVo> userRoleList = queryListByUserId(userId);
         return userRoleList.stream().map(UserRoleVo::getRoleCode).distinct().collect(Collectors.toList());
     }
+
+
 }

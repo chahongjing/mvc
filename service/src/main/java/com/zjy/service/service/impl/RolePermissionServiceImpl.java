@@ -2,6 +2,7 @@ package com.zjy.service.service.impl;
 
 import com.zjy.dao.RolePermissionDao;
 import com.zjy.dao.vo.*;
+import com.zjy.entity.enums.MenuLevel;
 import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.RolePermission;
 import com.zjy.service.common.BaseServiceImpl;
@@ -70,7 +71,8 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
             firtMenu.setId(id);
             firtMenu.setRelativeId(menuVo.getId());
             firtMenu.setName(menuVo.getName());
-            firtMenu.setType(PermissionType.FirstMenu);
+            firtMenu.setMenuLevel(MenuLevel.FirstMenu);
+            firtMenu.setType(PermissionType.Menu);
             if (rolePermissionDbList.stream().anyMatch(item -> item.getRoleId().equals(id) && item.getPermissionId().equals(menuVo.getId()))) {
                 firtMenu.setSingleCheck(true);
             } else {
@@ -86,7 +88,8 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
                 secondMenu.setId(id);
                 secondMenu.setRelativeId(child.getId());
                 secondMenu.setName(child.getName());
-                secondMenu.setType(PermissionType.SecondMenu);
+                firtMenu.setMenuLevel(MenuLevel.SecondMenu);
+                firtMenu.setType(PermissionType.Menu);
                 if (rolePermissionDbList.stream().anyMatch(item -> item.getRoleId().equals(id) && item.getPermissionId().equals(child.getId()))) {
                     secondMenu.setSingleCheck(true);
                 } else {
@@ -136,11 +139,12 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
     @Override
     public void savePermission(List<RelateCheckVo> list) {
         if (CollectionUtils.isEmpty(list)) return;
-        EnumSet<PermissionType> set = EnumSet.of(PermissionType.FirstMenu, PermissionType.SecondMenu, PermissionType.FunctionItem);
+        EnumSet<PermissionType> set = EnumSet.of(PermissionType.Menu, PermissionType.FunctionItem);
         RolePermission rp = new RolePermission();
         for (RelateCheckVo item : list) {
             rp.setRoleId(item.getId());
             rp.setPermissionId(item.getRelativeId());
+            rp.setType(item.getType());
             if (set.contains(item.getType()) && item.getSingleCheck()) {
                 dao.insert(rp);
             } else if (item.getType() == PermissionType.Permission && item.getIsCheck()) {

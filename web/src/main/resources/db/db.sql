@@ -157,9 +157,19 @@ insert into permission(id,function_id, name, code, seq)values(52,23,'进入页�
 create table role_permission
 (
 	role_id INTEGER,
-	permission_id INTEGER
+	permission_id INTEGER,
+	type SMALLINT
 );
-insert into role_permission(role_id, permission_id) select 1, id from permission;
+insert into role_permission(role_id, permission_id, type) select 1, id, 1 from menu;
+insert into role_permission(role_id, permission_id, type) select 1, id, 2 from function_info;
+insert into role_permission(role_id, permission_id, type) select 1, id, 3 from permission;
+
+create table user_permission
+(
+    user_id INTEGER,
+    permission_id INTEGER,
+    type SMALLINT
+);
 
 create table user_permission
 (

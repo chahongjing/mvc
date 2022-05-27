@@ -186,6 +186,15 @@ var router = new Router({
           }
         },
         {
+          path: 'userGrantPermission',
+          name: 'userGrantPermission',
+          component: resolve => require(['@/components/admin/userGrantPermission'], resolve),
+          meta:{
+            breadcurmbName: '用户授权',
+            // pageCode: 'userGrantPermission_enter'
+          }
+        },
+        {
           path: 'operateLogList',
           name: 'operateLogList',
           component: resolve => require(['@/components/admin/operateLogList'], resolve),

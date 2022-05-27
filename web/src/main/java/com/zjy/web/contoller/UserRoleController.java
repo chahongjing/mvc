@@ -33,4 +33,12 @@ public class UserRoleController extends BaseController{
         userRoleSrv.saveUserRole(list);
         return BaseResult.ok();
     }
+
+    @RequestMapping("getUserPermission")
+    @RequiresPermissions("userGrantPermission_enter")
+    public BaseResult getUserPermission(String listStr) {
+        List<RelateCheckVo> list = JSON.parseArray(listStr, RelateCheckVo.class);
+        userRoleSrv.saveUserRole(list);
+        return BaseResult.ok();
+    }
 }
