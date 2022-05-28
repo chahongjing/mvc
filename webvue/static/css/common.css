@@ -296,7 +296,7 @@ th.sortheader:hover:before,th.sortheader:hover:after{opacity:1;}
 th.sortheader:before{content:'\f0de';}
 th.sortheader:after{content:'\f0dd';}
 th.sortheader.desc:before,th.sortheader.asc:after{color:#080;}
-.nodata{width:100%;height:calc(100% - 42px);line-height: 100%;position:absolute;margin-top:42px;background-color:rgba(0,0,0,0.1);left:0;top:0;}
+.nodata{width:100%;height:calc(100% - 47px);line-height: 100%;position:absolute;margin-top:47px;background-color:rgba(0,0,0,0.1);left:0;top:0;}
 .nodata > div{position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);font-weight:bold;font-size: 16px;}
 
 .fixtable-header-top{position:absolute;top:0;width:100%;}
