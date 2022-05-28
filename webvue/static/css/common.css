@@ -1,4 +1,4 @@
-html,body{font-size:14px;width:100%;height:100%;margin:0;padding:0;font-family: "Microsoft YaHei";color:#222;background-color: #f5f5f5;
+html,body{font-size:15px;width:100%;height:100%;margin:0;padding:0;font-family: "Microsoft YaHei";color:#222;background-color: #f5f5f5;
 -webkit-font-smoothing: antialiased; /*chrome、safari*/-moz-osx-font-smoothing: grayscale;/*firefox*/}
 ul,li{margin:0;padding:0;list-style:none;}
 #trans-tooltip,#tip-arrow-bottom,#tip-arrow-top{display:none;}
@@ -6,7 +6,7 @@ ul,li{margin:0;padding:0;list-style:none;}
 /* head */
 .head{width:100%;margin:auto;height:50px;background-color: #71a;}
 .head .logo{width:calc(100% - 305px);height:100%;display:inline-block;margin:0;padding:0;float:left;}
-.head .logo i:before{display:block;margin-top:10px;margin-left:11px;}
+.head .logo i:before{display:block;margin-top:8px;margin-left:11px;}
 .head .logo .title{line-height: 50px;font-size:22px;color:#fff;text-decoration: none;}
 .head .info{width:300px;height:100%;display:inline-block;margin:0;padding:0;float:right;}
 .head .info ul.rightmenu,.head .info ul.rightmenu > li{list-style: none;margin:0;padding:0;line-height:50px;cursor:default;}
@@ -120,14 +120,14 @@ left: 20px;
 .slide-menu .subMenuTog.open{transform: rotate(0deg); }
 .slide-menu .subMenuTog:before{position:absolute;top:1px;left:3px;}
 .slide-menu .subMenuTog:hover{color:#08f;}
-.slide-menu ul li{height:35px;line-height:35px;color:#616161;border-bottom:1px solid #d8d8d8;cursor:pointer;font-size:13px;position:relative;overflow:hidden;background-color:#f5f5f5;transition:0.2s;}
+.slide-menu ul li{height:35px;line-height:35px;color:#616161;border-bottom:1px solid #d8d8d8;cursor:pointer;position:relative;overflow:hidden;background-color:#f5f5f5;transition:0.2s;}
 .slide-menu ul li span {text-indent:25px;display:block;transition:background 0.2s;}
 .slide-menu > ul > li:hover .subMenuTog,.slide-menu > ul > li.selected .subMenuTog{color:#08f;}
 .slide-menu > ul > li:hover > div > span,.slide-menu ul.sub-menu > li:hover > a > span,
 .slide-menu > ul > li.selected > div > span,.slide-menu ul.sub-menu > li.selected > a > span{background-color:#dfe9f2;color:#08f;}
-.slide-menu > ul > li > div > i {position:absolute;left:10px;top:12px;}
+.slide-menu > ul > li > div > i {position:absolute;left:10px;top:9px;}
 .slide-menu ul.sub-menu li span{text-indent:34px;color:#222;}
-.slide-menu ul.sub-menu > li i {position:absolute;top:12px;left:-35px;z-index:2;transition:0.3s;}
+.slide-menu ul.sub-menu > li i {position:absolute;top:9px;left:-35px;z-index:2;transition:0.3s;}
 .slide-menu ul.sub-menu > li.selected i,.slide-menu ul.sub-menu > li:hover i{left:10px;}
 .slide-menu ul.sub-menu > li.selected,.slide-menu ul.sub-menu > li:hover{color:#07f;background-color:#DFE9F2;}
 .slide-menu ul.sub-menu li:first-child {border-top:1px solid #d8d8d8;}
@@ -217,16 +217,22 @@ a[disabled]{pointer-events:none;color:#333;}
 .w30{width:30px;}
 .w40{width:40px;}
 .w50{width:50px;}
+.w60{width:60px;}
 .w70{width:70px;}
 .w80{width:80px;}
 .w90{width:90px;}
 .w100{width:100px;}
+.w110{width:110px;}
 .w120{width:120px;}
 .w130{width:130px;}
 .w140{width:140px;}
 .w150{width:150px;}
 .w155{width:155px;}
+.w160{width:160px;}
+.w170{width:170px;}
 .w180{width:180px;}
+.w190{width:190px;}
+.w200{width:200px;}
 .w300{width:300px;}
 .w100p{width:100%;}
 
@@ -282,7 +288,7 @@ a[disabled]{pointer-events:none;color:#333;}
 table thead td,table th{background-color:#f1f3f6;text-align: center;padding-left:5px;padding-right:5px;border-bottom-width:1px;}
 .table tbody tr:hover td{background-color: #fffad4;}
 .table tbody tr td{border-width:0;border-bottom-width: 1px;padding-left:7px;padding-right:7px;}
-.table td.operate{padding-top: 7px;padding-bottom:0;font-size: 16px;}
+.table td.operate{padding-top: 10px;padding-bottom:0;font-size: 16px;}
 .table th.sortheader{position:relative;cursor:pointer;padding-right:12px;}
 .table-list,.fixtable-container{position:relative;flex:1;overflow: auto;}
 th.sortheader:before,th.sortheader:after{position:absolute;top:12px;right:5px;opacity:0.8;transition:0.2s;font:normal normal normal 16px/1 FontAwesome;color:#666;}

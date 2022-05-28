@@ -78,6 +78,11 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
         return dao.deleteByPermission(permissionId);
     }
 
+    @Override
+    public int deleteByRole(Long roleId){
+        return dao.deleteByRole(roleId);
+    }
+
     public void flatTree(List<PermissionCheckVo> list, List<PermissionCheckVo> result) {
         for (PermissionCheckVo permissionCheckVo : list) {
             result.add(permissionCheckVo);

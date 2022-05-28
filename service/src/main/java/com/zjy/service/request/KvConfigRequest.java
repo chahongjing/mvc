@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class KvConfigRequest extends PageInfomation {
+    private String code;
 }

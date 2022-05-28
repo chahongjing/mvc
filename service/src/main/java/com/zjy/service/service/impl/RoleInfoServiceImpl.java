@@ -8,8 +8,10 @@ import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.RoleInfoRequest;
 import com.zjy.service.service.RoleInfoService;
+import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,10 @@ import java.util.Map;
 @Slf4j
 @Service
 public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfoDao, RoleInfo> implements RoleInfoService {
+
+    @Autowired
+    private RolePermissionService rolePermissionService;
+
     @Override
     public List<RoleInfoVo> queryAllRole() {
         return dao.queryAllRole();
@@ -41,6 +47,13 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfoDao, RoleInfo> 
         } else {
             insert(vo);
         }
+    }
+
+    @Override
+    public int delete(Long id) {
+        // 删除rolepermission关系
+        rolePermissionService.deleteByRole(id);
+        return super.delete(id);
     }
 
     @Override

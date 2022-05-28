@@ -15,4 +15,5 @@ public interface RolePermissionService extends BaseService<RolePermission> {
     void savePermission(List<PermissionCheckVo> list);
     void flatTree(List<PermissionCheckVo> list, List<PermissionCheckVo> result);
     int deleteByPermission(Long permissionId);
+    int deleteByRole(Long roleId);
 }

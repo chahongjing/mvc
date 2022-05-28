@@ -28,8 +28,8 @@
             <th class=''>名称</th>
             <th class='w150'>编码</th>
             <th class='w120'>菜单</th>
-            <th class='w150'>路径</th>
-            <th class='w50'>序号</th>
+            <th class='w200'>路径</th>
+            <th class='w60'>序号</th>
             <th class='w100'>操作</th>
           </tr>
         </thead>

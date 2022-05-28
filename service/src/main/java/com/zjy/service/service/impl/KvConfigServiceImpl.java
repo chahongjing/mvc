@@ -66,7 +66,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     }
 
     @Override
-    public KvConfig getByCache(String code) {
+    public KvConfig getFromCache(String code) {
         String o = (String)cache.get(getHKey(KEY, code));
         if(StringUtils.isNotBlank(o)) {
             return JSON.parseObject(o, KvConfig.class);
@@ -128,6 +128,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     @Override
     public PageBean<KvConfig> queryPageList(KvConfigRequest request) {
         KvConfig config = new KvConfig();
+        config.setCode(request.getCode());
         return (PageBean<KvConfig>) super.queryPageListBase(request, config);
     }
 

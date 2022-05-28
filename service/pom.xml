@@ -70,6 +70,10 @@
             <groupId>com.zjy</groupId>
             <artifactId>dao</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

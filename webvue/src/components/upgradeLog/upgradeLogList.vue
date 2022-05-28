@@ -29,7 +29,7 @@
         <tr>
           <th class='w50'>#</th>
           <th class='w200'>标题</th>
-          <th class='w200'>更新时间</th>
+          <th class='w120'>更新时间</th>
           <th>内容</th>
           <th class='w155'>创建时间</th>
           <th class='w100'>操作</th>
@@ -137,8 +137,7 @@
         me.allDisabled = true;
         me.pager.loading = true;
         this.$axios.get('/upgradeLog/queryPageList', {
-          userName: this.searchKey,
-          sex: this.sexValue,
+          title: this.searchKey,
           pageNum: this.pager.pageNum,
           pageSize: this.pager.pageSize,
           nameOrderBy: this.nameOrderBy.value,

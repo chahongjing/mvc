@@ -270,7 +270,7 @@
 
   .blank{opacity:0;display:inline-block;line-height:1;}
   .userInfo{position:relative;overflow: hidden;}
-  .userName,.userCode{position:absolute;left:25px;top:0;transition:0.2s;width:70px;}
+  .userName,.userCode{position:absolute;left:25px;top:0;transition:0.2s;width:80px;}
   .userCode{top:50px;}
   .userInfo:hover .userName{top:-34px;}
   .userInfo:hover .userCode{top:0;}

@@ -7,4 +7,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpgradeLogRequest extends PageInfomation {
+    private String title;
 }

@@ -40,7 +40,7 @@
           <th class='w70'>性别</th>
           <th class='w90'>类型</th>
           <th class='w70 text-center'>状态</th>
-          <th class='w100'>操作</th>
+          <th class='w120'>操作</th>
         </tr>
         </thead>
         <tbody v-if='!pager.loading'>

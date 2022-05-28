@@ -5,19 +5,20 @@
         <div class="panel-heading font-bold"
              :class='{"noboderbottom":firstMenu.subList.length == 0 || !firstMenu.showDetail}'>
           <label class="radio_checkbox">
-              <input type='checkbox' v-model='firstMenu.isCheck' @change='save(firstMenu)'/>
+            <input type='checkbox' v-model='firstMenu.isCheck' @change='save(firstMenu)'/>
+            <i></i>
+            <span class="c39c" v-text='firstMenu.name'></span>
+          </label>
+          <span class="text-other" v-text='"【" + firstMenu.code + "】" + "【菜单】"'></span>
+          <div class='inline-block fr'>
+            <label class="radio_checkbox checkall">
+              <input type='checkbox' v-model='firstMenu.isGroupCheck' @change='saveGroup(firstMenu)'/>
               <i></i>
-              <span v-text='firstMenu.name + "【" + firstMenu.code + "】" + "【菜单】"' :title="firstMenu.code"></span>
-            </label>
-            <div class='inline-block fr'>
-              <label class="radio_checkbox checkall">
-                <input type='checkbox' v-model='firstMenu.isGroupCheck' @change='saveGroup(firstMenu)'/>
-                <i></i>
-              <span>全选</span>
-            </label>
-            <i class="fa showdetailarray"
-               :class='{"fa-chevron-up":firstMenu.showDetail,"fa-chevron-down":!firstMenu.showDetail}'
-               @click='firstMenu.showDetail = !firstMenu.showDetail'></i>
+            <span>全选</span>
+          </label>
+          <i class="fa showdetailarray"
+             :class='{"fa-chevron-up":firstMenu.showDetail,"fa-chevron-down":!firstMenu.showDetail}'
+             @click='firstMenu.showDetail = !firstMenu.showDetail'></i>
           </div>
         </div>
         <div class="panel-body" :class='{"hidedetail":!firstMenu.showDetail}' v-if='firstMenu.subList.length > 0'>
@@ -27,8 +28,9 @@
               <label class="radio_checkbox">
                 <input type='checkbox' v-model='secondMenu.isCheck' @change='save(secondMenu)'/>
                 <i></i>
-                <span v-text='secondMenu.name + "【" + secondMenu.code + "】" + "【菜单】"' :title="secondMenu.code"></span>
+                <span class="c06f" v-text='secondMenu.name'></span>
               </label>
+              <span class="text-other" v-text='"【" + secondMenu.code + "】" + "【菜单】"'></span>
               <div class='inline-block fr'>
                 <label class="radio_checkbox checkall">
                   <input type='checkbox' v-model='secondMenu.isGroupCheck' @change='saveGroup(secondMenu)'/>
@@ -47,8 +49,9 @@
                   <label class="radio_checkbox">
                     <input type='checkbox' v-model='functionItem.isCheck' @change='save(functionItem)'/>
                     <i></i>
-                    <span v-text='functionItem.name + "【" + functionItem.code + "】" + "【页面】"' :title="functionItem.code"></span>
+                    <span class="c393" v-text='functionItem.name'></span>
                   </label>
+                  <span class="text-other" v-text='"【" + functionItem.code + "】" + "【页面】"'></span>
                   <div class='inline-block fr'>
                     <label class="radio_checkbox checkall">
                       <input type='checkbox' v-model='functionItem.isGroupCheck' @change='saveGroup(functionItem)'/>
@@ -62,11 +65,14 @@
                 </div>
                 <div class="panel-body" :class='{"hidedetail":!functionItem.showDetail}'
                      v-if='functionItem.subList.length > 0'>
-                  <label class="radio_checkbox" v-for="permission in functionItem.subList">
-                    <input type='checkbox' v-model="permission.isCheck" @change='save(permission)'/>
-                    <i></i>
-                    <span v-text='permission.name + "【" + permission.code + "】"' :title="permission.code"></span>
-                  </label>
+                  <span class="per-item" v-for="permission in functionItem.subList">
+                    <label class="radio_checkbox">
+                      <input type='checkbox' v-model="permission.isCheck" @change='save(permission)'/>
+                      <i></i>
+                      <span v-text='permission.name'></span>
+                    </label>
+                    <span class="text-other permission" v-text='"【" + permission.code + "】"'></span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -226,6 +232,7 @@
 
   .radio_checkbox {
     margin-bottom: 0;
+    margin-right:0;
   }
 
   .panel-heading {
@@ -260,4 +267,7 @@
   .noboderbottom {
     border-bottom-width: 0;
   }
+  .text-other{line-height: 30px;cursor: default;color:#888;}
+  .per-item{margin-right:10px;}
+  .permission{}
 </style>

@@ -14,6 +14,6 @@ public interface KvConfigService extends BaseService<KvConfig> {
     void save(KvConfig config, UserInfo user);
     PageBean<KvConfig> queryPageList(KvConfigRequest request);
     void removeAllCache();
-    KvConfig getByCache(String code);
+    KvConfig getFromCache(String code);
     KvConfig getByCode(String code);
 }

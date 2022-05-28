@@ -28,9 +28,9 @@
           <th class=''>名称</th>
           <th class=''>父级</th>
           <th class='w150'>编码</th>
-          <th class='w150'>路径</th>
-          <th class='w150'>图标</th>
-          <th class='w50'>序号</th>
+          <th class='w160'>路径</th>
+          <th class='w160'>图标</th>
+          <th class='w60'>序号</th>
           <th class='w100'>操作</th>
         </tr>
         </thead>

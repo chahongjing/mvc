@@ -13,4 +13,5 @@ public interface RolePermissionDao extends BaseDao<RolePermission> {
     List<PermissionVo> queryByRoleIdList(List<Long> roleIdList);
     int deleteEntity(RolePermission entity);
     int deleteByPermission(@Param("permissionId") Long permissionId);
+    int deleteByRole(@Param("roleId") Long roleId);
 }
