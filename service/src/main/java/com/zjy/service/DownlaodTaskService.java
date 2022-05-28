@@ -62,7 +62,7 @@ public class DownlaodTaskService {
         downloadTask.setUpdatedDate(new Date());
         downloadTaskDao.update(downloadTask);
         // 开始处理任务
-        Page<TestDownloadRecord> page = new Page<>(1, 5000);
+        Page<TestDownloadRecord> page = new Page<>(1, 1000);
         page.setOrderBy("user_id");
         PageInfo<TestDownloadRecord> pageInfo = this.queryPageList(page);
         if (pageInfo.getTotal() == 0) {
