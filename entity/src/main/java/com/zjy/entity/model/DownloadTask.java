@@ -9,8 +9,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class DownloadTask {
-    private String id;
-    private String createdBy;
+    private Long id;
+    private Long createdBy;
     private String createdName;
     private Date createdDate;
     private Date updatedDate;

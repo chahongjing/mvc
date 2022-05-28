@@ -8,8 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface DownloadTaskDao extends BaseDao<DownloadTask> {
-    int insert(DownloadTask task);
-    DownloadTask get(String id);
     int update(DownloadTask task);
     List<DownloadTask> queryList();
 }

@@ -3,7 +3,10 @@ package com.zjy.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zjy.baseframework.common.DownloadException;
+import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.utils.CSVUtils;
+import com.zjy.common.utils.DownloadUtils;
 import com.zjy.common.utils.Utils;
 import com.zjy.dao.DownloadTaskDao;
 import com.zjy.dao.TestDownloadRecordDao;
@@ -16,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,13 +39,12 @@ public class DownlaodTaskService {
     private TestDownloadRecordDao testDownloadRecordDao;
 
     // 创建下载任务
-    public int addTask(DownloadTask task) {
-        task.setId(Utils.getUuid());
+    public int addTask(DownloadTask task, HttpServletResponse response) {
         task.setCreatedDate(new Date());
         task.setStatus(DownTaskStatus.CREATED);
         int i = downloadTaskDao.insert(task);
         // 开始处理任务，异步线程池
-        this.startTask(task.getId());
+        this.startTask(task.getId(), response);
         return i;
     }
 
@@ -49,18 +52,18 @@ public class DownlaodTaskService {
      * 开始处理任务
      * @param id
      */
-    public void startTask(String id) {
-        DownloadTask downloadTask = downloadTaskDao.get(id);
+    public void startTask(Long id, HttpServletResponse response) {
+        DownloadTask downloadTask = downloadTaskDao.selectById(id);
         if (downloadTask == null) {
             log.warn("下载任务不存在！{}", id);
-            return;
+            throw new DownloadException("下载任务不存在！" + id);
         }
         downloadTask.setStatus(DownTaskStatus.STARTED);
         downloadTask.setUpdatedDate(new Date());
         downloadTaskDao.update(downloadTask);
         // 开始处理任务
         Page<TestDownloadRecord> page = new Page<>(1, 5000);
-        page.setOrderBy("userId");
+        page.setOrderBy("user_id");
         PageInfo<TestDownloadRecord> pageInfo = this.queryPageList(page);
         if (pageInfo.getTotal() == 0) {
             downloadTask.setStatus(DownTaskStatus.FINISHED);
@@ -68,7 +71,7 @@ public class DownlaodTaskService {
             downloadTask.setProgress(100);
             downloadTask.setUpdatedDate(new Date());
             downloadTaskDao.update(downloadTask);
-            return;
+            throw new DownloadException("没有数据！" + id);
         }
 
         try {
@@ -80,8 +83,7 @@ public class DownlaodTaskService {
             int pages = pageInfo.getPages();
             for (int i = 0; i < pages; i++) {
                 if (i != 0) {
-                    page = new Page<>(i, 5000);
-                    page.setOrderBy("userId");
+                    page.setPageNum(i + 1);
                     pageInfo = this.queryPageList(page);
                 }
                 if (pageInfo.getTotal() == 0) {
@@ -94,12 +96,14 @@ public class DownlaodTaskService {
                 downloadTask.setProgress((int) (i * 100.0f / pages));
                 downloadTask.setUpdatedDate(new Date());
                 downloadTaskDao.update(downloadTask);
+                // todo: change
                 TimeUnit.SECONDS.sleep(1);
             }
-            String url = "D:/tmp/myexcel.csv";
+            String url = "/tmp/myexcel.csv";
             // 保存文件
             byte[] writerBytes = CSVUtils.getWriterBytes(stringWriter);
-            FileUtils.writeByteArrayToFile(new File(url), writerBytes);
+//            FileUtils.writeByteArrayToFile(new File(url), writerBytes);
+            DownloadUtils.download(writerBytes, "测试csv." + FileSuffix.CSV.getCode(), response);
 //            byteToFile(writerBytes, url);
             // 更新数据
             downloadTask.setStatus(DownTaskStatus.FINISHED);
@@ -115,6 +119,7 @@ public class DownlaodTaskService {
             downloadTask.setUpdatedDate(new Date());
             downloadTask.setStatus(DownTaskStatus.ERROR);
             downloadTaskDao.update(downloadTask);
+            throw new DownloadException("下载失败！" + id);
         }
     }
 

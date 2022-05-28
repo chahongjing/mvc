@@ -1,6 +1,7 @@
 package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
 import lombok.extern.slf4j.Slf4j;
@@ -143,7 +144,14 @@ public class ControllerAspect {
             if (ex instanceof ServiceException) {
                 response.getWriter().write(JSON.toJSONString(BaseResult.no(ex.getMessage())));
                 log.info("业务异常", ex);
-            } else if(ex instanceof UnauthorizedException) {
+            } else if (ex instanceof DownloadException) {
+                Map<String, String> warnMsg = getWarnMsg(ex, request, method);
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                response.getWriter().write(JSON.toJSONString(BaseResult.no(warnMsg.get("msg"))));
+                String msg = warnMsg.get("msgLog") + "。" + NEW_LINE + "请求信息" + NEW_LINE + getRequestInfoStr(request, method);
+                Throwable rootCause = ExceptionUtils.getRootCause(ex);
+                log.warn(msg, rootCause);
+            }else if(ex instanceof UnauthorizedException) {
                 response.getWriter().write(JSON.toJSONString(BaseResult.no("未授权")));
             } else {
                 Map<String, String> warnMsg = getErrorMsg(ex, request, method);

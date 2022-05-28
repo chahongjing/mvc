@@ -182,3 +182,19 @@ create table upgrade_log
     content varchar(2000),
     create_time Date
 );
+
+
+
+create table test_download_record
+(
+    user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    user_code varchar(50), user_name varchar(50), created_on date,
+    money DECIMAL, num integer,
+    link varchar(200)
+);
+create table download_task
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, created_by integer, created_name varchar(20),
+    created_date date, updated_date date, file_url varchar(500), file_name varchar(200), progress integer,
+    status smallint, message varchar(100), stack_trace varchar(500)
+);

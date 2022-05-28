@@ -161,6 +161,9 @@
         <div class="form-group text-right mb0">
           <button type="button" class="btn btn-purple mr5" @click="axiosUploadFile">axios上传</button>
           <button type="button" class="btn btn-purple mr5" @click="axiosDownload">axios下载</button>
+          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(false)">大数据量下载</button>
+          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(true)">大数据量下载模拟报错</button>
+          <button type="button" class="btn btn-purple mr5" @click="downloadCsv">下载csv</button>
           <button type="button" class="btn btn-purple mr5" @click="jqueryUpload">jquery上传</button>
           <button type="button" class="btn btn-purple mr5" @click="jsDownload">js下载</button>
         </div>
@@ -415,6 +418,17 @@
       axiosDownload() {
         var me = this;
         this.$axios.postDownload('/learn/download').then(function (resp) {
+          Utility.downloadAfterAjax(resp.data, resp.headers);
+        });
+      },
+      bigDataDownload(withError) {
+        var me = this;
+        this.$axios.postDownload('/bigDataDownload', {withError: !!withError}).then(function (resp) {
+          Utility.downloadAfterAjax(resp.data, resp.headers);
+        });
+      },
+      downloadCsv() {
+        this.$axios.postDownload('/testDownloadList', ).then(function (resp) {
           Utility.downloadAfterAjax(resp.data, resp.headers);
         });
       },
