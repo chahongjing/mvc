@@ -28,14 +28,14 @@ public class KvConfigController extends BaseController{
     //endregion
 
     @RequestMapping("/queryPageList")
-    @RequiresPermissions("kvConfig_enter")
+    @RequiresPermissions("kvConfig")
     public BaseResult<PageBean> queryPageList(KvConfigRequest request) {
         PageBean<KvConfig> pageBean = kvConfigSrv.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("/getDetail")
-    @RequiresPermissions("kvConfig_detail_enter")
+    @RequiresPermissions("kvConfigDetail")
     public BaseResult<KvConfig> getDetail(Long id) {
         KvConfig kvConfig = kvConfigSrv.get(id);
         return BaseResult.ok(kvConfig);

@@ -2,11 +2,12 @@ package com.zjy.web.contoller;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
-import com.zjy.dao.vo.RelateCheckVo;
+import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,25 +21,32 @@ public class UserRoleController extends BaseController{
     private UserRoleService userRoleSrv;
 
     @RequestMapping("queryUserRole")
-    @RequiresPermissions("userRole_enter")
-    public BaseResult<List<RelateCheckVo>> queryUserRole(Long id) {
-        List<RelateCheckVo> list = userRoleSrv.queryAllRoleWithUserRole(id);
+    @RequiresPermissions("userRole")
+    public BaseResult<List<PermissionCheckVo>> queryUserRole(Long id) {
+        List<PermissionCheckVo> list = userRoleSrv.queryAllRoleWithUserRole(id);
         return BaseResult.ok(list);
     }
 
     @RequestMapping("saveUserRole")
-    @RequiresPermissions("userRole_enter")
+    @RequiresPermissions("userRole")
     public BaseResult saveUserRole(String listStr) {
-        List<RelateCheckVo> list = JSON.parseArray(listStr, RelateCheckVo.class);
+        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
         userRoleSrv.saveUserRole(list);
         return BaseResult.ok();
     }
 
     @RequestMapping("getUserPermission")
-    @RequiresPermissions("userGrantPermission_enter")
+    @RequiresPermissions("userGrantPermission")
     public BaseResult getUserPermission(String listStr) {
-        List<RelateCheckVo> list = JSON.parseArray(listStr, RelateCheckVo.class);
+        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
         userRoleSrv.saveUserRole(list);
+        return BaseResult.ok();
+    }
+    @PostMapping("saveUserPermission")
+    @RequiresPermissions("userGrantPermission")
+    public BaseResult saveUserPermission(String listStr) {
+        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+//        rolePermissionService.savePermission(list);
         return BaseResult.ok();
     }
 }

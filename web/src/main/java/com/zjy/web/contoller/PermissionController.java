@@ -1,12 +1,15 @@
 package com.zjy.web.contoller;
 
+import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.dao.vo.FunctionInfoVo;
+import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.PermissionVo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.PermissionRequest;
 import com.zjy.service.service.FunctionInfoService;
 import com.zjy.service.service.PermissionService;
+import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +17,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/permission")
 public class PermissionController extends BaseController{
     @Autowired
     private PermissionService permissionSrv;
+    @Autowired
+    private RolePermissionService rolePermissionService;
 
     @Autowired
     private FunctionInfoService functionInfoSrv;
 
     @RequestMapping("queryPageList")
-    @RequiresPermissions("permissionList_enter")
+    @RequiresPermissions("permissionList")
     public BaseResult<PageBean<PermissionVo>> queryPageList(PermissionRequest request) {
         PageBean<PermissionVo> pageBean = (PageBean<PermissionVo>) permissionSrv.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
-    @RequiresPermissions("permissionEdit_enter")
+    @RequiresPermissions("permissionEdit")
     public BaseResult<PermissionVo> getDetail(Long id, Long functionId) {
         PermissionVo permissionVo = permissionSrv.getVo(id);
         if (!permissionVo.getIsSave()) {

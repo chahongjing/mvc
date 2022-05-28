@@ -58,8 +58,11 @@
           <td class='text-center' v-text='$options.filters.enumNameFilter(item.type, "UserTypeEnum")'></td>
           <td class='text-center' v-text='$options.filters.enumNameFilter(item.status, "UserStatus")'></td>
           <td class='operate'>
-            <a class='inline-block mybtn' v-authcode='"userList_grant"' href='javascript:void(0)' @click='grant(item)' title='授权'>
+            <a class='inline-block mybtn' v-authcode='"userList_grant"' href='javascript:void(0)' @click='grant(item, "role")' title='授权角色'>
               <i class='fa fa-id-badge c66c'></i>
+            </a>
+            <a class='inline-block mybtn' v-authcode='"userList_grant"' href='javascript:void(0)' @click='grant(item, "permission")' title='授权权限'>
+              <i class='fa fa-user-secret c66c'></i>
             </a>
             <a class='inline-block mybtn' v-authcode='"userList_resetPassword"' href='javascript:void(0)' @click='setPassword(item)' title='修改密码'>
               <i class='fa fa-key c393'></i>
@@ -185,8 +188,12 @@
           });
         });
       },
-      grant(entity) {
-        this.$router.push({path: '/user/userRole', query: {id: entity.id}});
+      grant(entity, type) {
+        if(type === 'role') {
+          this.$router.push({path: '/user/userRole', query: {id: entity.id}});
+        } else if(type === 'permission') {
+          this.$router.push({path: '/admin/userGrantPermission', query: {id: entity.id, type: 'user'}});
+        }
       },
       getEnumList() {
         var list = [];

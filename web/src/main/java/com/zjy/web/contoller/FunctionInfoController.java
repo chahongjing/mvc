@@ -26,14 +26,14 @@ public class FunctionInfoController extends BaseController {
     private MenuService menuSrv;
 
     @RequestMapping("queryPageList")
-    @RequiresPermissions("functionList_enter")
+    @RequiresPermissions("functionList")
     public BaseResult<PageBean<FunctionInfoVo>> queryPageList(FunctionInfoRequest request) {
         PageBean<FunctionInfoVo> pageBean = (PageBean<FunctionInfoVo>) functionInfoSrv.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
-    @RequiresPermissions("functionEdit_enter")
+    @RequiresPermissions("functionEdit")
     public BaseResult<FunctionInfoVo> getDetail(Long id, Long menuId) {
         FunctionInfoVo functionInfoVo = functionInfoSrv.getVo(id);
         if (!functionInfoVo.getIsSave()) {
@@ -59,7 +59,7 @@ public class FunctionInfoController extends BaseController {
     }
 
     @RequestMapping("queryFunctionList")
-    @RequiresPermissions("functionEdit_enter")
+    @RequiresPermissions("functionEdit")
     public BaseResult<List<FunctionInfoVo>> queryFunctionList() {
         List<FunctionInfoVo> list = functionInfoSrv.queryFunctionList();
         return BaseResult.ok(list);

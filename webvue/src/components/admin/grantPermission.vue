@@ -5,14 +5,14 @@
         <div class="panel-heading font-bold"
              :class='{"noboderbottom":firstMenu.subList.length == 0 || !firstMenu.showDetail}'>
           <label class="radio_checkbox">
-            <input type='checkbox' v-model='firstMenu.singleCheck' @change='save(firstMenu)'/>
-            <i></i>
-            <span v-text='firstMenu.name + " 菜单"'></span>
-          </label>
-          <div class='inline-block fr'>
-            <label class="radio_checkbox checkall">
-              <input type='checkbox' v-model='firstMenu.isCheck' @change='saveGroup(firstMenu)'/>
+              <input type='checkbox' v-model='firstMenu.isCheck' @change='save(firstMenu)'/>
               <i></i>
+              <span v-text='firstMenu.name + "【" + firstMenu.code + "】" + "【菜单】"' :title="firstMenu.code"></span>
+            </label>
+            <div class='inline-block fr'>
+              <label class="radio_checkbox checkall">
+                <input type='checkbox' v-model='firstMenu.isGroupCheck' @change='saveGroup(firstMenu)'/>
+                <i></i>
               <span>全选</span>
             </label>
             <i class="fa showdetailarray"
@@ -25,13 +25,13 @@
             <div class="panel-heading font-bold"
                  :class='{"noboderbottom":secondMenu.subList.length == 0 || !secondMenu.showDetail}'>
               <label class="radio_checkbox">
-                <input type='checkbox' v-model='secondMenu.singleCheck' @change='save(secondMenu)'/>
+                <input type='checkbox' v-model='secondMenu.isCheck' @change='save(secondMenu)'/>
                 <i></i>
-                <span v-text='secondMenu.name + " 菜单"'></span>
+                <span v-text='secondMenu.name + "【" + secondMenu.code + "】" + "【菜单】"' :title="secondMenu.code"></span>
               </label>
               <div class='inline-block fr'>
                 <label class="radio_checkbox checkall">
-                  <input type='checkbox' v-model='secondMenu.isCheck' @change='saveGroup(secondMenu)'/>
+                  <input type='checkbox' v-model='secondMenu.isGroupCheck' @change='saveGroup(secondMenu)'/>
                   <i></i>
                   <span>全选</span>
                 </label>
@@ -45,13 +45,13 @@
                 <div class="panel-heading font-bold"
                      :class='{"noboderbottom":functionItem.subList.length == 0 || !functionItem.showDetail}'>
                   <label class="radio_checkbox">
-                    <input type='checkbox' v-model='functionItem.singleCheck' @change='save(functionItem)' disabled/>
-                    <i style="display:none"></i>
-                    <span v-text='functionItem.name' style="margin-left:0;"></span>
+                    <input type='checkbox' v-model='functionItem.isCheck' @change='save(functionItem)'/>
+                    <i></i>
+                    <span v-text='functionItem.name + "【" + functionItem.code + "】" + "【页面】"' :title="functionItem.code"></span>
                   </label>
                   <div class='inline-block fr'>
                     <label class="radio_checkbox checkall">
-                      <input type='checkbox' v-model='functionItem.isCheck' @change='saveGroup(functionItem)'/>
+                      <input type='checkbox' v-model='functionItem.isGroupCheck' @change='saveGroup(functionItem)'/>
                       <i></i>
                       <span>全选</span>
                     </label>
@@ -65,7 +65,7 @@
                   <label class="radio_checkbox" v-for="permission in functionItem.subList">
                     <input type='checkbox' v-model="permission.isCheck" @change='save(permission)'/>
                     <i></i>
-                    <span v-text="permission.name"></span>
+                    <span v-text='permission.name + "【" + permission.code + "】"' :title="permission.code"></span>
                   </label>
                 </div>
               </div>
@@ -79,32 +79,21 @@
 
 <script>
   export default {
-    name: 'userGrantPermission',
+    name: 'grantPermission',
     data () {
       return {
+        id: null,
+        type: null,
+        getUrl: {'role':'/role/getRolePermission','user':'/user/getUserPermission'},
+        saveUrl: {'role':'/role/saveRolePermission','user':'/user/saveUserPermission'},
         list: [{
-          id: null, name: null, relativeId: null, isCheck: false, singleCheck: false, type: null,
+          id: null, name: null, relatedId: null, isCheck: false, showDetail: false, code: null,
           subList: [{
-            id: null,
-            name: null,
-            relativeId: null,
-            isCheck: false,
-            singleCheck: false,
-            type: null,
+            id: null, name: null, relatedId: null, isCheck: false, showDetail: false, code: null,
             subList: [{
-              id: null,
-              name: null,
-              relativeId: null,
-              isCheck: false,
-              singleCheck: false,
-              type: null,
+              id: null, name: null, relatedId: null, isCheck: false, showDetail: false, code: null,
               subList: [{
-                id: null,
-                name: null,
-                relativeId: null,
-                isCheck: false,
-                singleCheck: false,
-                type: null,
+                id: null, name: null, relatedId: null, isCheck: false, showDetail: false, code: null,
                 subList: []
               }]
             }]
@@ -116,9 +105,9 @@
       goBack() {
         this.$root.goBack();
       },
-      getRolePermission: function (id) {
+      getRolePermission: function (id, type) {
         var me = this;
-        this.$axios.get('/role/getRolePermission', {id: id}).then(function (resp) {
+        this.$axios.get(this.getUrl[this.type], {id: id}).then(function (resp) {
           if (resp.data.status == ResultStatus.OK.key) {
             me.list = resp.data.value;
             me.refreshCheckbox();
@@ -126,22 +115,21 @@
         });
       },
       save: function (entity) {
-          var me = this;
         this.refreshCheckbox();
         var changed = [entity];
         // 处理联动
-        this.$axios.post('/role/saveRolePermission', {listStr: JSON.stringify(changed)}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
-          }
-        });
+        this.saveCore(changed);
       },
       saveGroup: function (entity) {
-          var me = this;
         var changed = [entity];
-        this.checkChildren(entity, entity.subList, changed);
+        this.checkChildren(entity.isGroupCheck, entity, entity.subList, changed);
         this.refreshCheckbox();
         // 处理联动
-        this.$axios.post('/role/saveRolePermission', {listStr: JSON.stringify(changed)}).then(function (resp) {
+        this.saveCore(changed);
+      },
+      saveCore: function(changed) {
+        // 处理联动
+        this.$axios.post(this.saveUrl[this.type], {listStr: JSON.stringify(changed), targetId: this.id}).then(function (resp) {
           if (resp.data.status == ResultStatus.OK.key) {
 
           }
@@ -152,9 +140,9 @@
         for (var i = 0; i < this.list.length; i++) {
           var temp = this.list[i];
           if (this.getChildrenStatus(temp.subList) == 1) {
-            temp.isCheck = true;
+            temp.isGroupCheck = true;
           } else {
-            temp.isCheck = false;
+            temp.isGroupCheck = false;
           }
         }
       },
@@ -170,9 +158,9 @@
           } else {
             childrenStatus.push(me.getChildrenStatus(temp.subList));
             if (childrenStatus[childrenStatus.length - 1] == 1) {
-              temp.isCheck = true;
+              temp.isGroupCheck = true;
             } else {
-              temp.isCheck = false;
+              temp.isGroupCheck = false;
             }
           }
         }
@@ -182,26 +170,24 @@
           })) return -1;
         return 1;
       },
-      checkChildren(item, children, changed) {
+      checkChildren(isGroupCheck, item, children, changed) {
         if (!children || children.length == 0) return;
+        item.isCheck = isGroupCheck
+        item.isGroupCheck = isGroupCheck
         for (var i = 0; i < children.length; i++) {
-          if (children[i].type == enumMap.PermissionType.Permission.key) {
-            if (children[i].isCheck !== item.isCheck) {
-              changed.push(children[i]);
-              children[i].isCheck = item.isCheck;
-              this.checkChildren(children[i], children[i].subList, changed);
-            }
-          } else {
-            if (children[i].isCheck != enumMap.PermissionType.Permission.key) {
-              children[i].isCheck = item.isCheck;
-              this.checkChildren(children[i], children[i].subList, changed);
-            }
+          if (children[i].isCheck !== isGroupCheck) {
+            children[i].isCheck = isGroupCheck;
+            changed.push(children[i]);
           }
+          this.checkChildren(isGroupCheck, children[i], children[i].subList, changed);
         }
       }
     },
     mounted: function () {
-      this.getRolePermission(this.$route.query.id);
+      this.id = this.$route.query.id
+      this.type = this.$route.query.type
+      if(!this.getUrl[this.type]) return
+      this.getRolePermission(this.id, this.type);
     }
   }
 </script>

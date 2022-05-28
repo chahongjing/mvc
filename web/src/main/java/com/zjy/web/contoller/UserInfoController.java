@@ -1,11 +1,14 @@
 package com.zjy.web.contoller;
 
+import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.dao.vo.UserInfoVo;
+import com.zjy.service.service.UserPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
@@ -17,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserInfoController extends BaseController {
     @Autowired
     private UserInfoService userInfoSrv;
+    @Autowired
+    private UserPermissionService userPermissionService;
 
     @RequestMapping("/login")
     public BaseResult<UserInfoVo> login(UserInfo user) {
@@ -36,7 +43,7 @@ public class UserInfoController extends BaseController {
 
     // region 用户管理
     @RequestMapping("userEdit")
-    @RequiresPermissions("userEdit_enter")
+    @RequiresPermissions("userEdit")
     public String editUser(String userId, Model model) {
         model.addAttribute("userId", userId);
         return "sys/userEdit";
@@ -44,7 +51,7 @@ public class UserInfoController extends BaseController {
 
     @RequestMapping("getDetail")
     @ResponseBody
-    @RequiresPermissions("userEdit_enter")
+    @RequiresPermissions("userEdit")
     public BaseResult<UserInfoVo> getDetail(Long id) {
         UserInfoVo userInfo = userInfoSrv.getVo(id);
         return BaseResult.ok(userInfo);
@@ -84,9 +91,24 @@ public class UserInfoController extends BaseController {
         return BaseResult.ok();
     }
 
+    @RequestMapping("getUserPermission")
+    @RequiresPermissions("grantPermission")
+    public BaseResult<List<PermissionCheckVo>> getUserPermission(Long id) {
+        List<PermissionCheckVo> list = userPermissionService.getUserPermissionTree(id);
+        return BaseResult.ok(list);
+    }
+
+    @PostMapping("saveUserPermission")
+    @RequiresPermissions("grantPermission")
+    public BaseResult saveUserPermission(Long targetId, String listStr) {
+        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+        userPermissionService.savePermission(targetId, list);
+        return BaseResult.ok();
+    }
+
     @RequestMapping("queryPageList")
     @ResponseBody
-    @RequiresPermissions("userList_enter")
+    @RequiresPermissions("userList")
     public BaseResult<PageBean> queryPageList(UserInfoRequest request) {
         PageBean<UserInfoVo> pageBean = (PageBean<UserInfoVo>) userInfoSrv.queryPageList(request);
         return BaseResult.ok(pageBean);

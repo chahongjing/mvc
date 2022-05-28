@@ -2,15 +2,15 @@ package com.zjy.dao;
 
 import com.zjy.dao.common.BaseDao;
 import com.zjy.dao.vo.PermissionVo;
-import com.zjy.entity.model.RolePermission;
+import com.zjy.entity.model.UserPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface RolePermissionDao extends BaseDao<RolePermission> {
-    List<PermissionVo> queryByRoleIdList(List<Long> roleIdList);
-    int deleteEntity(RolePermission entity);
+public interface UserPermissionDao extends BaseDao<UserPermission> {
+    List<PermissionVo> queryByUserIdList(List<Long> userIdList);
+    int deleteEntity(UserPermission entity);
     int deleteByPermission(@Param("permissionId") Long permissionId);
 }

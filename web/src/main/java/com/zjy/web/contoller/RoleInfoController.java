@@ -2,7 +2,7 @@ package com.zjy.web.contoller;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
-import com.zjy.dao.vo.RelateCheckVo;
+import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.RoleInfoVo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.RoleInfoRequest;
@@ -27,14 +27,14 @@ public class RoleInfoController extends BaseController{
     private RolePermissionService rolePermissionSrv;
 
     @RequestMapping("queryPageList")
-    @RequiresPermissions("roleList_enter")
+    @RequiresPermissions("roleList")
     public BaseResult<PageBean> queryPageList(RoleInfoRequest request) {
         PageBean<RoleInfoVo> pageBean = roleInfoSrv.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
-    @RequiresPermissions("roleEdit_enter")
+    @RequiresPermissions("roleEdit")
     public BaseResult<RoleInfoVo> getDetail(Long id) {
         RoleInfoVo userInfo = roleInfoSrv.getVo(id);
         return BaseResult.ok(userInfo);
@@ -55,16 +55,16 @@ public class RoleInfoController extends BaseController{
     }
 
     @RequestMapping("getRolePermission")
-    @RequiresPermissions("roleGrantPermission_enter")
-    public BaseResult<List<RelateCheckVo>> getRolePermission(Long id) {
-        List<RelateCheckVo> list = rolePermissionSrv.getRolePermission(id);
+    @RequiresPermissions("grantPermission")
+    public BaseResult<List<PermissionCheckVo>> getRolePermission(Long id) {
+        List<PermissionCheckVo> list = rolePermissionSrv.getRolePermission(id);
         return BaseResult.ok(list);
     }
 
     @PostMapping("saveRolePermission")
-    @RequiresPermissions("roleGrantPermission_enter")
-    public BaseResult saveRolePermission(String listStr) {
-        List<RelateCheckVo> list = JSON.parseArray(listStr, RelateCheckVo.class);
+    @RequiresPermissions("grantPermission")
+    public BaseResult saveRolePermission(Long targetId, String listStr) {
+        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
         rolePermissionSrv.savePermission(list);
         return BaseResult.ok();
     }

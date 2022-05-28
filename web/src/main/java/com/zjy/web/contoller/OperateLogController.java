@@ -20,7 +20,7 @@ public class OperateLogController extends BaseController{
     private OperateLogService operateLogService;
 
     @RequestMapping("queryPageList")
-    @RequiresPermissions("operateLogList_enter")
+    @RequiresPermissions("operateLogList")
     @LogMessage(doLog = false)
     public BaseResult<PageBean> queryPageList(OperateLogRequest request) {
         PageBean<OperateLogVo> pageBean = operateLogService.queryPageList(request);
@@ -28,7 +28,7 @@ public class OperateLogController extends BaseController{
     }
 
     @RequestMapping("getDetail")
-    @RequiresPermissions("operateLogEdit_enter")
+    @RequiresPermissions("operateLogEdit")
     @LogMessage(doLog = false)
     public BaseResult<OperateLogVo> getDetail(Long id) {
         OperateLogVo operateLogVo = operateLogService.getVo(id);

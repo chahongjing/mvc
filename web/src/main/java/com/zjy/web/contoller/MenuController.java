@@ -46,14 +46,14 @@ public class MenuController extends BaseController {
     private MenuService menuSrv;
 
     @RequestMapping("queryPageList")
-    @RequiresPermissions("menuList_enter")
+    @RequiresPermissions("menuList")
     public BaseResult<PageBean> queryPageList(MenuRequest request) {
         PageBean<MenuVo> pageBean = menuSrv.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
-    @RequiresPermissions("menuEdit_enter")
+    @RequiresPermissions("menuEdit")
     public BaseResult<MenuVo> getDetail(Long id) {
         MenuVo userInfo = menuSrv.getVo(id);
         return BaseResult.ok(userInfo);
@@ -74,14 +74,14 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("queryParentList")
-    @RequiresPermissions("menuEdit_enter")
+    @RequiresPermissions("menuEdit")
     public BaseResult<List<MenuVo>> queryParentList() {
         List<MenuVo> list = menuSrv.queryParentList();
         return BaseResult.ok(list);
     }
 
     @RequestMapping("queryPageMenuList")
-    @RequiresPermissions("menuList_enter")
+    @RequiresPermissions("menuList")
     public BaseResult<List<MenuVo>> queryPageList() {
         List<MenuVo> list = menuSrv.queryPageMenuList();
         return BaseResult.ok(list);

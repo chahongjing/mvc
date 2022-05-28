@@ -5,19 +5,16 @@ import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.dao.UserInfoDao;
-import com.zjy.dao.vo.RolePermissionVo;
-import com.zjy.dao.vo.UserRoleVo;
+import com.zjy.dao.vo.*;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
 import com.zjy.entity.enums.UserTypeEnum;
+import com.zjy.entity.model.Permission;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
-import com.zjy.dao.vo.UserInfoVo;
-import com.zjy.service.service.RolePermissionService;
-import com.zjy.service.service.UserInfoService;
-import com.zjy.service.service.UserRoleService;
+import com.zjy.service.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -29,11 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +42,12 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Autowired
     protected RolePermissionService rolePermissionSrv;
+
+    @Autowired
+    protected UserPermissionService userPermissionSrv;
+
+    @Autowired
+    protected PermissionService permissionService;
 
     /**
      * 添加用户
@@ -283,10 +282,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Override
     public List<String> getPermissionListByUserId(Long userId) {
-        List<UserRoleVo> userRoleList = userRoleSrv.queryListByUserId(userId);
-        List<Long> roleIdList = userRoleList.stream().map(UserRoleVo::getRoleId).distinct().collect(Collectors.toList());
-        List<RolePermissionVo> permissionList = rolePermissionSrv.queryRolePermission(roleIdList);
-        return permissionList.stream().filter(item -> StringUtils.isNotBlank(item.getPermissionCode()))
-                .map(RolePermissionVo::getPermissionCode).distinct().collect(Collectors.toList());
+        List<PermissionVo> permissionVos = userPermissionSrv.queryUserCombinePermission(userId);
+        return permissionVos.stream().map(Permission::getCode).collect(Collectors.toList());
     }
 }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zjy.dao.RolePermissionDao">
-	<select id="queryByRoleIdList" resultType="com.zjy.dao.vo.RolePermissionVo">
-		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="rp"/></include>,
-		r.code as roleCode, p.code as permissionCode
+	<select id="queryByRoleIdList" resultType="com.zjy.dao.vo.PermissionVo">
+		SELECT rp.permission_id as id, rp.role_id, p.code, p.target_id, p.type
 		FROM role_permission rp
 		left join role_info r on rp.role_id = r.id
 		left join permission p on rp.permission_id = p.id
@@ -20,6 +19,10 @@
 
 	<delete id="deleteEntity">
 		delete from role_permission where role_id = #{roleId, jdbcType=BIGINT} and permission_id = #{permissionId, jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByPermission">
+		delete from role_permission where permission_id = #{permissionId, jdbcType=BIGINT}
 	</delete>
 
 	<!-- 公共信息 -->

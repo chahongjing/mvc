@@ -2,7 +2,7 @@ package com.zjy.service.service.impl;
 
 import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.dao.UserRoleDao;
-import com.zjy.dao.vo.RelateCheckVo;
+import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.RoleInfoVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.model.UserRole;
@@ -15,18 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> implements UserRoleService {
-
-    public List<UserRoleVo> queryListByUserId(Long userId){
-        UserRoleVo urv = new UserRoleVo();
-        urv.setUserId(userId);
-        return dao.queryListByUserId(urv);
-    }
 
     @Autowired
     protected RoleInfoService roleInfoSrv;
@@ -35,20 +30,33 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
     private ICache cacheHelper;
 
     @Override
-    public List<RelateCheckVo> queryAllRoleWithUserRole(Long userId) {
-        List<RelateCheckVo> list = new ArrayList<>();
-        RelateCheckVo root;
-        RelateCheckVo role;
-        root = new RelateCheckVo();
+    public List<UserRoleVo> queryListByUserId(Long userId){
+        if(userId == null) return new ArrayList<>();
+        return queryListByUserId(Collections.singletonList(userId));
+    }
+    @Override
+    public List<UserRoleVo> queryListByUserId(List<Long> userIdList){
+        if(CollectionUtils.isEmpty(userIdList)) return new ArrayList<>();
+        UserRoleVo urv = new UserRoleVo();
+        urv.setUserIdList(userIdList);
+        return dao.queryListByUserId(urv);
+    }
+
+    @Override
+    public List<PermissionCheckVo> queryAllRoleWithUserRole(Long userId) {
+        List<PermissionCheckVo> list = new ArrayList<>();
+        PermissionCheckVo root;
+        PermissionCheckVo role;
+        root = new PermissionCheckVo();
         root.setName("角色列表");
         if (CollectionUtils.isEmpty(list)) root.setShowDetail(true);
         list.add(root);
         List<RoleInfoVo> roleInfoVos = roleInfoSrv.queryAllRole();
         List<UserRoleVo> userRoleList = this.queryListByUserId(userId);
         for (RoleInfoVo roleInfoVo : roleInfoVos) {
-            role = new RelateCheckVo();
+            role = new PermissionCheckVo();
             role.setId(userId);
-            role.setRelativeId(roleInfoVo.getId());
+//            role.setRelativeId(roleInfoVo.getId());
             role.setName(roleInfoVo.getName());
             if (userRoleList.stream().anyMatch(item -> item.getRoleId().equals(roleInfoVo.getId()))) {
                 role.setIsCheck(true);
@@ -59,12 +67,12 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
     }
 
     @Override
-    public void saveUserRole(List<RelateCheckVo> list) {
+    public void saveUserRole(List<PermissionCheckVo> list) {
         if (CollectionUtils.isEmpty(list)) return;
         UserRole ur = new UserRole();
-        for (RelateCheckVo item : list) {
+        for (PermissionCheckVo item : list) {
             ur.setUserId(item.getId());
-            ur.setRoleId(item.getRelativeId());
+//            ur.setRoleId(item.getRelativeId());
             if (item.getIsCheck()) {
                 dao.insert(ur);
             } else {

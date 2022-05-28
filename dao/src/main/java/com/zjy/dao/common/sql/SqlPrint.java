@@ -1,6 +1,7 @@
 package com.zjy.dao.common.sql;
 
 import com.google.common.base.Stopwatch;
+import com.zjy.baseframework.interfaces.IBaseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -122,6 +123,8 @@ public class SqlPrint implements Interceptor {
 
                     if (value instanceof Number) {
                         parameters.add(String.valueOf(value));
+                    } else if (value instanceof IBaseEnum) {
+                        parameters.add(String.valueOf(((IBaseEnum)value).getValue()));
                     } else {
                         StringBuilder builder = new StringBuilder();
                         builder.append("'");

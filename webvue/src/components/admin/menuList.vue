@@ -40,7 +40,7 @@
           <td>
             <a class='block w100p h100p' href='javascript:void(0)' v-text='item.name' @click='edit(item)'></a>
           </td>
-          <td v-text='item.pName'></td>
+          <td v-text='item.parentName'></td>
           <td v-text='item.code'></td>
           <td v-text='item.url'></td>
           <td v-tooltip='item.icon'><i class='fa' :class='item.icon'></i><span v-text='item.icon'></span></td>

@@ -12,6 +12,12 @@
 		 where id &lt;&gt; #{id, jdbcType=BIGINT}
 		   and code = #{code, jdbcType=VARCHAR}
 	</select>
+	<select id="queryByTarget" resultType="com.zjy.dao.vo.PermissionVo">
+		select <include refid="fieldWithPrefix"><property name="tableName" value="permission"/></include>
+		  from permission
+		 where target_id = #{targetId, jdbcType=BIGINT}
+		   and type = #{type, jdbcType=INTEGER}
+	</select>
 	<!-- 查询简单列表 -->
 	<select id="query" resultType="com.zjy.dao.vo.PermissionVo">
 		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="p"/></include>,
@@ -31,10 +37,10 @@
 	<!-- 公共信息 -->
 	<!-- 字段 -->
 	<sql id="field">
-		id, function_id, name, code, seq
+		id, function_id, name, code, seq, type, target_id
 	</sql>
 	 <!-- 带前缀的字段 -->
 	<sql id="fieldWithPrefix">
-		${tableName}.id, ${tableName}.function_id, ${tableName}.name, ${tableName}.code, ${tableName}.seq
+		${tableName}.id, ${tableName}.function_id, ${tableName}.name, ${tableName}.code, ${tableName}.seq, ${tableName}.type, ${tableName}.target_id
 	</sql>
 </mapper>

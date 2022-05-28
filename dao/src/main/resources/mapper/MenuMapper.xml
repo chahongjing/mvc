@@ -4,7 +4,7 @@
 	<!-- 查询简单列表 -->
 	<select id="query" resultType="com.zjy.dao.vo.MenuVo">
 		SELECT <include refid="fieldWithPrefix"><property name="tableName" value="menu"/></include>,
-		parent.name as pName
+		parent.name as parentName
 		FROM menu
 		left join menu parent on menu.pid = parent.id
 		<where>

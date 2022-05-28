@@ -109,7 +109,7 @@
         });
       },
       grant(entity) {
-        this.$router.push({path: '/admin/roleGrantPermission', query: {id: entity.id}});
+        this.$router.push({path: '/admin/roleGrantPermission', query: {id: entity.id, type: 'role'}});
       }
     },
     mounted: function () {

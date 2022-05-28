@@ -3,16 +3,16 @@ package com.zjy.service.service.impl;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.dao.MenuDao;
 import com.zjy.dao.vo.MenuVo;
+import com.zjy.dao.vo.PermissionVo;
 import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.dao.vo.UserRoleVo;
+import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.Menu;
+import com.zjy.entity.model.Permission;
 import com.zjy.service.common.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.MenuRequest;
-import com.zjy.service.service.MenuService;
-import com.zjy.service.service.RoleInfoService;
-import com.zjy.service.service.RolePermissionService;
-import com.zjy.service.service.UserRoleService;
+import com.zjy.service.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,6 +33,10 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     private UserRoleService userRoleService;
     @Autowired
     private RolePermissionService rolePermissionService;
+    @Autowired
+    private UserPermissionService userPermissionService;
+    @Autowired
+    private PermissionService permissionService;
     @Override
     public List<MenuVo> queryPermissionMenu() {
         Long userId = getCurrentUser().getId();
@@ -41,14 +46,16 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
         List<MenuVo> list = dao.query(null);
         List<MenuVo> parentList = list.stream().filter(item -> item.getPid() == null).collect(Collectors.toList());
         List<MenuVo> children = list.stream().filter(item -> item.getPid() != null && item.getPid() > 0).collect(Collectors.toList());
-        List<RolePermissionVo> rolePermissionVos = rolePermissionService.queryRolePermission(roleIdList);
+        List<PermissionVo> permissionVos = rolePermissionService.queryRolePermission(roleIdList);
+        permissionVos.addAll(userPermissionService.queryUserPermission(userId));
+        Set<Long> permissionMenuIdList = permissionVos.stream().filter(item -> item.getType() == PermissionType.Menu).map(Permission::getTargetId).collect(Collectors.toSet());
         for (MenuVo parent : parentList) {
-            if (rolePermissionVos.stream().noneMatch(item -> roleIdList.contains(item.getRoleId()) && parent.getId().equals(item.getPermissionId()))) {
+            if (!permissionMenuIdList.contains(parent.getId())) {
                 continue;
             }
             result.add(parent);
             List<MenuVo> temp = children.stream().filter(item -> item.getPid().equals(parent.getId())
-                    && rolePermissionVos.stream().anyMatch(innerItem -> roleIdList.contains(innerItem.getRoleId()) && item.getId().equals(innerItem.getPermissionId()))
+                    && permissionMenuIdList.contains(item.getId())
             ).collect(Collectors.toList());
             result.addAll(temp);
         }
@@ -88,6 +95,11 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     @Override
     @Transactional
     public int delete(Long id) {
+        // 删除权限点
+        PermissionVo permissionVo = permissionService.queryByTarget(id, PermissionType.Menu);
+        if(permissionVo != null) {
+            permissionService.delete(permissionVo.getId());
+        }
         return super.delete(id);
     }
 
@@ -100,13 +112,25 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     @Transactional
     public void save(MenuVo vo) {
         MenuVo voDb = getVo(vo.getId());
-        beforeCheck(vo);
+        PermissionVo permission = permissionService.queryByTarget(vo.getId(), PermissionType.Menu);
+        if(permission == null) {
+            permission = new PermissionVo();
+            //        permission.setId();
+//        permission.setFunctionId();
+            permission.setSeq(0);
+        }
+        permission.setType(PermissionType.Menu);
+        permission.setName(vo.getName());
+        permission.setCode(vo.getCode());
+        beforeCheck(vo, permission);
         // 处理密码
         if (voDb.getIsSave()) {
             update(vo);
         } else {
             add(vo);
+            permission.setTargetId(vo.getId());
         }
+        permissionService.save(permission);
     }
 
     @Override
@@ -146,7 +170,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
         return vo;
     }
 
-    protected void beforeCheck(MenuVo po) {
+    protected void beforeCheck(MenuVo po, Permission permission) {
         if (StringUtils.isBlank(po.getName())) {
             throw new ServiceException("请输入功能名称！");
         }
@@ -155,6 +179,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
         if (map != null && map.containsKey("codeCount") && map.get("codeCount").intValue() > 0) {
             throw new ServiceException("功能名称重复！");
         }
+        permissionService.beforeCheck(permission);
     }
 
     public List<MenuVo> queryParentList() {

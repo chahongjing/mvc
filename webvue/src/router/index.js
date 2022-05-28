@@ -58,7 +58,7 @@ var router = new Router({
           component: resolve => require(['@/components/user/userList'], resolve),
           meta:{
             breadcurmbName: '用户列表',
-            pageCode: 'userList_enter'
+            pageCode: 'userList'
           }
         },
         {
@@ -67,7 +67,7 @@ var router = new Router({
           component: resolve => require(['@/components/user/userEdit'], resolve),
           meta:{
             breadcurmbName: '用户详情',
-            pageCode: 'userEdit_enter'
+            pageCode: 'userEdit'
           }
         },
         {
@@ -76,7 +76,7 @@ var router = new Router({
           component: resolve => require(['@/components/user/userRole'], resolve),
           meta:{
             breadcurmbName: '用户角色',
-            pageCode: 'userRole_enter'
+            pageCode: 'userRole'
           }
         }
       ]
@@ -92,7 +92,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/menuList'], resolve),
           meta:{
             breadcurmbName: '菜单列表',
-            pageCode: 'menuList_enter'
+            pageCode: 'menuList'
           }
         },
         {
@@ -101,7 +101,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/menuEdit'], resolve),
           meta:{
             breadcurmbName: '菜单详情',
-            pageCode: 'menuEdit_enter'
+            pageCode: 'menuEdit'
           }
         },
         {
@@ -110,7 +110,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/functionList'], resolve),
           meta:{
             breadcurmbName: '功能列表',
-            pageCode: 'functionList_enter'
+            pageCode: 'functionList'
           }
         },
         {
@@ -119,7 +119,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/functionEdit'], resolve),
           meta:{
             breadcurmbName: '功能详情',
-            pageCode: 'functionEdit_enter'
+            pageCode: 'functionEdit'
           }
         },
         {
@@ -128,7 +128,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/permissionList'], resolve),
             meta:{
               breadcurmbName: '权限列表',
-              pageCode: 'permissionList_enter'
+              pageCode: 'permissionList'
             }
         },
         {
@@ -137,7 +137,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/permissionEdit'], resolve),
           meta:{
             breadcurmbName: '权限详情',
-            pageCode: 'permissionEdit_enter'
+            pageCode: 'permissionEdit'
           }
         },
         {
@@ -146,7 +146,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/roleList'], resolve),
           meta:{
             breadcurmbName: '角色列表',
-            pageCode: 'roleList_enter'
+            pageCode: 'roleList'
           }
         },
         {
@@ -155,7 +155,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/roleEdit'], resolve),
           meta:{
             breadcurmbName: '角色详情',
-            pageCode: 'roleEdit_enter'
+            pageCode: 'roleEdit'
           }
         },
         {
@@ -164,7 +164,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/configInfoList'], resolve),
           meta:{
             breadcurmbName: '配置列表',
-            pageCode: 'configInfoList_enter'
+            pageCode: 'configInfoList'
           }
         },
         {
@@ -173,25 +173,25 @@ var router = new Router({
           component: resolve => require(['@/components/admin/configInfoEdit'], resolve),
           meta:{
             breadcurmbName: '配置详情',
-            pageCode: 'configInfoEdit_enter'
+            pageCode: 'configInfoEdit'
           }
         },
         {
           path: 'roleGrantPermission',
           name: 'roleGrantPermission',
-          component: resolve => require(['@/components/admin/roleGrantPermission'], resolve),
+          component: resolve => require(['@/components/admin/grantPermission'], resolve),
           meta:{
             breadcurmbName: '角色授权',
-            pageCode: 'roleGrantPermission_enter'
+            pageCode: 'grantPermission'
           }
         },
         {
           path: 'userGrantPermission',
           name: 'userGrantPermission',
-          component: resolve => require(['@/components/admin/userGrantPermission'], resolve),
+          component: resolve => require(['@/components/admin/grantPermission'], resolve),
           meta:{
             breadcurmbName: '用户授权',
-            // pageCode: 'userGrantPermission_enter'
+            pageCode: 'grantPermission'
           }
         },
         {
@@ -200,7 +200,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/operateLogList'], resolve),
           meta:{
             breadcurmbName: '日志列表',
-            pageCode: 'operateLogList_enter'
+            pageCode: 'operateLogList'
           }
         },
         {
@@ -209,7 +209,7 @@ var router = new Router({
           component: resolve => require(['@/components/admin/operateLogEdit'], resolve),
           meta:{
             breadcurmbName: '日志详情',
-            pageCode: 'operateLogEdit_enter'
+            pageCode: 'operateLogEdit'
           }
         },
       ]
@@ -239,7 +239,7 @@ var router = new Router({
           component: resolve => require(['@/components/kvConfig/kvList'], resolve),
           meta:{
             breadcurmbName: '键值对列表',
-            // pageCode: 'menuList_enter'
+            // pageCode: 'menuList'
           }
         },
         {
@@ -248,7 +248,7 @@ var router = new Router({
           component: resolve => require(['@/components/kvConfig/kvEdit'], resolve),
           meta:{
             breadcurmbName: '键值对编辑',
-            // pageCode: 'menuList_enter'
+            // pageCode: 'menuList'
           }
         }
       ]
@@ -264,7 +264,7 @@ var router = new Router({
           component: resolve => require(['@/components/upgradeLog/upgradeLogList'], resolve),
           meta:{
             breadcurmbName: '升级日志列表',
-            pageCode: 'upgradeLog_enter'
+            pageCode: 'upgradeLog'
           }
         },
         {
@@ -273,7 +273,7 @@ var router = new Router({
           component: resolve => require(['@/components/upgradeLog/upgradeLogEdit'], resolve),
           meta:{
             breadcurmbName: '升级日志编辑',
-            pageCode: 'upgradeLogEdit_enter'
+            pageCode: 'upgradeLogEdit'
           }
         },
         {
@@ -282,7 +282,7 @@ var router = new Router({
           component: resolve => require(['@/components/upgradeLog/upgradeLogPreview'], resolve),
           meta:{
             breadcurmbName: '升级日志预览',
-            pageCode: 'menuList_enter'
+            pageCode: 'menuList'
           }
         }
       ]
@@ -298,7 +298,7 @@ var router = new Router({
           component: resolve => require(['@/components/switch/list'], resolve),
           meta:{
             breadcurmbName: '开关控制室',
-            pageCode: 'switchList_enter'
+            pageCode: 'switchList'
           }
         }
       ]
@@ -314,7 +314,7 @@ var router = new Router({
           component: resolve => require(['@/components/tools/redis/redis'], resolve),
           meta:{
             breadcurmbName: 'redis操作',
-            pageCode: 'redisOpt_enter'
+            pageCode: 'redisOpt'
           }
         }
       ]

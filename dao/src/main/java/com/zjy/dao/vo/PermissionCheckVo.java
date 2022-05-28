@@ -1,6 +1,5 @@
 package com.zjy.dao.vo;
 
-import com.zjy.entity.enums.MenuLevel;
 import com.zjy.entity.enums.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,18 +9,18 @@ import java.util.List;
 
 @Getter
 @Setter
-public class RelateCheckVo {
+public class PermissionCheckVo {
     private Long id;
     private String name;
-    private Long relativeId;
     private boolean isCheck;
-    private boolean singleCheck;
-    private MenuLevel menuLevel;
     private PermissionType type;
     private boolean showDetail;
-    List<RelateCheckVo> subList;
+    // 关联业务id，如角色id，用户id
+    private Long relatedId;
+    private String code;
+    List<PermissionCheckVo> subList;
 
-    public RelateCheckVo() {
+    public PermissionCheckVo() {
         subList = new ArrayList<>();
     }
 
@@ -30,13 +29,5 @@ public class RelateCheckVo {
     }
     public boolean getIsCheck() {
         return this.isCheck;
-    }
-
-    public boolean getSingleCheck() {
-        return singleCheck;
-    }
-
-    public void setSingleCheck(boolean singleCheck) {
-        this.singleCheck = singleCheck;
     }
 }

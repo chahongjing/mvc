@@ -1,13 +1,21 @@
 package com.zjy.dao.vo;
 
 import com.zjy.entity.model.Menu;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class MenuVo extends Menu {
     private boolean isSave;
-    private String pName;
+    private String parentName;
     private List<Menu> children;
+
+    public MenuVo() {
+        children = new ArrayList<>();
+    }
 
     public boolean getIsSave() {
         return isSave;
@@ -15,13 +23,5 @@ public class MenuVo extends Menu {
 
     public void setIsSave(boolean isSave) {
         this.isSave = isSave;
-    }
-
-    public String getpName() {
-        return pName;
-    }
-
-    public void setpName(String pName) {
-        this.pName = pName;
     }
 }

@@ -14,7 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@MappedTypes({DownTaskStatus.class, Sex.class, UserStatus.class, YesNo.class, LogLevel.class, UserTypeEnum.class})
+@MappedTypes({DownTaskStatus.class, Sex.class, UserStatus.class, YesNo.class, LogLevel.class, UserTypeEnum.class,
+        PermissionType.class, PsermissionIncludeType.class})
 public class CodeEnumTypeHandler<E extends Enum<E> & IBaseEnum> extends BaseTypeHandler<IBaseEnum> {
 
     private Class<E> type;

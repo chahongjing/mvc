@@ -1,6 +1,5 @@
 package com.zjy.entity.model;
 
-import com.zjy.entity.enums.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +8,4 @@ import lombok.Setter;
 public class RolePermission {
     private Long roleId;
     private Long permissionId;
-    private PermissionType type;
 }

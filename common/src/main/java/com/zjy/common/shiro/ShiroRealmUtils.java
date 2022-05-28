@@ -5,6 +5,9 @@ import com.zjy.entity.model.UserInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.*;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import java.util.HashSet;
@@ -65,5 +68,25 @@ public class ShiroRealmUtils {
 
     public static Set<String> getPermissions() {
         return realm == null ? new HashSet<>() : realm.getPermissions();
+    }
+
+    // 刷新权限
+    public static void reloadAuthorizing(Object principal) {
+        RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        MyAuthorizingRealm myShiroRealm = (MyAuthorizingRealm) rsm.getRealms().iterator().next();
+
+        Subject subject = SecurityUtils.getSubject();
+        String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+        SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, realmName);
+        subject.runAs(principals);
+        if(myShiroRealm.isAuthenticationCachingEnabled()) {
+            myShiroRealm.getAuthenticationCache().remove(principals);
+        }
+        if(myShiroRealm.isAuthorizationCachingEnabled()) {
+            // 删除指定用户shiro权限
+            myShiroRealm.getAuthorizationCache().remove(principals);
+        }
+        // 刷新权限
+        subject.releaseRunAs();
     }
 }

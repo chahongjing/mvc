@@ -17,7 +17,7 @@
           <div class="form-group">
             <label class="form-label">父级：</label>
             <div class="form-content">
-              <select class="form-control" v-model='menu.pId'
+              <select class="form-control" v-model='menu.pid'
                       placeholder='请选择类型'>
                 <option>--请选择类型--</option>
                 <option v-for='item in menuList' :value="item.id" v-text="item.name"></option>
@@ -87,7 +87,7 @@
     data () {
       return {
         allDisabled:true,
-        menu: {id: null, name: null, code: null, url: null, seq: null, icon: null},
+        menu: {id: null, name: null, pid: null, code: null, url: null, seq: null, icon: null},
         menuList: []
       }
     },

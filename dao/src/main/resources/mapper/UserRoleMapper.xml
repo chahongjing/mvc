@@ -10,6 +10,13 @@
             <if test='roleId != null and roleId != ""'>
                 and ur.role_id = #{roleId, jdbcType=BIGINT}
             </if>
+            <if test='userIdList != null and userIdList.size() > 0'>
+                and ur.user_id in (
+                <foreach collection="userIdList" item="userId" index="index" separator="," open="" close="">
+                    #{userId, jdbcType=BIGINT}
+                </foreach>
+                )
+            </if>
             <if test='userId != null and userId != ""'>
                 and ur.user_id = #{userId, jdbcType=BIGINT}
             </if>

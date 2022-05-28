@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjy.dao.UserPermissionDao">
+	<select id="queryByUserIdList" resultType="com.zjy.dao.vo.PermissionVo">
+		SELECT up.permission_id as id, up.user_id, p.code, p.target_id, p.type, up.include_type
+		FROM user_permission up
+		left join user_info u on up.user_id = u.id
+		left join permission p on up.permission_id = p.id
+		<where>
+			<if test='userIdList != null and userIdList.size() > 0'>
+				and up.user_id in (
+				<foreach collection="userIdList" item="userId" index="index" separator="," open="" close="">
+					#{userId, jdbcType=BIGINT}
+				</foreach>
+				)
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteEntity">
+		delete from user_permission where user_id = #{userId, jdbcType=BIGINT} and permission_id = #{permissionId, jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByPermission">
+		delete from user_permission where permission_id = #{permissionId, jdbcType=BIGINT}
+	</delete>
+
+	<!-- 公共信息 -->
+	<!-- 字段 -->
+	<sql id="field">
+		user_id, permission_id, include_type
+	</sql>
+	<!-- 带前缀的字段 -->
+	<sql id="fieldWithPrefix">
+		${tableName}.user_id, ${tableName}.permission_id, ${tableName}.include_type
+	</sql>
+</mapper>
