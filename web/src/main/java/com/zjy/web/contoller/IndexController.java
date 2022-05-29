@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.zjy.baseframework.common.DownloadException;
+import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.stratory.BaseActionParam;
 import com.zjy.common.stratory.BaseActionResult;
@@ -62,27 +63,19 @@ public class IndexController extends BaseController {
         return "index";
     }
 
+    @RequestMapping("/hi")
+    public String hello(Locale locale, Model model) {
+        model.addAttribute("greeting", "Hello!");
 
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+        String formattedDate = dateFormat.format(date);
+        model.addAttribute("currentTime", formattedDate);
 
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("map", map);
 
-
-
-
-
-
-
-
-
-
-    @GetMapping("/index")
-    @ResponseBody
-    public String index2() {
-        log.trace("/comm/getEnums");
-        log.debug("/comm/getEnums");
-        log.info("/comm/getEnums");
-        log.warn("/comm/getEnums");
-        log.error("it is error!");
-        return "abc";
+        return "hello";
     }
 
     @GetMapping("/login")
@@ -100,13 +93,15 @@ public class IndexController extends BaseController {
         return mv;
     }
 
-    @GetMapping("/testPage")
-    @RequiresPermissions({"myPer"})
-    public String testPage() {
-        UserInfo fromMaster = userService.getFromMaster();
-        UserInfo fromSlave = userService.getFromSlave();
-
-        return "testPage";
+    @GetMapping("/index")
+    @ResponseBody
+    public String index2() {
+        log.trace("/comm/getEnums");
+        log.debug("/comm/getEnums");
+        log.info("/comm/getEnums");
+        log.warn("/comm/getEnums");
+        log.error("it is error!");
+        return "abc";
     }
 
     @GetMapping("/testMybatisPlus")
@@ -134,15 +129,49 @@ public class IndexController extends BaseController {
         return "abc";
     }
 
+    /**
+     * 测试动态数据源
+     * @return
+     */
+    @GetMapping("/testPage")
+    @RequiresPermissions({"myPer"})
+    public String testPage() {
+        UserInfo fromMaster = userService.getFromMaster();
+        UserInfo fromSlave = userService.getFromSlave();
+
+        return "testPage";
+    }
+
+    /**
+     * 开启下载任务
+     * @param response
+     * @return
+     */
     @PostMapping("/testDownloadList")
     @ResponseBody
-    public void testDownloadList(HttpServletResponse response) {
+    public BaseResult<DownloadTask> testDownloadList(Boolean download, HttpServletResponse response) {
         DownloadTask task = new DownloadTask();
         task.setCreatedBy(1L);
         task.setCreatedName("ad");
-        downlaodTaskService.addTask(task, response);
+        downlaodTaskService.addTask(task, download, response);
+        return download ? null : BaseResult.ok(task);
     }
 
+    /**
+     * 获取下载任务的进度
+     * @param id
+     * @return
+     */
+    @GetMapping("/getDownloadTaskProgress")
+    @ResponseBody
+    public BaseResult<DownloadTask> getDownloadTaskProgress(Long id) {
+        return BaseResult.ok(downlaodTaskService.get(id));
+    }
+
+    /**
+     * 模拟生成大量数据
+     * @return
+     */
     @GetMapping("/testCreateDownloadData")
     @ResponseBody
     public String testCreateDownloadData() {
@@ -161,6 +190,10 @@ public class IndexController extends BaseController {
         return "abc";
     }
 
+    /**
+     * 测试模板模式
+     * @return
+     */
     @GetMapping("/testDisp")
     @ResponseBody
     public String testDisp() {
@@ -178,21 +211,11 @@ public class IndexController extends BaseController {
         return "abc";
     }
 
-    @RequestMapping("/hi")
-    public String hello(Locale locale, Model model) {
-        model.addAttribute("greeting", "Hello!");
-
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-        String formattedDate = dateFormat.format(date);
-        model.addAttribute("currentTime", formattedDate);
-
-        Map<String, Object> map = new HashMap<>();
-        model.addAttribute("map", map);
-
-        return "hello";
-    }
-
+    /**
+     * 大数据量生成excel，并下载，如果抛出DownloadTask前端报错提示
+     * @param withError
+     * @param response
+     */
     @RequestMapping("/bigDataDownload")
     @ResponseBody
     public void bigDataDownload(Boolean withError, HttpServletResponse response) {
@@ -203,7 +226,7 @@ public class IndexController extends BaseController {
         headers.add(new NumberExcelHeader(BeanUtils.convertToFieldName(TestDownloadRecord::getMoney), "门店", "¥#,##0.00%"));
         headers.add(new NumberExcelHeader(BeanUtils.convertToFieldName(TestDownloadRecord::getNum), "门店接单时长"));
 
-        int pageSize = 2000;
+        int pageSize = 500;
         Page<TestDownloadRecord> pager = new Page<>(1, pageSize);
         pager.setOrderBy("user_id");
 

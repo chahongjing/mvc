@@ -39,12 +39,18 @@ public class DownlaodTaskService {
     private TestDownloadRecordDao testDownloadRecordDao;
 
     // 创建下载任务
-    public int addTask(DownloadTask task, HttpServletResponse response) {
+    public int addTask(DownloadTask task, Boolean download, HttpServletResponse response) {
         task.setCreatedDate(new Date());
         task.setStatus(DownTaskStatus.CREATED);
         int i = downloadTaskDao.insert(task);
-        // 开始处理任务，异步线程池
-        this.startTask(task.getId(), response);
+        if(download) {
+            this.startTask(task.getId(), download, response);
+        } else {
+            // 开始处理任务，异步线程池
+            new Thread(() -> {
+                this.startTask(task.getId(), download, response);
+            }).start();
+        }
         return i;
     }
 
@@ -52,8 +58,8 @@ public class DownlaodTaskService {
      * 开始处理任务
      * @param id
      */
-    public void startTask(Long id, HttpServletResponse response) {
-        DownloadTask downloadTask = downloadTaskDao.selectById(id);
+    public void startTask(Long id, Boolean download, HttpServletResponse response) {
+        DownloadTask downloadTask = get(id);
         if (downloadTask == null) {
             log.warn("下载任务不存在！{}", id);
             throw new DownloadException("下载任务不存在！" + id);
@@ -62,7 +68,7 @@ public class DownlaodTaskService {
         downloadTask.setUpdatedDate(new Date());
         downloadTaskDao.update(downloadTask);
         // 开始处理任务
-        Page<TestDownloadRecord> page = new Page<>(1, 1000);
+        Page<TestDownloadRecord> page = new Page<>(1, 100);
         page.setOrderBy("user_id");
         PageInfo<TestDownloadRecord> pageInfo = this.queryPageList(page);
         if (pageInfo.getTotal() == 0) {
@@ -99,12 +105,15 @@ public class DownlaodTaskService {
                 // todo: change
                 TimeUnit.SECONDS.sleep(1);
             }
-            String url = "/tmp/myexcel.csv";
+            String url = "/home/zjy/tmp/myexcel.csv";
             // 保存文件
             byte[] writerBytes = CSVUtils.getWriterBytes(stringWriter);
-//            FileUtils.writeByteArrayToFile(new File(url), writerBytes);
-            DownloadUtils.download(writerBytes, "测试csv." + FileSuffix.CSV.getCode(), response);
+            if(download) {
+                DownloadUtils.download(writerBytes, "测试csv." + FileSuffix.CSV.getCode(), response);
+            } else {
+                FileUtils.writeByteArrayToFile(new File(url), writerBytes);
 //            byteToFile(writerBytes, url);
+            }
             // 更新数据
             downloadTask.setStatus(DownTaskStatus.FINISHED);
             downloadTask.setProgress(100);
@@ -121,6 +130,10 @@ public class DownlaodTaskService {
             downloadTaskDao.update(downloadTask);
             throw new DownloadException("下载失败！" + id);
         }
+    }
+
+    public DownloadTask get(Long id) {
+        return downloadTaskDao.selectById(id);
     }
 
     /**

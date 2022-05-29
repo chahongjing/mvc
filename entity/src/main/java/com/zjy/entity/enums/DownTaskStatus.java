@@ -1,9 +1,11 @@
 package com.zjy.entity.enums;
 
+import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import lombok.Getter;
 
 @Getter
+@SerializeEnum
 public enum DownTaskStatus implements IBaseEnum {
     CREATED(0, "已创建"),
     STARTED(1, "处理中"),

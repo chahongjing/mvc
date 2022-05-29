@@ -121,9 +121,7 @@
       if (this.status == 200) {
         Utility.downloadAfterAjax(this.response, Utility.getXhrHeaders(this));
       } else {
-        Utility.readArrayBufferAsText(this.response, function (data) {
-          alert(data);
-        });
+        Utility.readArrayBufferAsText(this.response);
       }
     }
     xhr.send();

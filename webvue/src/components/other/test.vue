@@ -158,14 +158,23 @@
             <i class='fa'></i>
           </div>
         </div>
-        <div class="form-group text-right mb0">
-          <button type="button" class="btn btn-purple mr5" @click="axiosUploadFile">axios上传</button>
-          <button type="button" class="btn btn-purple mr5" @click="axiosDownload">axios下载</button>
-          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(false)">大数据量下载</button>
-          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(true)">大数据量下载模拟报错</button>
-          <button type="button" class="btn btn-purple mr5" @click="downloadCsv">下载csv</button>
-          <button type="button" class="btn btn-purple mr5" @click="jqueryUpload">jquery上传</button>
-          <button type="button" class="btn btn-purple mr5" @click="jsDownload">js下载</button>
+        <div class="form-group text-left mb0">
+          <button type="button" class="btn btn-purple mr5" @click="axiosUploadFile" :disabled="allDisabled">axios上传</button>
+          <button type="button" class="btn btn-purple mr5" @click="axiosDownload" :disabled="allDisabled">axios下载</button>
+          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(false)" :disabled="allDisabled">大数据量下载</button>
+          <button type="button" class="btn btn-purple mr5" @click="bigDataDownload(true)" :disabled="allDisabled">大数据量下载模拟报错</button>
+          <button type="button" class="btn btn-purple mr5" @click="downloadCsv(true)" :disabled="allDisabled">下载csv</button>
+          <button type="button" class="btn btn-purple mr5" @click="downloadCsv(false)" :disabled="allDisabled">生成csv,并处理下载进度</button>
+          <button type="button" class="btn btn-purple mr5" @click="jqueryUpload" :disabled="allDisabled">jquery上传</button>
+          <button type="button" class="btn btn-purple mr5" @click="jsDownload" :disabled="allDisabled">js下载</button>
+        </div>
+        <div>
+          <progress id="progress" max="100" value="0" style="width:100%;height:30px;"></progress>
+          <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" :style="{width: Math.floor(progress) + '%'}">
+              <span class="sr-only">40% Complete (success)</span>
+            </div>
+          </div>
         </div>
       </form>
       <hr>
@@ -348,7 +357,9 @@
         dataBus:{},
         nodeList: [],
         a:'a',
-        b:true
+        b:true,
+        timer: null,
+        progress: 0
       }
     },
     methods: {
@@ -427,9 +438,40 @@
           Utility.downloadAfterAjax(resp.data, resp.headers);
         });
       },
-      downloadCsv() {
-        this.$axios.postDownload('/testDownloadList', ).then(function (resp) {
-          Utility.downloadAfterAjax(resp.data, resp.headers);
+      downloadCsv(download) {
+        var me = this;
+        this.allDisabled = true
+        this.$axios.postDownload('/testDownloadList', {download: download}).then(function (resp) {
+          if(download) {
+            Utility.downloadAfterAjax(resp.data, resp.headers);
+            me.allDisabled = false
+          } else {
+            // $('#progress').val(0)
+            me.progress = 0
+            // 获取进度
+            var res = JSON.parse(Utility.readArrayBufferAsText(resp.data));
+            if(res.status === ResultStatus.OK.key) {
+              if(res.value.status == enumMap.DownTaskStatus.CREATED.key || res.value.status == enumMap.DownTaskStatus.STARTED.key) {
+                me.getDownloadTaskProgress(res.value.id);
+              }
+            }
+          }
+        });
+      },
+      getDownloadTaskProgress: function(id) {
+        var me = this;
+        this.$axios.get('/getDownloadTaskProgress', {id: id}).then(function (resp) {
+          if (resp.data.status == ResultStatus.OK.key) {
+            // $('#progress').val(resp.data.value.progress)
+            me.progress = resp.data.value.progress
+            if(resp.data.value.status == enumMap.DownTaskStatus.STARTED.key) {
+              setTimeout(function() {
+                me.getDownloadTaskProgress(resp.data.value.id);
+              }, 2000)
+            } else {
+              me.allDisabled = false
+            }
+          }
         });
       },
       jqueryUpload: function() {
@@ -583,9 +625,16 @@
       },
       changeDisabled: function() {
         this.allDisabled = !this.allDisabled;
-      }
+      },
+      clearInterval: function () {
+        if (this.timer) {
+          window.clearInterval(this.timer);
+          this.timer = null;
+        }
+      },
     },
     mounted: function() {
+      this.clearInterval()
       window.vuedata = this;
       var me = this;
       var list1 = [];
@@ -632,6 +681,9 @@
       this.nodeList.push({name: '审核内容过长', current:true});
       this.nodeList.push({name: '通过', current:false});
       this.nodeList.push({name: '关单', current:false});
+    },
+    destoryed: function () {
+      this.clearInterval();
     },
     computed: {
       dv: function() {
