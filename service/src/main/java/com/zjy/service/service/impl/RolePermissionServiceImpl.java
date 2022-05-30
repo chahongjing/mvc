@@ -33,7 +33,9 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
     @Override
     public List<PermissionVo> queryRolePermission(Long roleId) {
         if (roleId == null || roleId == 0) return new ArrayList<>();
-        return dao.queryByRoleIdList(Collections.singletonList(roleId));
+        List<Long> roleIdList = new ArrayList<>();
+        roleIdList.add(roleId);
+        return dao.queryByRoleIdList(roleIdList);
     }
 
     @Override

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,9 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
     @Override
     public List<UserRoleVo> queryListByUserId(Long userId){
         if(userId == null) return new ArrayList<>();
-        return queryListByUserId(Collections.singletonList(userId));
+        List<Long> idList = new ArrayList<>();
+        idList.add(userId);
+        return queryListByUserId(idList);
     }
     @Override
     public List<UserRoleVo> queryListByUserId(List<Long> userIdList){

@@ -41,7 +41,9 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     @Override
     public List<PermissionVo> queryUserPermission(Long userId) {
         if (userId == null) return new ArrayList<>();
-        return queryUserPermission(Collections.singletonList(userId));
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(userId);
+        return queryUserPermission(userIdList);
     }
 
     /**
@@ -63,7 +65,9 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     @Override
     public List<PermissionVo> queryUserRolePermission(Long userId) {
         if (userId == null) return new ArrayList<>();
-        return queryUserRolePermission(Collections.singletonList(userId));
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(userId);
+        return queryUserRolePermission(userIdList);
     }
 
     /**
@@ -87,7 +91,9 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     @Override
     public List<PermissionVo> queryUserCombinePermission(Long userId) {
         if (userId == null) return new ArrayList<>();
-        Map<Long, List<PermissionVo>> map = queryUserCombinePermission(Collections.singletonList(userId));
+        List<Long> userIdList = new ArrayList<>();
+        userIdList.add(userId);
+        Map<Long, List<PermissionVo>> map = queryUserCombinePermission(userIdList);
         return map.computeIfAbsent(userId, k -> new ArrayList<>());
     }
 
