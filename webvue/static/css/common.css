@@ -368,7 +368,7 @@ th.sortheader.desc:before,th.sortheader.asc:after{color:#080;}
 .myform .input-group-append{margin-left:0px;}
 
 /* 其它 */
-.mypanel{margin-bottom: 20px;background-color: #fff;border: 1px solid #ddd;border-radius: 4px;box-shadow: 0 1px 1px rgba(0, 0, 0, .05);}
+.mypanel{margin-bottom: 20px;background-color: #fff;border: 1px solid #ddd;border-radius: 2px;box-shadow: 0 1px 1px rgba(0, 0, 0, .05);}
 .mypanel .panel-heading{color: #222;background-color: #f5f5f5;padding: 10px 15px;border-bottom: 1px solid #ddd;border-radius: 3px;}
 .mypanel .panel-body{padding:15px;}
 
