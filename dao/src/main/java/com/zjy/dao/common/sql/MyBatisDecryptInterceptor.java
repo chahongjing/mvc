@@ -1,7 +1,6 @@
 package com.zjy.dao.common.sql;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.*;
 
@@ -36,7 +35,7 @@ public class MyBatisDecryptInterceptor implements Interceptor {
 
         if (result instanceof ArrayList) {
             ArrayList resultList = (ArrayList) result;
-            if (CollectionUtils.isNotEmpty(resultList) && needToDecrypt(resultList.get(0))) {
+            if (resultList != null && resultList.size() > 0 && needToDecrypt(resultList.get(0))) {
                 for (int i = 0; i < resultList.size(); i++) {
                     Object object = resultList.get(i);
                     decrypt(object);

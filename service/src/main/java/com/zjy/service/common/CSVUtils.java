@@ -1,4 +1,4 @@
-package com.zjy.common.utils;
+package com.zjy.service.common;
 
 import com.zjy.entity.model.TestDownloadRecord;
 import lombok.extern.slf4j.Slf4j;

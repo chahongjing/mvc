@@ -1,10 +1,11 @@
 package com.zjy.entity.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
+//import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.Getter;
 
 @Getter
-public enum Sex2 implements IEnum<Integer> {
+public enum Sex2 //implements IEnum<Integer> {
+{
     MALE(0, "男"),
     FEMALE(1, "女")
     ;
@@ -16,7 +17,7 @@ public enum Sex2 implements IEnum<Integer> {
         this.name = name;
     }
 
-    @Override
+//    @Override
     public Integer getValue() {
         return value;
     }

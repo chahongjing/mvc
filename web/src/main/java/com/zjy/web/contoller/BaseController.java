@@ -34,7 +34,7 @@ public class BaseController {
     }
 
     public static UserInfo getCurrentUser() {
-        return ShiroRealmUtils.getCurrentUser();
+        return (UserInfo)ShiroRealmUtils.getCurrentUser();
     }
 
     public static boolean isPermitted(String permission) {

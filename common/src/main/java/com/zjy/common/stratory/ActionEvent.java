@@ -1,6 +1,6 @@
 package com.zjy.common.stratory;
 
-import com.zjy.entity.model.UserInfo;
+import com.zjy.common.shiro.IUserInfo;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Date;
@@ -15,7 +15,7 @@ public class ActionEvent<P extends BaseActionParam, R extends BaseActionResult> 
 
     private Object newIns;
 
-    private UserInfo opUser;
+    private IUserInfo opUser;
 
     private Date opDate;
 
@@ -23,11 +23,11 @@ public class ActionEvent<P extends BaseActionParam, R extends BaseActionResult> 
         this(param, null);
     }
 
-    public ActionEvent(P param, UserInfo userInfo) {
+    public ActionEvent(P param, IUserInfo userInfo) {
         this(param, userInfo, new Date());
     }
 
-    public ActionEvent(P param, UserInfo userInfo, Date opDate) {
+    public ActionEvent(P param, IUserInfo userInfo, Date opDate) {
         super(param.getClass().getName());
         this.param = param;
         this.opUser = userInfo;
@@ -66,11 +66,11 @@ public class ActionEvent<P extends BaseActionParam, R extends BaseActionResult> 
         this.newIns = newIns;
     }
 
-    public UserInfo getOpUser() {
+    public IUserInfo getOpUser() {
         return opUser;
     }
 
-    public void setOpUser(UserInfo opUser) {
+    public void setOpUser(IUserInfo opUser) {
         this.opUser = opUser;
     }
 

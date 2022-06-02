@@ -1,6 +1,5 @@
 package com.zjy.common.shiro;
 
-import com.zjy.entity.model.UserInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -34,7 +33,7 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        UserInfo user = userInfoSvc.getByCode(token.getUsername());
+        IUserInfo user = userInfoSvc.getByCode(token.getUsername());
         if(user == null) return null;
 //        UserInfo user = new UserInfo();
 //        user.setCode("zjy");
@@ -61,7 +60,7 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        UserInfo user = (UserInfo) principals.getPrimaryPrincipal();
+        IUserInfo user = (IUserInfo) principals.getPrimaryPrincipal();
         List<String> roles = userInfoSvc.queryRoleCodeListByUserId(user.getId());
         List<String> permissions = userInfoSvc.getPermissionListByUserId(user.getId());
 

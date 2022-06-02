@@ -1,7 +1,6 @@
 package com.zjy.common.shiro;
 
 import com.zjy.common.SpringContextHolder;
-import com.zjy.entity.model.UserInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.*;
@@ -19,8 +18,8 @@ public class ShiroRealmUtils {
 
     private static MyAuthorizingRealm realm = SpringContextHolder.getBean("myShiroRealm");
 
-    public static UserInfo getCurrentUser() {
-        return (UserInfo) SecurityUtils.getSubject().getPrincipal();
+    public static IUserInfo getCurrentUser() {
+        return (IUserInfo) SecurityUtils.getSubject().getPrincipal();
     }
 
     public static Long getCurrentUserId() {

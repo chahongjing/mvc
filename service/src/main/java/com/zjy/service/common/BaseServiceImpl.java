@@ -122,6 +122,6 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
 
 
     protected static UserInfo getCurrentUser() {
-        return ShiroRealmUtils.getCurrentUser();
+        return (UserInfo)ShiroRealmUtils.getCurrentUser();
     }
 }

@@ -3,7 +3,9 @@ package com.zjy.service.service.impl;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
+import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
+import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.dao.UserInfoDao;
 import com.zjy.dao.vo.*;
 import com.zjy.entity.enums.Sex;
@@ -183,7 +185,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
             return result;
         }
         // 登录成功
-        UserInfoVo userInfo = getByCode(user.getCode());
+        UserInfoVo userInfo = getVoByCode(user.getCode());
         userInfo.setPermissionList(ShiroRealmUtils.getPermissions());
         userInfo.setPassword(null);
         result.setStatus(ResultStatus.OK);
@@ -209,7 +211,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     }
 
     @Override
-    public UserInfoVo getByCode(String userCode) {
+    public UserInfoVo getVoByCode(String userCode) {
         return dao.getByCode(userCode);
     }
 
@@ -243,7 +245,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         if (!userCodeCur.equals(code)) {
             throw new ServiceException("参数错误！");
         }
-        UserInfo user = this.getByCode(userCodeCur);
+        UserInfo user = this.getVoByCode(userCodeCur);
         if (user == null) {
             throw new ServiceException("用户不存在！");
         }
@@ -263,7 +265,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Override
     public void resetPassword(String code, String password) {
-        UserInfo user = this.getByCode(code);
+        UserInfo user = this.getVoByCode(code);
         if (user == null) {
             throw new ServiceException("用户不存在！");
         }
@@ -284,5 +286,15 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     public List<String> getPermissionListByUserId(Long userId) {
         List<PermissionVo> permissionVos = userPermissionSrv.queryUserCombinePermission(userId);
         return permissionVos.stream().map(Permission::getCode).collect(Collectors.toList());
+    }
+
+    @Override
+    public ShiroUserInfo getByCode(String code) {
+        UserInfoVo user = this.getVoByCode(code);
+        ShiroUserInfo shiroUser = new ShiroUserInfo();
+        shiroUser.setId(user.getId());
+        shiroUser.setCode(user.getCode());
+        shiroUser.setPassword(user.getPassword());
+        return shiroUser;
     }
 }

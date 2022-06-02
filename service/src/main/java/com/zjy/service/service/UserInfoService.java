@@ -1,6 +1,7 @@
 package com.zjy.service.service;
 
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.BaseService;
@@ -33,7 +34,7 @@ public interface UserInfoService extends BaseService<UserInfo>, IUserService {
 
     List<UserInfo> query(UserInfo user);
 
-    UserInfoVo getByCode(String userCode);
+    UserInfoVo getVoByCode(String userCode);
 
     void changePassword(String userCode, String oldPassword, String newPassword);
 

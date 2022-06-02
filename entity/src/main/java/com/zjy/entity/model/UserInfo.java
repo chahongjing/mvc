@@ -1,8 +1,5 @@
 package com.zjy.entity.model;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
 import com.zjy.entity.enums.UserTypeEnum;
@@ -14,18 +11,14 @@ import java.util.Date;
 
 @Getter
 @Setter
-@TableName("user_info")
 public class UserInfo implements Serializable {
     /**
      * 用户Guid
      */
-    @TableId
     private Long id;
     /**
      * 代码
      */
-//    @JSONField(name="user_code")
-    @TableField("code")
     private String code;
     /**
      * 名称
@@ -36,7 +29,6 @@ public class UserInfo implements Serializable {
      */
     private String password;
 
-    @TableField("sex")
     private Sex sex;
     /**
      * 是否系统级

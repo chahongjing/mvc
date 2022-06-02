@@ -25,10 +25,6 @@
             <groupId>com.zjy</groupId>
             <artifactId>baseframework_new</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

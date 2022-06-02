@@ -71,6 +71,10 @@
             <artifactId>dao</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.zjy</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>

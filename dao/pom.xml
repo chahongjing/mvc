@@ -25,12 +25,16 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.zjy</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>entity</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
