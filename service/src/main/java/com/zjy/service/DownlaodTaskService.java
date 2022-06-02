@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.enums.FileSuffix;
+import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.service.common.CSVUtils;
 import com.zjy.common.utils.DownloadUtils;
 import com.zjy.dao.DownloadTaskDao;
@@ -25,8 +26,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -84,6 +87,8 @@ public class DownlaodTaskService {
             StringWriter stringWriter = new StringWriter();
             BufferedWriter bw = new BufferedWriter(stringWriter);
             CSVPrinter csvPrinter = CSVUtils.initPrinter(bw);
+            List<ShiroUserInfo> userList;
+            ShiroUserInfo temp;
             // 循环所有页数
             int pages = pageInfo.getPages();
             for (int i = 0; i < pages; i++) {
@@ -94,8 +99,16 @@ public class DownlaodTaskService {
                 if (pageInfo.getTotal() == 0) {
                     break;
                 }
+                userList = new ArrayList<>();
+                for (TestDownloadRecord record : pageInfo.getList()) {
+                    temp = new ShiroUserInfo();
+                    temp.setId(record.getUserId());
+                    temp.setName(record.getUserName());
+                    temp.setCode(record.getUserCode());
+                    userList.add(temp);
+                }
                 // 处理数据到文件
-                CSVUtils.fillData(csvPrinter, pageInfo.getList());
+                CSVUtils.fillData(csvPrinter, userList);
                 // 修改进度
                 downloadTask.setStatus(DownTaskStatus.STARTED);
                 downloadTask.setProgress((int) (i * 100.0f / pages));

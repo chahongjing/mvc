@@ -432,16 +432,20 @@
           Utility.downloadAfterAjax(resp.data, resp.headers);
         });
       },
+      // 大数据量下载
       bigDataDownload(withError) {
         var me = this;
+        this.allDisabled = true
         this.$axios.postDownload('/bigDataDownload', {withError: !!withError}).then(function (resp) {
           Utility.downloadAfterAjax(resp.data, resp.headers);
+          me.allDisabled = false
         });
       },
+      // 开启下载任务
       downloadCsv(download) {
         var me = this;
         this.allDisabled = true
-        this.$axios.postDownload('/testDownloadList', {download: download}).then(function (resp) {
+        this.$axios.postDownload('/startDownloadTask', {download: download}).then(function (resp) {
           if(download) {
             Utility.downloadAfterAjax(resp.data, resp.headers);
             me.allDisabled = false
@@ -458,6 +462,7 @@
           }
         });
       },
+      // 获取下载任务的进度
       getDownloadTaskProgress: function(id) {
         var me = this;
         this.$axios.get('/getDownloadTaskProgress', {id: id}).then(function (resp) {

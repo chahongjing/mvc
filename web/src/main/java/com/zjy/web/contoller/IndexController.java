@@ -18,30 +18,19 @@ import com.zjy.service.UserService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -58,114 +47,26 @@ public class IndexController extends BaseController {
     @Autowired
     private EventDispatcher eventDispatcher;
 
+    /**
+     * 首页
+     * @return
+     */
     @GetMapping("/")
     public String index() {
         return "index";
-    }
-
-    @RequestMapping("/hi")
-    public String hello(Locale locale, Model model) {
-        model.addAttribute("greeting", "Hello!");
-
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-        String formattedDate = dateFormat.format(date);
-        model.addAttribute("currentTime", formattedDate);
-
-        Map<String, Object> map = new HashMap<>();
-        model.addAttribute("map", map);
-
-        return "hello";
-    }
-
-    @GetMapping("/login")
-    public ModelAndView loginPage(HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView("login");
-        SavedRequest lastRequest = WebUtils.getSavedRequest(request);
-        String lastUrl = null;
-        if (lastRequest != null && HttpMethod.GET.toString().equalsIgnoreCase(lastRequest.getMethod())) {
-            lastUrl = lastRequest.getRequestUrl();
-        }
-        if (StringUtils.isBlank(lastUrl)) {
-            lastUrl = request.getRequestURL().toString().replace(request.getRequestURI(), StringUtils.EMPTY) + request.getContextPath() + "/";
-        }
-        mv.addObject("redirectUrl", lastUrl);
-        return mv;
-    }
-
-    @GetMapping("/index")
-    @ResponseBody
-    public String index2() {
-        log.trace("/comm/getEnums");
-        log.debug("/comm/getEnums");
-        log.info("/comm/getEnums");
-        log.warn("/comm/getEnums");
-        log.error("it is error!");
-        return "abc";
-    }
-
-    @GetMapping("/testMybatisPlus")
-    @ResponseBody
-    public String testMybatisPlus() {
-        int i = userService.testMybatisPlus();
-        return String.valueOf(i);
-    }
-
-    @PostMapping({"/login"})
-    @ResponseBody
-    public String login() {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken("zjy", "pass");
-        subject.login(token);
-        return "abc";
-    }
-
-    @GetMapping("/testDownload")
-    @ResponseBody
-    public String testDownload() {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken("zjy", "pass");
-        subject.login(token);
-        return "abc";
     }
 
     /**
      * 测试动态数据源
      * @return
      */
-    @GetMapping("/testPage")
+    @GetMapping("/testDataSource")
     @RequiresPermissions({"myPer"})
-    public String testPage() {
-        UserInfo fromMaster = userService.getFromMaster();
+    public String testDataSource() {
+        UserInfo fromRandom = userService.getFromRandom();
         UserInfo fromSlave = userService.getFromSlave();
 
         return "testPage";
-    }
-
-    /**
-     * 开启下载任务
-     * @param response
-     * @return
-     */
-    @PostMapping("/testDownloadList")
-    @ResponseBody
-    public BaseResult<DownloadTask> testDownloadList(Boolean download, HttpServletResponse response) {
-        DownloadTask task = new DownloadTask();
-        task.setCreatedBy(1L);
-        task.setCreatedName("ad");
-        downlaodTaskService.addTask(task, download, response);
-        return download ? null : BaseResult.ok(task);
-    }
-
-    /**
-     * 获取下载任务的进度
-     * @param id
-     * @return
-     */
-    @GetMapping("/getDownloadTaskProgress")
-    @ResponseBody
-    public BaseResult<DownloadTask> getDownloadTaskProgress(Long id) {
-        return BaseResult.ok(downlaodTaskService.get(id));
     }
 
     /**
@@ -191,24 +92,29 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 测试模板模式
+     * 开启下载任务
+     * @param response
      * @return
      */
-    @GetMapping("/testDisp")
+    @PostMapping("/startDownloadTask")
     @ResponseBody
-    public String testDisp() {
-        BaseActionParam baseActionParam = new CreateParam();
-        ((CreateParam)baseActionParam).setType("1");
-        BaseActionResult baseActionResult = eventDispatcher.fireAction(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
-        baseActionParam = new CloseParam();
-        baseActionResult = eventDispatcher.fireAction(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
+    public BaseResult<DownloadTask> startDownloadTask(Boolean download, HttpServletResponse response) {
+        DownloadTask task = new DownloadTask();
+        task.setCreatedBy(1L);
+        task.setCreatedName("ad");
+        downlaodTaskService.addTask(task, download, response);
+        return download ? null : BaseResult.ok(task);
+    }
 
-
-        baseActionResult = eventDispatcher.publishEvent(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
-        return "abc";
+    /**
+     * 获取下载任务的进度
+     * @param id
+     * @return
+     */
+    @GetMapping("/getDownloadTaskProgress")
+    @ResponseBody
+    public BaseResult<DownloadTask> getDownloadTaskProgress(Long id) {
+        return BaseResult.ok(downlaodTaskService.get(id));
     }
 
     /**
@@ -284,5 +190,26 @@ public class IndexController extends BaseController {
         } finally {
 //            stringRedisTemplate.opsForValue().decrement(key);
         }
+    }
+
+    /**
+     * 测试模板模式
+     * @return
+     */
+    @GetMapping("/testDispatcher")
+    @ResponseBody
+    public String testDispatcher() {
+        BaseActionParam baseActionParam = new CreateParam();
+        ((CreateParam)baseActionParam).setType("1");
+        BaseActionResult baseActionResult = eventDispatcher.fireAction(baseActionParam);
+        log.info("result:{}", JSON.toJSONString(baseActionResult));
+        baseActionParam = new CloseParam();
+        baseActionResult = eventDispatcher.fireAction(baseActionParam);
+        log.info("result:{}", JSON.toJSONString(baseActionResult));
+
+
+        baseActionResult = eventDispatcher.publishEvent(baseActionParam);
+        log.info("result:{}", JSON.toJSONString(baseActionResult));
+        return "abc";
     }
 }

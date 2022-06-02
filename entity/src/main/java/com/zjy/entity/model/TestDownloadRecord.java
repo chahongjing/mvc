@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class TestDownloadRecord {
-    private String userId;
+    private Long userId;
     /**
      * 代码
      */

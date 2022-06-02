@@ -1,5 +1,6 @@
 package com.zjy.service.common;
 
+import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.entity.model.TestDownloadRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -13,9 +14,9 @@ import java.util.List;
 
 @Slf4j
 public class CSVUtils {
-    static String[] header = new String[]{"userId", "userName", "userCode"};
+    static String[] header = new String[]{"id", "name", "code"};
 
-    public static byte[] listToCsv(List<TestDownloadRecord> list) {
+    public static byte[] listToCsv(List<ShiroUserInfo> list) {
         StringWriter stringWriter = new StringWriter();
         BufferedWriter bw = new BufferedWriter(stringWriter);
         CSVPrinter csvPrinter = initPrinter(bw);
@@ -35,14 +36,14 @@ public class CSVUtils {
         return null;
     }
 
-    public static void fillData(CSVPrinter printer, List<TestDownloadRecord> list) {
+    public static void fillData(CSVPrinter printer, List<ShiroUserInfo> list) {
         List<Object> temp;
         try {
-            for (TestDownloadRecord record : list) {
+            for (ShiroUserInfo record : list) {
                 temp = new ArrayList<>(header.length);
-                temp.add(record.getUserId());
-                temp.add(record.getUserName());
-                temp.add(record.getUserCode());
+                temp.add(record.getId());
+                temp.add(record.getName());
+                temp.add(record.getCode());
                 printer.printRecord(temp);
             }
             printer.flush();

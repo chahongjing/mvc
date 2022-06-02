@@ -17,13 +17,13 @@ public class UserService {
     private UserInfoDao userInfoDao;
 
     @DBSource
-    public UserInfo getFromMaster() {
+    public UserInfo getFromRandom() {
         PageHelper.startPage(1, 1);
         PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoDao.getList("45b90fb3-d794-4f8f-b0f6-f4744cb9a704"));
         UserInfo userInfo = null;
         if(pageInfo.getTotal() > 0) {
             userInfo = pageInfo.getList().get(0);
-            log.info("user master: {}", userInfo.getName());
+            log.info("user random: {}", userInfo.getName());
         }
         return userInfo;
     }
@@ -33,11 +33,5 @@ public class UserService {
         UserInfo userInfo = userInfoDao.selectById("2");
         log.info("user slave: {}", userInfo == null ? null : userInfo.getName());
         return userInfo;
-    }
-
-    public int testMybatisPlus() {
-        int i = userInfoDao.deleteById("2");
-        log.info("testMybatisPlus: {}", i);
-        return i;
     }
 }
