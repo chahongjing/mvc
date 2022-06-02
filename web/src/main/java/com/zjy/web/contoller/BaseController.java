@@ -4,6 +4,7 @@ import com.zjy.common.MyCustomDateEditor;
 import com.zjy.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
+import com.zjy.service.common.BaseServiceImpl;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class BaseController {
 
     @ModelAttribute
     public void init(Model model) {
-        model.addAttribute("user", ShiroRealmUtils.getCurrentUser());
+        model.addAttribute("user", getCurrentUser());
     }
 
     @InitBinder
@@ -34,7 +35,7 @@ public class BaseController {
     }
 
     public static UserInfo getCurrentUser() {
-        return (UserInfo)ShiroRealmUtils.getCurrentUser();
+        return BaseServiceImpl.getCurrentUser();
     }
 
     public static boolean isPermitted(String permission) {

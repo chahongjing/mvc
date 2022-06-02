@@ -18,4 +18,8 @@ public class ShiroUserInfo implements IUserInfo {
      * 密码
      */
     private String password;
+    /**
+     * 姓名
+     */
+    private String name;
 }

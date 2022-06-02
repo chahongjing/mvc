@@ -2,6 +2,7 @@ package com.zjy.service.common;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.dao.common.BaseDao;
 import com.zjy.entity.model.UserInfo;
@@ -121,7 +122,13 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
     }
 
 
-    protected static UserInfo getCurrentUser() {
-        return (UserInfo)ShiroRealmUtils.getCurrentUser();
+    public static UserInfo getCurrentUser() {
+        IUserInfo shiroUser = ShiroRealmUtils.getCurrentUser();
+        if(shiroUser == null) return null;
+        UserInfo user = new UserInfo();
+        user.setId(shiroUser.getId());
+        user.setCode(shiroUser.getCode());
+        user.setName(shiroUser.getName());
+        return user;
     }
 }
