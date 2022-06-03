@@ -52,7 +52,7 @@
               <td>
                 <select class="form-control w100p" v-model="item.type">
                   <option value="" disabled>-- 请选择 --</option>
-                  <option v-for="item in typeList" :value="item.key" v-text="item.name"></option>
+                  <option v-for="item in typeList" :value="item.value" v-text="item.name"></option>
                 </select>
               </td>
               <td>
@@ -112,7 +112,7 @@
         var me = this;
         this.allDisabled = true;
         this.$axios.get('/upgradeLog/getDetail', {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.upgradeLog = resp.data.value || {id:id,contentList:[]};
           }
           me.allDisabled = false;
@@ -128,7 +128,7 @@
         $.extend(true, param, me.upgradeLog);
         delete param.contentList;
         this.$axios.post('/upgradeLog/save', param).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

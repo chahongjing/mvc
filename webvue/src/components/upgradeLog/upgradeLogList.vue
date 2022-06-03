@@ -104,7 +104,7 @@
         list: [],
         sexValue: '',
         sexList: [],
-        nameOrderBy: {value: enumMap.OrderByType.ASC.key},
+        nameOrderBy: {value: enumMap.OrderByType.ASC.value},
         codeOrderBy: {value: null},
         createdOnOrderBy: {value: null},
         pager: {pageNum: 1, pageSize: 5, loading: true},
@@ -144,7 +144,7 @@
           codeOrderBy: this.codeOrderBy.value,
           createdOnOrderBy: this.createdOnOrderBy.value
         }).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
           } else {
@@ -161,7 +161,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除键值对吗？', function () {
           me.$axios.get('/upgradeLog/delete', {id: entity.id}).then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.queryList();
             }

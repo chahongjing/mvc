@@ -150,7 +150,7 @@
         list: [],
         sexValue: '',
         sexList: [],
-        nameOrderBy: {value: enumMap.OrderByType.ASC.key},
+        nameOrderBy: {value: enumMap.OrderByType.ASC.value},
         codeOrderBy: {value: null},
         createdOnOrderBy: {value: null},
         pager: {pageNum: 1, pageSize: 5, loading: true},
@@ -192,7 +192,7 @@
           codeOrderBy: this.codeOrderBy.value,
           createdOnOrderBy: this.createdOnOrderBy.value
         }).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
           } else {
@@ -214,7 +214,7 @@
           pageSize: this.historyPager.pageSize,
           kvId: this.historyItem.id,
         }).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.historyList = resp.data.value.list;
             me.historyPager = commonSrv.getPagerInfo(resp.data.value, me.goHistoryPage);
           } else {
@@ -231,7 +231,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除键值对吗？', function () {
           me.$axios.get('/kvConfig/delete', {id: entity.id}).then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.queryList();
             }
@@ -247,7 +247,7 @@
         var me = this;
         this.$confirm.confirm('确定要清除所有缓存吗？', function () {
           me.$axios.get('/kvConfig/removeAllCache').then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('清除所有缓存成功！');
             }
           });

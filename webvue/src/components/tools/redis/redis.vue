@@ -8,7 +8,7 @@
             <label class="form-label req colon">数据类型</label>
             <div class="form-content">
               <select class='form-control' v-model="dataType">
-                <option v-for="item in dataTypeOption" :value="item.key" v-text="item.name" />
+                <option v-for="item in dataTypeOption" :value="item.value" v-text="item.name" />
               </select>
             </div>
           </div>
@@ -16,7 +16,7 @@
             <label class="form-label req colon">操作类型</label>
             <div class="form-content">
               <select class='form-control' v-model="opType">
-                <option v-for="item in dataOpOption" :value="item.key" v-text="item.name" />
+                <option v-for="item in dataOpOption" :value="item.value" v-text="item.name" />
               </select>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default {
         score: this.score
       };
       me.$axios.post('/redis/optRedis', param).then(function (resp) {
-        if(resp.data.status === ResultStatus.OK.key) {
+        if(resp.data.status === ResultStatus.OK.value) {
           me.$toaster.success('操作成功！');
           me.opResult = JSON.stringify(resp.data.value);
         }
@@ -112,14 +112,14 @@ export default {
   },
   computed: {
     dataOpOption: function() {
-      var arrDataType = ['STRING', 'HASH']
-      var arrOpType = ['ADD_ITEM', 'DEL_ITEM']
+      var arrDataType = [0, 3]
+      var arrOpType = [3, 4]
       var list = []
       for(var ind in window.enumMap['RedisOpType']) {
         list.push(window.enumMap['RedisOpType'][ind]);
       }
       if(arrDataType.includes(this.dataType)) {
-        list = list.filter(item => !arrOpType.includes(item.key))
+        list = list.filter(item => !arrOpType.includes(item.value))
       }
       return list
     }

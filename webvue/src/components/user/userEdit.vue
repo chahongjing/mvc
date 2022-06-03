@@ -79,7 +79,7 @@
             <label class="form-label colon">性别</label>
             <div class="form-content">
               <label class="radio_checkbox mt2" v-for="item in sexList">
-                <input type='radio' name="sex" :value="item.key" v-model="user.sex"/>
+                <input type='radio' name="sex" :value="item.value" v-model="user.sex"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -92,7 +92,7 @@
             <label class="form-label colon">状态</label>
             <div class="form-content">
               <label class="radio_checkbox mt2" v-for="item in statusList">
-                <input type='radio' name="status" :value="item.key" v-model="user.status"/>
+                <input type='radio' name="status" :value="item.value" v-model="user.status"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -105,7 +105,7 @@
             <label class="form-label colon">类型</label>
             <div class="form-content">
               <label class="radio_checkbox mt2" v-for="item in typeList">
-                <input type='radio' name="type" :value="item.key" v-model="user.type"/>
+                <input type='radio' name="type" :value="item.value" v-model="user.type"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -117,8 +117,8 @@
           <div class="form-group">
             <label class="form-label colon">兴趣爱好</label>
             <div class="form-content">
-              <label class="radio_checkbox mt2" v-for="item in interstList">
-                <input type='checkbox' name="interst" :value="item.key" v-model="intertCheck"/>
+              <label class="radio_checkbox mt2" v-for="item in interestList">
+                <input type='checkbox' name="interst" :value="item.value" v-model="intertCheck"/>
                 <i></i>
                 <span v-text="item.name"></span>
               </label>
@@ -157,7 +157,8 @@
           birthday: null,
           type: null,
           status: null,
-          isSave: true
+          isSave: true,
+          interests: []
         },
         mydate: new Date(),
         dateOpt:{format: 'yyyy-mm-dd hh:ii:ss', minView: 0,disabled:true},
@@ -165,8 +166,8 @@
         sexList: [],
         typeList: [],
         statusList: [],
-        interstList: [],
-        intertCheck: []
+        interestList: [],
+        intertCheck:[]
       }
     },
     methods: {
@@ -174,8 +175,9 @@
         var me = this;
         this.allDisabled = true;
         this.$axios.get('/user/getDetail', {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.user = resp.data.value;
+            me.intertCheck = me.user.interestList.concat()
           }
           me.allDisabled = false;
         });
@@ -183,8 +185,9 @@
       save: function () {
         var me = this;
         this.allDisabled = true;
+        me.user.interests = this.intertCheck;
         this.$axios.post('/user/save', me.user).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {
@@ -217,10 +220,10 @@
       this.getDetail(this.$route.query.id);
       this.getEnumList();
       var list = [];
-      list.push({key: 1, name: '看书'});
-      list.push({key: 2, name: '看电影'});
-      list.push({key: 3, name: '运动'});
-      this.interstList = list;
+      list.push({value: 1, name: '看书'});
+      list.push({value: 2, name: '看电影'});
+      list.push({value: 3, name: '运动'});
+      this.interestList = list;
     }
   }
 </script>

@@ -1,11 +1,13 @@
 package com.zjy.web.contoller;
 
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.enums.SwitchEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/switch")
 public class SwitchController extends BaseController {
-
-    Map<String, String> switchMap = new HashMap<>();
+    @Autowired
+    private ICache cache;
 
     /**
      * 开关列表
@@ -35,8 +37,8 @@ public class SwitchController extends BaseController {
         for (SwitchEnum value : SwitchEnum.values()) {
             switchs.put(value.toString(), SwitchEnum.SWITCH_CLOSE);
         }
-//        Map<String, String> switchList = cache.hGetAll(SwitchEnum.SWITCH_KEY);
-        Map<String, String> switchList = switchMap;
+        Map<String, String> switchList = cache.hGetAll(SwitchEnum.SWITCH_KEY);
+//        Map<String, String> switchList = switchMap;
         if(MapUtils.isNotEmpty(switchList)) {
             for (Map.Entry<String, String> entry : switchs.entrySet()) {
                 String o = switchList.get(entry.getKey());
@@ -69,17 +71,15 @@ public class SwitchController extends BaseController {
         }
         String op;
         if(SwitchEnum.SWITCH_OPEN.equals(value)) {
-            switchMap.put(key, value);
-//            cache.hSet(SwitchEnum.SWITCH_KEY, key, value);
+//            switchMap.put(key, value);
+            cache.hSet(SwitchEnum.SWITCH_KEY, key, value);
             op = "打开";
         } else {
-            switchMap.remove(key);
-//            cache.hDelete(SwitchEnum.SWITCH_KEY, key);
+//            switchMap.remove(key);
+            cache.hDelete(SwitchEnum.SWITCH_KEY, key);
             op = "关闭";
         }
-//        Login userInfo = getLogin();
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(1L);
+        UserInfo userInfo = getCurrentUser();
         log.info("{} {} 开关:{}", userInfo.getId(), op, SwitchEnum.valueOf(key).getName());
         return BaseResult.ok(String.format("%s 开关 %s 成功！", op, SwitchEnum.valueOf(key).getName()));
     }

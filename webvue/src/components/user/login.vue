@@ -69,7 +69,7 @@
           code: $.trim(code.val()),
           password: $.trim(password.val())
         }).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.user = resp.data.value;
             me.$root.setUser(me.user);
             me.$root.setPermissionList(me.user.permissionList);

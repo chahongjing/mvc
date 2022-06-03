@@ -114,7 +114,7 @@
       getRolePermission: function (id, type) {
         var me = this;
         this.$axios.get(this.getUrl[this.type], {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value;
             me.refreshCheckbox();
           }
@@ -136,7 +136,7 @@
       saveCore: function(changed) {
         // 处理联动
         this.$axios.post(this.saveUrl[this.type], {listStr: JSON.stringify(changed), targetId: this.id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
 
           }
         });

@@ -1,6 +1,7 @@
 package com.zjy.service.component;
 
 import com.alibaba.fastjson.JSON;
+import com.zjy.baseframework.common.RedisKeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.DefaultTypedTuple;
@@ -18,8 +19,6 @@ import java.util.stream.Collectors;
 @Component
 public class RedisUtils {
 
-    private static final String SET_KEY = "mvc:cache:set";
-    private static final String ZSET_KEY = "mvc:cache:zset";
     private static final int timeout_second = 3600;
 
     @Resource
@@ -109,8 +108,8 @@ public class RedisUtils {
         stringRedisTemplate.opsForHash().putAll(key, map);
     }
 
-    public void hDel(String key, Object... hashKey) {
-        stringRedisTemplate.opsForHash().delete(key, hashKey);
+    public Long hDel(String key, Object... hashKey) {
+        return stringRedisTemplate.opsForHash().delete(key, hashKey);
     }
 
     public Boolean hHasKey(String key, String hashKey) {
@@ -245,7 +244,7 @@ public class RedisUtils {
     }
 
     private String getZsetCacheKey() {
-        return ZSET_KEY;
+        return RedisKeyUtils.ZSET_CACHE_KEY;
     }
     // endregion
 
@@ -265,7 +264,7 @@ public class RedisUtils {
     }
 
     private String getSetCacheKey() {
-        return SET_KEY;
+        return RedisKeyUtils.SET_CACHE_KEY;
     }
     // endregion
 }

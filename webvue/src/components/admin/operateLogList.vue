@@ -18,7 +18,7 @@
           <div class="form-content">
             <select class='form-control' v-model="logLevel">
               <option value="">-- 全部 --</option>
-              <option v-for="item in logLevelList" :value="item.key" v-text="item.name"></option>
+              <option v-for="item in logLevelList" :value="item.value" v-text="item.name"></option>
             </select>
           </div>
         </div>
@@ -100,7 +100,7 @@
           pageNum: this.pager.pageNum,
           pageSize: this.pager.pageSize
         }).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
           }
@@ -115,7 +115,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除日志吗？', function () {
           me.$axios.get('/operateLog/delete', {id: entity.logID}).then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.search();
             }
@@ -126,7 +126,7 @@
         var me = this;
         this.$confirm.confirm('确定要清空所有日志吗？', function () {
           me.$axios.get('/operateLog/deleteAll').then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('清空成功！');
               me.search();
             }

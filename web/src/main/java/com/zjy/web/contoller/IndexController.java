@@ -3,7 +3,9 @@ package com.zjy.web.contoller;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.DownloadException;
+import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.stratory.BaseActionParam;
@@ -211,5 +213,11 @@ public class IndexController extends BaseController {
         baseActionResult = eventDispatcher.publishEvent(baseActionParam);
         log.info("result:{}", JSON.toJSONString(baseActionResult));
         return "abc";
+    }
+    @GetMapping("/testCache")
+    @ResponseBody
+    @RedisCache(key= RedisKeyUtils.KEY_PREFIX + "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public String testCache(Long id, String name) {
+        return new Date().toString();
     }
 }

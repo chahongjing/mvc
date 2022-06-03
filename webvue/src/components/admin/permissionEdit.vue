@@ -72,7 +72,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.get('/permission/getDetail', {id: id, functionId: functionId}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.permission = resp.data.value;
           }
         me.allDisabled = false;
@@ -82,7 +82,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.post('/permission/save', me.permission).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

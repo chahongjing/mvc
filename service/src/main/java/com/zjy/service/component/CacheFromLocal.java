@@ -35,9 +35,9 @@ public class CacheFromLocal implements ICache {
     }
 
     @Override
-    public Map<String, Object> getAll(String key) {
-        Map<String, Object> result = new HashMap<>();
-        map.entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+    public Map<String, String> getAll(String key) {
+        Map<String, String> result = new HashMap<>();
+        map.entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).forEach(entry -> result.put(entry.getKey(), entry.getValue().toString()));
         return result;
     }
 
@@ -48,6 +48,16 @@ public class CacheFromLocal implements ICache {
     public long hSet(String key, String field, String value) {
         map.put(getHKey(key, field), value);
         return 0;
+    }
+
+    @Override
+    public Map<String, String> hGetAll(String key) {
+        Map<String, String> result = new HashMap<>();
+        map.entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).forEach(entry -> {
+            String tempKey = entry.getKey().substring(entry.getKey().indexOf(key + ":") + key.length() + 1);
+            result.put(tempKey, entry.getValue().toString());
+        });
+        return result;
     }
 
     public long hDelete(String key) {

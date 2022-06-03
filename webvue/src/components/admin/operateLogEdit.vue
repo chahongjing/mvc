@@ -10,7 +10,7 @@
               <select class="form-control" v-model='operateLog.logLevel'
                       placeholder='请选择日志级别' disabled>
                 <option>--请选择类型--</option>
-                <option v-for='item in logLevelList' :value="item.key" v-text="item.name"></option>
+                <option v-for='item in logLevelList' :value="item.value" v-text="item.name"></option>
               </select>
             </div>
             <div class='form-info'>
@@ -96,7 +96,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.get('/operateLog/getDetail', {id: id}).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.operateLog = resp.data.value;
           }
           me.allDisabled = false;
@@ -106,7 +106,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.post('/operateLog/save', me.operateLog).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

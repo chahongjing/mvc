@@ -96,7 +96,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.get('/menu/getDetail', {id: id}).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.menu = resp.data.value;
           }
           me.allDisabled = false;
@@ -106,7 +106,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.post('/menu/save', me.menu).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {
@@ -117,7 +117,7 @@
       getMenuList() {
         var me = this;
         this.$axios.post('/menu/queryParentList', me.menu).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.menuList = resp.data.value;
           }
         });

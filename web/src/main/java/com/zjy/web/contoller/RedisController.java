@@ -85,7 +85,6 @@ public class RedisController extends BaseController{
     }
 
     private Map<String, Object> opList(RedisOpType opType, String key, String value) {
-        // todo: test
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
             map.put("result", stringRedisTemplate.opsForSet().members(key));
@@ -122,7 +121,6 @@ public class RedisController extends BaseController{
     }
 
     private Map<String, Object> opZset(RedisOpType opType, String key, String value, Double score) {
-        // todo: test
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
             map.put("result", stringRedisTemplate.opsForZSet().rangeWithScores(key, 0, -1));
@@ -154,7 +152,6 @@ public class RedisController extends BaseController{
      * @return
      */
     private Map<String, Object> opHash(RedisOpType opType, String key, String field, String value) {
-        // todo: test
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
             map.put("result", stringRedisTemplate.opsForHash().get(key, field));

@@ -62,7 +62,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.get('/role/getDetail', {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.role = resp.data.value;
           }
           me.allDisabled = false;
@@ -72,7 +72,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.post('/role/save', me.role).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

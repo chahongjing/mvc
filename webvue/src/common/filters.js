@@ -16,7 +16,7 @@ export default {
     var enumIns = window.enumMap[enumType];
     if (!enumType || !enumIns || !(enumIns instanceof Object)) return '';
     for(var ind in enumIns) {
-      if(enumIns[ind] && enumIns[ind].key === value) return enumIns[ind].name;
+      if(enumIns[ind] && enumIns[ind].value === value) return enumIns[ind].name;
     }
     return value;
   }

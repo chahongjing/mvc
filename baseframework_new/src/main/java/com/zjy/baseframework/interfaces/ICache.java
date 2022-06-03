@@ -10,9 +10,10 @@ public interface ICache {
     <T> T get(String key, Class<T> clazz);
     <T> void set(String key, T value);
     boolean delete(String key);
-    Map<String, Object> getAll(String key);
-//    Object hGet(String key, String field);
-//    long hSet(String key, String field, String value);
-//    long hDelete(String key);
-//    long hDelete(String key, String field);
+    Map<String, String> getAll(String key);
+    Object hGet(String key, String field);
+    long hSet(String key, String field, String value);
+    Map<String, String> hGetAll(String key);
+    long hDelete(String key);
+    long hDelete(String key, String field);
 }

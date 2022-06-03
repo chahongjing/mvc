@@ -1,5 +1,6 @@
 package com.zjy.service.enums;
 
+import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 
 public enum SwitchEnum implements IBaseEnum {
@@ -8,7 +9,7 @@ public enum SwitchEnum implements IBaseEnum {
 
     private final int value;
     private final String name;
-    public static final String SWITCH_KEY = "SWITCH_KEY";
+    public static final String SWITCH_KEY = RedisKeyUtils.SWITCH_KEY;
     public static final String SWITCH_OPEN = "1";
     public static final String SWITCH_CLOSE = "0";
 

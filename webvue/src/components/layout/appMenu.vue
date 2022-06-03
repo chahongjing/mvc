@@ -47,7 +47,7 @@
         } else {
           var me = this;
           me.$axios.get('/menu/queryMenu').then(function (resp) {
-            if (resp.data.status == ResultStatus.OK.key) {
+            if (resp.data.status == ResultStatus.OK.value) {
               var menuInfo = {first: {}, second: {}};
               for (var i = 0; i < resp.data.value.length; i++) {
                 var menu = resp.data.value[i];

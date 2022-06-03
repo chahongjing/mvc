@@ -76,7 +76,7 @@
         var me = this;
         this.allDisabled = true;
         this.$axios.get('/kvConfig/getDetail', {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.kvConfig = resp.data.value || {id:id};
           }
           me.allDisabled = false;
@@ -86,7 +86,7 @@
         var me = this;
         this.allDisabled = true;
         this.$axios.post('/kvConfig/save', me.kvConfig).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

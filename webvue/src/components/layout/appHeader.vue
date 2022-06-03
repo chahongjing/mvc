@@ -135,7 +135,7 @@
         var me = this;
         //this.$confirm.confirm('确定要退出系统吗？', function () {
           me.$axios.get('/user/logout').then(function (resp) {
-            if (resp.data.status == ResultStatus.OK.key) {
+            if (resp.data.status == ResultStatus.OK.value) {
               me.$root.clearUser();
               me.$router.push({path: '/login'});
             }
@@ -187,7 +187,7 @@
           oldPassword: this.user.oldPassword,
           newPassword: this.user.newPassword
         }).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('修改密码成功！');
             me.showchangePasswordDialog = false;
             me.user.oldPassword = '';

@@ -20,7 +20,7 @@
               <select class="form-control" v-model='configInfo.type'
                       placeholder='请选择类型'>
                 <option>--请选择类型--</option>
-                <option v-for='item in configTypeList' :value="item.key" v-text="item.name"></option>
+                <option v-for='item in configTypeList' :value="item.value" v-text="item.name"></option>
               </select>
             </div>
             <div class='form-info'>
@@ -119,7 +119,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.get('/configInfo/getDetail', {id: id}).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.configInfo = resp.data.value;
           }
           me.allDisabled = false;
@@ -129,7 +129,7 @@
         var me = this;
         me.allDisabled = true;
         this.$axios.post('/configInfo/save', me.configInfo).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');
             me.$root.goBack();
           } else {

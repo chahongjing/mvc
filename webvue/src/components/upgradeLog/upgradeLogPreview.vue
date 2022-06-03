@@ -56,7 +56,7 @@
       queryAllLog: function () {
         var me = this;
         me.$axios.get('/upgradeLog/queryList').then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             for(var i = 0; i < resp.data.value.length; i++) {
               resp.data.value[i].open = i == 0;
             }

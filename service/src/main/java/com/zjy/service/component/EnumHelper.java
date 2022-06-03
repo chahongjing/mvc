@@ -26,10 +26,16 @@ public class EnumHelper {
         return description.value();
     }
 
+    public static void initAllSerializeEnum() {
+        List<Class> classList = ReflectionHelper.getProjectClassList();
+        initAllSerializeEnum(classList);
+    }
+
     public static void initAllSerializeEnum(List<Class> classList) {
+        serializeEnumList = new ArrayList<>();
         for (Class aClass : classList) {
             if (aClass.isEnum() && IBaseEnum.class.isAssignableFrom(aClass) && aClass.isAnnotationPresent(SerializeEnum.class)) {
-                serializeEnumList.add((Class<IBaseEnum>)aClass);
+                serializeEnumList.add((Class<IBaseEnum>) aClass);
             }
         }
     }
@@ -39,7 +45,7 @@ public class EnumHelper {
         String keyName;
         for (Class<IBaseEnum> iBaseEnumClass : serializeEnumList) {
             SerializeEnum serializeEnum = iBaseEnumClass.getAnnotation(SerializeEnum.class);
-            if(serializeEnum != null && StringUtils.isNotBlank(serializeEnum.value())) {
+            if (serializeEnum != null && StringUtils.isNotBlank(serializeEnum.value())) {
                 keyName = serializeEnum.value();
             } else {
                 keyName = iBaseEnumClass.getSimpleName();
@@ -48,16 +54,34 @@ public class EnumHelper {
             List<IBaseEnum> list = Arrays.stream(iBaseEnumClass.getEnumConstants()).sorted(Comparator.comparing(IBaseEnum::getOrder))
                     .collect(Collectors.toList());
             for (IBaseEnum item : list) {
-                EnumBean bean = new EnumBean();
-                bean.setKey(item.toString());
-                bean.setValue(item.getValue());
-                bean.setCode(item.getCode());
-                bean.setName(item.getName());
-                bean.setOrder(item.getOrder());
-                map.put(item.toString(), bean);
+                //add by jian.tang
+                try {
+                    if(item.getClass().getField(item.toString()).isAnnotationPresent( Deprecated.class )) continue;
+//                    if(item.getClass().getField(item.toString()).isAnnotationPresent( NoShowEnumItem.class )) continue;
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+                map.put(item.toString(), iBaseEnumToBean(item));
             }
             result.put(keyName, map);
         }
         return result;
+    }
+
+    public static EnumBean iBaseEnumToBean(IBaseEnum en) {
+        EnumBean bean = new EnumBean();
+        bean.setKey(en.toString());
+        bean.setValue(en.getValue());
+        bean.setCode(en.getCode());
+        bean.setName(en.getName());
+        bean.setOrder(en.getOrder());
+        return bean;
+    }
+
+    public static List<Class<IBaseEnum>> getEnumList() {
+        if (serializeEnumList.size() == 0) {
+            initAllSerializeEnum();
+        }
+        return serializeEnumList;
     }
 }

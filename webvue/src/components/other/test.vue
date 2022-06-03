@@ -420,7 +420,7 @@
       axiosUploadFile() {
         var me = this;
         this.$axios.post('/learn/testPostWithFile', this.getFormData()).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             console.log(resp.data.value);
             me.$toaster.success('上传成功！');
           }
@@ -454,8 +454,8 @@
             me.progress = 0
             // 获取进度
             var res = JSON.parse(Utility.readArrayBufferAsText(resp.data));
-            if(res.status === ResultStatus.OK.key) {
-              if(res.value.status == enumMap.DownTaskStatus.CREATED.key || res.value.status == enumMap.DownTaskStatus.STARTED.key) {
+            if(res.status === ResultStatus.OK.value) {
+              if(res.value.status == enumMap.DownTaskStatus.CREATED.value || res.value.status == enumMap.DownTaskStatus.STARTED.value) {
                 me.getDownloadTaskProgress(res.value.id);
               }
             }
@@ -466,10 +466,10 @@
       getDownloadTaskProgress: function(id) {
         var me = this;
         this.$axios.get('/getDownloadTaskProgress', {id: id}).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             // $('#progress').val(resp.data.value.progress)
             me.progress = resp.data.value.progress
-            if(resp.data.value.status == enumMap.DownTaskStatus.STARTED.key) {
+            if(resp.data.value.status == enumMap.DownTaskStatus.STARTED.value) {
               setTimeout(function() {
                 me.getDownloadTaskProgress(resp.data.value.id);
               }, 2000)

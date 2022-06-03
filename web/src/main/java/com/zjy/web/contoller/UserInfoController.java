@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -54,6 +57,10 @@ public class UserInfoController extends BaseController {
     @RequiresPermissions("userEdit")
     public BaseResult<UserInfoVo> getDetail(Long id) {
         UserInfoVo userInfo = userInfoSrv.getVo(id);
+        Set<Integer> set = new HashSet<>();
+        set.add(2);
+        set.add(3);
+        userInfo.setInterestList(set);
         return BaseResult.ok(userInfo);
     }
 

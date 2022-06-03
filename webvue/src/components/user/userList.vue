@@ -18,7 +18,7 @@
           <div class="form-content">
             <select class='form-control' v-model="sexValue">
               <option value="">-- 全部 --</option>
-              <option v-for="item in sexList" :value="item.key" v-text="item.name"></option>
+              <option v-for="item in sexList" :value="item.value" v-text="item.name"></option>
             </select>
           </div>
         </div>
@@ -52,7 +52,7 @@
           <td v-text='item.code'></td>
           <td class='text-center' v-text='$options.filters.formatDate(item.createdOn)'></td>
           <td class='text-center'>
-            <i class='fa mr0' :class='{"fa-female": item.sex == Sex.FEMALE.key,"fa-male": item.sex == Sex.MALE.key}'></i>
+            <i class='fa mr0' :class='{"fa-female": item.sex == Sex.FEMALE.value,"fa-male": item.sex == Sex.MALE.value}'></i>
             <span v-text='$options.filters.enumNameFilter(item.sex, "Sex")'></span>
           </td>
           <td class='text-center' v-text='$options.filters.enumNameFilter(item.type, "UserTypeEnum")'></td>
@@ -67,7 +67,7 @@
             <a class='inline-block mybtn' v-authcode='"userList_resetPassword"' href='javascript:void(0)' @click='setPassword(item)' title='修改密码'>
               <i class='fa fa-key c393'></i>
             </a>
-            <a class='inline-block mybtn' v-authcode='"userList_delete"' href='javascript:void(0)' @click='deleteItem(item)' title='删除' v-if='item.isSystem != YesNo.YES.key'>
+            <a class='inline-block mybtn' v-authcode='"userList_delete"' href='javascript:void(0)' @click='deleteItem(item)' title='删除' v-if='item.isSystem != YesNo.YES.value'>
               <i class='fa fa-trash cf05'></i>
             </a>
           </td>
@@ -126,7 +126,7 @@
         list: [],
         sexValue: '',
         sexList: [],
-        nameOrderBy: {value: enumMap.OrderByType.ASC.key},
+        nameOrderBy: {value: enumMap.OrderByType.ASC.value},
         codeOrderBy: {value: null},
         createdOnOrderBy: {value: null},
         pager: {pageNum: 1, pageSize: 5, loading: true},
@@ -164,7 +164,7 @@
           codeOrderBy: this.codeOrderBy.value,
           createdOnOrderBy: this.createdOnOrderBy.value
         }).then(function (resp) {
-          if(resp.data.status == ResultStatus.OK.key) {
+          if(resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
           } else {
@@ -181,7 +181,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除用户吗？', function () {
           me.$axios.get('/user/delete', {id: entity.id}).then(function (resp) {
-            if(resp.data.status == ResultStatus.OK.key) {
+            if(resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.queryList();
             }
@@ -212,7 +212,7 @@
         if(this.createdOnOrderBy != field) {
           this.createdOnOrderBy.value = null;
         }
-        field.value = (field.value == enumMap.OrderByType.ASC.key ? enumMap.OrderByType.DESC.key : enumMap.OrderByType.ASC.key);
+        field.value = (field.value == enumMap.OrderByType.ASC.value ? enumMap.OrderByType.DESC.value : enumMap.OrderByType.ASC.key);
         this.queryList();
       },
       setPassword(entity) {
@@ -236,7 +236,7 @@
           code: this.code,
           password: this.password
         }).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('修改密码成功！');
             me.showChangePasswordDialog = false;
           }
@@ -248,7 +248,7 @@
         return function(field) {
           var res = {};
           if(field.value) {
-            res[field.value.toLowerCase()] = true;
+            res[field.value] = true;
           }
           return res;
         }

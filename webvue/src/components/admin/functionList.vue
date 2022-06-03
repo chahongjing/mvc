@@ -94,7 +94,7 @@
           pageNum: me.pager.pageNum,
           pageSize: me.pager.pageSize
         }).then(function (resp) {
-          if (resp.data.status === ResultStatus.OK.key) {
+          if (resp.data.status === ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
 
@@ -116,7 +116,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除功能吗？', function () {
           me.$axios.get('/function/delete', {id: entity.id}).then(function (resp) {
-            if (resp.data.status === ResultStatus.OK.key) {
+            if (resp.data.status === ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.queryList();
             }

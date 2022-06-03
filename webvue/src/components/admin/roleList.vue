@@ -86,7 +86,7 @@
           pageNum: this.pager.pageNum,
           pageSize: this.pager.pageSize
         }).then(function (resp) {
-          if (resp.data.status == ResultStatus.OK.key) {
+          if (resp.data.status == ResultStatus.OK.value) {
             me.list = resp.data.value.list;
             me.pager = commonSrv.getPagerInfo(resp.data.value, me.goPage);
           }
@@ -101,7 +101,7 @@
         var me = this;
         this.$confirm.confirm('确定要删除角色吗？', function () {
           me.$axios.get('/role/delete', {id: entity.id}).then(function (resp) {
-            if (resp.data.status == ResultStatus.OK.key) {
+            if (resp.data.status == ResultStatus.OK.value) {
               me.$toaster.success('删除成功！');
               me.search();
             }
