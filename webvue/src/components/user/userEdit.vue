@@ -185,7 +185,7 @@
       save: function () {
         var me = this;
         this.allDisabled = true;
-        me.user.interests = this.intertCheck;
+        me.user.interestList = this.intertCheck;
         this.$axios.post('/user/save', me.user).then(function (resp) {
           if (resp.data.status == ResultStatus.OK.value) {
             me.$toaster.success('保存成功！');

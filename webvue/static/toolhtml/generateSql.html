@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='utf-8'> 
+	<meta charset='utf-8'>
 	<title>sql自动生成</title>
 	<link rel='stylesheet' type='text/css' href='../bootstrap/css/bootstrap.min.css'>
 	<link rel='stylesheet' type='text/css' href='../font-awesome/css/font-awesome.min.css'>
@@ -33,7 +33,7 @@
         }
         .myform .form-group{width:50%;float:left;height:45px;}
     </style>
-</head> 
+</head>
 <body>
 	<div id='myApp'>
 	    <form class='myform form-label-w120 clearfix'>
@@ -592,7 +592,7 @@ COMMENT ON COLUMN {firstName}.id is '主键';
 <script type="text/x-template" id="mysqlAddTable.html">
     -- {author} {datetime} {functionName}
     CREATE TABLE IF NOT EXISTS {firstName}(
-      id INT PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+      id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '主键',
       name VARCHAR(100) COMMENT '名称'
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{remark}';
     -- ALTER TABLE {firstName} COMMENT '{remark}';
@@ -814,6 +814,7 @@ END;
 </script>
 <script type="text/x-template" id="mysqlAddField.html">
     -- {author} {datetime} {functionName}
+    ALTER TABLE {firstName} ADD {secondName} VARCHAR(50) DEFAULT 'mst' NOT NULL COMMENT '{remark}';
     DROP PROCEDURE IF EXISTS add_column_if;
 DELIMITER //
 CREATE PROCEDURE add_column_if(IN v_table varchar(50), IN v_column varchar(50), IN v_type varchar(100), IN v_discription varchar(1000))
@@ -837,6 +838,7 @@ call add_column_if('myuser', 'test', 'int', '新字段');
 </script>
 <script type="text/x-template" id="mysqlAlterField.html">
     -- {author} {datetime} {functionName}
+    ALTER TABLE {firstName} MODIFY COLUMN {secondName} VARCHAR(64) NOT NULL DEFAULT '' COMMENTvarchar(64) not null default '{remark}';
     DROP PROCEDURE IF EXISTS modify_column_if;
 DELIMITER //
 CREATE PROCEDURE modify_column_if(IN v_table varchar(50), IN v_column varchar(50), IN v_type varchar(100), IN v_discription varchar(1000))
@@ -875,7 +877,7 @@ begin
   declare v_flag int;
   select count(*) into v_flag from information_schema.columns where UPPER(table_schema) = UPPER((select DATABASE())) and UPPER(table_name) = UPPER(v_table) and UPPER(column_name) = UPPER(v_column);
   if(v_flag = 1)
-  then 
+  then
     set @sqlstr = concat('ALTER TABLE ', v_table, ' DROP COLUMN ', v_column);
     select @sqlstr;
     prepare stmt from @sqlstr;
@@ -942,5 +944,5 @@ call drop_column_if('myuser', 'test');
     END IF;
     END;
 </script>
-</body> 
+</body>
 </html>

@@ -21,8 +21,8 @@ public class RedisUtils {
 
     private static final int timeout_second = 3600;
 
-    @Resource
     @Lazy
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     /**

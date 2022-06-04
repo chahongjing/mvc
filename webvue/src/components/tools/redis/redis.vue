@@ -73,8 +73,8 @@ export default {
   data () {
     return {
       allDisabled: true,
-      dataType: 'STRING',
-      opType: 'GET',
+      dataType: 0,
+      opType: 0,
       key: '',
       field: '',
       value: '',

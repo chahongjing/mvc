@@ -6,6 +6,7 @@ import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
+import com.zjy.service.service.TestService;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.service.service.UserPermissionService;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,18 +30,20 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserInfoController extends BaseController {
     @Autowired
-    private UserInfoService userInfoSrv;
+    private UserInfoService userInfoService;
     @Autowired
     private UserPermissionService userPermissionService;
+    @Autowired
+    private TestService testService;
 
     @RequestMapping("/login")
     public BaseResult<UserInfoVo> login(UserInfo user) {
-        return userInfoSrv.login(user);
+        return userInfoService.login(user);
     }
 
     @RequestMapping(value = "/logout")
     public BaseResult<String> logout() {
-        return userInfoSrv.logout();
+        return userInfoService.logout();
     }
 
     // region 用户管理
@@ -56,10 +58,9 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     @RequiresPermissions("userEdit")
     public BaseResult<UserInfoVo> getDetail(Long id) {
-        UserInfoVo userInfo = userInfoSrv.getVo(id);
+        UserInfoVo userInfo = userInfoService.getVo(id);
         Set<Integer> set = new HashSet<>();
         set.add(2);
-        set.add(3);
         userInfo.setInterestList(set);
         return BaseResult.ok(userInfo);
     }
@@ -71,7 +72,7 @@ public class UserInfoController extends BaseController {
         if (!(isPermitted("userEdit_save") || (currentUser != null && currentUser.getCode().equals(vo.getCode())))) {
             throw new UnauthorizedException();
         }
-        userInfoSrv.save(vo);
+        userInfoService.save(vo);
         return BaseResult.ok();
     }
 
@@ -79,14 +80,14 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     @RequiresPermissions(value = {"userList_delete"}, logical = Logical.OR)
     public BaseResult<String> delete(Long id) {
-        userInfoSrv.delete(id);
+        userInfoService.delete(id);
         return BaseResult.ok();
     }
 
     @RequestMapping("changePassword")
     @ResponseBody
     public BaseResult<String> changePassword(String code, String oldPassword, String newPassword) {
-        userInfoSrv.changePassword(code, oldPassword, newPassword);
+        userInfoService.changePassword(code, oldPassword, newPassword);
         return BaseResult.ok();
     }
 
@@ -94,7 +95,7 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     @RequiresPermissions(value = {"userList_resetPassword"})
     public BaseResult<String> resetPassword(String code, String password) {
-        userInfoSrv.resetPassword(code, password);
+        userInfoService.resetPassword(code, password);
         return BaseResult.ok();
     }
 
@@ -117,7 +118,7 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     @RequiresPermissions("userList")
     public BaseResult<PageBean> queryPageList(UserInfoRequest request) {
-        PageBean<UserInfoVo> pageBean = (PageBean<UserInfoVo>) userInfoSrv.queryPageList(request);
+        PageBean<UserInfoVo> pageBean = (PageBean<UserInfoVo>) userInfoService.queryPageList(request);
         return BaseResult.ok(pageBean);
 //        throw new ServiceException("dfsfd");
     }

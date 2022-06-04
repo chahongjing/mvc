@@ -2,6 +2,8 @@ package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.NoRepeatOp;
+import com.zjy.baseframework.common.RedisKeyUtils;
+import com.zjy.baseframework.common.ServiceException;
 import com.zjy.service.component.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -11,15 +13,20 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
-@Component
-@Aspect
+/**
+ * 重复请求校验
+ */
 @Slf4j
+@Aspect
+@Order(120)
+@Component
 public class NoRepeatAspect {
     @Resource
     private RedisUtils redisUtils;
@@ -39,7 +46,7 @@ public class NoRepeatAspect {
         Object[] args = pjp.getArgs();
         String argsJson = JSON.toJSONString(args);
         String hash = DigestUtils.md5Hex(pjp.toShortString() + argsJson);
-        String key = "mvc:module:op:" + hash;
+        String key = RedisKeyUtils.REPEAT_OP + ":" + hash;
         boolean r = redisUtils.lock(key, "1", timeout, TimeUnit.SECONDS);
         if (r) {
             try {
@@ -50,6 +57,6 @@ public class NoRepeatAspect {
                 redisUtils.del(key);
             }
         }
-        throw new RuntimeException("重复请求");
+        throw new ServiceException("重复请求");
     }
 }

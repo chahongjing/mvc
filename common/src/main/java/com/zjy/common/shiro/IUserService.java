@@ -9,4 +9,6 @@ public interface IUserService {
     List<String> queryRoleCodeListByUserId(Long id);
 
     List<String> getPermissionListByUserId(Long id);
+
+    void test();
 }

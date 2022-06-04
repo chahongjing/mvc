@@ -13,16 +13,18 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+
 import java.util.List;
 import java.util.Set;
 
 public class MyAuthorizingRealm extends AuthorizingRealm {
 
-    protected IUserService userInfoSvc;
+    protected IUserService iUserService;
 
-    public MyAuthorizingRealm(IUserService userInfoSvc) {
-        this.userInfoSvc = userInfoSvc;
+    public void setIUserService(IUserService iUserService) {
+        this.iUserService = iUserService;
     }
+
     /**
      * 获取当前登录用户数据库信息
      *
@@ -33,7 +35,7 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        IUserInfo user = userInfoSvc.getByCode(token.getUsername());
+        IUserInfo user = iUserService.getByCode(token.getUsername());
         if(user == null) return null;
 //        UserInfo user = new UserInfo();
 //        user.setCode("zjy");
@@ -61,8 +63,8 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         IUserInfo user = (IUserInfo) principals.getPrimaryPrincipal();
-        List<String> roles = userInfoSvc.queryRoleCodeListByUserId(user.getId());
-        List<String> permissions = userInfoSvc.getPermissionListByUserId(user.getId());
+        List<String> roles = iUserService.queryRoleCodeListByUserId(user.getId());
+        List<String> permissions = iUserService.getPermissionListByUserId(user.getId());
 
         permissions.add("myPer");
 

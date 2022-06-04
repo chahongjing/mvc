@@ -1,9 +1,14 @@
 spring:
   profiles:
-    include: mybatis, common, @profiles.active@
+    active: @profiles.active@
+    include: mybatis, common
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   mvc:
     static-path-pattern: /static/**
 #  redis:

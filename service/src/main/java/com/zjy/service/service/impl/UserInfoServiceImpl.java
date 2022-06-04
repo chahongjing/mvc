@@ -1,9 +1,10 @@
 package com.zjy.service.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.zjy.baseframework.annotations.LogMethod;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
-import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.dao.UserInfoDao;
@@ -140,6 +141,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         return vo;
     }
 
+    @LogMethod
     @Override
     public PageBean<? extends UserInfo> queryPageList(UserInfoRequest request) {
         UserInfoVo user = new UserInfoVo();
@@ -296,5 +298,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         shiroUser.setCode(user.getCode());
         shiroUser.setPassword(user.getPassword());
         return shiroUser;
+    }
+
+    public void test() {
+        LambdaUpdateWrapper<UserInfo> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(UserInfo::getId, 12);
+        wrapper.set(UserInfo::getName, null);
+        wrapper.set(UserInfo::getCode, "newcode");
+        dao.update(null, wrapper);
     }
 }

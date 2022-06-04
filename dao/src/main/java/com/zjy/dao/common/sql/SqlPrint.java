@@ -121,7 +121,9 @@ public class SqlPrint implements Interceptor {
                         value = metaObject == null ? null : metaObject.getValue(propertyName);
                     }
 
-                    if (value instanceof Number) {
+                    if (value == null) {
+                        parameters.add("null");
+                    } else if(value instanceof Number) {
                         parameters.add(String.valueOf(value));
                     } else if (value instanceof IBaseEnum) {
                         parameters.add(String.valueOf(((IBaseEnum)value).getValue()));

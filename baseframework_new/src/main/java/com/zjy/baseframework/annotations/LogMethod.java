@@ -6,15 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 记录日志到数据库
+ * 记录方法的入参数，返回值
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LogMessage {
-
-    /**
-     * 是否记录日志
-     * @return
-     */
-    boolean doLog() default true;
+public @interface LogMethod {
 }

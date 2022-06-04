@@ -80,7 +80,7 @@
         allDisabled: true,
         searchKey: null,
         list: [],
-        logLevel: null,
+        logLevel: '',
         logLevelList: [],
         pager: {pageNum: 1, pageSize: 10, loading: true}
       }

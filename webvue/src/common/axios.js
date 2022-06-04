@@ -98,7 +98,7 @@ axios.interceptors.response.use(function (resp) {
     // 用户未授权
     error.data.status = ResultStatus.UNAUTHORIZED.key;
     error.data.msg = '未授权！';
-  } else if (error.response.status == 403) {
+  } else if (error.response.status == 511) {
     // 用户未授权
     error.data.status = ResultStatus.UNAUTHENTICATION.key;
     error.data.msg = '未登录！';

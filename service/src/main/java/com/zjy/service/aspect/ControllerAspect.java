@@ -32,10 +32,11 @@ import java.util.*;
 /**
  * 日志拦截，要在spring-mvc.xml中添加<aop:aspectj-autoproxy proxy-target-class="true"/>
  */
-@Aspect
-@Component
 @Slf4j
-@Order(1)
+//@Aspect
+//@Order(1)
+//@Component
+@Deprecated
 public class ControllerAspect {
     @Autowired
     private HttpServletRequest request;

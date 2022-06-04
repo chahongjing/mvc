@@ -1,5 +1,8 @@
 package com.zjy.service.component;
 
+import com.zjy.common.SpringContextHolder;
+import com.zjy.common.shiro.IUserService;
+import com.zjy.common.shiro.MyAuthorizingRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -36,6 +39,8 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
             List<Class> classList = ReflectionHelper.getProjectClassList();
             // 初始化要序列化的枚举
             EnumHelper.initAllSerializeEnum(classList);
+            MyAuthorizingRealm realm = SpringContextHolder.getBean(MyAuthorizingRealm.class);
+            realm.setIUserService(SpringContextHolder.getBean(IUserService.class));
             log.info(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextStartedEvent) {
             log.debug(event.getClass().getSimpleName() + " 事件已发生！");

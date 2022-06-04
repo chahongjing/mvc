@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = "com.zjy", exclude = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class})
-@EnableTransactionManagement
 @EnableSqlPrint
+@EnableTransactionManagement
+@SpringBootApplication(scanBasePackages = "com.zjy", exclude = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class})
 public class WebApplication {
 
     public static void main(String[] args) {

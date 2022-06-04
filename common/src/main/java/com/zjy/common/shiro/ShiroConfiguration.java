@@ -9,23 +9,19 @@ import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -71,6 +67,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/learn/angulardemo", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/learn/testangluar", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/bootstrap/**", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/test/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/js/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/403", DefaultFilter.anon.name());
@@ -122,8 +119,8 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    public Realm myShiroRealm(CredentialsMatcher credentialsMatcher, CacheManager cacheManager, IUserService userService) {
-        MyAuthorizingRealm realm = new MyAuthorizingRealm(userService);
+    public Realm myShiroRealm(CredentialsMatcher credentialsMatcher, CacheManager cacheManager) {
+        MyAuthorizingRealm realm = new MyAuthorizingRealm();
         realm.setCredentialsMatcher(credentialsMatcher);
         realm.setCacheManager(cacheManager);
         realm.setAuthenticationTokenClass(UsernamePasswordToken.class);
@@ -180,17 +177,17 @@ public class ShiroConfiguration {
         return authorizationAttributeSourceAdvisor;
     }
 
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
+//    @Bean
+//    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+//        return new LifecycleBeanPostProcessor();
+//    }
 
-    @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
-        proxyCreator.setProxyTargetClass(true);
-        return proxyCreator;
-    }
+//    @Bean
+//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+//        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
+//        proxyCreator.setProxyTargetClass(true);
+//        return proxyCreator;
+//    }
 
 //    @Bean(name="simpleMappingExceptionResolver")
 //    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {

@@ -126,9 +126,6 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     private List<PermissionVo> handlePermission(List<PermissionVo> rolePermissionList, List<PermissionVo> userPermissionList) {
         // 角色权限全部包含
         List<PermissionVo> result = new ArrayList<>(rolePermissionList);
-        if(CollectionUtils.isEmpty(rolePermissionList)) {
-            return result;
-        }
         List<PermissionVo> includeUserPermissionList = new ArrayList<>();
         Set<Long> excludeUserPermissionList = new HashSet<>();
         for (PermissionVo permissionVo : userPermissionList) {

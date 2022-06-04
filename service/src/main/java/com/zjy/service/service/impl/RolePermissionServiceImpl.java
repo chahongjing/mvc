@@ -19,14 +19,6 @@ import java.util.*;
 @Slf4j
 @Service
 public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao, RolePermission> implements RolePermissionService {
-
-    @Lazy
-    @Autowired
-    protected MenuService menuSrv;
-
-    @Autowired
-    protected FunctionInfoService functionInfoSrv;
-
     @Autowired
     protected PermissionService permissionSrv;
 

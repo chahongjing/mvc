@@ -186,7 +186,6 @@ public class IndexController extends BaseController {
                 // 数据库记录下载/上传完成
             }
         } catch (Exception e) {
-            log.info("下载导出Excel文件出错,key=>",e);
             // 数据库记录下载失败
             throw new DownloadException("下载出错", e);
         } finally {

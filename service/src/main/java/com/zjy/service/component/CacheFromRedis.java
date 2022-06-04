@@ -17,7 +17,6 @@ import java.util.Objects;
 //@Component
 public class CacheFromRedis implements ICache {
 
-    @Lazy
     @Autowired
     private RedisUtils redisUtils;
     @Override

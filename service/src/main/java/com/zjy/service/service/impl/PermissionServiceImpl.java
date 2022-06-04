@@ -36,13 +36,13 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
     protected FunctionInfoService functionInfoSrv;
     @Lazy
     @Autowired
-    protected PermissionService permissionSrv;
-    @Lazy
-    @Autowired
     protected RolePermissionService rolePermissionSrv;
     @Lazy
     @Autowired
     protected UserPermissionService userPermissionSrv;
+    @Lazy
+    @Autowired
+    protected PermissionService permissionSrv;
 
     @Override
     public List<PermissionVo> queryAllPermissionList() {
