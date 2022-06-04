@@ -24,7 +24,7 @@ public class OperateLogServiceImpl extends BaseServiceImpl<OperateLogDao, Operat
     public PageBean<OperateLogVo> queryPageList(OperateLogRequest request) {
         OperateLogVo po = new OperateLogVo();
         po.setLogLevel(request.getLogLevel());
-        return (PageBean<OperateLogVo>) super.queryPageListBase(request, po);
+        return (PageBean<OperateLogVo>) super.queryPage(request, po);
     }
 
     @Override

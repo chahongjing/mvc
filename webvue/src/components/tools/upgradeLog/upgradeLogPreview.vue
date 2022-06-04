@@ -107,14 +107,14 @@
   .content {
     width: 100%;
     padding: 50px 0 10px;
-    background: url(../../../static/img/timeline/content-bg.png);
+    background: url(../../../../static/img/timeline/content-bg.png);
   }
 
   .content .wrapper {
     width: 980px;
     position: relative;
     margin: 0 auto;
-    background: url(../../../static/img/timeline/release-bg.png) no-repeat right top;
+    background: url(../../../../static/img/timeline/release-bg.png) no-repeat right top;
     min-height: 520px;
   }
 
@@ -124,7 +124,7 @@
     left: 55px;
     width: 150px;
     height: 190px;
-    background: url(../../../static/img/timeline/light-top.png) no-repeat top center;
+    background: url(../../../../static/img/timeline/light-top.png) no-repeat top center;
   }
 
   .content .light i {
@@ -132,7 +132,7 @@
     width: 100%;
     height: 100%;
     top: 0;
-    background: url(../../../static/img/timeline/light.png) no-repeat top center;
+    background: url(../../../../static/img/timeline/light.png) no-repeat top center;
   }
 
   hr {
@@ -157,7 +157,7 @@
   }
 
   .content .main {
-    background: url(../../../static/img/timeline/line-bg.png) repeat-y 249px 0;
+    background: url(../../../../static/img/timeline/line-bg.png) repeat-y 249px 0;
   }
 
   .main .title {
@@ -168,7 +168,7 @@
     top: 0px;
     color: #58a6fb;
     font-size: 24px;
-    background: url(../../../static/img/timeline/clock.png) no-repeat left top;
+    background: url(../../../../static/img/timeline/clock.png) no-repeat left top;
   }
 
   .main .year {
@@ -197,7 +197,7 @@
   }
 
   .main .year .list ul li {
-    background: url(../../../static/img/timeline/circle.png) no-repeat 235px 10px;
+    background: url(../../../../static/img/timeline/circle.png) no-repeat 235px 10px;
     padding: 10px 0 0;
     color: #a1a4b8;
     list-style: none;
@@ -206,7 +206,7 @@
   }
 
   .main .year .list ul li.hightlight {
-    background-image: url(../../../static/img/timeline/circle-h.png);
+    background-image: url(../../../../static/img/timeline/circle-h.png);
   }
 
   .main .year .list ul li .date {

@@ -1,7 +1,6 @@
 package com.zjy.service.service;
 
 import com.zjy.baseframework.enums.BaseResult;
-import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.BaseService;

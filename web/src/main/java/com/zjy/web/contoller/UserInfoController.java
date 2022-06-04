@@ -6,7 +6,6 @@ import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
-import com.zjy.service.service.TestService;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.service.service.UserPermissionService;
@@ -33,8 +32,6 @@ public class UserInfoController extends BaseController {
     private UserInfoService userInfoService;
     @Autowired
     private UserPermissionService userPermissionService;
-    @Autowired
-    private TestService testService;
 
     @RequestMapping("/login")
     public BaseResult<UserInfoVo> login(UserInfo user) {

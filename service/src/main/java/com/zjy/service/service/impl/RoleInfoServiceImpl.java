@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +59,7 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfoDao, RoleInfo> 
     public PageBean<RoleInfoVo> queryPageList(RoleInfoRequest request) {
         RoleInfo po = new RoleInfo();
         po.setName(request.getName());
-        return (PageBean<RoleInfoVo>) super.queryPageListBase(request, po);
+        return (PageBean<RoleInfoVo>) super.queryPage(request, po);
     }
 
     @Override

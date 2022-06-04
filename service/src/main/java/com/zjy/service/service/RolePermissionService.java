@@ -2,7 +2,6 @@ package com.zjy.service.service;
 
 import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.PermissionVo;
-import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.entity.model.RolePermission;
 import com.zjy.service.common.BaseService;
 

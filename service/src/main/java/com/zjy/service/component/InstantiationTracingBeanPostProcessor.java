@@ -38,7 +38,7 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
             // 获取所有类型
             List<Class> classList = ReflectionHelper.getProjectClassList();
             // 初始化要序列化的枚举
-            EnumHelper.initAllSerializeEnum(classList);
+            EnumUtils.initAllSerializeEnum(classList);
             MyAuthorizingRealm realm = SpringContextHolder.getBean(MyAuthorizingRealm.class);
             realm.setIUserService(SpringContextHolder.getBean(IUserService.class));
             log.info(event.getClass().getSimpleName() + " 事件已发生！");

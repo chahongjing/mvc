@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> implements UserRoleService {
 
     @Autowired
-    protected RoleInfoService roleInfoSrv;
+    protected RoleInfoService roleInfoService;
 
     @Autowired
     private ICache cacheHelper;
@@ -52,7 +52,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
         root.setName("角色列表");
         if (CollectionUtils.isEmpty(list)) root.setShowDetail(true);
         list.add(root);
-        List<RoleInfoVo> roleInfoVos = roleInfoSrv.queryAllRole();
+        List<RoleInfoVo> roleInfoVos = roleInfoService.queryAllRole();
         List<UserRoleVo> userRoleList = this.queryListByUserId(userId);
         for (RoleInfoVo roleInfoVo : roleInfoVos) {
             role = new PermissionCheckVo();

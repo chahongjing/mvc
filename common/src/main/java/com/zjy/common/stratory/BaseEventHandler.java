@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Date;
 
-
 public abstract class BaseEventHandler<P extends BaseActionParam, R extends BaseActionResult> implements Comparable<BaseEventHandler<P, R>>{
     @Resource
     protected EventDispatcher eventDispatcher;

@@ -1,6 +1,5 @@
 package com.zjy.common.utils;
 
-
 import java.io.Serializable;
 
 @FunctionalInterface

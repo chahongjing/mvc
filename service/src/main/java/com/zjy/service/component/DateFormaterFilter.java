@@ -1,4 +1,4 @@
-package com.zjy.web.config;
+package com.zjy.service.component;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ValueFilter;

@@ -3,7 +3,6 @@ package com.zjy.web.contoller;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.model.TreeNode;
 import com.zjy.dao.vo.MenuVo;
-import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.MenuRequest;
 import com.zjy.service.service.MenuService;

@@ -20,25 +20,25 @@ import java.util.List;
 public class FunctionInfoController extends BaseController {
 
     @Autowired
-    private FunctionInfoService functionInfoSrv;
+    private FunctionInfoService functionInfoService;
 
     @Autowired
-    private MenuService menuSrv;
+    private MenuService menuService;
 
     @RequestMapping("queryPageList")
     @RequiresPermissions("functionList")
     public BaseResult<PageBean<FunctionInfoVo>> queryPageList(FunctionInfoRequest request) {
-        PageBean<FunctionInfoVo> pageBean = (PageBean<FunctionInfoVo>) functionInfoSrv.queryPageList(request);
+        PageBean<FunctionInfoVo> pageBean = (PageBean<FunctionInfoVo>) functionInfoService.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
     @RequiresPermissions("functionEdit")
     public BaseResult<FunctionInfoVo> getDetail(Long id, Long menuId) {
-        FunctionInfoVo functionInfoVo = functionInfoSrv.getVo(id);
+        FunctionInfoVo functionInfoVo = functionInfoService.getVo(id);
         if (!functionInfoVo.getIsSave()) {
             functionInfoVo.setMenuId(menuId);
-            MenuVo menu = menuSrv.getVo(menuId);
+            MenuVo menu = menuService.getVo(menuId);
             functionInfoVo.setMenuName(menu.getName());
         }
         return BaseResult.ok(functionInfoVo);
@@ -47,21 +47,21 @@ public class FunctionInfoController extends BaseController {
     @PostMapping("save")
     @RequiresPermissions("functionEdit_save")
     public BaseResult<String> save(FunctionInfoVo vo) {
-        functionInfoSrv.save(vo);
+        functionInfoService.save(vo);
         return BaseResult.ok();
     }
 
     @RequestMapping("delete")
     @RequiresPermissions("functionList_delete")
     public BaseResult<String> delete(Long id) {
-        functionInfoSrv.delete(id);
+        functionInfoService.delete(id);
         return BaseResult.ok();
     }
 
     @RequestMapping("queryFunctionList")
     @RequiresPermissions("functionEdit")
     public BaseResult<List<FunctionInfoVo>> queryFunctionList() {
-        List<FunctionInfoVo> list = functionInfoSrv.queryFunctionList();
+        List<FunctionInfoVo> list = functionInfoService.queryFunctionList();
         return BaseResult.ok(list);
     }
 }

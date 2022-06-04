@@ -20,19 +20,24 @@ import com.zjy.service.UserService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +53,8 @@ public class IndexController extends BaseController {
 
     @Autowired
     private EventDispatcher eventDispatcher;
+
+    private static byte[] favicon_img = null;
 
     /**
      * 首页
@@ -219,4 +226,29 @@ public class IndexController extends BaseController {
     public String testCache(Long id, String name) {
         return new Date().toString();
     }
+
+//    @GetMapping(value = "/favicon.ico")
+//    public void favicon(HttpServletResponse response) {
+//        OutputStream os = null;
+//        try {
+//            if(favicon_img == null) {
+//                File file = ResourceUtils.getFile("classpath:static/favicon.ico");
+//                favicon_img = FileUtils.readFileToByteArray(file);
+//            }
+//            response.setContentType("image/x-icon");
+//            response.addHeader( "Cache-Control", "max-age=600" );
+//            os = response.getOutputStream();
+//            IOUtils.write(favicon_img, response.getOutputStream());
+//        } catch (IOException e) {
+//            log.error("获取图片异常{}",e.getMessage());
+//        } finally {
+//            if (os != null) {
+//                try {
+//                    os.flush();
+//                    os.close();
+//                } catch (IOException e) {
+//                }
+//            }
+//        }
+//    }
 }

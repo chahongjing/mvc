@@ -4,7 +4,6 @@ import com.zjy.dao.UserPermissionDao;
 import com.zjy.dao.vo.*;
 import com.zjy.entity.enums.PsermissionIncludeType;
 import com.zjy.entity.model.Permission;
-import com.zjy.entity.model.UserInfo;
 import com.zjy.entity.model.UserPermission;
 import com.zjy.entity.model.UserRole;
 import com.zjy.service.common.BaseServiceImpl;
@@ -14,7 +13,6 @@ import com.zjy.service.service.UserPermissionService;
 import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +23,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao, UserPermission> implements UserPermissionService {
     @Autowired
-    protected UserRoleService userRoleSrv;
+    protected UserRoleService userRoleService;
 
     @Autowired
-    protected RolePermissionService rolePermissionSrv;
+    protected RolePermissionService rolePermissionService;
 
     @Autowired
     protected PermissionService permissionService;
@@ -78,9 +76,9 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     @Override
     public List<PermissionVo> queryUserRolePermission(List<Long> userIdList) {
         if (CollectionUtils.isEmpty(userIdList)) return new ArrayList<>();
-        List<UserRoleVo> roleList = userRoleSrv.queryListByUserId(userIdList);
+        List<UserRoleVo> roleList = userRoleService.queryListByUserId(userIdList);
         List<Long> roleIdList = roleList.stream().map(UserRole::getRoleId).collect(Collectors.toList());
-        return rolePermissionSrv.queryRolePermission(roleIdList);
+        return rolePermissionService.queryRolePermission(roleIdList);
     }
 
     /**
@@ -105,7 +103,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     @Override
     public Map<Long, List<PermissionVo>> queryUserCombinePermission(List<Long> userIdList) {
         if (CollectionUtils.isEmpty(userIdList)) return new HashMap<>();
-        List<UserRoleVo> roleList = userRoleSrv.queryListByUserId(userIdList);
+        List<UserRoleVo> roleList = userRoleService.queryListByUserId(userIdList);
         List<PermissionVo> rolePermissionList = queryUserRolePermission(userIdList);
         List<PermissionVo> userPermissionList = queryUserPermission(userIdList);
 
@@ -148,7 +146,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
         List<PermissionCheckVo> allPermissionTree = permissionService.getAllPermissionTree();
         List<PermissionCheckVo> allPermissionList = new ArrayList<>();
-        rolePermissionSrv.flatTree(allPermissionTree, allPermissionList);
+        rolePermissionService.flatTree(allPermissionTree, allPermissionList);
         for (PermissionCheckVo permissionCheckVo : allPermissionList) {
             permissionCheckVo.setRelatedId(userId);
             permissionCheckVo.setIsCheck(permissionSet.contains(permissionCheckVo.getId()));

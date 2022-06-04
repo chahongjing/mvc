@@ -247,8 +247,10 @@
       getOrderByClass() {
         return function(field) {
           var res = {};
-          if(field.value) {
-            res[field.value] = true;
+          if(field.value === 1) {
+            res.desc = true;
+          } else if (field.value === 2) {
+            res.asc = true;
           }
           return res;
         }

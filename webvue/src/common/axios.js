@@ -92,15 +92,15 @@ axios.interceptors.response.use(function (resp) {
   error.data = {};
   // 对响应错误做点什么
   if(!error.response) {
-    error.data.status = ResultStatus.ERROR.key;
+    error.data.status = ResultStatus.ERROR.value;
     error.data.msg = '访问服务器失败！';
   } else if (error.response.status == 401) {
     // 用户未授权
-    error.data.status = ResultStatus.UNAUTHORIZED.key;
+    error.data.status = ResultStatus.UNAUTHORIZED.value;
     error.data.msg = '未授权！';
   } else if (error.response.status == 511) {
     // 用户未授权
-    error.data.status = ResultStatus.UNAUTHENTICATION.key;
+    error.data.status = ResultStatus.UNAUTHENTICATION.value;
     error.data.msg = '未登录！';
   } else if(error.response.status == 404) {
     console.log(error.response);
@@ -116,11 +116,11 @@ axios.interceptors.response.use(function (resp) {
         res.data = JSON.parse(data);
         toaster.error(res.msg);
       });
-      error.status = ResultStatus.ERROR.key;
+      error.status = ResultStatus.ERROR.value;
       error.data.msg = '下载出错！';
     }
   } else {
-    error.data.status = ResultStatus.ERROR.key;
+    error.data.status = ResultStatus.ERROR.value;
     error.data.msg = '未知错误！';
   }
   // return Promise.resolve(result);
@@ -130,13 +130,13 @@ axios.interceptors.response.use(function (resp) {
 
 function filterResp(resp) {
   var showMsg = resp.config.showMsg
-  if (resp.data.status == ResultStatus.NO.key && showMsg) {
+  if (resp.data.status == ResultStatus.NO.value && showMsg) {
     toaster.warning(resp.data.msg);
-  } else if (resp.data.status == ResultStatus.ERROR.key) {
+  } else if (resp.data.status == ResultStatus.ERROR.value) {
     toaster.error(resp.data.msg);
-  } else if(resp.data.status == ResultStatus.UNAUTHENTICATION.key) {
+  } else if(resp.data.status == ResultStatus.UNAUTHENTICATION.value) {
     window.location.hash = "/login";
-  } else if(resp.data.status == ResultStatus.UNAUTHORIZED.key) {
+  } else if(resp.data.status == ResultStatus.UNAUTHORIZED.value) {
     toaster.error(resp.data.msg);
   }
 }

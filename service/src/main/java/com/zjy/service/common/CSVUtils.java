@@ -1,7 +1,6 @@
 package com.zjy.service.common;
 
 import com.zjy.common.shiro.ShiroUserInfo;
-import com.zjy.entity.model.TestDownloadRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;

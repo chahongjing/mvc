@@ -3,7 +3,9 @@ package com.zjy.common.shiro;
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import javax.servlet.ServletRequest;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+@Slf4j
 public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 
     /**
@@ -36,10 +39,12 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             // ajax不跳转，发送一个未登录状态码, 不发送302跳转
             if (httpRequest != null && "XMLHttpRequest".equalsIgnoreCase(httpRequest.getHeader("X-Requested-With"))) {
+                log.info("未登录");
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                 httpServletResponse.reset();
                 httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
                 httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                httpServletResponse.setStatus(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED.value());
                 PrintWriter out = httpServletResponse.getWriter();
                 out.print(JSON.toJSONString(new BaseResult(ResultStatus.UNAUTHENTICATION)));
                 out.flush();

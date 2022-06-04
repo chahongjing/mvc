@@ -84,10 +84,8 @@
 </template>
 
 <script>
-  import Index from "../index";
   export default {
     name: 'userEdit',
-    components: {Index},
     data () {
       return {
         allDisabled: true,

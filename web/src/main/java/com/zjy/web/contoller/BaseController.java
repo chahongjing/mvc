@@ -7,7 +7,7 @@ import com.zjy.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.BaseServiceImpl;
-import com.zjy.service.component.EnumHelper;
+import com.zjy.service.component.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Lazy;
@@ -39,7 +39,7 @@ public class BaseController {
         binder.registerCustomEditor(ZonedDateTime.class, new MyCustomZonedDateEditor());
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
         // 添加枚举字段解析
-        for (Class<IBaseEnum> enumClass : EnumHelper.getEnumList()) {
+        for (Class<IBaseEnum> enumClass : EnumUtils.getEnumList()) {
             binder.registerCustomEditor(enumClass, new EnumEditor(enumClass));
         }
     }

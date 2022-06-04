@@ -9,9 +9,9 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class EnumHelper {
+public class EnumUtils {
 
-    private EnumHelper() {}
+    private EnumUtils() {}
 
     private static List<Class<IBaseEnum>> serializeEnumList = new ArrayList<>();
     @SuppressWarnings("restriction")

@@ -1,4 +1,4 @@
-package com.zjy.web.config;
+package com.zjy.service.component;
 
 import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.alibaba.fastjson.parser.JSONToken;

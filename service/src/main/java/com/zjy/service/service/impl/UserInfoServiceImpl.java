@@ -41,13 +41,13 @@ import java.util.stream.Collectors;
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> implements UserInfoService {
 
     @Autowired
-    protected UserRoleService userRoleSrv;
+    protected UserRoleService userRoleService;
 
     @Autowired
-    protected RolePermissionService rolePermissionSrv;
+    protected RolePermissionService rolePermissionService;
 
     @Autowired
-    protected UserPermissionService userPermissionSrv;
+    protected UserPermissionService userPermissionService;
 
     @Autowired
     protected PermissionService permissionService;
@@ -159,7 +159,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
             orderBy.add("user.created_on " + request.getCreatedOnOrderBy().toString());
         }
         request.setOrderBy(String.join(", ", orderBy));
-        return super.queryPageListBase(request, user);
+        return super.queryPage(request, user);
     }
 
     /**
@@ -208,8 +208,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Override
     public List<UserInfo> query(UserInfo entity) {
-//        return (List<UserInfo>) super.queryList(entity);
-        throw new NotImplementedException();
+        return (List<UserInfo>) super.query(entity);
     }
 
     @Override
@@ -280,13 +279,13 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
 
     @Override
     public List<String> queryRoleCodeListByUserId(Long userId) {
-        List<UserRoleVo> userRoleVos = userRoleSrv.queryListByUserId(userId);
+        List<UserRoleVo> userRoleVos = userRoleService.queryListByUserId(userId);
         return userRoleVos.stream().map(UserRoleVo::getRoleCode).collect(Collectors.toList());
     }
 
     @Override
     public List<String> getPermissionListByUserId(Long userId) {
-        List<PermissionVo> permissionVos = userPermissionSrv.queryUserCombinePermission(userId);
+        List<PermissionVo> permissionVos = userPermissionService.queryUserCombinePermission(userId);
         return permissionVos.stream().map(Permission::getCode).collect(Collectors.toList());
     }
 

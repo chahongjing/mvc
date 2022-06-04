@@ -26,7 +26,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     private ICache cache;
 
     @Autowired
-    private KvConfigLogService kvConfigLogSrv;
+    private KvConfigLogService kvConfigLogService;
 
     /**
      * 添加用户
@@ -52,7 +52,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     @Transactional
     public int update(KvConfig config, UserInfo user) {
         KvConfig voDb = this.get(config.getId());
-        kvConfigLogSrv.insert(voDb, user);
+        kvConfigLogService.insert(voDb, user);
         int update = super.update(config);
         cache.set(getHKey(RedisKeyUtils.KV_CONFIG, config.getCode()), config.getValue());
         return update;
@@ -96,7 +96,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
         if(kvConfig != null) {
             int delete = super.delete(id);
             cache.delete(getHKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
-            kvConfigLogSrv.insert(kvConfig, user);
+            kvConfigLogService.insert(kvConfig, user);
             return delete;
         }
         return -1;
@@ -129,7 +129,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     public PageBean<KvConfig> queryPageList(KvConfigRequest request) {
         KvConfig config = new KvConfig();
         config.setCode(request.getCode());
-        return (PageBean<KvConfig>) super.queryPageListBase(request, config);
+        return (PageBean<KvConfig>) super.queryPage(request, config);
     }
 
     private String getHKey(String key, String field) {

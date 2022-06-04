@@ -18,12 +18,12 @@ import java.util.List;
 @RequestMapping("/userRole")
 public class UserRoleController extends BaseController{
     @Autowired
-    private UserRoleService userRoleSrv;
+    private UserRoleService userRoleService;
 
     @RequestMapping("queryUserRole")
     @RequiresPermissions("userRole")
     public BaseResult<List<PermissionCheckVo>> queryUserRole(Long id) {
-        List<PermissionCheckVo> list = userRoleSrv.queryAllRoleWithUserRole(id);
+        List<PermissionCheckVo> list = userRoleService.queryAllRoleWithUserRole(id);
         return BaseResult.ok(list);
     }
 
@@ -31,7 +31,7 @@ public class UserRoleController extends BaseController{
     @RequiresPermissions("userRole")
     public BaseResult saveUserRole(String listStr) {
         List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
-        userRoleSrv.saveUserRole(list);
+        userRoleService.saveUserRole(list);
         return BaseResult.ok();
     }
 
@@ -39,7 +39,7 @@ public class UserRoleController extends BaseController{
     @RequiresPermissions("userGrantPermission")
     public BaseResult getUserPermission(String listStr) {
         List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
-        userRoleSrv.saveUserRole(list);
+        userRoleService.saveUserRole(list);
         return BaseResult.ok();
     }
     @PostMapping("saveUserPermission")

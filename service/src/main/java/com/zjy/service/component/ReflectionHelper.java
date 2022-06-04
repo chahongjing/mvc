@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

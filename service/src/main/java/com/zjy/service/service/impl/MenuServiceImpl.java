@@ -4,7 +4,6 @@ import com.zjy.baseframework.common.ServiceException;
 import com.zjy.dao.MenuDao;
 import com.zjy.dao.vo.MenuVo;
 import com.zjy.dao.vo.PermissionVo;
-import com.zjy.dao.vo.RolePermissionVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.Menu;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +135,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     public PageBean<MenuVo> queryPageList(MenuRequest request) {
         Menu po = new Menu();
         po.setName(request.getName());
-        return (PageBean<MenuVo>) super.queryPageListBase(request, po);
+        return (PageBean<MenuVo>) super.queryPage(request, po);
     }
 
     @Override

@@ -1,4 +1,5 @@
 package com.zjy.service.service.impl;
+
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.dao.PermissionDao;
 import com.zjy.dao.vo.FunctionInfoVo;
@@ -30,19 +31,19 @@ import java.util.stream.Collectors;
 public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permission> implements PermissionService {
     @Lazy
     @Autowired
-    protected MenuService menuSrv;
+    protected MenuService menuService;
     @Lazy
     @Autowired
-    protected FunctionInfoService functionInfoSrv;
+    protected FunctionInfoService functionInfoService;
     @Lazy
     @Autowired
-    protected RolePermissionService rolePermissionSrv;
+    protected RolePermissionService rolePermissionService;
     @Lazy
     @Autowired
-    protected UserPermissionService userPermissionSrv;
+    protected UserPermissionService userPermissionService;
     @Lazy
     @Autowired
-    protected PermissionService permissionSrv;
+    protected PermissionService permissionService;
 
     @Override
     public List<PermissionVo> queryAllPermissionList() {
@@ -70,9 +71,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
     @Override
     public int delete(Long id) {
         // 删除角色权限关系
-        rolePermissionSrv.deleteByPermission(id);
+        rolePermissionService.deleteByPermission(id);
         // 删除用户权限关系
-        userPermissionSrv.deleteByPermission(id);
+        userPermissionService.deleteByPermission(id);
         return super.delete(id);
     }
 
@@ -81,7 +82,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
         Permission po = new Permission();
         po.setName(request.getName());
         po.setFunctionId(request.getFunctionId());
-        return super.queryPageListBase(request, po);
+        return super.queryPage(request, po);
     }
 
     @Override
@@ -129,11 +130,11 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
     public List<PermissionCheckVo> getAllPermissionTree() {
         List<PermissionCheckVo> list = new ArrayList<>();
         // 获取所有一级菜单和二级菜单
-        List<MenuVo> menuVos = menuSrv.queryAllMenu();
+        List<MenuVo> menuVos = menuService.queryAllMenu();
         // 获取菜单下所有页面
-        List<FunctionInfoVo> functionInfoVos = functionInfoSrv.queryAllFunctionList();
+        List<FunctionInfoVo> functionInfoVos = functionInfoService.queryAllFunctionList();
         // 获取页面下所有权限
-        List<PermissionVo> permissionVos = permissionSrv.queryAllPermissionList();
+        List<PermissionVo> permissionVos = permissionService.queryAllPermissionList();
         // 组织数据
         PermissionCheckVo firtMenu;
         PermissionCheckVo secondMenu;

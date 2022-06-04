@@ -7,7 +7,9 @@ import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.zjy.baseframework.interfaces.IBaseEnum;
-import com.zjy.service.component.EnumHelper;
+import com.zjy.service.component.DateFormaterFilter;
+import com.zjy.service.component.EnumUtils;
+import com.zjy.service.component.EnumSerializer;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +41,7 @@ public class FastJsonConfiguration {
         serializeConfig.put(Long.class, ToStringSerializer.instance);
         serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
         // 枚举序列化
-        for (Class<IBaseEnum> enumClass : EnumHelper.getEnumList()) {
+        for (Class<IBaseEnum> enumClass : EnumUtils.getEnumList()) {
             serializeConfig.put(enumClass, EnumSerializer.instance);
             config.getParserConfig().putDeserializer(enumClass, EnumSerializer.instance);
         }

@@ -2,6 +2,7 @@ package com.zjy.common.shiro;
 
 import com.zjy.common.SpringContextHolder;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.*;
 import org.apache.shiro.mgt.RealmSecurityManager;
@@ -19,7 +20,12 @@ public class ShiroRealmUtils {
     private static MyAuthorizingRealm realm = SpringContextHolder.getBean("myShiroRealm");
 
     public static IUserInfo getCurrentUser() {
-        return (IUserInfo) SecurityUtils.getSubject().getPrincipal();
+        try {
+            return (IUserInfo) SecurityUtils.getSubject().getPrincipal();
+        } catch (UnavailableSecurityManagerException ex) {
+
+        }
+        return null;
     }
 
     public static Long getCurrentUserId() {

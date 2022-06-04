@@ -22,42 +22,42 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleInfoController extends BaseController{
     @Autowired
-    private RoleInfoService roleInfoSrv;
+    private RoleInfoService roleInfoService;
     @Autowired
-    private RolePermissionService rolePermissionSrv;
+    private RolePermissionService rolePermissionService;
 
     @RequestMapping("queryPageList")
     @RequiresPermissions("roleList")
     public BaseResult<PageBean> queryPageList(RoleInfoRequest request) {
-        PageBean<RoleInfoVo> pageBean = roleInfoSrv.queryPageList(request);
+        PageBean<RoleInfoVo> pageBean = roleInfoService.queryPageList(request);
         return BaseResult.ok(pageBean);
     }
 
     @RequestMapping("getDetail")
     @RequiresPermissions("roleEdit")
     public BaseResult<RoleInfoVo> getDetail(Long id) {
-        RoleInfoVo userInfo = roleInfoSrv.getVo(id);
+        RoleInfoVo userInfo = roleInfoService.getVo(id);
         return BaseResult.ok(userInfo);
     }
 
     @PostMapping("save")
     @RequiresPermissions("roleEdit_save")
     public BaseResult<String> save(RoleInfoVo vo) {
-        roleInfoSrv.save(vo);
+        roleInfoService.save(vo);
         return BaseResult.ok();
     }
 
     @RequestMapping("delete")
     @RequiresPermissions("roleList_delete")
     public BaseResult<String> delete(Long id) {
-        roleInfoSrv.delete(id);
+        roleInfoService.delete(id);
         return BaseResult.ok();
     }
 
     @RequestMapping("getRolePermission")
     @RequiresPermissions("grantPermission")
     public BaseResult<List<PermissionCheckVo>> getRolePermission(Long id) {
-        List<PermissionCheckVo> list = rolePermissionSrv.getRolePermission(id);
+        List<PermissionCheckVo> list = rolePermissionService.getRolePermission(id);
         return BaseResult.ok(list);
     }
 
@@ -65,7 +65,7 @@ public class RoleInfoController extends BaseController{
     @RequiresPermissions("grantPermission")
     public BaseResult saveRolePermission(Long targetId, String listStr) {
         List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
-        rolePermissionSrv.savePermission(list);
+        rolePermissionService.savePermission(list);
         return BaseResult.ok();
     }
 }

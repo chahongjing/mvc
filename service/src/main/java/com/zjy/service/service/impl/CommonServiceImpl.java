@@ -2,7 +2,7 @@ package com.zjy.service.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.service.component.EnumBean;
-import com.zjy.service.component.EnumHelper;
+import com.zjy.service.component.EnumUtils;
 import com.zjy.service.service.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class CommonServiceImpl implements CommonService {
     @Override
     public String getEnums() {
-        Map<String, Map<String, EnumBean>> enumBeanList = EnumHelper.getEnumBeanList();
+        Map<String, Map<String, EnumBean>> enumBeanList = EnumUtils.getEnumBeanList();
         StringBuilder sb = new StringBuilder();
         sb.append("window.enumMap={};");
         for (Map.Entry<String, Map<String, EnumBean>> classMapEntry : enumBeanList.entrySet()) {

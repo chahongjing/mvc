@@ -42,7 +42,7 @@ var router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: resolve => require(['@/components/user/login'], resolve),
+      component: resolve => require(['@/components/admin/user/login'], resolve),
       meta: {
           breadcurmbName: '用户登录',
       }
@@ -55,7 +55,7 @@ var router = new Router({
         {
           path: 'userList',
           name: 'userList',
-          component: resolve => require(['@/components/user/userList'], resolve),
+          component: resolve => require(['@/components/admin/user/userList'], resolve),
           meta:{
             breadcurmbName: '用户列表',
             pageCode: 'userList'
@@ -64,7 +64,7 @@ var router = new Router({
         {
           path: 'userEdit',
           name: 'userEdit',
-          component: resolve => require(['@/components/user/userEdit'], resolve),
+          component: resolve => require(['@/components/admin/user/userEdit'], resolve),
           meta:{
             breadcurmbName: '用户详情',
             pageCode: 'userEdit'
@@ -73,7 +73,7 @@ var router = new Router({
         {
           path: 'userRole',
           name: 'userRole',
-          component: resolve => require(['@/components/user/userRole'], resolve),
+          component: resolve => require(['@/components/admin/user/userRole'], resolve),
           meta:{
             breadcurmbName: '用户角色',
             pageCode: 'userRole'
@@ -236,7 +236,7 @@ var router = new Router({
         {
           path: 'list',
           name: 'kvList',
-          component: resolve => require(['@/components/kvConfig/kvList'], resolve),
+          component: resolve => require(['@/components/tools/kvConfig/kvList'], resolve),
           meta:{
             breadcurmbName: '键值对列表',
             // pageCode: 'menuList'
@@ -245,7 +245,7 @@ var router = new Router({
         {
           path: 'edit',
           name: 'kvEdit',
-          component: resolve => require(['@/components/kvConfig/kvEdit'], resolve),
+          component: resolve => require(['@/components/tools/kvConfig/kvEdit'], resolve),
           meta:{
             breadcurmbName: '键值对编辑',
             // pageCode: 'menuList'
@@ -261,7 +261,7 @@ var router = new Router({
         {
           path: 'list',
           name: 'upgradeLogList',
-          component: resolve => require(['@/components/upgradeLog/upgradeLogList'], resolve),
+          component: resolve => require(['@/components/tools/upgradeLog/upgradeLogList'], resolve),
           meta:{
             breadcurmbName: '升级日志列表',
             pageCode: 'upgradeLog'
@@ -270,7 +270,7 @@ var router = new Router({
         {
           path: 'edit',
           name: 'upgradeLogEdit',
-          component: resolve => require(['@/components/upgradeLog/upgradeLogEdit'], resolve),
+          component: resolve => require(['@/components/tools/upgradeLog/upgradeLogEdit'], resolve),
           meta:{
             breadcurmbName: '升级日志编辑',
             pageCode: 'upgradeLogEdit'
@@ -279,7 +279,7 @@ var router = new Router({
         {
           path: 'preview',
           name: 'upgradeLogPreview',
-          component: resolve => require(['@/components/upgradeLog/upgradeLogPreview'], resolve),
+          component: resolve => require(['@/components/tools/upgradeLog/upgradeLogPreview'], resolve),
           meta:{
             breadcurmbName: '升级日志预览',
             pageCode: 'menuList'
@@ -295,7 +295,7 @@ var router = new Router({
         {
           path: 'list',
           name: 'switchList',
-          component: resolve => require(['@/components/switch/list'], resolve),
+          component: resolve => require(['@/components/tools/switch/list'], resolve),
           meta:{
             breadcurmbName: '开关控制室',
             pageCode: 'switchList'

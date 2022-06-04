@@ -4,14 +4,11 @@ import com.zjy.dao.RolePermissionDao;
 import com.zjy.dao.vo.*;
 import com.zjy.entity.model.RolePermission;
 import com.zjy.service.common.BaseServiceImpl;
-import com.zjy.service.service.FunctionInfoService;
-import com.zjy.service.service.MenuService;
 import com.zjy.service.service.PermissionService;
 import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,7 +17,7 @@ import java.util.*;
 @Service
 public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao, RolePermission> implements RolePermissionService {
     @Autowired
-    protected PermissionService permissionSrv;
+    protected PermissionService permissionService;
 
     @Override
     public List<PermissionVo> queryRolePermission(Long roleId) {
@@ -38,7 +35,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionDao
 
     @Override
     public List<PermissionCheckVo> getRolePermission(Long id) {
-        List<PermissionCheckVo> allPermissionTree = permissionSrv.getAllPermissionTree();
+        List<PermissionCheckVo> allPermissionTree = permissionService.getAllPermissionTree();
         List<PermissionCheckVo> allPermissionList = new ArrayList<>();
         flatTree(allPermissionTree, allPermissionList);
         List<PermissionVo> rolePermissionVos = this.queryRolePermission(id);

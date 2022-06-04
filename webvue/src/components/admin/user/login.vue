@@ -94,7 +94,7 @@
 
 <style scoped>
   .main {
-    background: #dfe0e2 url('../../../static/img/sys/pattern.jpg') repeat;
+    background: #dfe0e2 url('../../../../static/img/sys/pattern.jpg') repeat;
     width: 100%;
     height: 100%;
   }

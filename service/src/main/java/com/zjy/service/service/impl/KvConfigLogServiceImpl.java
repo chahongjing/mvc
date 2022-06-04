@@ -21,7 +21,7 @@ import java.util.Date;
 @Service
 public class KvConfigLogServiceImpl extends BaseServiceImpl<KvConfigLogDao, KvConfigLog> implements KvConfigLogService {
     @Autowired
-    private UserInfoService userInfoSrv;
+    private UserInfoService userInfoService;
     /**
      * 添加用户
      *
@@ -62,9 +62,9 @@ public class KvConfigLogServiceImpl extends BaseServiceImpl<KvConfigLogDao, KvCo
         KvConfigLog config = new KvConfigLog();
         config.setKvId(request.getKvId());
         request.setOrderBy("create_time desc");
-        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPageListBase(request, config);
+        PageBean<KvConfigLogVo> pageBean = (PageBean<KvConfigLogVo>)super.queryPage(request, config);
         for (KvConfigLogVo kvConfigLogVo : pageBean.getList()) {
-            UserInfo user = userInfoSrv.get(kvConfigLogVo.getCreateBy());
+            UserInfo user = userInfoService.get(kvConfigLogVo.getCreateBy());
             if(user != null) {
                 kvConfigLogVo.setCreateByName(user.getName());
             }
