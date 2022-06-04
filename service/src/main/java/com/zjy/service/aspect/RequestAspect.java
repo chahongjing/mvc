@@ -1,6 +1,7 @@
 package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.zjy.baseframework.annotations.LogMessage;
 import com.zjy.baseframework.common.Constants;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.common.ServiceException;
@@ -75,15 +76,24 @@ public class RequestAspect {
         request = getRequest();
         Object object;
         Method method = getMethod(joinPoint);
+        LogMessage annotation = method.getAnnotation(LogMessage.class);
+
         StringBuilder msg = new StringBuilder();
-        msg.append(String.format("用户【%s】", getUserId()));
-        msg.append(String.format("请求方法【%s】", getRequestMethodStr(method)));
+        msg.append(String.format("用户【%s】请求", getUserId()));
+        if(request != null) {
+            msg.append(String.format("url【%s】,", request.getRequestURI()));
+        }
+        msg.append(String.format("方法【%s】", getRequestMethodStr(method)));
         String requestPamramStr = getRequestParamStr(method, joinPoint, request);
-        log.info("{}{}请求参数：{}", msg.toString(), Constants.NEW_LINE, requestPamramStr);
+        if(annotation == null || annotation.doLog()) {
+            log.info("{}{}请求参数：{}", msg.toString(), Constants.NEW_LINE, requestPamramStr);
+        }
         long begin = System.currentTimeMillis();
         try {
             object = joinPoint.proceed();
-            log.info("{}完成返回【{}】。{}结果：{}", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, JSON.toJSONString(object));
+            if(annotation == null || annotation.doLog()) {
+                log.info("{}完成返回【{}】。{}结果：{}", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, JSON.toJSONString(object));
+            }
         } catch (Throwable ex) {
             if(ex instanceof ServiceException || ex instanceof DownloadException) {
                 log.info("{}完成返回【{}】。{}结果：业务提示", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, ex);

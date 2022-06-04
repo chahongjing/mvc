@@ -1,5 +1,6 @@
 package com.zjy.web.contoller;
 
+import com.zjy.baseframework.annotations.LogMessage;
 import com.zjy.service.service.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class CommonController {
      *
      * @return
      */
+    @LogMessage(doLog = false)
     @RequestMapping(value = "/getEnums", produces = "application/javascript;charset=UTF-8")
     public String getEnums() {
         return commonService.getEnums();
