@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.common.RedisKeyUtils;

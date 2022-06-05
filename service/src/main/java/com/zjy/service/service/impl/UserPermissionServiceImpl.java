@@ -6,7 +6,7 @@ import com.zjy.entity.enums.PsermissionIncludeType;
 import com.zjy.entity.model.Permission;
 import com.zjy.entity.model.UserPermission;
 import com.zjy.entity.model.UserRole;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.service.PermissionService;
 import com.zjy.service.service.RolePermissionService;
 import com.zjy.service.service.UserPermissionService;

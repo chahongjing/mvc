@@ -3,7 +3,7 @@ package com.zjy.service.service.impl;
 import com.zjy.dao.OperateLogDao;
 import com.zjy.dao.vo.OperateLogVo;
 import com.zjy.entity.model.OperateLog;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.OperateLogRequest;
 import com.zjy.service.service.OperateLogService;

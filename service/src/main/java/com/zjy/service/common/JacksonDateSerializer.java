@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

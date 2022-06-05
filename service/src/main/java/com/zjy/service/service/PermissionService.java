@@ -4,7 +4,7 @@ import com.zjy.dao.vo.PermissionVo;
 import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.Permission;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.component.BaseService;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.PermissionRequest;
 

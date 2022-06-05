@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ValueFilter;

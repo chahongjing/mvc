@@ -7,7 +7,7 @@ import com.zjy.dao.vo.PermissionVo;
 import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.FunctionInfo;
 import com.zjy.entity.model.Permission;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.FunctionInfoRequest;
 import com.zjy.service.service.FunctionInfoService;

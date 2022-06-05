@@ -1,4 +1,7 @@
-package com.zjy.service.common;
+package com.zjy.service.component;
+
+import com.zjy.service.common.PageBean;
+import com.zjy.service.common.PageInfomation;
 
 import java.util.List;
 import java.util.Map;

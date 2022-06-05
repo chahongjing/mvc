@@ -8,7 +8,7 @@ import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.enums.PermissionType;
 import com.zjy.entity.model.Menu;
 import com.zjy.entity.model.Permission;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.MenuRequest;
 import com.zjy.service.service.*;

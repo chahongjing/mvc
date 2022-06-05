@@ -3,7 +3,7 @@ package com.zjy.service.service;
 import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.PermissionVo;
 import com.zjy.entity.model.RolePermission;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.component.BaseService;
 
 import java.util.List;
 

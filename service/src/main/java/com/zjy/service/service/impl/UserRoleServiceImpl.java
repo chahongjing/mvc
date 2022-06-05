@@ -6,7 +6,7 @@ import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.RoleInfoVo;
 import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.model.UserRole;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.service.RoleInfoService;
 import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;

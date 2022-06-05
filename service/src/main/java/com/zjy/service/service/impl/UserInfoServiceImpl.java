@@ -14,12 +14,11 @@ import com.zjy.entity.enums.UserStatus;
 import com.zjy.entity.enums.UserTypeEnum;
 import com.zjy.entity.model.Permission;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.service.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -104,6 +103,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         beforeCheck(vo);
         // 处理密码
         if (voDb.getIsSave()) {
+            vo.setPassword(voDb.getPassword());
             update(vo);
         } else {
             vo.setPassword(ShiroRealmUtils.getMd5Hash(vo.getPassword(), vo.getCode()));
@@ -132,6 +132,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
             vo.setType(userInfo.getType());
             vo.setBirthday(userInfo.getBirthday());
             vo.setStatus(userInfo.getStatus());
+            vo.setPassword(userInfo.getPassword());
             vo.setCreatedOn(userInfo.getCreatedOn());
             vo.setCreatedBy(userInfo.getCreatedBy());
             vo.setModifiedOn(userInfo.getModifiedOn());

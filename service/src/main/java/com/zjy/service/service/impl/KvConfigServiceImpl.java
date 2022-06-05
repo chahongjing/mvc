@@ -6,7 +6,7 @@ import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.dao.KvConfigDao;
 import com.zjy.entity.model.KvConfig;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.KvConfigRequest;
 import com.zjy.service.service.KvConfigLogService;

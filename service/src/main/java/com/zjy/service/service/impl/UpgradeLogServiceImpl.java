@@ -5,7 +5,7 @@ import com.zjy.dao.UpgradeLogDao;
 import com.zjy.dao.vo.UpgradeLogItem;
 import com.zjy.dao.vo.UpgradeLogVo;
 import com.zjy.entity.model.UpgradeLog;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UpgradeLogRequest;
 import com.zjy.service.service.UpgradeLogService;

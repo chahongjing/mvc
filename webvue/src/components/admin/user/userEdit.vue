@@ -4,6 +4,13 @@
       <div class="panel-heading font-bold">用户信息</div>
       <div class="panel-body">
         <form class='myform infotip form-label-w110 block-form-group'>
+          <div class="form-group" v-if="user.id">
+            <label class="form-label req colon">id</label>
+            <div class="form-content">
+              <input type="text" class="form-control" placeholder="id"
+                     v-model='user.id' :disabled="true"/>
+            </div>
+          </div>
           <div class="form-group">
             <label class="form-label req colon">编号</label>
             <div class="form-content">
@@ -19,7 +26,7 @@
             <label class="form-label colon">姓名</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="姓名"
-                     v-model='user.name'>
+                     v-model='user.name' maxlength="20">
             </div>
             <div class='form-info'>
               <i class='fa' title='姓名不能为空！'></i>
@@ -53,7 +60,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">&yen;</span>
                 </div>
-                <input type="text" class="form-control border-right-0">
+                <input type="text" class="form-control border-right-0" maxlength="50">
                 <div class="input-group-append">
                   <span class="input-group-text">@qq.com</span>
                 </div>

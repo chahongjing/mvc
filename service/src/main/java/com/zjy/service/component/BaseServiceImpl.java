@@ -1,4 +1,4 @@
-package com.zjy.service.common;
+package com.zjy.service.component;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -6,6 +6,8 @@ import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.dao.common.BaseDao;
 import com.zjy.entity.model.UserInfo;
+import com.zjy.service.common.PageBean;
+import com.zjy.service.common.PageInfomation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;

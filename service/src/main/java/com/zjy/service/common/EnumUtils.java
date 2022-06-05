@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;

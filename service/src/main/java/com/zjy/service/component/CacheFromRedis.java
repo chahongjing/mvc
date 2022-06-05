@@ -2,6 +2,7 @@ package com.zjy.service.component;
 
 import com.zjy.baseframework.common.Constants;
 import com.zjy.baseframework.interfaces.ICache;
+import com.zjy.service.common.RedisUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.shiro.codec.Base64;

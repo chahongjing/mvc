@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -3,7 +3,7 @@ package com.zjy.service.service.impl;
 import com.zjy.dao.RolePermissionDao;
 import com.zjy.dao.vo.*;
 import com.zjy.entity.model.RolePermission;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.service.PermissionService;
 import com.zjy.service.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;

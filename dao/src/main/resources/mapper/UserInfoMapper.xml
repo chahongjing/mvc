@@ -42,7 +42,6 @@
         where id = #{id, jdbcType=BIGINT}
     </update>
 
-
     <select id="getList" resultType="com.zjy.entity.model.UserInfo">
         SELECT
         <include refid="fieldWithPrefix">

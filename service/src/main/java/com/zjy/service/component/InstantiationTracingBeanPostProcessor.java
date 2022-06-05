@@ -3,6 +3,8 @@ package com.zjy.service.component;
 import com.zjy.common.SpringContextHolder;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.common.shiro.MyAuthorizingRealm;
+import com.zjy.service.common.EnumUtils;
+import com.zjy.service.common.ReflectionHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;

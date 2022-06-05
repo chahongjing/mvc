@@ -1,4 +1,4 @@
-package com.zjy.service.component;
+package com.zjy.service.common;
 
 import com.zjy.baseframework.enums.YesNo;
 import com.zjy.entity.enums.UserStatus;

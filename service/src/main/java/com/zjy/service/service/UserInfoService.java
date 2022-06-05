@@ -3,7 +3,7 @@ package com.zjy.service.service;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.BaseService;
+import com.zjy.service.component.BaseService;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.dao.vo.UserInfoVo;

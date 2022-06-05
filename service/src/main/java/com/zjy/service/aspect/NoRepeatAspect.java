@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
-import com.zjy.service.component.RedisUtils;
+import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

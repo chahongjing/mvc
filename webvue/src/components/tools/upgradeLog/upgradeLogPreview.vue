@@ -248,6 +248,7 @@
     border-top: 7px solid green;
     transition: 0.5s;
     transform: rotate(-90deg);
+    cursor:pointer;
   }
 
   .main .year .list ul li.hightlight .date .detail {

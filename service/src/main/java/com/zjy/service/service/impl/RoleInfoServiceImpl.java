@@ -4,7 +4,7 @@ import com.zjy.baseframework.common.ServiceException;
 import com.zjy.dao.RoleInfoDao;
 import com.zjy.dao.vo.RoleInfoVo;
 import com.zjy.entity.model.RoleInfo;
-import com.zjy.service.common.BaseServiceImpl;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.RoleInfoRequest;
 import com.zjy.service.service.RoleInfoService;
