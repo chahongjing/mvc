@@ -11,19 +11,11 @@ spring:
       max-request-size: 10MB
   mvc:
     static-path-pattern: /static/**
-
 #  web:
 #    resources:
 #      static-locations:
-
-#  redis:
-#    host: 127.0.0.1
 
 server:
   error:
     include-exception: true
     include-message: always
-  port: 8088
-
-ttkey:
-  ab: @mykey@

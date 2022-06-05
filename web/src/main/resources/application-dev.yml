@@ -1,6 +1,12 @@
+server:
+  port: 8088
+
 #spring:
 #  redis:
-#    host: localhost
+#    host: 127.0.0.1
 #    port: 6379
 
-mykey1: dev1
+mykey1: in dev profile
+
+mykey2:
+  ab: @mykey@
