@@ -300,11 +300,27 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         return shiroUser;
     }
 
+    @Override
     public void test() {
         LambdaUpdateWrapper<UserInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(UserInfo::getId, 12);
         wrapper.set(UserInfo::getName, null);
         wrapper.set(UserInfo::getCode, "newcode");
         dao.update(null, wrapper);
+    }
+
+    @Override
+    @Transactional
+    public void testTransaction() {
+        UserInfo user1 = new UserInfo();
+        user1.setName("1");
+        user1.setCode("1");
+        dao.insert(user1);
+        UserInfo user2 = new UserInfo();
+        user2.setName("2");
+        user2.setCode("2");
+        int a=1,b=0;
+        int c = a/b;
+        dao.insert(user2);
     }
 }

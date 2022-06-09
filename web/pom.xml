@@ -76,7 +76,7 @@
     </profiles>
 
     <build>
-        <finalName>mvc-web-${version}</finalName>
+        <finalName>mvc-web-${project.version}</finalName>
         <filters>
             <filter>profiles/${profiles.active}.yml</filter>
         </filters>

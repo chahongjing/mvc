@@ -11,4 +11,6 @@ public interface IUserService {
     List<String> getPermissionListByUserId(Long id);
 
     void test();
+
+    void testTransaction();
 }
