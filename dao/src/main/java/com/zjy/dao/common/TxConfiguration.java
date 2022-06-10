@@ -11,10 +11,13 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
+import org.springframework.transaction.interceptor.RollbackRuleAttribute;
+import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,16 +39,21 @@ public class TxConfiguration {
 
     @Bean
     public TransactionInterceptor txAdvice() {
-        DefaultTransactionAttribute txAttr_REQUIRED = new DefaultTransactionAttribute();
-        txAttr_REQUIRED.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        DefaultTransactionAttribute txAttr_REQUIRED_READONLY = new DefaultTransactionAttribute();
-        txAttr_REQUIRED_READONLY.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        txAttr_REQUIRED_READONLY.setReadOnly(true);
+//        RuleBasedTransactionAttribute txRequired = new RuleBasedTransactionAttribute();
+//        txRequired.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+//        txRequired.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        DefaultTransactionAttribute txRequired = new DefaultTransactionAttribute();
+        txRequired.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+        DefaultTransactionAttribute txReadonly = new DefaultTransactionAttribute();
+        txReadonly.setReadOnly(true);
+        txReadonly.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+//        txReadonly.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
 
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
         Map<String, TransactionAttribute> nameMap = new LinkedHashMap<>();
-        requiredList.forEach(r -> nameMap.put(r, txAttr_REQUIRED));
-        readOnlyList.forEach(r -> nameMap.put(r, txAttr_REQUIRED_READONLY));
+        requiredList.forEach(r -> nameMap.put(r, txRequired));
+        readOnlyList.forEach(r -> nameMap.put(r, txReadonly));
         source.setNameMap(nameMap);
 
         return new TransactionInterceptor(transactionManager, source);
