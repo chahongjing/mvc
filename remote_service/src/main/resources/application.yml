@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: @profiles.active@
+    include: mybatis, common
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    static-path-pattern: /static/**
+#  web:
+#    resources:
+#      static-locations:
+
+server:
+  error:
+    include-exception: true
+    include-message: always
+
+dubbo:
+  scan:
+    basePackages: com.zjy.remote_service.facade
+  application:
+    name: remote_service   #定义消费者名称
+  registry:               #注册中心地址
+    address: zookeeper://192.168.126.129:2181?backup=192.168.126.129:2182,192.168.126.129:2183

@@ -1,4 +1,4 @@
-package com.zjy.web.config;
+package com.zjy.service.configuration;
 
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

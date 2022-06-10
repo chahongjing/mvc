@@ -1,0 +1,12 @@
+server:
+  port: 8098
+
+#spring:
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+
+mykey1: in prod profile
+
+mykey2:
+  ab: @mykey@

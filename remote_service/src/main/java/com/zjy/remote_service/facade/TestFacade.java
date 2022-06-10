@@ -5,11 +5,11 @@ import com.zjy.api.request.HelloReq;
 import com.zjy.api.vo.HelloVo;
 import com.zjy.remote_service.service.TestHelloService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Slf4j
-@Service
+@DubboService
 public class TestFacade implements TestService {
 
     @Autowired

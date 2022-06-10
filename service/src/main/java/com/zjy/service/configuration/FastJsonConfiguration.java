@@ -1,4 +1,4 @@
-package com.zjy.web.config;
+package com.zjy.service.configuration;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeConfig;
