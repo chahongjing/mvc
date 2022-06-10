@@ -26,4 +26,4 @@ dubbo:
   application:
     name: remote_service   #定义消费者名称
   registry:               #注册中心地址
-    address: zookeeper://192.168.126.129:2181?backup=192.168.126.129:2182,192.168.126.129:2183
+    address: zookeeper://127.0.0.1:2181
