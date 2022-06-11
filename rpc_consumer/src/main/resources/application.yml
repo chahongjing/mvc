@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: rpc_consumer
+  profiles:
+    active: @profiles.active@
+    include:
+
+dubbo:
+  application:
+    name: rpc_consumer   #定义消费者名称
+  registry:               #注册中心地址
+    address: zookeeper://127.0.0.1:2181
+
+log:
+  path: /home/zjy/tmp/logs
+  level: INFO

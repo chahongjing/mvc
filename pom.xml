@@ -23,7 +23,8 @@
         <module>service</module>
         <module>web</module>
         <module>baseframework_new</module>
-        <module>remote_service</module>
+        <module>rpc_service</module>
+        <module>rpc_consumer</module>
     </modules>
 
     <properties>
