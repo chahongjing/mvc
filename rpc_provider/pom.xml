@@ -115,17 +115,6 @@
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.csp</groupId>-->
-<!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
-<!--            <version>${sentinel.version}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>nacos-client</artifactId>-->
-<!--                    <groupId>com.alibaba.nacos</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.csp</groupId>-->
 <!--            <artifactId>sentinel-cluster-server-default</artifactId>-->
 <!--            <scope>provided</scope>-->
 <!--        </dependency>-->

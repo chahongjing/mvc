@@ -23,8 +23,36 @@ spring-security:
 
 
 ``` shell
-# 8080为后端控制台端口，csp.sentinel.dashboard.server将自己也注册到监控平台
+# 启动zk。若不能启动，查看日志，看是不是8080端口占用
+./zkServer.sh start
+
+# 启动sentinel-dashboard。其中server.port为后端控制台端口，csp.sentinel.dashboard.server将自己也注册到监控平台
 java -Dserver.port=8200 -Dcsp.sentinel.dashboard.server=localhost:8200 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
 
+# 启动nacos
 ./startup.sh -m standalone
+```
+``` shell
+sentinel-dashboard 1.8.4 接入nacos
+- 在pom.xml中找到<artifactId>sentinel-datasource-nacos</artifactId>，将<scope>test</scope>注释
+- 展开test->java->com.alibaba.csp.sentinel.dashboard->rule->nacos
+- 复制NacosConfig到src->java->com.alibaba.csp.sentinel.dashboard->config
+- 复制其余3个文件到src->java->com.alibaba.csp.sentinel.dashboard->rule
+- 打开src->java->com.alibaba.csp.sentinel.dashboard->controller->v2->FlowControllerV2
+- @Qualifier("flowRuleDefaultProvider") 改为 @Qualifier("flowRuleNacosProvider")
+- @Qualifier("flowRuleDefaultPublisher") 改为 @Qualifier("flowRuleNacosPublisher")
+- 打开src->webapp->resources->app->scripts->directives->sidebar->sidebar.html
+- 注释掉以下
+<li ui-sref-active="active" ng-if="!entry.isGateway">
+  <a ui-sref="dashboard.flowV1({app: entry.app})">
+  <i class="glyphicon glyphicon-filter"></i>&nbsp;&nbsp;流控规则</a>
+</li>
+- 取消如下注释，并修改名称，把 流控规则 V1 改成 流控规则V2
+<li ui-sref-active="active" ng-if="entry.appType==0">
+  <a ui-sref="dashboard.flow({app: entry.app})">
+    <i class="glyphicon glyphicon-filter"></i>&nbsp;&nbsp;流控规则 V1</a>
+</li>
+- 个性化定制
+找到NacosConfig文件，可自定义ConfigService，参考代码中，可添加其它properties，如namespace
+编译打包
 ```

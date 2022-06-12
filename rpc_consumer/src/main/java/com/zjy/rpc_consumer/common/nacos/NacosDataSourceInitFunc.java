@@ -1,4 +1,4 @@
-package com.zjy.rpc_provider.common.nacos;
+package com.zjy.rpc_consumer.common.nacos;
 
 import com.alibaba.csp.sentinel.config.SentinelConfig;
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
@@ -121,6 +121,7 @@ public class NacosDataSourceInitFunc implements InitFunc {
         }
         return properties;
     }
+
     private boolean isBlank(String v) {
         return v == null || "".equals(v.trim());
     }
