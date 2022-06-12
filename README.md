@@ -25,4 +25,6 @@ spring-security:
 ``` shell
 # 8080为后端控制台端口，csp.sentinel.dashboard.server将自己也注册到监控平台
 java -Dserver.port=8200 -Dcsp.sentinel.dashboard.server=localhost:8200 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
+
+./startup.sh -m standalone
 ```

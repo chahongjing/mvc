@@ -45,6 +45,11 @@
             <groupId>com.zjy</groupId>
             <artifactId>service</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.boot</groupId>-->
+<!--            <artifactId>nacos-config-spring-boot-starter</artifactId>-->
+<!--            <version>0.2.10</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -91,6 +96,22 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
             <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+            <version>${sentinel.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>nacos-client</artifactId>
+                    <groupId>com.alibaba.nacos</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.1.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.csp</groupId>-->
