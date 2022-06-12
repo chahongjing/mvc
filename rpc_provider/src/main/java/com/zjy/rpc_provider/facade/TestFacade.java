@@ -1,9 +1,9 @@
-package com.zjy.rpc_service.facade;
+package com.zjy.rpc_provider.facade;
 
 import com.zjy.api.TestService;
 import com.zjy.api.request.HelloReq;
 import com.zjy.api.vo.HelloVo;
-import com.zjy.rpc_service.service.TestHelloService;
+import com.zjy.rpc_provider.service.TestHelloService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,15 @@ public class TestFacade implements TestService {
     private TestHelloService testHelloService;
 
     @Override
+//    @SentinelResource(value = "TestFacade.hello")
     public HelloVo hello(HelloReq req) {
-        HelloVo vo = new HelloVo();
-        vo.setName(req.getName() + Math.random());
-        testHelloService.test();
-        return vo;
+        return testHelloService.test(req);
     }
+
+//    public static HelloVo helloBlockHandler(HelloReq req, BlockException ex) {
+//        System.out.println("Oops: " + ex.getClass().getCanonicalName());
+//        HelloVo vo = new HelloVo();
+//        vo.setName("request limit");
+//        return vo;
+//    }
 }

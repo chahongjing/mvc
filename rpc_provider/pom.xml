@@ -7,12 +7,13 @@
         <artifactId>mvc</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>rpc_service</artifactId>
+    <artifactId>rpc_provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rpc_service</name>
-    <description>rpc_service</description>
+    <name>rpc_provider</name>
+    <description>rpc_provider</description>
     <properties>
         <java.version>17</java.version>
+        <sentinel.version>1.8.4</sentinel.version>
     </properties>
     <dependencies>
         <dependency>
@@ -65,8 +66,54 @@
             <artifactId>curator-recipes</artifactId>
             <version>5.1.0</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-dubbo-adapter</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-spring-mvc</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-parameter-flow-control</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
+<!--            <version>${sentinel.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>nacos-client</artifactId>-->
+<!--                    <groupId>com.alibaba.nacos</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-cluster-server-default</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-cluster-client-default</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+    </dependencies>
     <profiles>
         <profile>
             <id>dev</id>
@@ -89,7 +136,7 @@
         </profile>
     </profiles>
     <build>
-        <finalName>rpc_service-${project.version}</finalName>
+        <finalName>rpc_provider-${project.version}</finalName>
         <filters>
             <filter>profiles/${profiles.active}.yml</filter>
         </filters>

@@ -17,7 +17,7 @@ public class RpcServiceImpl implements RpcService {
     @Override
     public HelloVo test() {
         HelloReq req = new HelloReq();
-        req.setName("zjy");
+        req.setName("zjy from rpc consumer");
         return testService.hello(req);
     }
 }

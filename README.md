@@ -20,3 +20,9 @@ spring-security:
 2. 然后调用authenticationManager.authenticate方法进行验证
 3. 验证时会在UserDetailsService通过用户名从数据库取出该用户，并将数据库的用户名，密码等信息组装成UserDetails信息返回，这里可以抛出相关异常，如未找到用户
 4. 调用path:authenticationManager(ProviderManager).authenticate-->AbstractUserDetailsAuthenticationProvider.authenticate-->DaoAuthenticationProvider.retrieveUser-->DaoAuthenticationProvider.additionalAuthenticationChecks校验密码，这里会对用户输入的密码进行盐值加密再比较
+
+
+``` shell
+# 8080为后端控制台端口，csp.sentinel.dashboard.server将自己也注册到监控平台
+java -Dserver.port=8200 -Dcsp.sentinel.dashboard.server=localhost:8200 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
+```

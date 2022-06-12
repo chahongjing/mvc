@@ -23,7 +23,7 @@
         <module>service</module>
         <module>web</module>
         <module>baseframework_new</module>
-        <module>rpc_service</module>
+        <module>rpc_provider</module>
         <module>rpc_consumer</module>
     </modules>
 

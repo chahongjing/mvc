@@ -1,6 +1,6 @@
 spring:
   application:
-    name: rpc_service
+    name: rpc_provider
   profiles:
     active: @profiles.active@
     include: mybatis, common
@@ -24,9 +24,9 @@ server:
 
 dubbo:
   scan:
-    basePackages: com.zjy.rpc_service.facade
+    basePackages: com.zjy.rpc_provider.facade
   application:
-    name: rpc_service   #定义消费者名称
+    name: rpc_provider   #定义消费者名称
   registry:               #注册中心地址
     address: zookeeper://127.0.0.1:2181
   protocol:

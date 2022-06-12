@@ -1,4 +1,4 @@
-package com.zjy.rpc_service;
+package com.zjy.rpc_provider;
 
 import com.zjy.dao.common.sql.EnableSqlPrint;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
@@ -10,10 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableSqlPrint
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = "com.zjy", exclude = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class})
-public class RpcServiceApplication {
+public class RpcProviderApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RpcServiceApplication.class, args);
+        SpringApplication.run(RpcProviderApplication.class, args);
     }
-
 }
