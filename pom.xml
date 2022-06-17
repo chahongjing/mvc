@@ -45,6 +45,12 @@
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
         <maven.resources.plugin>3.1.0</maven.resources.plugin>
 <!--        <sqlite-jdbc.version>3.27.2.1</sqlite-jdbc.version>-->
+        <poi.version>5.0.0</poi.version>
+        <dubbo.starter.version>2.7.8</dubbo.starter.version>
+        <curator.version>5.1.0</curator.version>
+        <nacos.client.version>2.1.0</nacos.client.version>
+        <commons.io.version>2.6</commons.io.version>
+        <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -104,7 +110,7 @@
             <dependency>
                 <groupId>com.zjy</groupId>
                 <artifactId>api</artifactId>
-                <version>${project.version}</version>
+                <version>${api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.zjy</groupId>
@@ -120,6 +126,79 @@
                 <groupId>com.zjy</groupId>
                 <artifactId>service</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>log4j</artifactId>
+                        <groupId>log4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-dubbo-adapter</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-spring-mvc</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-simple-http</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-annotation-aspectj</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-parameter-flow-control</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>nacos-client</artifactId>
+                        <groupId>com.alibaba.nacos</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.zjy</groupId>
             <artifactId>api</artifactId>
-            <version>${api.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zjy</groupId>
@@ -53,12 +52,10 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>2.7.8</version>
         </dependency>
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
-            <version>5.1.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -69,38 +66,31 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>5.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-dubbo-adapter</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-spring-mvc</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-simple-http</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-annotation-aspectj</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-            <version>${sentinel.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>nacos-client</artifactId>
@@ -111,7 +101,6 @@
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
-            <version>2.1.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.csp</groupId>-->

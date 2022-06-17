@@ -17,6 +17,7 @@
         <junit.version>4.12</junit.version>
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <commons.lang3.version>3.12.0</commons.lang3.version>
     </properties>
     <dependencies>
         <dependency>
@@ -46,7 +47,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>${commons.lang3.version}</version>
         </dependency>
     </dependencies>
     <build>

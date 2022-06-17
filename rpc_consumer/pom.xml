@@ -3,12 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.zjy</groupId>
+        <artifactId>mvc</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.zjy</groupId>
     <artifactId>rpc_consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rpc_consumer</name>
@@ -17,14 +15,12 @@
         <java.version>1.8</java.version>
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
         <maven.resources.plugin>3.1.0</maven.resources.plugin>
-        <sentinel.version>1.8.4</sentinel.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -33,7 +29,6 @@
         <dependency>
             <groupId>com.zjy</groupId>
             <artifactId>api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -43,12 +38,10 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>2.7.8</version>
         </dependency>
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
-            <version>5.1.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -59,37 +52,30 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>5.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-dubbo-adapter</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-spring-mvc</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-simple-http</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-annotation-aspectj</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
-            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-            <version>${sentinel.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>nacos-client</artifactId>
@@ -100,12 +86,10 @@
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
-            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
         </dependency>
     </dependencies>
 
