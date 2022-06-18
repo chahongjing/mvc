@@ -1,6 +1,7 @@
 package com.zjy.service.enums;
 
 import com.zjy.baseframework.common.RedisKeyUtils;
+import com.zjy.baseframework.enums.ResultStatus;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 
 public enum SwitchEnum implements IBaseEnum {
@@ -27,5 +28,9 @@ public enum SwitchEnum implements IBaseEnum {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public static SwitchEnum getByValue(int value) {
+        return IBaseEnum.getByValue(SwitchEnum.class, value);
     }
 }

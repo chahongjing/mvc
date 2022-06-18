@@ -8,6 +8,8 @@
 8. rpc_service：对外提供的远程服务引入api，service,zk版本3.8
 8. rpc_consumer：调用远程api服务,zk版本3.8
 
+|模块|端口|说明|
+|---|---|---|
 |mvc|[【8088】](http://localhost:8088)|springboot-mvc, shiro+permission，vue，动态数据源(先区分mapper，再区分master,slave)，重复请求注解，大数据量下载，mybatis枚举映射,mybatis-plus，pagehelper分页，打印sql日志拦截|
 
 spring-shiro；

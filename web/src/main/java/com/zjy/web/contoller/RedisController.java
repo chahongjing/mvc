@@ -51,7 +51,7 @@ public class RedisController extends BaseController{
         if(dataType == RedisDataType.ZSET && score == null && (opType == RedisOpType.SET || opType == RedisOpType.ADD_ITEM)) {
             return BaseResult.error("参数不能为空");
         }
-        log.warn("{} optRedis.dataType:{},opType:{},key:{},field:{},value:{}", user.getId(), dataType, opType, key, field, value);
+        log.info("{} optRedis.dataType:{},opType:{},key:{},field:{},value:{}", user.getId(), dataType, opType, key, field, value);
         if(opType == RedisOpType.DEL) {
             stringRedisTemplate.delete(key);
             return BaseResult.ok();

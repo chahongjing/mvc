@@ -17,12 +17,12 @@
 
     <modules>
         <module>entity</module>
-        <module>api</module>
+<!--        <module>api</module>-->
         <module>common</module>
         <module>dao</module>
         <module>service</module>
         <module>web</module>
-        <module>baseframework_new</module>
+<!--        <module>baseframework_new</module>-->
         <module>rpc_provider</module>
         <module>rpc_consumer</module>
     </modules>

@@ -37,7 +37,7 @@ export default {
     changeSwitch: function(item) {
       var me = this;
       me.allDisabled = true;
-      me.$axios.get('/switch/updateSwitch', {key: item.value, value: item.value}).then(function (resp) {
+      me.$axios.get('/switch/updateSwitch', {key: item.key, value: item.value}).then(function (resp) {
         if(resp.data.status === ResultStatus.OK.value) {
           me.$toaster.success(resp.data.value);
           me.allDisabled = false;

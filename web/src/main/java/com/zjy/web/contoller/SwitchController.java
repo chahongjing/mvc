@@ -70,17 +70,18 @@ public class SwitchController extends BaseController {
             return BaseResult.no("开关不能为空！");
         }
         String op;
+        SwitchEnum sw = SwitchEnum.valueOf(key);
         if(SwitchEnum.SWITCH_OPEN.equals(value)) {
 //            switchMap.put(key, value);
-            cache.hSet(SwitchEnum.SWITCH_KEY, key, value);
+            cache.hSet(SwitchEnum.SWITCH_KEY, sw.toString(), value);
             op = "打开";
         } else {
 //            switchMap.remove(key);
-            cache.hDelete(SwitchEnum.SWITCH_KEY, key);
+            cache.hDelete(SwitchEnum.SWITCH_KEY, sw.toString());
             op = "关闭";
         }
         UserInfo userInfo = getCurrentUser();
-        log.info("{} {} 开关:{}", userInfo.getId(), op, SwitchEnum.valueOf(key).getName());
-        return BaseResult.ok(String.format("%s 开关 %s 成功！", op, SwitchEnum.valueOf(key).getName()));
+        log.info("【{}】 {} 开关:{}", userInfo.getId(), op, sw.getName());
+        return BaseResult.ok(String.format("%s 开关 【%s】 成功！", op, sw.getName()));
     }
 }
