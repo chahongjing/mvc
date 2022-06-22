@@ -91,7 +91,7 @@ public class SqlPrint implements Interceptor {
         for (String value : parameters) {
             sql = sql.replaceFirst("\\?", value);
         }
-        log.info("方法:{},执行时间{}ms.sql:{}", getMapperMethodName(fullMapperMethod), executionTime, beautifySql(sql));
+        log.info("方法:{},执行时间{}ms. sql:{}", getMapperMethodName(fullMapperMethod), executionTime, beautifySql(sql));
     }
 
     /**

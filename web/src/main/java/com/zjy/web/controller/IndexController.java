@@ -1,4 +1,4 @@
-package com.zjy.web.contoller;
+package com.zjy.web.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;

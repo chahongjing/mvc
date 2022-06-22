@@ -1,4 +1,4 @@
-package com.zjy.web.contoller;
+package com.zjy.web.controller;
 
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import com.zjy.common.EnumEditor;

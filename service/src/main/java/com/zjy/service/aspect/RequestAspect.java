@@ -80,7 +80,7 @@ public class RequestAspect {
 
         StringBuilder msg = new StringBuilder();
         msg.append(String.format("用户【%s】请求", getUserId()));
-        if(request != null) {
+        if(isController(request, method)) {
             msg.append(String.format("url【%s】,", request.getRequestURI()));
         }
         msg.append(String.format("方法【%s】", getRequestMethodStr(method)));
@@ -277,7 +277,7 @@ public class RequestAspect {
     }
 
     private String getRequestParamStr(Method method, ProceedingJoinPoint joinPoint, HttpServletRequest request) {
-        if(request != null && method.getDeclaringClass().getPackage().getName().endsWith("controller")) {
+        if(isController(request, method)) {
             String paramString;
             try {
                 paramString = getParamString(request.getParameterMap());
@@ -297,6 +297,10 @@ public class RequestAspect {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    private boolean isController(HttpServletRequest request, Method method) {
+        return request != null && method.getDeclaringClass().getPackage().getName().endsWith("controller");
     }
     // endregion
 }

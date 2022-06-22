@@ -12,7 +12,7 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        log.info("切换到{" + DynamicDataSourceContextHolder.getDB() + "}数据源");
+        log.debug("切换到【{}】数据源", DynamicDataSourceContextHolder.getDB());
         return DynamicDataSourceContextHolder.getDB();
     }
 }
