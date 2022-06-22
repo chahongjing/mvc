@@ -86,20 +86,20 @@ public class RequestAspect {
         msg.append(String.format("方法【%s】", getRequestMethodStr(method)));
         String requestPamramStr = getRequestParamStr(method, joinPoint, request);
         if(annotation == null || annotation.doLog()) {
-            log.info("{}{}请求参数：{}", msg.toString(), Constants.NEW_LINE, requestPamramStr);
+            log.info("{}。请求参数：{}", msg.toString(), requestPamramStr);
         }
         long begin = System.currentTimeMillis();
         try {
             object = joinPoint.proceed();
             if(annotation == null || annotation.doLog()) {
-                log.info("{}完成返回【{}】。{}结果：{}", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, JSON.toJSONString(object));
+                log.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), JSON.toJSONString(object));
             }
         } catch (Throwable ex) {
             if(ex instanceof ServiceException || ex instanceof DownloadException) {
-                log.info("{}完成返回【{}】。{}结果：业务提示", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, ex);
+                log.info("完成返回【{}】。{}。结果：业务提示", getTimeSpan(begin), msg.toString(), ex);
             } else if(ex instanceof UnauthorizedException || ex instanceof UnauthenticatedException) {
             } else {
-                log.info("{}完成返回【{}】。{}结果：业务异常", msg.toString(), getTimeSpan(begin), Constants.NEW_LINE, ex);
+                log.info("完成返回【{}】。{}。结果：业务异常", getTimeSpan(begin), msg.toString(), ex);
             }
             throw ex;
         }

@@ -77,7 +77,7 @@ public class SqlPrint implements Interceptor {
 
         // 方法是否要打印sql
         if (!mappedStatementPrintSqlMap.get(fullMapperMethod)) {
-            log.info("方法:{},执行时间{}ms", getMapperMethodName(fullMapperMethod),  executionTime);
+            log.info("执行时间【{} ms】方法:{}", executionTime, getMapperMethodName(fullMapperMethod));
             return;
         }
 
@@ -91,7 +91,7 @@ public class SqlPrint implements Interceptor {
         for (String value : parameters) {
             sql = sql.replaceFirst("\\?", value);
         }
-        log.info("方法:{},执行时间{}ms. sql:{}", getMapperMethodName(fullMapperMethod), executionTime, beautifySql(sql));
+        log.info("执行时间【{} ms】方法:{}. sql: {}", executionTime, getMapperMethodName(fullMapperMethod), beautifySql(sql));
     }
 
     /**
@@ -167,7 +167,8 @@ public class SqlPrint implements Interceptor {
     }
 
     private String getMapperMethodName(String fullMapperMethod) {
-        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf(".") + 1);
+        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf (".",fullMapperMethod.lastIndexOf(".") - 1) + 1);
+//        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf(".") + 1);
     }
 
     private Class<?> getMapperClass(String fullMapperMethod) throws ClassNotFoundException {
