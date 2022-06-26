@@ -43,7 +43,7 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
             EnumUtils.initAllSerializeEnum(classList);
             MyAuthorizingRealm realm = SpringContextHolder.getBean(MyAuthorizingRealm.class);
             realm.setIUserService(SpringContextHolder.getBean(IUserService.class));
-            log.info(event.getClass().getSimpleName() + " 事件已发生！");
+            log.debug(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextStartedEvent) {
             log.debug(event.getClass().getSimpleName() + " 事件已发生！");
         } else if (event instanceof ContextStoppedEvent) {

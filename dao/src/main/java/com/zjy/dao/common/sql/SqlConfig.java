@@ -17,6 +17,6 @@ public class SqlConfig implements ImportBeanDefinitionRegistrar {
         boolean defaultPrintSql = sqlPrint.getBoolean("defaultPrint");
         BeanDefinitionBuilder sqlPrintBeanDefinition = BeanDefinitionBuilder.rootBeanDefinition(SqlPrint.class);
         sqlPrintBeanDefinition.addPropertyValue("defaultPrint", defaultPrintSql);
-        registry.registerBeanDefinition(SqlPrint.class.getName(), sqlPrintBeanDefinition.getBeanDefinition());
+        registry.registerBeanDefinition(SqlPrint.class.getSimpleName(), sqlPrintBeanDefinition.getBeanDefinition());
     }
 }

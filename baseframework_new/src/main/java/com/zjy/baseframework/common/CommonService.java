@@ -1,6 +1,7 @@
 package com.zjy.baseframework.common;
 
 import com.zjy.baseframework.interfaces.IHierarchyBase;
+import com.zjy.baseframework.model.TreeNode;
 
 import java.util.*;
 
@@ -39,5 +40,28 @@ public class CommonService {
         // 一级排序
         firstLevelTreeNodeList.sort(Comparator.comparing(IHierarchyBase::getSeq));
         return firstLevelTreeNodeList;
+    }
+
+    public static <T extends IHierarchyBase> void exchange(T one, T two) {
+        if(one == null || two == null) {
+            return;
+        }
+        two.setSeq(one.getSeq() + two.getSeq());
+        one.setSeq(two.getSeq() - one.getSeq());
+        two.setSeq(two.getSeq() - one.getSeq());
+    }
+
+    public static void main(String[] args) {
+        TreeNode one = new TreeNode();
+        one.setId(1L);
+        one.setName("1");
+        one.setSeq(3);
+        TreeNode two = new TreeNode();
+        two.setId(2L);
+        two.setName("2");
+        two.setSeq(5);
+        exchange(one, two);
+        System.out.println(one.getSeq());
+        System.out.println(two.getSeq());
     }
 }

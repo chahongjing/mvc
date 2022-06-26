@@ -1,8 +1,12 @@
 package com.zjy.dao.common.multiDataSource;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zjy.dao.common.sql.SqlPrint;
+import com.zjy.entity.enums.UserStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.nologging.NoLoggingImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 // 扫描dao
-@MapperScan(basePackages = {"com.zjy.dao"}, sqlSessionFactoryRef = "sqlSessionFactoryBean")
+@MapperScan(basePackages = {"com.zjy.dao"}, sqlSessionFactoryRef = "sqlSessionFactory")
 public class DataSourceConfig {
 
     @Resource
@@ -75,7 +79,7 @@ public class DataSourceConfig {
      *
      * @return
      */
-    @Bean("dynamicDataSource")
+    @Bean
     public DataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>(4);
@@ -101,8 +105,8 @@ public class DataSourceConfig {
     /**
      * 设置工厂类
      */
-    @Bean("sqlSessionFactoryBean")
-    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
+    @Bean("sqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
 //        使用mybatisplus要使用MybatisSqlSessionFactoryBean。SqlSessionFactoryBean
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
@@ -119,7 +123,10 @@ public class DataSourceConfig {
             configuration.setLazyLoadingEnabled(false);
             configuration.setCallSettersOnNulls(true);// 开启在属性为null也调用setter方法
             sqlSessionFactoryBean.setConfiguration(configuration);
-            sqlSessionFactoryBean.setTypeEnumsPackage("com.zjy.entity.enums");
+            GlobalConfig.DbConfig dbConfig = GlobalConfigUtils.getDbConfig(configuration);
+            // 默认自增长主键
+            dbConfig.setIdType(IdType.AUTO);
+            sqlSessionFactoryBean.setTypeEnumsPackage(UserStatus.class.getPackage().getName());
             if(sqlPrint != null) {
                 sqlSessionFactoryBean.setPlugins(sqlPrint);
             }
@@ -141,7 +148,7 @@ public class DataSourceConfig {
     /**
      * 事物管理器
      */
-    @Bean("transactionManager")
+    @Bean
     public DataSourceTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dynamicDataSource());
     }

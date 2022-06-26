@@ -10,5 +10,6 @@ public interface IHierarchyBase<T extends IHierarchyBase> {
     Long getId();
     Long getPid();
     int getSeq();
+    void setSeq(int seq);
     void setChildren(List<T> children);
 }

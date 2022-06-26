@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j(topic = "sqlPrint")
+@Slf4j
 @Intercepts({
         @Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
         @Signature(type = StatementHandler.class, method = "update", args = {Statement.class})
@@ -50,7 +50,7 @@ public class SqlPrint implements Interceptor {
             logSql(invocation, executionTime);
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
-                log.info("打印sql异常", e);
+                log.warn("打印sql异常", e);
             }
             // 新增功能不影响原有功能
         }
@@ -91,7 +91,7 @@ public class SqlPrint implements Interceptor {
         for (String value : parameters) {
             sql = sql.replaceFirst("\\?", value);
         }
-        log.info("执行时间【{} ms】方法:{}. sql: {}", executionTime, getMapperMethodName(fullMapperMethod), beautifySql(sql));
+        log.info("执行时间【{} ms】方法:{}. SQL: {}", executionTime, getMapperMethodName(fullMapperMethod), beautifySql(sql));
     }
 
     /**
@@ -194,7 +194,7 @@ public class SqlPrint implements Interceptor {
     }
 
     public void setDefaultPrint(boolean defaultPrint) {
-        log.info("defaultPrintSql = {}", defaultPrint);
+        log.debug("defaultPrintSql = {}", defaultPrint);
         this.defaultPrint = defaultPrint;
     }
 }
