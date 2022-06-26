@@ -6,13 +6,13 @@ import com.github.pagehelper.PageInfo;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.shiro.ShiroUserInfo;
-import com.zjy.service.common.CSVUtils;
 import com.zjy.common.utils.DownloadUtils;
 import com.zjy.dao.DownloadTaskDao;
 import com.zjy.dao.TestDownloadRecordDao;
 import com.zjy.entity.enums.DownTaskStatus;
 import com.zjy.entity.model.DownloadTask;
 import com.zjy.entity.model.TestDownloadRecord;
+import com.zjy.service.common.CSVUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FileUtils;
@@ -45,7 +45,7 @@ public class DownlaodTaskService {
         task.setCreatedDate(new Date());
         task.setStatus(DownTaskStatus.CREATED);
         int i = downloadTaskDao.insert(task);
-        if(download) {
+        if (download) {
             this.startTask(task.getId(), download, response);
         } else {
             // 开始处理任务，异步线程池
@@ -58,6 +58,7 @@ public class DownlaodTaskService {
 
     /**
      * 开始处理任务
+     *
      * @param id
      */
     public void startTask(Long id, Boolean download, HttpServletResponse response) {
@@ -120,7 +121,7 @@ public class DownlaodTaskService {
             String url = "/home/zjy/tmp/myexcel.csv";
             // 保存文件
             byte[] writerBytes = CSVUtils.getWriterBytes(stringWriter);
-            if(download) {
+            if (download) {
                 DownloadUtils.download(writerBytes, "测试csv." + FileSuffix.CSV.getCode(), response);
             } else {
                 FileUtils.writeByteArrayToFile(new File(url), writerBytes);
@@ -150,6 +151,7 @@ public class DownlaodTaskService {
 
     /**
      * 批量获取数据
+     *
      * @param page
      * @return
      */
@@ -160,6 +162,7 @@ public class DownlaodTaskService {
 
     /**
      * byte转文件
+     *
      * @param in
      * @param filePath
      * @return
@@ -167,18 +170,20 @@ public class DownlaodTaskService {
     public static File byteToFile(byte[] in, String filePath) {
         File file = new File(filePath);
 
+//        FileUtils.writeByteArrayToFile(file, in);
         try (OutputStream output = new FileOutputStream(file);
              BufferedOutputStream bufferedOutput = new BufferedOutputStream(output)) {
             bufferedOutput.write(in);
             bufferedOutput.flush();
             output.flush();
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
         return file;
     }
 
     /**
      * 添加数据记录
+     *
      * @param record
      * @return
      */

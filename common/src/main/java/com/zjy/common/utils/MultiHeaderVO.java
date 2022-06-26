@@ -3,7 +3,7 @@ package com.zjy.common.utils;
 import java.util.List;
 
 /**
- * @author : fei.wei
+ * @author :
  * @Description: 多表头VO
  * @date Date : 2020年08月12日 14:43
  */

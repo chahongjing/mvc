@@ -310,7 +310,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     }
 
     @Override
-    public void testTransaction() {
+    public void insertTestTransaction() {
         UserInfo user1 = new UserInfo();
         user1.setName("1");
         user1.setCode("1");

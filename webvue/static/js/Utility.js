@@ -789,7 +789,7 @@
     if(!key || !url) return '';
     var regKey = new RegExp("(\\?|&)" + key + "=([^&]*)(&|$)", 'i')
     var group = url.match(regKey);
-    if(group) return group[2]
+    if(group && group.length > 2) return group[2]
     return '';
   }
   /**

@@ -71,7 +71,7 @@ public class DownloadUtils {
             // 设置文件名
             response.addHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment;filename=%s", URLEncoder.encode(fileName, StandardCharsets.UTF_8.name())));
             // 设置contentType
-            response.setContentType(new MimetypesFileTypeMap().getContentType(new File(fileName)));
+            response.setContentType(FileUtils.getMimeType(fileName));
             // 数据信息写入响应流中
             IOUtils.write(bytes, out);
             // 关闭文件输入流

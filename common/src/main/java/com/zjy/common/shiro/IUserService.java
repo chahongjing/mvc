@@ -12,5 +12,5 @@ public interface IUserService {
 
     void test();
 
-    void testTransaction();
+    void insertTestTransaction();
 }

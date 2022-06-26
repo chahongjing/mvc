@@ -33,7 +33,7 @@ public class TestController extends BaseController {
 
     @GetMapping("/testTransaction")
     public BaseResult<Map<String, Object>> testTransaction() {
-        userInfoService.testTransaction();
+        userInfoService.insertTestTransaction();
         return BaseResult.ok();
     }
 }

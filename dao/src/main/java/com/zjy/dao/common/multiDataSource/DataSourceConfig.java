@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.logging.nologging.NoLoggingImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
  * @author yehui
  * 数据源配置类
  */
-@Configuration
 @Slf4j
+@Configuration
 // 扫描dao
 @MapperScan(basePackages = {"com.zjy.dao"}, sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class DataSourceConfig {
@@ -103,7 +102,7 @@ public class DataSourceConfig {
      * 设置工厂类
      */
     @Bean("sqlSessionFactoryBean")
-    public FactoryBean<SqlSessionFactory> sqlSessionFactoryBean() {
+    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
 //        使用mybatisplus要使用MybatisSqlSessionFactoryBean。SqlSessionFactoryBean
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
@@ -136,7 +135,7 @@ public class DataSourceConfig {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sqlSessionFactoryBean;
+        return sqlSessionFactoryBean.getObject();
     }
 
     /**
