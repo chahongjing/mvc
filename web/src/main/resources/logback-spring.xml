@@ -4,6 +4,11 @@
     <springProperty name="log.path" source="log.path" scope="context" />
     <springProperty name="log.level" source="log.level" scope="context" />
 
+    <springProperty name="db.driverClassName" source="spring.datasource.master.driver-class-name" scope="context" />
+    <springProperty name="db.jdbcUrl" source="spring.datasource.master.jdbcUrl" scope="context" />
+    <springProperty name="db.userName" source="spring.datasource.master.username" scope="context" />
+    <springProperty name="db.password" source="spring.datasource.master.password" scope="context" />
+
     <!-- 控制台颜色 -->
     <!-- black, highlight, gray, white, boldWhite, red, boldRed, green, boldGreen, yellow, boldYellow, blue, boldBlue,
     magenta(洋红), boldMagenta, cyan(青色), boldCyan, %()使用 -->
@@ -66,9 +71,38 @@
         <appender-ref ref="ERROR-LOG"/>
     </appender>
 
+    <appender name="dBAppender" class="com.zjy.dao.common.DbAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>
+                    event.getLoggerName().contains("dbLogger")
+                </expression>
+            </evaluator>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!--            <onMatch>ACCEPT</onMatch>-->
+            <!--            <onMismatch>DENY</onMismatch>-->
+        </filter>
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+            <dataSource class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <driverClassName>${db.driverClassName}</driverClassName>
+                <url>${db.jdbcUrl}</url>
+                <username>${db.userName}</username>
+                <password>${db.password}</password>
+            </dataSource>
+        </connectionSource>
+    </appender>
+
     <root level="${log.level}">
         <appender-ref ref="CONSOLE-LOG" />
         <appender-ref ref="ASYNC-INFO"/>
         <appender-ref ref="ASYNC-ERROR"/>
     </root>
+
+    <logger name="dbLogger" level="DEBUG" additivity="false">
+        <appender-ref ref="dBAppender"/>
+    </logger>
 </configuration>

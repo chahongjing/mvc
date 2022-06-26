@@ -35,10 +35,10 @@
     <!-- 公共信息 -->
     <!-- 字段 -->
     <sql id="field">
-		id, user_id, controller, method, log_level, content, create_on
+		id, user_id, controller, method, log_level, content, created_on
 	</sql>
     <!-- 带前缀的字段 -->
     <sql id="fieldWithPrefix">
-		${tableName}.id, ${tableName}.user_id, ${tableName}.controller, ${tableName}.method, ${tableName}.log_level, ${tableName}.content, ${tableName}.create_on
+		${tableName}.id, ${tableName}.user_id, ${tableName}.controller, ${tableName}.method, ${tableName}.log_level, ${tableName}.content, ${tableName}.created_on
 	</sql>
 </mapper>

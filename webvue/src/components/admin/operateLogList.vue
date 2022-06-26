@@ -87,7 +87,7 @@
     },
     methods: {
       edit(entity) {
-        this.$router.push({path: '/admin/operateLogEdit', query: {id: entity.logID}});
+        this.$router.push({path: '/admin/operateLogEdit', query: {id: entity.id}});
 
       },
       search() {

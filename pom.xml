@@ -51,6 +51,7 @@
         <nacos.client.version>2.1.0</nacos.client.version>
         <commons.io.version>2.6</commons.io.version>
         <sentinel.version>1.8.4</sentinel.version>
+        <logback.db.version>1.2.11.1</logback.db.version>
     </properties>
 
     <dependencyManagement>
@@ -199,6 +200,17 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback.db</groupId>
+                <artifactId>logback-classic-db</artifactId>
+                <version>${logback.db.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback.db</groupId>
+                <artifactId>logback-core-db</artifactId>
+                <version>${logback.db.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

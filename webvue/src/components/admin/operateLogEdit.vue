@@ -84,7 +84,7 @@
       return {
         allDisabled:true,
         operateLog: {
-          logID: null, userID: null, userName: null, content: null, controller: null,
+          id: null, userId: null, userName: null, content: null, controller: null,
           method: null, logLevel: null, createdOn: null
         },
         logLevelList: [],
@@ -116,8 +116,8 @@
       },
       getLogLevelList() {
         var list = [];
-        for (var item in LogLevel) {
-          list.push(LogLevel[item]);
+        for (var item in window.enumMap.LogLevel) {
+          list.push(window.enumMap.LogLevel[item]);
         }
         return list;
       }

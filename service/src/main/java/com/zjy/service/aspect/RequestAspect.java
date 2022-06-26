@@ -16,6 +16,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,6 +50,7 @@ public class RequestAspect {
     // region 属性
     // 请求信息，用于web相关项目
     private HttpServletRequest request;
+    private static Logger dbLogger = LoggerFactory.getLogger("dbLogger");
 
     public String getUserId() {
         IUserInfo currentUser = ShiroRealmUtils.getCurrentUser();
@@ -94,12 +97,15 @@ public class RequestAspect {
             if(annotation == null || annotation.doLog()) {
                 log.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), JSON.toJSONString(object));
             }
+            dbLogger.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), JSON.toJSONString(object), method);
         } catch (Throwable ex) {
             if(ex instanceof ServiceException || ex instanceof DownloadException) {
-                log.info("完成返回【{}】。{}。结果：业务提示", getTimeSpan(begin), msg.toString(), ex);
+                log.warn("完成返回【{}】。{}。结果：业务提示", getTimeSpan(begin), msg.toString(), ex);
+                dbLogger.warn(msg.toString(), method);
             } else if(ex instanceof UnauthorizedException || ex instanceof UnauthenticatedException) {
             } else {
                 log.info("完成返回【{}】。{}。结果：业务异常", getTimeSpan(begin), msg.toString(), ex);
+                dbLogger.error(msg.toString(), method);
             }
             throw ex;
         }
