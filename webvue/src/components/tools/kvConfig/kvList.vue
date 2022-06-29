@@ -31,7 +31,7 @@
           <th class='w200'>键</th>
           <th class='w200'>值</th>
           <th>备注</th>
-          <th class='w155'>创建时间</th>
+          <th class='w170'>创建时间</th>
           <th class='w100'>操作</th>
         </tr>
         </thead>

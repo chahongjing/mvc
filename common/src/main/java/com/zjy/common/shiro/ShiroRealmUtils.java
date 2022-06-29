@@ -22,7 +22,7 @@ public class ShiroRealmUtils {
     public static IUserInfo getCurrentUser() {
         try {
             return (IUserInfo) SecurityUtils.getSubject().getPrincipal();
-        } catch (UnavailableSecurityManagerException ex) {
+        } catch (UnavailableSecurityManagerException ignored) {
 
         }
         return null;

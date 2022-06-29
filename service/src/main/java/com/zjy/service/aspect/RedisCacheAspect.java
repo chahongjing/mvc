@@ -35,12 +35,12 @@ public class RedisCacheAspect {
     public void cache() {
     }
 
-    @Around(value = "cache()")
-    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+    @Around(value = "cache() && @annotation(redisCache)")
+    public Object around(ProceedingJoinPoint pjp, RedisCache redisCache) throws Throwable {
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature)signature;
         Method targetMethod = methodSignature.getMethod();
-        RedisCache redisCache = targetMethod.getAnnotation(RedisCache.class);
+//        RedisCache redisCache = targetMethod.getAnnotation(RedisCache.class);
         if(redisCache == null) {
             return pjp.proceed();
         }

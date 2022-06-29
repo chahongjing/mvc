@@ -3,6 +3,8 @@ package com.zjy.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.zjy.baseframework.annotations.LimitByCount;
+import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.common.RedisKeyUtils;
@@ -23,6 +25,7 @@ import com.zjy.entity.model.TestDownloadRecord;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.DownlaodTaskService;
 import com.zjy.service.UserService;
+import com.zjy.service.common.RedisUtils;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
@@ -59,6 +62,8 @@ public class TestController extends BaseController {
     private UserInfoService userInfoService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Autowired
     private DownlaodTaskService downlaodTaskService;
@@ -202,6 +207,7 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/testTransaction")
+    @NoRepeatOp
     public BaseResult<Map<String, Object>> testTransaction() {
         userInfoService.insertTestTransaction();
         return BaseResult.ok();
@@ -241,6 +247,17 @@ public class TestController extends BaseController {
             downlaodTaskService.addRecord(record);
         }
         return "abc";
+    }
+
+    @GetMapping("/r")
+    @LimitByCount(count = 2)
+    public String testR() {
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(Math.random());
     }
 
 //    @GetMapping(value = "/favicon.ico")

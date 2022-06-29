@@ -5,16 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * 禁止重复操作
- */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoRepeatOp {
-    // 时间内不允许重复操作，如10秒内只能操作一次
-    int timeout() default 10;
+public @interface LimitByCount {
+    // 限制次数
+    int count() default 5;
     // 生成的key是否包含用户信息
-    boolean withUser() default true;
+    boolean withUser() default false;
     // 生成的key是否包含参数信息
-    boolean withParam() default true;
+    boolean withParam() default false;
 }

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -61,7 +62,11 @@ public class RedisUtils {
     }
 
     public Boolean expire(String key, long time) {
-        return stringRedisTemplate.expire(key, time, TimeUnit.SECONDS);
+        return expire(key, time, TimeUnit.SECONDS);
+    }
+
+    public Boolean expire(String key, long time, TimeUnit timeUnit) {
+        return stringRedisTemplate.expire(key, time, timeUnit);
     }
 
     public Long getExpire(String key) {
@@ -72,12 +77,35 @@ public class RedisUtils {
         return stringRedisTemplate.hasKey(key);
     }
 
+    public Long incr(String key) {
+        return incr(key, 1L);
+    }
+
     public Long incr(String key, long delta) {
         return stringRedisTemplate.opsForValue().increment(key, delta);
     }
 
+    public Long decr(String key) {
+        return decr(key, 1L);
+    }
+
     public Long decr(String key, long delta) {
         return stringRedisTemplate.opsForValue().increment(key, -delta);
+    }
+
+    public Long incrEx(String key, long expireSecond){
+        String script = "local current = redis.call('incr', KEYS[1]);" +
+//                " local t = redis.call('ttl', KEYS[1]); " +
+//                "if t == -1 then  " +
+                "redis.call('expire', KEYS[1], ARGV[1]); " +
+//                "end; " +
+                "return current;";
+        // 指定 lua 脚本，并且指定返回值类型
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
+        // 参数一：redisScript，参数二：key列表，参数三：arg（可多个）
+        return stringRedisTemplate.execute(redisScript, Collections.singletonList(key), String.valueOf(expireSecond));
+//        Object result = jedisCluster.eval(script, Collections.singletonList(key), Collections.singletonList(String.valueOf(defaultExpire)));
+//        return Integer.valueOf(result.toString());
     }
     // endregion
 

@@ -1,6 +1,7 @@
 package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
@@ -10,11 +11,9 @@ import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -23,20 +22,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * 重复请求校验
  */
 @Slf4j
 @Aspect
-@Order(130)
+@Order(120)
 @Component
-public class NoRepeatAspect {
+public class LimitByCountAspect {
     @Resource
     private RedisUtils redisUtils;
 
@@ -44,41 +40,42 @@ public class NoRepeatAspect {
     Class[] list = new Class[]{HttpSession.class, BindingResult.class, HttpServletResponse.class,
             HttpServletRequest.class};
 
-    @Pointcut("@annotation(com.zjy.baseframework.annotations.NoRepeatOp)")
-    public void noRepeat() {
+    @Pointcut("@annotation(com.zjy.baseframework.annotations.LimitByCount)")
+    public void limit() {
     }
 
-    @Around(value = "noRepeat() && @annotation(noRepeatOp)")
-    public Object around(ProceedingJoinPoint pjp, NoRepeatOp noRepeatOp) throws Throwable {
-//        Signature signature = pjp.getSignature();
-//        MethodSignature methodSignature = (MethodSignature)signature;
-//        Method targetMethod = methodSignature.getMethod();
-//        NoRepeatOp noRepeatOp = targetMethod.getAnnotation(NoRepeatOp.class);
-        String key = getKey(noRepeatOp, pjp);
-        boolean r = redisUtils.lock(key, "1", noRepeatOp.timeout(), TimeUnit.SECONDS);
-        if (r) {
-            try {
-                return pjp.proceed();
-            } finally {
-                redisUtils.del(key);
+    @Around(value = "limit() && @annotation(limitByCount)")
+    public Object around(ProceedingJoinPoint pjp, LimitByCount limitByCount) throws Throwable {
+        String key = getKey(limitByCount, pjp);
+        Long opNum = redisUtils.incrEx(key, 3600);
+        if(opNum != null && (Integer.parseInt(opNum.toString())) > limitByCount.count()) {
+            redisUtils.decr(key);
+            throw new ServiceException("服务繁忙");
+        }
+        // 如果有人处理，则key续约，如果没有人下载，1个小时后自动删除，防止线上服务崩溃没有decrement导致服务不可用
+//        redisUtils.expire(key, 1, TimeUnit.HOURS);
+        try {
+            return pjp.proceed();
+        } finally {
+            if(redisUtils.hasKey(key)) {
+                redisUtils.decr(key);
             }
         }
-        throw new ServiceException("重复请求");
     }
 
-    private String getKey(NoRepeatOp noRepeatOp, ProceedingJoinPoint pjp) {
+    private String getKey(LimitByCount limitByCount, ProceedingJoinPoint pjp) {
         String argsJson = null;
         Long userId = null;
-        if(noRepeatOp.withUser()) {
+        if(limitByCount.withUser()) {
             IUserInfo shiroUser = ShiroRealmUtils.getCurrentUser();
             userId = shiroUser == null ? null : shiroUser.getId();
         }
-        if(noRepeatOp.withParam()) {
+        if(limitByCount.withParam()) {
             Object[] argArr = Arrays.stream(pjp.getArgs()).filter(this::includeArg).toArray();
             argsJson = JSON.toJSONString(argArr);
         }
         String hash = DigestUtils.md5Hex(pjp.toShortString() + userId + argsJson);
-        return RedisKeyUtils.REPEAT_OP + ":" + hash;
+        return RedisKeyUtils.LIMIT_OP + ":" + hash;
     }
 
     private boolean includeArg(Object arg) {

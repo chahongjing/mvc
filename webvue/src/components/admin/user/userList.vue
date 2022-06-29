@@ -36,7 +36,7 @@
           <th class='w50'>#</th>
           <th class='sortheader' :class='getOrderByClass(nameOrderBy)' @click='setOrderBy(nameOrderBy)'>名称</th>
           <th class='w200 sortheader' :class='getOrderByClass(codeOrderBy)' @click='setOrderBy(codeOrderBy)'>编码</th>
-          <th class='w155 sortheader' :class='getOrderByClass(createdOnOrderBy)' @click='setOrderBy(createdOnOrderBy)'>创建时间</th>
+          <th class='w170 sortheader' :class='getOrderByClass(createdOnOrderBy)' @click='setOrderBy(createdOnOrderBy)'>创建时间</th>
           <th class='w70'>性别</th>
           <th class='w90'>类型</th>
           <th class='w70 text-center'>状态</th>

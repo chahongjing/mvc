@@ -7,4 +7,5 @@ public class RedisKeyUtils {
     public static final String SET_CACHE_KEY = KEY_PREFIX + "cache:set";
     public static final String KV_CONFIG = KEY_PREFIX + "kvconfig";
     public static final String REPEAT_OP = KEY_PREFIX + "repeat_op";
+    public static final String LIMIT_OP = KEY_PREFIX + "limit_op";
 }

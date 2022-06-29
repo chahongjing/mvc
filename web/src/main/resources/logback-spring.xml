@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
     <!-- 从配置文件中读取文件存放路径 -->
-    <springProperty name="log.path" source="log.path" scope="context" />
-    <springProperty name="log.level" source="log.level" scope="context" />
-
+    <springProperty name="logging.file.path" source="logging.file.path" scope="context" />
+<!--    <springProperty name="logging.level.root" source="logging.level.root" scope="context" />-->
     <springProperty name="db.driverClassName" source="spring.datasource.master.driver-class-name" scope="context" />
     <springProperty name="db.jdbcUrl" source="spring.datasource.master.jdbcUrl" scope="context" />
     <springProperty name="db.userName" source="spring.datasource.master.username" scope="context" />
@@ -33,7 +32,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>${log.path}//info_%d.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/info_%d.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
@@ -48,7 +47,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>${log.path}//error_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/error_%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
@@ -96,13 +95,22 @@
         </connectionSource>
     </appender>
 
-    <root level="${log.level}">
+    <appender name="ASYNC-DB" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="dBAppender"/>
+    </appender>
+
+    <root>
         <appender-ref ref="CONSOLE-LOG" />
         <appender-ref ref="ASYNC-INFO"/>
         <appender-ref ref="ASYNC-ERROR"/>
     </root>
-
+    <!-- additivity为false表示此logger打印的日志不会添加到root中再输出一遍， -->
     <logger name="dbLogger" level="DEBUG" additivity="false">
-        <appender-ref ref="dBAppender"/>
+        <appender-ref ref="ASYNC-DB"/>
     </logger>
 </configuration>

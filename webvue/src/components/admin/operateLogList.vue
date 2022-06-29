@@ -39,7 +39,7 @@
           <th class='w100'>用户</th>
           <th class='w300'>控制器</th>
           <th class='w150'>方法</th>
-          <th class='w155'>时间</th>
+          <th class='w170'>时间</th>
           <th class='w70'>操作</th>
         </tr>
         </thead>

@@ -1,5 +1,6 @@
 package com.zjy.web.controller;
 
+import com.zjy.baseframework.common.Constants;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.enums.RedisDataType;
@@ -38,8 +39,7 @@ public class RedisController extends BaseController{
     public BaseResult<Object> optRedis(RedisDataType dataType, RedisOpType opType, String key, String field, String value, Double score) {
         UserInfo user = new UserInfo();
         user.setId(1L);
-        List<Long> canOperaterList = Arrays.asList(1L);
-        if(opType != RedisOpType.GET && !canOperaterList.contains(user.getId())) {
+        if(opType != RedisOpType.GET && !Constants.SA_ADMIN.contains(user.getId())) {
             return BaseResult.error("没有操作权限");
         }
         if(dataType == null || opType == null || StringUtils.isBlank(key)) {
