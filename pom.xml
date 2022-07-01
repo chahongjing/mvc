@@ -45,7 +45,7 @@
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
         <maven.resources.plugin>3.1.0</maven.resources.plugin>
 <!--        <sqlite-jdbc.version>3.27.2.1</sqlite-jdbc.version>-->
-        <poi.version>5.0.0</poi.version>
+        <poi.version>5.2.2</poi.version>
         <dubbo.starter.version>2.7.8</dubbo.starter.version>
         <curator.version>5.1.0</curator.version>
         <nacos.client.version>2.1.0</nacos.client.version>
