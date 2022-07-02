@@ -6,12 +6,11 @@ import com.zjy.common.MyCustomDateEditor;
 import com.zjy.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
+import com.zjy.service.common.RedisUtils;
 import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -24,9 +23,8 @@ import java.util.Date;
  * Created by Administrator on 2018/1/2.
  */
 public class BaseController {
-    @Lazy
     @Autowired
-    protected StringRedisTemplate stringRedisTemplate;
+    protected RedisUtils redisUtils;
 
     @ModelAttribute
     public void init(Model model) {

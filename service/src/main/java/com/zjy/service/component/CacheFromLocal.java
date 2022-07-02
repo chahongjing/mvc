@@ -1,7 +1,6 @@
 package com.zjy.service.component;
 
 import com.zjy.baseframework.interfaces.ICache;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by chahongjing on 2017/6/10.
  */
-@Component
 public class CacheFromLocal implements ICache {
     private ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
 
@@ -35,9 +33,9 @@ public class CacheFromLocal implements ICache {
     }
 
     @Override
-    public Map<String, String> getAll(String key) {
+    public Map<String, String> getAll() {
         Map<String, String> result = new HashMap<>();
-        map.entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).forEach(entry -> result.put(entry.getKey(), entry.getValue().toString()));
+        map.forEach((key, value) -> result.put(key, value.toString()));
         return result;
     }
 

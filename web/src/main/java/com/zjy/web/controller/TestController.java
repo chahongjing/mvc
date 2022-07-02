@@ -13,13 +13,7 @@ import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.stratory.BaseActionParam;
 import com.zjy.common.stratory.BaseActionResult;
 import com.zjy.common.stratory.EventDispatcher;
-import com.zjy.common.utils.BeanUtils;
-import com.zjy.common.utils.DateTimeExcelHeader;
-import com.zjy.common.utils.DownloadUtils;
-import com.zjy.common.utils.ExcelHeader;
-import com.zjy.common.utils.ExcelUtils;
-import com.zjy.common.utils.HyperlinkExcelHeader;
-import com.zjy.common.utils.NumberExcelHeader;
+import com.zjy.common.utils.*;
 import com.zjy.entity.model.DownloadTask;
 import com.zjy.entity.model.TestDownloadRecord;
 import com.zjy.entity.model.UserInfo;
@@ -112,6 +106,7 @@ public class TestController extends BaseController {
      * @param response
      */
     @RequestMapping("/bigDataDownload")
+    @LimitByCount(expire = 3600)
     public void bigDataDownload(Boolean withError, HttpServletResponse response) {
         List<ExcelHeader> headers = new ArrayList<>();
         headers.add(new ExcelHeader(BeanUtils.convertToFieldName(TestDownloadRecord::getUserId), "工单号"));
@@ -125,15 +120,6 @@ public class TestController extends BaseController {
         pager.setOrderBy("user_id");
 
         try {
-//            String key = RedisKeyUtils.getDownloadCertificateAssignKey();
-//            Object downThreadNum = stringRedisTemplate.opsForValue().get(key);
-//            if(downThreadNum != null && ((int)downThreadNum) > 5) {
-//                // 同时下载人数超过5人，提示下载人数过多
-//                throw new DownloadException("下载人数过多");
-//            }
-//            stringRedisTemplate.opsForValue().increment(key);
-//            // 如果有人下载，则key续约，如果没有人下载，1个小时后自动删除，防止线上服务崩溃没有decrement导致服务不可用
-//            stringRedisTemplate.expire(key, 1, TimeUnit.HOURS);
             // 数据库记录开始下载任务
             PageInfo<TestDownloadRecord> pageInfo = downlaodTaskService.queryPageList(pager);
             if (pageInfo.getTotal() == 0) throw new DownloadException("没有数据");
@@ -174,8 +160,6 @@ public class TestController extends BaseController {
         } catch (Exception e) {
             // 数据库记录下载失败
             throw new DownloadException("下载出错", e);
-        } finally {
-//            stringRedisTemplate.opsForValue().decrement(key);
         }
     }
 
@@ -257,6 +241,12 @@ public class TestController extends BaseController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return String.valueOf(Math.random());
+    }
+
+    @GetMapping("/t")
+    public String testT() {
+        FileUtils.a();
         return String.valueOf(Math.random());
     }
 

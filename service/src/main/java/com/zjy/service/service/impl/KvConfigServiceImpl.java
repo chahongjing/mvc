@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -38,7 +39,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     @Transactional
     public int insert(KvConfig config, UserInfo user) {
         int add = super.insert(config);
-        cache.set(getHKey(RedisKeyUtils.KV_CONFIG, config.getCode()), config.getValue());
+        cache.set(getKey(RedisKeyUtils.KV_CONFIG, config.getCode()), config.getValue());
         return add;
     }
 
@@ -54,7 +55,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
         KvConfig voDb = this.get(config.getId());
         kvConfigLogService.insert(voDb, user);
         int update = super.update(config);
-        cache.set(getHKey(RedisKeyUtils.KV_CONFIG, config.getCode()), config.getValue());
+        cache.set(getKey(RedisKeyUtils.KV_CONFIG, config.getCode()), config.getValue());
         return update;
     }
 
@@ -67,13 +68,13 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
 
     @Override
     public KvConfig getFromCache(String code) {
-        String o = (String)cache.get(getHKey(RedisKeyUtils.KV_CONFIG, code));
+        String o = (String)cache.get(getKey(RedisKeyUtils.KV_CONFIG, code));
         if(StringUtils.isNotBlank(o)) {
             return JSON.parseObject(o, KvConfig.class);
         }
         KvConfig byCode = this.getByCode(code);
         if(byCode != null) {
-            cache.set(getHKey(RedisKeyUtils.KV_CONFIG, code), byCode.getValue());
+            cache.set(getKey(RedisKeyUtils.KV_CONFIG, code), byCode.getValue());
         }
         return byCode;
     }
@@ -95,7 +96,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
         KvConfig kvConfig = this.get(id);
         if(kvConfig != null) {
             int delete = super.delete(id);
-            cache.delete(getHKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
+            cache.delete(getKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
             kvConfigLogService.insert(kvConfig, user);
             return delete;
         }
@@ -122,7 +123,10 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
 
     @Override
     public void removeAllCache() {
-        cache.getAll(RedisKeyUtils.KV_CONFIG).forEach((key, value) -> cache.delete(key));
+        List<KvConfig> list = (List<KvConfig>)super.query(new KvConfig());
+        for (KvConfig kvConfig : list) {
+            cache.delete(getKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
+        }
     }
 
     @Override
@@ -132,7 +136,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
         return (PageBean<KvConfig>) super.queryPage(request, config);
     }
 
-    private String getHKey(String key, String field) {
+    private String getKey(String key, String field) {
         return String.format("%s:%s", key, field);
     }
 }

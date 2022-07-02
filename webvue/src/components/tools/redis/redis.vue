@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label req colon">操作类型</label>
+            <label class="form-label req colon">操作类型{{opType}}</label>
             <div class="form-content">
               <select class='form-control' v-model="opType">
                 <option v-for="item in dataOpOption" :value="item.value" v-text="item.name" />
@@ -27,28 +27,28 @@
                      v-model='key' :disabled='allDisabled'/>
             </div>
           </div>
-          <div class="form-group" v-if="dataType === 'HASH' && (opType === 'GET' || opType === 'SET')">
+          <div class="form-group" v-if="dataType === 3 && (opType === 0 || opType === 1)">
             <label class="form-label req colon">字段</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="字段"
                      v-model='field' :disabled='allDisabled'/>
             </div>
           </div>
-          <div class="form-group" v-if="opType === 'SET' || opType === 'ADD_ITEM' || opType === 'DEL_ITEM'">
+          <div class="form-group" v-if="opType === 1 || opType === 3 || opType === 4">
             <label class="form-label req colon">值</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="值"
                      v-model='value' :disabled='allDisabled'/>
             </div>
           </div>
-          <div class="form-group" v-if="dataType === 'ZSET' && (opType === 'SET' || opType === 'ADD_ITEM')">
+          <div class="form-group" v-if="dataType === 4 && (opType === 1 || opType === 3)">
             <label class="form-label req colon">分数</label>
             <div class="form-content">
               <input type="text" class="form-control" placeholder="分数"
                      v-model='score' :disabled='allDisabled'/>
             </div>
           </div>
-          <div class="form-group" v-if="opType === 'GET'">
+          <div class="form-group" v-if="opType === 0">
             <label class="form-label req colon">结果</label>
             <div class="form-content">
                <textarea type="text" class="form-control" placeholder="结果"

@@ -245,11 +245,11 @@ public class RedisUtils {
     }
 
     public Long lPushAll(String key, String... values) {
-        return stringRedisTemplate.opsForList().rightPushAll(key, values);
+        return stringRedisTemplate.opsForList().leftPushAll(key, values);
     }
 
-    public Long lPushAll(String key, Long time, String... values) {
-        Long count = stringRedisTemplate.opsForList().rightPushAll(key, values);
+    public Long lPushAllWithTime(String key, Long time, String... values) {
+        Long count = stringRedisTemplate.opsForList().leftPushAll(key, values);
         expire(key, time);
         return count;
     }
@@ -276,6 +276,9 @@ public class RedisUtils {
     }
     public Set<String> range(String key, double minScore, double maxScore) {
         return stringRedisTemplate.opsForZSet().rangeByScore(key, minScore, maxScore);
+    }
+    public Set<ZSetOperations.TypedTuple<String>> range(String key, long start, long end) {
+        return stringRedisTemplate.opsForZSet().rangeWithScores(key, start, end);
     }
     // endregion
 

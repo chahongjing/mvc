@@ -88,7 +88,7 @@ label.switch input:disabled + div span:nth-child(3){color:#aaa;}
 /* togglecheckbox */
 .togglecheckbox{line-height:33px;}
 .togglecheckbox i{position:absolute;width:40px;height:22px;border-radius:18px;transition:0.2s ease-in;top:4px;font-style:normal;}
-.togglecheckbox i:before{content: '×';font-family: FontAwesome;left: 22px;position: absolute;font-size: 20px;font-weight: bold;top: -7px;}
+.togglecheckbox i:before{content: '×';font-family: FontAwesome;left: 22px;position: absolute;font-size: 20px;font-weight: bold;top: -6px;}
 .togglecheckbox i:after{content:'\2261';left:1px;top:1px;width:18px;height:18px;border:1px #aaa solid;border-radius:18px;background-color:#eee;transition:0.2s ease-in-out;line-height: 16px;font-size: 16px;color: #333;text-indent: 3px;}
 .togglecheckbox span{line-height:30px;margin-left:45px;text-align:left;}
 .togglecheckbox input:checked + i{background-color:#3f51b5;}

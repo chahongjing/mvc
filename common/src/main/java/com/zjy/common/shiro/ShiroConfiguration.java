@@ -1,5 +1,6 @@
 package com.zjy.common.shiro;
 
+import com.zjy.common.RedisConfig;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -148,7 +149,7 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(RedisTemplate.class)
+    @ConditionalOnMissingBean(RedisConfig.class)
     public MemoryConstrainedCacheManager memoryConstrainedCacheManager() {
         return new MemoryConstrainedCacheManager();
     }
@@ -158,7 +159,7 @@ public class ShiroConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnBean(RedisTemplate.class)
+    @ConditionalOnBean(RedisConfig.class)
     public RedisCacheManager<String, Object> redisCacheManager(@Autowired RedisTemplate<String, Object> objRedisTemplate) {
         return new RedisCacheManager<>(objRedisTemplate);
     }

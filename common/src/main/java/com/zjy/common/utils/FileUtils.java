@@ -1,13 +1,12 @@
 package com.zjy.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.ResourceUtils;
 
 import javax.activation.MimetypesFileTypeMap;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -114,6 +113,20 @@ public class FileUtils {
             Files.write(logFile.toPath(), Collections.singleton(t), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
         } catch (IOException e) {
             log.error("log to file error", e);
+        }
+    }
+
+    public static void a() {
+        try {
+            InputStream inputStream = new ClassPathResource("lua/incrLimitExp.lua").getInputStream();
+            // 从classpath中加载资源，必须以/开头
+            InputStream resourceAsStream = FileUtils.class.getResourceAsStream("/lua/lock.lua");
+            // 从classpath中加载资源，必须不能以/开头
+            InputStream resourceAsStream1 = FileUtils.class.getClassLoader().getResourceAsStream("lua/lock.lua");
+            File file = ResourceUtils.getFile("classpath:/lua/lock.lua");
+            log.info("file: {}", file.toString());
+        } catch (Exception e) {
+            log.error("err", e);
         }
     }
 }

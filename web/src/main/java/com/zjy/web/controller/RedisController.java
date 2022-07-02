@@ -53,7 +53,7 @@ public class RedisController extends BaseController{
         }
         log.info("{} optRedis.dataType:{},opType:{},key:{},field:{},value:{}", user.getId(), dataType, opType, key, field, value);
         if(opType == RedisOpType.DEL) {
-            stringRedisTemplate.delete(key);
+            redisUtils.del(key);
             return BaseResult.ok();
         }
         Map<String, Object> result = null;
@@ -76,10 +76,10 @@ public class RedisController extends BaseController{
     private Map<String, Object> opString(RedisOpType opType, String key, String value) {
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForValue().get(key));
-            map.put("ttl", stringRedisTemplate.getExpire(key));
+            map.put("result", redisUtils.get(key));
+            map.put("ttl", redisUtils.getExpire(key));
         } else if (opType == RedisOpType.SET) {
-            stringRedisTemplate.opsForValue().set(key, value);
+            redisUtils.set(key, value);
         }
         return map;
     }
@@ -87,17 +87,17 @@ public class RedisController extends BaseController{
     private Map<String, Object> opList(RedisOpType opType, String key, String value) {
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForSet().members(key));
-            map.put("ttl", stringRedisTemplate.getExpire(key));
+            map.put("result", redisUtils.sMembers(key));
+            map.put("ttl", redisUtils.getExpire(key));
         } else if (opType == RedisOpType.SET) {
-            stringRedisTemplate.delete(key);
+            redisUtils.del(key);
             if(StringUtils.isBlank(value)) return map;
             List<String> list = Arrays.stream(value.split("\\|")).filter(StringUtils::isNotBlank).collect(Collectors.toList());
-            stringRedisTemplate.opsForSet().add(key, list.toArray(new String[0]));
+            redisUtils.sAdd(key, list.toArray(new String[0]));
         } else if(opType == RedisOpType.ADD_ITEM) {
-            stringRedisTemplate.opsForSet().add(key, value);
+            redisUtils.sAdd(key, value);
         } else if(opType == RedisOpType.DEL_ITEM) {
-            stringRedisTemplate.opsForSet().remove(key, value);
+            redisUtils.sRemove(key, value);
         }
         return map;
     }
@@ -105,17 +105,17 @@ public class RedisController extends BaseController{
     private Map<String, Object> opSet(RedisOpType opType, String key, String value) {
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForList().range(key, 0, -1));
-            map.put("ttl", stringRedisTemplate.getExpire(key));
+            map.put("result", redisUtils.range(key, 0, -1));
+            map.put("ttl", redisUtils.getExpire(key));
         } else if (opType == RedisOpType.SET) {
-            stringRedisTemplate.delete(key);
+            redisUtils.del(key);
             if(StringUtils.isBlank(value)) return map;
-            List<String> list = Arrays.stream(value.split("\\|")).filter(StringUtils::isNotBlank).collect(Collectors.toList());
-            stringRedisTemplate.opsForList().leftPushAll(key, list);
+            String[] list = (String[])Arrays.stream(value.split("\\|")).filter(StringUtils::isNotBlank).toArray();
+            redisUtils.lPushAll(key, list);
         } else if(opType == RedisOpType.ADD_ITEM) {
-            stringRedisTemplate.opsForList().leftPush(key, value);
+            redisUtils.lPushAll(key, value);
         } else if(opType == RedisOpType.DEL_ITEM) {
-            stringRedisTemplate.opsForList().remove(key, 0, value);
+            redisUtils.lRemove(key, 0, value);
         }
         return map;
     }
@@ -123,22 +123,21 @@ public class RedisController extends BaseController{
     private Map<String, Object> opZset(RedisOpType opType, String key, String value, Double score) {
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForZSet().rangeWithScores(key, 0, -1));
-            map.put("ttl", stringRedisTemplate.getExpire(key));
+            map.put("result", redisUtils.range(key, 0, -1));
+            map.put("ttl", redisUtils.getExpire(key));
         } else if (opType == RedisOpType.SET) {
-            stringRedisTemplate.delete(key);
+            redisUtils.del(key);
             if(StringUtils.isBlank(value)) return map;
-            Set<ZSetOperations.TypedTuple<String>> set = new HashSet<>();
-            ZSetOperations.TypedTuple<String> zsetItem;
+            Map<String, Double> set = new HashMap<>();
             List<String> list = Arrays.stream(value.split("\\|")).filter(StringUtils::isNotBlank).collect(Collectors.toList());
             for (String item : list) {
-                set.add(new DefaultTypedTuple<>(item, score));
+                set.put(item, score);
             }
-        stringRedisTemplate.opsForZSet().add(key, set);
+            redisUtils.zAddSet(key, set);
         } else if(opType == RedisOpType.ADD_ITEM) {
-            stringRedisTemplate.opsForZSet().add(key, value, score);
+            redisUtils.zAdd(key, value, score);
         } else if(opType == RedisOpType.DEL_ITEM) {
-            stringRedisTemplate.opsForZSet().remove(key, value);
+            redisUtils.zRemove(key, value);
         }
         return map;
     }
@@ -154,10 +153,10 @@ public class RedisController extends BaseController{
     private Map<String, Object> opHash(RedisOpType opType, String key, String field, String value) {
         Map<String, Object> map = new HashMap<>();
         if(opType == RedisOpType.GET) {
-            map.put("result", stringRedisTemplate.opsForHash().get(key, field));
-            map.put("ttl", stringRedisTemplate.getExpire(key));
+            map.put("result", redisUtils.hGet(key, field));
+            map.put("ttl", redisUtils.getExpire(key));
         } else if (opType == RedisOpType.SET) {
-            stringRedisTemplate.opsForHash().put(key, field, value);
+            redisUtils.hSet(key, field, value);
         }
         return map;
     }

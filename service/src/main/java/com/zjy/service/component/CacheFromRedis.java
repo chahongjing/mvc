@@ -6,18 +6,21 @@ import com.zjy.service.common.RedisUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.shiro.codec.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-//@Component
 public class CacheFromRedis implements ICache {
 
-    @Autowired
+//    @Autowired
     private RedisUtils redisUtils;
+
+    public CacheFromRedis(RedisUtils redisUtils) {
+        this.redisUtils = redisUtils;
+    }
+
     @Override
     public Object get(String key) {
         String val = redisUtils.get(key);
@@ -25,12 +28,12 @@ public class CacheFromRedis implements ICache {
     }
     @Override
     public <T> T get(String key, Class<T> clazz) {
-        throw new NotImplementedException();
+        return (T)redisUtils.get(key);
     }
 
     @Override
     public <T> void set(String key, T value) {
-        throw new NotImplementedException();
+        redisUtils.set(key, value == null ? null : String.valueOf(value));
     }
 
     @Override
@@ -59,7 +62,7 @@ public class CacheFromRedis implements ICache {
     }
 
     @Override
-    public Map<String, String> getAll(String key) {
+    public Map<String, String> getAll() {
         throw new NotImplementedException();
     }
 
