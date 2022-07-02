@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class InstantiationTracingBeanPostProcessor implements ApplicationListener<ApplicationEvent> {
+public class InitEventListener implements ApplicationListener<ApplicationEvent> {
 
     /**
      * spring容器加载完成后事件

@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * 从nacos中获取限流规则
+ */
 public class NacosDataSourceInitFunc implements InitFunc {
 
     private final Logger logger = LoggerFactory.getLogger(NacosDataSourceInitFunc.class);

@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -37,6 +39,28 @@ public class RedisUtils {
     public boolean lock(String key, String value, int timeout, TimeUnit timeUnit) {
         Boolean r = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
         return r != null && r;
+    }
+
+    public boolean lock1(String key, String value, int timeout) {
+        String script = "if redis.call('set', KEYS[1], ARGV[1], 'NX', 'EX', ARGV[2]) then" +
+                "  return 1;" +
+                "else" +
+                "  return 0;" +
+                "end";
+        DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>(script, Boolean.class);
+        Boolean result = stringRedisTemplate.execute(redisScript, Collections.singletonList(key), value, String.valueOf(timeout));
+        return result != null && result;
+    }
+
+    public boolean unlock1(String key, String value) {
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then" +
+                "  return redis.call('del', KEYS[1]);" +
+                "else" +
+                "  return 0;" +
+                "end";
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
+        Long result = stringRedisTemplate.execute(redisScript, Collections.singletonList(key), value);
+        return result != null && result > 0;
     }
 
     // region string
@@ -93,12 +117,13 @@ public class RedisUtils {
         return stringRedisTemplate.opsForValue().increment(key, -delta);
     }
 
+    public RedisScript<Long> incrLimitExpScript() {
+        return RedisScript.of(new ClassPathResource("lua/incrLimitExp.lua"), Long.class);
+    }
+
     public Long incrEx(String key, long expireSecond){
         String script = "local current = redis.call('incr', KEYS[1]);" +
-//                " local t = redis.call('ttl', KEYS[1]); " +
-//                "if t == -1 then  " +
                 "redis.call('expire', KEYS[1], ARGV[1]); " +
-//                "end; " +
                 "return current;";
         // 指定 lua 脚本，并且指定返回值类型
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
@@ -106,6 +131,21 @@ public class RedisUtils {
         return stringRedisTemplate.execute(redisScript, Collections.singletonList(key), String.valueOf(expireSecond));
 //        Object result = jedisCluster.eval(script, Collections.singletonList(key), Collections.singletonList(String.valueOf(defaultExpire)));
 //        return Integer.valueOf(result.toString());
+    }
+
+    public Long incrLimitExp(String key, Integer count, long expireSecond){
+        String script = "local i = redis.call('get', KEYS[1]);" +
+                "if (not i or tonumber(i) < tonumber(ARGV[1])) then " +
+                "  local r = redis.call('incr', KEYS[1]);" +
+                "  redis.call('expire', KEYS[1], ARGV[2]);" +
+                "  return r;" +
+                "else" +
+                "  return -1;" +
+                "end;";
+        // 指定 lua 脚本，并且指定返回值类型
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
+        // 参数一：redisScript，参数二：key列表，参数三：arg（可多个）
+        return stringRedisTemplate.execute(redisScript, Collections.singletonList(key), String.valueOf(count), String.valueOf(expireSecond));
     }
     // endregion
 

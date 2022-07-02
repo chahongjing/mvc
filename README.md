@@ -10,7 +10,16 @@
 
 |模块|端口|说明|
 |---|---|---|
-|mvc|[【8088】](http://localhost:8088)|springboot-mvc, shiro+permission，vue，动态数据源(先区分mapper，再区分master,slave)，重复请求注解，大数据量下载，mybatis枚举映射,mybatis-plus，pagehelper分页，打印sql日志拦截|
+|api||提供dubbo api接口|
+|baseframework_new||公共组件|
+|common||公共组件,shiro,策略模式|
+|dao||数据库操作，多数据源，打印sql日志，dbappender|
+|entity||数据库实体，枚举|
+|rpc_consumer|[【8095】](http://localhost:8095)|dubbo服务消费端，使用sentinel-dashboard限流，规则持久化在nacos中|
+|rpc_provider|[【8098】](http://localhost:8098)|dubbo服务提供端，使用sentinel-dashboard限流，规则持久化在nacos中|
+|service||服务模块，限流，防重，缓存注解，请求日志，异常日志|
+|web|[【8088】](http://localhost:8088)|springboot-mvc, shiro+permission，vue，动态数据源(先区分mapper，再区分master,slave)，重复请求注解，大数据量下载，mybatis枚举映射,mybatis-plus，pagehelper分页，打印sql日志拦截|
+|webvue|[【8099】](http://localhost:8099)|vue前端|
 
 spring-shiro；
 1. Subject.loging(UsernamePasswordToken)登录
@@ -23,7 +32,7 @@ spring-security:
 3. 验证时会在UserDetailsService通过用户名从数据库取出该用户，并将数据库的用户名，密码等信息组装成UserDetails信息返回，这里可以抛出相关异常，如未找到用户
 4. 调用path:authenticationManager(ProviderManager).authenticate-->AbstractUserDetailsAuthenticationProvider.authenticate-->DaoAuthenticationProvider.retrieveUser-->DaoAuthenticationProvider.additionalAuthenticationChecks校验密码，这里会对用户输入的密码进行盐值加密再比较
 
-
+### nacos & sentinel-dashboard
 ``` shell
 # 启动zk。若不能启动，查看日志，看是不是8080端口占用
 ./zkServer.sh start

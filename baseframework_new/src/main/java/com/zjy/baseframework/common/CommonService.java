@@ -1,6 +1,7 @@
 package com.zjy.baseframework.common;
 
 import com.zjy.baseframework.interfaces.IHierarchyBase;
+import com.zjy.baseframework.interfaces.ISeq;
 import com.zjy.baseframework.model.TreeNode;
 
 import java.util.*;
@@ -42,7 +43,7 @@ public class CommonService {
         return firstLevelTreeNodeList;
     }
 
-    public static <T extends IHierarchyBase> void exchange(T one, T two) {
+    public static <T extends ISeq> void exchange(T one, T two) {
         if(one == null || two == null) {
             return;
         }

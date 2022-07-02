@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SentinelAspectConfiguration {
 
+    /**
+     * 使用限流注解@SentinelResource
+     * @return
+     */
     @Bean
     public SentinelResourceAspect sentinelResourceAspect() {
         return new SentinelResourceAspect();

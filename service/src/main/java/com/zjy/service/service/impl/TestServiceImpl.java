@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class TestServiceImpl implements TestService {
     @LogMethod
     @Override
-    @LimitByCount(count = 3)
+    @LimitByCount(count = 4, expire = 10)
     public String test(UserInfo userInfo) {
         try {
             TimeUnit.SECONDS.sleep(1);

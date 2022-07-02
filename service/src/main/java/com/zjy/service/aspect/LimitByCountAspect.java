@@ -2,7 +2,6 @@ package com.zjy.service.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.LimitByCount;
-import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.common.shiro.IUserInfo;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 重复请求校验
@@ -47,13 +45,10 @@ public class LimitByCountAspect {
     @Around(value = "limit() && @annotation(limitByCount)")
     public Object around(ProceedingJoinPoint pjp, LimitByCount limitByCount) throws Throwable {
         String key = getKey(limitByCount, pjp);
-        Long opNum = redisUtils.incrEx(key, 3600);
-        if(opNum != null && (Integer.parseInt(opNum.toString())) > limitByCount.count()) {
-            redisUtils.decr(key);
+        Long opNum = redisUtils.incrLimitExp(key, limitByCount.count(), limitByCount.expire());
+        if(opNum != null && (Integer.parseInt(opNum.toString())) < 0) {
             throw new ServiceException("服务繁忙");
         }
-        // 如果有人处理，则key续约，如果没有人下载，1个小时后自动删除，防止线上服务崩溃没有decrement导致服务不可用
-//        redisUtils.expire(key, 1, TimeUnit.HOURS);
         try {
             return pjp.proceed();
         } finally {
@@ -62,6 +57,25 @@ public class LimitByCountAspect {
             }
         }
     }
+
+//    @Around(value = "limit() && @annotation(limitByCount)")
+//    public Object around(ProceedingJoinPoint pjp, LimitByCount limitByCount) throws Throwable {
+//        String key = getKey(limitByCount, pjp);
+//        Long opNum = redisUtils.incrEx(key, 3600);
+//        if(opNum != null && (Integer.parseInt(opNum.toString())) > limitByCount.count()) {
+//            redisUtils.decr(key);
+//            throw new ServiceException("服务繁忙");
+//        }
+//        // 如果有人处理，则key续约，如果没有人下载，1个小时后自动删除，防止线上服务崩溃没有decrement导致服务不可用
+////        redisUtils.expire(key, 1, TimeUnit.HOURS);
+//        try {
+//            return pjp.proceed();
+//        } finally {
+//            if(redisUtils.hasKey(key)) {
+//                redisUtils.decr(key);
+//            }
+//        }
+//    }
 
     private String getKey(LimitByCount limitByCount, ProceedingJoinPoint pjp) {
         String argsJson = null;

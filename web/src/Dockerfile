@@ -1,7 +1,9 @@
 FROM java:8
 MAINTAINER "zjy <310510906@qq.com>"
 VOLUME /tmp
-ENV MY_PATH /home/tmp/mvc/
+ENV MY_PATH="/home/tmp/mvc/"\
+    JAVA_OPTS="xxx"
+
 WORKDIR $MY_PATH
 # 在容器内部执行命令
 # RUN mkdir -p $MY_PATH
