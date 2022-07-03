@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.RedisKeyUtils;
+import com.zjy.entity.model.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -19,14 +20,8 @@ import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,13 +62,18 @@ public class RedisCacheAspect {
                 objRedisTemplate.opsForValue().set(key, result, redisCache.expire(), redisCache.timeUnit());
             }
         } else {
-            // 如果是fastjson需要将jsonobject转为对应的类型，如是是jackson，则不需要转换
+//            // 如果是fastjson需要将jsonobject转为对应的类型，如是是jackson，则不需要转换
 //            Class<?> returnType = targetMethod.getReturnType();
 //            Class<?> trueType = getTrueType(targetMethod);
 //            if(Collection.class.isAssignableFrom(returnType)) {
 //                result = JSON.parseArray(JSON.toJSONString(result), trueType);
-//            } else if(Collection.class.isAssignableFrom(returnType)) {
-//                //result = JSON.parseArray(JSON.toJSONString(result), trueType);
+//            } else if(returnType.isArray()) {
+//                List<?> temp = JSON.parseArray(JSON.toJSONString(result), trueType);
+//                Object[] r = (Object[])Array.newInstance(trueType, temp.size());
+//                for (int i = 0; i < temp.size(); i++) {
+//                    r[i] = temp.get(i);
+//                }
+//                return r;
 //            } else if(result instanceof JSONObject) {
 //                result = JSON.toJavaObject((JSONObject)result, trueType);
 //            }
@@ -86,6 +86,8 @@ public class RedisCacheAspect {
         Class realType;
         if(Collection.class.isAssignableFrom(method.getReturnType())) {
             realType = (Class)((ParameterizedType) genericReturnType).getActualTypeArguments()[0];
+        } else if(method.getReturnType().isArray()) {
+            realType = method.getReturnType().getComponentType();
         } else {
             realType = method.getReturnType();
         }

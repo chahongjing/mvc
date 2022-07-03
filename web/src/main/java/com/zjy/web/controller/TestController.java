@@ -211,6 +211,40 @@ public class TestController extends BaseController {
         return list;
     }
 
+    @GetMapping("/testCache3")
+    @RedisCache(key = "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public UserInfo[] testCache3(Long id, String name) {
+        UserInfo[] list = new UserInfo[2];
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setName(name);
+        userInfo.setBirthday(new Date());
+        userInfo.setSex(Sex.FEMALE);
+        list[0] = (userInfo);
+        userInfo = new UserInfo();
+        userInfo.setId(2L);
+        userInfo.setName("dsfsd");
+        list[1] =(userInfo);
+        return list;
+    }
+
+    @GetMapping("/testCache4")
+    @RedisCache(key = "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public Map<Long, UserInfo> testCache4(Long id, String name) {
+        Map<Long, UserInfo> list = new HashMap<>();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setName(name);
+        userInfo.setBirthday(new Date());
+        userInfo.setSex(Sex.FEMALE);
+        list.put(1L, userInfo);
+        userInfo = new UserInfo();
+        userInfo.setId(2L);
+        userInfo.setName("dsfsd");
+        list.put(2L, userInfo);
+        return list;
+    }
+
     @GetMapping("/testTransaction")
     @NoRepeatOp
     public BaseResult<Map<String, Object>> testTransaction() {
