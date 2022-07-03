@@ -1,0 +1,1 @@
+exceptionFilter=com.zjy.rpc_provider.common.CustomeExceptionFilter

@@ -10,3 +10,6 @@ mykey1: in dev profile
 
 mykey2:
   ab: @mykey@
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181

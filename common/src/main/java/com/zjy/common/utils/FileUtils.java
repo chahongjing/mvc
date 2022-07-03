@@ -1,7 +1,12 @@
 package com.zjy.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ResourceUtils;
 
@@ -9,6 +14,7 @@ import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Base64;
 import java.util.Calendar;
@@ -123,10 +129,31 @@ public class FileUtils {
             InputStream resourceAsStream = FileUtils.class.getResourceAsStream("/lua/lock.lua");
             // 从classpath中加载资源，必须不能以/开头
             InputStream resourceAsStream1 = FileUtils.class.getClassLoader().getResourceAsStream("lua/lock.lua");
-            File file = ResourceUtils.getFile("classpath:/lua/lock.lua");
-            log.info("file: {}", file.toString());
+
+            ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+            Resource[] resources = resourcePatternResolver.getResources("classpath:/lua/lock.lua");
+//            File file = ResourceUtils.getFile("classpath:/lua/lock.lua");
+//            log.info("file: {}", file.toString());
         } catch (Exception e) {
             log.error("err", e);
         }
+    }
+
+    public String getVersion(String path) {
+//        classpath:/static
+//        classpath:/public
+//        classpath:/resources
+//        classpath:/META-INF/resources
+        String root = ClassUtils.getDefaultClassLoader().getResource(StringUtils.EMPTY).toString();
+        if(root.startsWith("file:/")) {
+            root = root.substring(6);
+        }
+        File file = Paths.get(root, "/static", path).toFile();
+        if(file.exists()) {
+            long version = file.lastModified();
+            path += "?_v=" + version;
+        }
+        System.out.println("version:" + path);
+        return path;
     }
 }

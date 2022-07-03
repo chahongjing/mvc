@@ -1,8 +1,6 @@
-package com.zjy.service.common;
+package com.zjy.common.utils;
 
-import com.zjy.baseframework.enums.YesNo;
-import com.zjy.entity.enums.UserStatus;
-import com.zjy.service.enums.RedisOpType;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,15 +11,16 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by chahongjing on 2017/10/8.
  */
+@Slf4j
 public class ReflectionHelper {
     static List<Class> allClassList = new ArrayList<>();
     static Logger logger = LoggerFactory.getLogger(ReflectionHelper.class);
@@ -41,11 +40,8 @@ public class ReflectionHelper {
         return clazz;
     }
 
-    public static List<Class> getProjectClassList() {
+    public static List<Class> getProjectClassList(List<String> enumPackages) {
         if (CollectionUtils.isEmpty(allClassList)) {
-            List<String> enumPackages = Arrays.asList(YesNo.class.getPackage().getName(),
-                    UserStatus.class.getPackage().getName(),
-                    RedisOpType.class.getPackage().getName());
             for (String enumPackage : enumPackages) {
                 for (String pack : enumPackage.split(",|;")) {
                     // 枚举所在的包
@@ -131,5 +127,37 @@ public class ReflectionHelper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Class getReturnActualType(Method method) throws ClassNotFoundException {
+        Type genericReturnType = method.getGenericReturnType();
+        if (genericReturnType instanceof ParameterizedType) {
+            Type[] actualTypes = ((ParameterizedType) genericReturnType).getActualTypeArguments();
+            for (Type actualType : actualTypes) {
+                return Class.forName(actualType.getTypeName());
+            }
+        }
+        return method.getReturnType();
+    }
+
+    private Class getGenericActualType(Method method) throws ClassNotFoundException {
+        Type genericReturnType = method.getGenericReturnType();
+        if (genericReturnType instanceof ParameterizedType) {
+            return Class.forName(((ParameterizedType) genericReturnType).getRawType().getTypeName());
+
+        }
+        return null;
+    }
+
+    public String getCallerMethodName() {
+        try {
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            if(stackTrace.length > 2) {
+                return String.format("%s.%s", stackTrace[2].getClassName(), stackTrace[2].getMethodName()).replace(".", "_");
+            }
+        } catch (Exception ex) {
+            log.error("获取函数栈信息失败！", ex);
+        }
+        return StringUtils.EMPTY;
     }
 }

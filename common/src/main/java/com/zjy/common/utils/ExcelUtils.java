@@ -3,7 +3,9 @@ package com.zjy.common.utils;
 import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.common.usermodel.HyperlinkType;
+
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Field;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,10 +32,6 @@ import java.util.stream.Collectors;
 public class ExcelUtils {
 
     public static final Logger log = LoggerFactory.getLogger(ExcelUtils.class);
-
-    public static final String XLS = ".xls"; //excel2003
-
-    public static final String XLSX = ".xlsx"; // excel2007及以上
 
     private ExcelUtils() {
     }
@@ -64,16 +63,16 @@ public class ExcelUtils {
         row = sheet.getRow(0);
         if (row == null) return list;
         for (ExcelHeader header : headers) {
-            fieldName = "";
+            fieldName = StringUtils.EMPTY;
             for (int i = 0; i < row.getLastCellNum(); i++) {
                 cell = row.getCell(i);
-                if (isBlank(cell.getStringCellValue())) continue;
+                if (StringUtils.isBlank(cell.getStringCellValue())) continue;
                 if (cell.getStringCellValue().trim().equals(header.getName())) {
                     fieldName = header.getFieldName();
                     header.setColumnIndex(i);
                 }
             }
-            if (isBlank(fieldName)) {
+            if (StringUtils.isBlank(fieldName)) {
                 throw new IllegalArgumentException("未找到列名【" + header.getFieldName() + "-" + header.getName() + "】");
             }
         }
@@ -117,7 +116,7 @@ public class ExcelUtils {
 
     @Deprecated
     public static <T> void listToExcelOld(Map<String, List<T>> sheetList, Map<String, String> headers, String filePath) {
-        if (isBlank(filePath)) {
+        if (StringUtils.isBlank(filePath)) {
             throw new IllegalArgumentException("filePath不能为空！");
         }
         Workbook workbook;
@@ -126,7 +125,7 @@ public class ExcelUtils {
             if (!file.getParentFile().exists()) {
                 file.mkdirs();
             }
-            if (filePath.toLowerCase().endsWith(XLSX)) {
+            if (filePath.toLowerCase().endsWith(FileSuffix.XLSX.getCode())) {
                 workbook = new XSSFWorkbook();
             } else {
                 workbook = new HSSFWorkbook();
@@ -213,7 +212,7 @@ public class ExcelUtils {
 //        if (CollectionUtils.isEmpty(list)) {
 //            throw new IllegalArgumentException("数据源中没有任何数据!");
 //        }
-        if (isBlank(sheetName)) {
+        if (StringUtils.isBlank(sheetName)) {
             throw new IllegalArgumentException("请输入sheet名称");
         }
 
@@ -282,7 +281,7 @@ public class ExcelUtils {
     }
 
     public static <T> void listToExcel(Workbook workbook, List<T> list, List<ExcelHeader> headers, String sheetName, int offset, int headerOffset) {
-        if (isBlank(sheetName)) {
+        if (StringUtils.isBlank(sheetName)) {
             throw new IllegalArgumentException("请输入sheet名称");
         }
         int maxRow = getWorkbookMaxRow(workbook);
@@ -309,7 +308,7 @@ public class ExcelUtils {
      * @Date:  2020/9/16 18:03
      **/
     public static <T> void listToMultiHeaderExcel(Workbook workbook, List<T> list, List<ExcelHeader> headers, String sheetName, int rowNum, int headerOffset) {
-        if (isBlank(sheetName)) {
+        if (StringUtils.isBlank(sheetName)) {
             throw new IllegalArgumentException("请输入sheet名称");
         }
         // 处理单元格样式
@@ -356,7 +355,7 @@ public class ExcelUtils {
                 }
                 // 如果是超链接
                 if(headers.get(i) instanceof HyperlinkExcelHeader) {
-                    if(objValue != null && isNotBlank(objValue.toString())) {
+                    if(objValue != null && StringUtils.isNotBlank(objValue.toString())) {
                         String[] split = objValue.toString().split(",|;");
                         cell.setHyperlink(getHyperlink(workbook, split[0]));
                         if(headers.get(i).getCellStyle() != null) {
@@ -364,7 +363,7 @@ public class ExcelUtils {
                         } else {
                             cell.setCellStyle(getLinkStyle(workbook));
                         }
-                        cell.setCellValue(String.join(" ", split));
+                        cell.setCellValue(StringUtils.join(split, " "));
                     }
                 } else if (objValue!=null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
                     // 超链接
@@ -443,7 +442,7 @@ public class ExcelUtils {
                 }
                 // 如果是超链接
                 if(headers.get(i) instanceof HyperlinkExcelHeader) {
-                    if(objValue != null && isNotBlank(objValue.toString())) {
+                    if(objValue != null && StringUtils.isNotBlank(objValue.toString())) {
                         String[] split = objValue.toString().split(",|;");
                         cell.setHyperlink(getHyperlink(book, split[0]));
                         if(headers.get(i).getCellStyle() != null) {
@@ -451,7 +450,7 @@ public class ExcelUtils {
                         } else {
                             cell.setCellStyle(getLinkStyle(book));
                         }
-                        cell.setCellValue(String.join(" ", split));
+                        cell.setCellValue(StringUtils.join(split, " "));
                     }
                 } else if (objValue!=null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
                     // 超链接
@@ -539,7 +538,7 @@ public class ExcelUtils {
                 value = cell.getBooleanCellValue();
                 break;
             case BLANK:
-                value = "";
+                value = StringUtils.EMPTY;
                 break;
             case FORMULA:
                 value = cell.getCellFormula();
@@ -604,14 +603,14 @@ public class ExcelUtils {
         } else if (clazz == Double.class || clazz == double.class) {
 //            if(ExcelHeader.class.isAssignableFrom(header.getClass())
 //                    && header.getClass() != ExcelHeader.class) {
-                cell.setCellValue(Double.parseDouble(value.toString()));
+            cell.setCellValue(Double.parseDouble(value.toString()));
 //            } else {
 //                cell.setCellValue(value.toString());
 //            }
         } else if (clazz == BigDecimal.class) {
 //            if(ExcelHeader.class.isAssignableFrom(header.getClass())
 //                    && header.getClass() != ExcelHeader.class) {
-                cell.setCellValue(((Number) value).doubleValue());
+            cell.setCellValue(((Number) value).doubleValue());
 //            } else {
 //                cell.setCellValue(value.toString());
 //            }
@@ -620,7 +619,7 @@ public class ExcelUtils {
         } else if (clazz == Long.class || clazz == long.class) {
 //            if(ExcelHeader.class.isAssignableFrom(header.getClass())
 //            && header.getClass() != ExcelHeader.class) {
-                cell.setCellValue(value.toString());
+            cell.setCellValue(value.toString());
 //            } else {
 //                cell.setCellValue(value.toString());
 //            }
@@ -727,8 +726,8 @@ public class ExcelUtils {
             field.setAccessible(true);
             //获取字段类型
             Class<?> clazz = field.getType();
-            String strValue = Objects.toString(fieldValue, "");
-            if (fieldValue == null || isBlank(strValue)) {
+            String strValue = Objects.toString(fieldValue, StringUtils.EMPTY);
+            if (fieldValue == null || StringUtils.isBlank(strValue)) {
                 field.set(o, null);
                 return;
             }
@@ -752,7 +751,7 @@ public class ExcelUtils {
             } else if (clazz == BigDecimal.class) {
                 field.set(o, fieldValue instanceof Number ? new BigDecimal(((Number) fieldValue).doubleValue()) : ((BigDecimal) fieldValue).doubleValue());
             } else if (clazz == Date.class) {
-                if (isBlank(Objects.toString(fieldValue, ""))) {
+                if (!StringUtils.isBlank(Objects.toString(fieldValue, StringUtils.EMPTY))) {
                     field.set(o, fieldValue);
                 }
             } else if (clazz == Long.class || clazz == long.class) {
@@ -799,7 +798,7 @@ public class ExcelUtils {
 
     private static Hyperlink getHyperlink(Workbook workbook, String value) {
         Hyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
-        if(isBlank(value)) return link;
+        if(StringUtils.isBlank(value)) return link;
         try {
             // 处理特殊字符
             value = value.replace(" ", "+");
@@ -814,7 +813,7 @@ public class ExcelUtils {
         CreationHelper creationHelper = workbook.getCreationHelper();
         CellStyle cellStyle;
         for (ExcelHeader header : headers) {
-            if (header.getCellStyle() == null && isNotBlank(header.getFormat())) {
+            if (header.getCellStyle() == null && StringUtils.isNotBlank(header.getFormat())) {
                 if("link".equalsIgnoreCase(header.getFormat())) {
                     Hyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
                     header.setHyperlink(link);
@@ -950,12 +949,4 @@ public class ExcelUtils {
 //        //patriarch.createPicture(anchor, workbook.addPicture(bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
     }
     // endregion
-
-    private static boolean isBlank(String str) {
-        return str == null || str.trim().equals("");
-    }
-
-    private static boolean isNotBlank(String str) {
-        return !isBlank(str);
-    }
 }

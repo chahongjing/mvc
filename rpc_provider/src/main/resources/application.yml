@@ -27,8 +27,13 @@ dubbo:
     basePackages: com.zjy.rpc_provider.facade
   application:
     name: rpc_provider   #定义消费者名称
-  registry:               #注册中心地址
-    address: zookeeper://127.0.0.1:2181
+    owner: zjy
   protocol:
     port: -1
     name: dubbo
+    dispatcher: message
+  provider:
+    filter: exceptionFilter
+    timeout: 10000
+  consumer:
+    timeout: 10000

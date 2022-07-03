@@ -50,7 +50,7 @@ public class ControllerAspect {
     /**
      * Controller层切点
      */
-//    @Pointcut("@annotations(com.dmall.bll.annotations.LogMessage)")
+//    @Pointcut("@annotations(com.zjy.bll.annotations.LogMessage)")
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping) || @annotation(org.springframework.web.bind.annotation.GetMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping)")
     public void controllerAspect() {
         // 

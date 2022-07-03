@@ -1,10 +1,13 @@
 package com.zjy.service.component;
 
+import com.zjy.baseframework.enums.YesNo;
 import com.zjy.common.SpringContextHolder;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.common.shiro.MyAuthorizingRealm;
+import com.zjy.entity.enums.UserStatus;
 import com.zjy.service.common.EnumUtils;
-import com.zjy.service.common.ReflectionHelper;
+import com.zjy.common.utils.ReflectionHelper;
+import com.zjy.service.enums.RedisOpType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -14,6 +17,7 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,7 +42,10 @@ public class InitEventListener implements ApplicationListener<ApplicationEvent> 
         } else if (event instanceof ContextRefreshedEvent) {
             // 需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
             // 获取所有类型
-            List<Class> classList = ReflectionHelper.getProjectClassList();
+            List<String> enumPackages = Arrays.asList(YesNo.class.getPackage().getName(),
+                    UserStatus.class.getPackage().getName(),
+                    RedisOpType.class.getPackage().getName());
+            List<Class> classList = ReflectionHelper.getProjectClassList(enumPackages);
             // 初始化要序列化的枚举
             EnumUtils.initAllSerializeEnum(classList);
             MyAuthorizingRealm realm = SpringContextHolder.getBean(MyAuthorizingRealm.class);

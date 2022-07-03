@@ -16,6 +16,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -23,6 +25,10 @@ import java.util.Date;
  * Created by Administrator on 2018/1/2.
  */
 public class BaseController {
+    @Autowired
+    protected HttpServletRequest request;
+    @Autowired
+    protected HttpServletResponse response;
     @Autowired
     protected RedisUtils redisUtils;
 

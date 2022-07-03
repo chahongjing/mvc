@@ -4,6 +4,7 @@ import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.enums.SwitchEnum;
+import com.zjy.service.service.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,8 @@ import java.util.Map;
 public class SwitchController extends BaseController {
     @Autowired
     private ICache cache;
+    @Autowired
+    private CommonService commonService;
 
     /**
      * 开关列表

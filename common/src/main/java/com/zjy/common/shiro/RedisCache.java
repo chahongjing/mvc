@@ -1,5 +1,6 @@
 package com.zjy.common.shiro;
 
+import com.zjy.baseframework.common.RedisKeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisCache<K, V> implements Cache<K, V> {
     private RedisTemplate<K, V> redisTemplate;
-    private final static String PREFIX = "shiro-cache:";
+    private final static String PREFIX = RedisKeyUtils.KEY_PREFIX + "shiro-cache:";
     private String cacheKey;
     private long globExpire = 30;
 

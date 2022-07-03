@@ -31,7 +31,7 @@ public class RedisUtils {
     /**
      * 加锁
      * @param key
-     * @param value
+     * @param value 一般用threadid
      * @param timeout
      * @param timeUnit
      * @return
@@ -39,6 +39,21 @@ public class RedisUtils {
     public boolean lock(String key, String value, int timeout, TimeUnit timeUnit) {
         Boolean r = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
         return r != null && r;
+    }
+
+    public boolean lockRetry(String key, String value, int timeout, TimeUnit timeUnit, int retryTimes, long sleepMillis) {
+        boolean result = lock(key, value, timeout, timeUnit);
+        while((!result) && retryTimes-- > 0){
+            try {
+                log.debug("lock failed, retrying..." + retryTimes);
+                Thread.sleep(sleepMillis);
+            } catch (InterruptedException e) {
+                return false;
+            }
+            result = lock(key, value, timeout, timeUnit);
+        }
+
+        return result;
     }
 
     public boolean lock1(String key, String value, int timeout) {

@@ -3,7 +3,6 @@ package com.zjy.common.utils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -13,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * Created by chahongjing on 2017/2/14.
  */
 public class DownloadUtils {
-//    protected static Logger logger = LoggerFactory.getLogger(DownloadUtils.class);
+    //    protected static Logger logger = LoggerFactory.getLogger(DownloadUtils.class);
     private DownloadUtils() {
     }
 
@@ -71,7 +70,7 @@ public class DownloadUtils {
             // 设置文件名
             response.addHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment;filename=%s", URLEncoder.encode(fileName, StandardCharsets.UTF_8.name())));
             // 设置contentType
-            response.setContentType(FileUtils.getMimeType(fileName));
+            response.setContentType(FileUtils.getMimeType(new File(fileName)));
             // 数据信息写入响应流中
             IOUtils.write(bytes, out);
             // 关闭文件输入流

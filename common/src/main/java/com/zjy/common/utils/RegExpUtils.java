@@ -17,6 +17,9 @@ public class RegExpUtils {
     public static Pattern srcReg = Pattern.compile("<img[\\s]+?[^>]*?src=([\"'\\s>])?([^'\"\\s>]+).*?>");
     // base64 data: group(2), suffix: group(1)
     public static Pattern base64Reg = Pattern.compile("data:image/([^;]+);base64,([^'\"\\s>]+)");
+    // phone
+    public static Pattern phoneReg = Pattern.compile("^((0\\d{10,11})|(1\\d{10}))$");
+    public static Pattern phoneReg1 = Pattern.compile("^((1[0-9][0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
 
     public static void main(String[] args) {
         try {

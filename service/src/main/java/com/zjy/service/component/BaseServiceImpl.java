@@ -7,6 +7,7 @@ import com.zjy.dao.common.BaseDao;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.common.PageInfomation;
+import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import java.util.Map;
 
 @Slf4j
 public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T> {
+
+    @Autowired
+    protected RedisUtils redisUtils;
 
     /**
      * 公共dao

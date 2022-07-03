@@ -41,6 +41,7 @@
         <fastjson>1.2.78</fastjson>
         <commons-csv>1.9.0</commons-csv>
         <commons-io>2.6</commons-io>
+        <commons.pool2>2.11.1</commons.pool2>
         <guava>27.0.1-jre</guava>
         <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
         <maven.resources.plugin>3.1.0</maven.resources.plugin>
@@ -86,6 +87,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-csv</artifactId>
                 <version>${commons-csv}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons.pool2}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

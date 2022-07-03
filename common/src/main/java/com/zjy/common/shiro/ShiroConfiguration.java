@@ -18,6 +18,7 @@ import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -160,8 +161,8 @@ public class ShiroConfiguration {
      */
     @Bean
     @ConditionalOnBean(RedisConfig.class)
-    public RedisCacheManager<String, Object> redisCacheManager(@Autowired RedisTemplate<String, Object> objRedisTemplate) {
-        return new RedisCacheManager<>(objRedisTemplate);
+    public RedisCacheManager<String, Object> redisCacheManager(@Autowired @Qualifier("shiroObjRedisTemplate") RedisTemplate<String, Object> shiroObjRedisTemplate) {
+        return new RedisCacheManager<>(shiroObjRedisTemplate);
     }
     // endregion
 

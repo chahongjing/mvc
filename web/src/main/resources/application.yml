@@ -2,6 +2,8 @@ spring:
   profiles:
     active: @profiles.active@
     include: mybatis, common
+  messages:
+    basename: i18n/messages
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html

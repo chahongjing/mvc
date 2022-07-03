@@ -123,7 +123,7 @@ public class DataSourceConfig {
             configuration.setLazyLoadingEnabled(false);
             configuration.setCallSettersOnNulls(true);// 开启在属性为null也调用setter方法
             sqlSessionFactoryBean.setConfiguration(configuration);
-            GlobalConfig.DbConfig dbConfig = GlobalConfigUtils.getDbConfig(configuration);
+            GlobalConfig.DbConfig dbConfig = GlobalConfigUtils.getGlobalConfig(configuration).getDbConfig();
             // 默认自增长主键
             dbConfig.setIdType(IdType.AUTO);
             sqlSessionFactoryBean.setTypeEnumsPackage(UserStatus.class.getPackage().getName());
@@ -131,7 +131,8 @@ public class DataSourceConfig {
                 sqlSessionFactoryBean.setPlugins(sqlPrint);
             }
 
-//            sqlSessionFactoryBean.setTypeAliasesPackage(DataSourceConfiguration.TYPE_ALIASE);
+            sqlSessionFactoryBean.setTypeAliasesPackage("com.zjy.entity.model");
+//            sqlSessionFactoryBean.setTypeEnumsPackage();
 //            sqlSessionFactoryBean.setTypeHandlersPackage(DataSourceConfiguration.TYPE_HANDLE_PACKAGE);
 //            sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
 //            TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactoryBean.getObject().getConfiguration().getTypeHandlerRegistry();

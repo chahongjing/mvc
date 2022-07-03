@@ -14,16 +14,17 @@ import com.zjy.common.stratory.BaseActionParam;
 import com.zjy.common.stratory.BaseActionResult;
 import com.zjy.common.stratory.EventDispatcher;
 import com.zjy.common.utils.*;
+import com.zjy.entity.enums.Sex;
 import com.zjy.entity.model.DownloadTask;
 import com.zjy.entity.model.TestDownloadRecord;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.DownlaodTaskService;
 import com.zjy.service.UserService;
-import com.zjy.service.common.RedisUtils;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -56,8 +57,6 @@ public class TestController extends BaseController {
     private UserInfoService userInfoService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private RedisUtils redisUtils;
 
     @Autowired
     private DownlaodTaskService downlaodTaskService;
@@ -185,9 +184,31 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/testCache")
-    @RedisCache(key = RedisKeyUtils.KEY_PREFIX + "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
-    public String testCache(Long id, String name) {
-        return new Date().toString();
+    @RedisCache(key = "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public BaseResult<UserInfo> testCache(Long id, String name) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setName(name);
+        userInfo.setBirthday(new Date());
+        userInfo.setSex(Sex.FEMALE);
+        return BaseResult.ok(userInfo);
+    }
+
+    @GetMapping("/testCache2")
+    @RedisCache(key = "#{name}:#{id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public List<UserInfo> testCache2(Long id, String name) {
+        List<UserInfo> list = new ArrayList<>();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setName(name);
+        userInfo.setBirthday(new Date());
+        userInfo.setSex(Sex.FEMALE);
+        list.add(userInfo);
+        userInfo = new UserInfo();
+        userInfo.setId(2L);
+        userInfo.setName("dsfsd");
+        list.add(userInfo);
+        return list;
     }
 
     @GetMapping("/testTransaction")
