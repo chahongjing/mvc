@@ -26,7 +26,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.text.SimpleDateFormat;
 
-@Configuration
+//@Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisConfig {
     @Autowired

@@ -55,7 +55,7 @@ class WebApplicationTests {
     }
 
     @Test
-    void st() {
+    void testStopWatch() {
         try {
             StopWatch stopWatch = new StopWatch("zjy");
             // 任务一模拟休眠3秒钟
@@ -102,8 +102,9 @@ class WebApplicationTests {
 
         }
     }
+
     @Test
-    void stww() {
+    void testApacheStopWatch() {
         try {
             //创建后立即start，常用
             org.apache.commons.lang3.time.StopWatch watch = org.apache.commons.lang3.time.StopWatch.createStarted();
@@ -150,5 +151,10 @@ class WebApplicationTests {
         } catch (Exception e) {
 
         }
+    }
+
+    @Test
+    void testRedisSet() {
+        redisUtils.test("1");
     }
 }
