@@ -3,19 +3,19 @@ logging:
     path: /home/zjy/tmp/logs
   level:
     root: info
-spring:
-  mail:
-    host: smtp.exmail.qq.com
-#    port: 587    # 465
-#    protocol: smtp
-    default-encoding: UTF-8
-    properties:
-      mail:
-        smtp:
-          auth: true
-          timeout: 10000
-          starttls:
-            enable: true
-            required: true
-    username:
-    password:
+#spring:
+#  mail:
+#    host: smtp.exmail.qq.com
+##    port: 587    # 465
+##    protocol: smtp
+#    default-encoding: UTF-8
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          timeout: 10000
+#          starttls:
+#            enable: true
+#            required: true
+#    username:
+#    password:

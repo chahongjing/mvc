@@ -5,6 +5,12 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  boot:
+    admin:
+      client:
+        instance:
+          prefer-ip: true
+        url: http://localhost:8085
 
 mykey1: in dev profile
 
@@ -16,6 +22,7 @@ management:
     web:
       exposure:
         include: "*"
+    enabled-by-default: true
   endpoint:
     prometheus:
       enabled: true

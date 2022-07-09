@@ -72,6 +72,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/bootstrap/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/test/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/js/**", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/actuator/**", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/403", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/logout", DefaultFilter.logout.name());

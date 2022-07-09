@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: mymvc
   profiles:
     active: @profiles.active@
     include: mybatis, common

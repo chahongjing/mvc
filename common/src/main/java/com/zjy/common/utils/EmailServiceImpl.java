@@ -13,6 +13,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.mail.Message;
@@ -24,12 +25,13 @@ import java.util.Properties;
 
 @Service
 public class EmailServiceImpl {
+
     @Autowired(required = false)
     private JavaMailSenderImpl mailSender;
 
     static {
-        System.setProperty("mail.mime.splitlongparameters", "false");
-        System.setProperty("mail.mime.charset", "UTF-8");
+        System.setProperty("mail.mime.splitlongparameters", Boolean.FALSE.toString());
+        System.setProperty("mail.mime.charset", StandardCharsets.UTF_8.name());
     }
 
     /**
