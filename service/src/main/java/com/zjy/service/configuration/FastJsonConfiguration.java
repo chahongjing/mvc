@@ -1,7 +1,6 @@
 package com.zjy.service.configuration;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -10,15 +9,14 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import com.zjy.service.common.DateFormaterFilter;
-import com.zjy.service.common.EnumUtils;
-import com.zjy.service.common.EnumSerializer;
+import com.zjy.common.utils.EnumUtils;
+import com.zjy.common.utils.EnumSerializer;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

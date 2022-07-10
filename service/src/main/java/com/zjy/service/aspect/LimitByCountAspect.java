@@ -1,11 +1,11 @@
 package com.zjy.service.aspect;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -13,6 +13,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,8 @@ import java.util.Arrays;
 public class LimitByCountAspect {
     @Resource
     private RedisUtils redisUtils;
+    @Autowired
+    private JsonUtils jsonUtils;
 
     // 排除不能序列化的类
     Class[] list = new Class[]{HttpSession.class, BindingResult.class, HttpServletResponse.class,
@@ -86,7 +89,7 @@ public class LimitByCountAspect {
         }
         if(limitByCount.withParam()) {
             Object[] argArr = Arrays.stream(pjp.getArgs()).filter(this::includeArg).toArray();
-            argsJson = JSON.toJSONString(argArr);
+            argsJson = jsonUtils.toJSON(argArr);
         }
         String hash = DigestUtils.md5Hex(pjp.toShortString() + userId + argsJson);
         return RedisKeyUtils.LIMIT_OP + ":" + hash;

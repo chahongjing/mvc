@@ -5,6 +5,7 @@ import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.dao.common.BaseDao;
 import com.zjy.entity.model.UserInfo;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.common.PageInfomation;
 import com.zjy.service.common.RedisUtils;
@@ -27,6 +28,8 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
 
     @Autowired
     protected RedisUtils redisUtils;
+    @Autowired
+    protected JsonUtils jsonUtils;
 
     /**
      * 公共dao
@@ -41,7 +44,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public int insert(T entity) {
-//        log.info("调用add   方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
+//        log.info("调用add   方法:{}: {}", entity.getClass().getName(), jsonUtils.toJSON(entity));
         return dao.insert(entity);
     }
 
@@ -52,7 +55,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public int update(T entity) {
-//        log.info("调用update   方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
+//        log.info("调用update   方法:{}: {}", entity.getClass().getName(), jsonUtils.toJSON(entity));
         return dao.updateById(entity);
     }
 
@@ -85,7 +88,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public List<? extends T> query(T entity) {
-//        log.info("调用query方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(entity));
+//        log.info("调用query方法:{}: {}", entity.getClass().getName(), jsonUtils.toJSON(entity));
         return dao.query(entity);
     }
 
@@ -96,7 +99,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public PageBean<? extends T> queryPage(PageInfomation pi, T entity) {
-//        log.info("调用queryPage方法:{}: {}", entity.getClass().getName(), JSON.toJSONString(pi));
+//        log.info("调用queryPage方法:{}: {}", entity.getClass().getName(), jsonUtils.toJSON(pi));
         PageHelper.startPage(pi.getPageNum(), pi.getPageSize()).setOrderBy(pi.getOrderBy());
         return new PageBean<>(this.query(entity));
     }
@@ -108,7 +111,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public List<? extends T> queryListByMapFilter(Map<String, Object> query) {
-//        log.info("调用queryListByMapFilter方法:query: {}", JSON.toJSONString(query));
+//        log.info("调用queryListByMapFilter方法:query: {}", jsonUtils.toJSON(query));
         throw new NotImplementedException();
 //        return dao.queryByMapFilter(query);
     }
@@ -121,7 +124,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
      * @return
      */
     public PageBean<? extends T> queryPageListByMapFilter(PageInfomation pi, Map<String, Object> query) {
-//        log.info("调用queryPageListByMapFilter方法:PageInfomation: {}\tquery: {}", JSON.toJSONString(pi), JSON.toJSONString(query));
+//        log.info("调用queryPageListByMapFilter方法:PageInfomation: {}\tquery: {}", jsonUtils.toJSON(pi), jsonUtils.toJSON(query));
         PageHelper.startPage(pi.getPageNum(), pi.getPageSize()).setOrderBy(pi.getOrderBy());
         return new PageBean<>(this.queryListByMapFilter(query));
     }

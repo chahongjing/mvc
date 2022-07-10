@@ -5,7 +5,7 @@ import com.zjy.common.SpringContextHolder;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.common.shiro.MyAuthorizingRealm;
 import com.zjy.entity.enums.UserStatus;
-import com.zjy.service.common.EnumUtils;
+import com.zjy.common.utils.EnumUtils;
 import com.zjy.common.utils.ReflectionHelper;
 import com.zjy.service.enums.RedisOpType;
 import lombok.extern.slf4j.Slf4j;

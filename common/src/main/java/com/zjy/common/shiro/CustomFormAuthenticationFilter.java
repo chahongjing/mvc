@@ -1,8 +1,9 @@
 package com.zjy.common.shiro;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
+import com.zjy.common.SpringContextHolder;
+import com.zjy.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
+
+    private JsonUtils jsonUtils;
 
     /**
      * isAccessAllowed：判断是否登录,在登录的情况下会走此方法，此方法返回true,则不会再调用onAccessDenied方法,如果isAccessAllowed方法返回Flase,则会继续调用onAccessDenied方法
@@ -46,7 +49,7 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
                 httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
                 httpServletResponse.setStatus(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED.value());
                 PrintWriter out = httpServletResponse.getWriter();
-                out.print(JSON.toJSONString(new BaseResult(ResultStatus.UNAUTHENTICATION)));
+                out.print(getJsonUtils().toJSON(new BaseResult(ResultStatus.UNAUTHENTICATION)));
                 out.flush();
                 out.close();
 //                httpServletResponse.setStatus(HttpStatus.SC_FORBIDDEN);
@@ -56,6 +59,11 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
             }
             return false;
         }
+    }
+
+    private JsonUtils getJsonUtils() {
+        if(jsonUtils != null) return jsonUtils;
+        return SpringContextHolder.getBean(JsonUtils.class);
     }
 
 //    @Override

@@ -1,4 +1,4 @@
-package com.zjy.service.common;
+package com.zjy.common.utils;
 
 import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.alibaba.fastjson.parser.JSONToken;

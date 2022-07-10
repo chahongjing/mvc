@@ -1,9 +1,9 @@
 package com.zjy.service.aspect;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -39,6 +39,9 @@ public class ControllerAspect {
 
     @Autowired
     private HttpServletResponse response;
+
+    @Autowired
+    private JsonUtils jsonUtils;
 
     private static final String USER_EXP = "\\{user\\}";
     private static final String METHOD_EXP = "\\{method\\}";
@@ -122,7 +125,7 @@ public class ControllerAspect {
      * @param method
      * @param ex
      */
-    public static void logException(HttpServletRequest request, HttpServletResponse response, Method method, Exception ex) {
+    public void logException(HttpServletRequest request, HttpServletResponse response, Method method, Exception ex) {
         String credentials = response.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS);
         String origin = response.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN);
         if (!response.isCommitted()) {
@@ -139,20 +142,20 @@ public class ControllerAspect {
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try {
             if (ex instanceof ServiceException) {
-                response.getWriter().write(JSON.toJSONString(BaseResult.no(ex.getMessage())));
+                response.getWriter().write(jsonUtils.toJSON(BaseResult.no(ex.getMessage())));
                 log.info("业务异常", ex);
             } else if (ex instanceof DownloadException) {
                 Map<String, String> warnMsg = getWarnMsg(ex, request, method);
                 response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                response.getWriter().write(JSON.toJSONString(BaseResult.no(warnMsg.get("msg"))));
+                response.getWriter().write(jsonUtils.toJSON(BaseResult.no(warnMsg.get("msg"))));
                 String msg = warnMsg.get("msgLog") + "。" + NEW_LINE + "请求信息" + NEW_LINE + getRequestInfoStr(request, method);
                 Throwable rootCause = ExceptionUtils.getRootCause(ex);
                 log.warn(msg, rootCause);
             }else if(ex instanceof UnauthorizedException) {
-                response.getWriter().write(JSON.toJSONString(BaseResult.no("未授权")));
+                response.getWriter().write(jsonUtils.toJSON(BaseResult.no("未授权")));
             } else {
                 Map<String, String> warnMsg = getErrorMsg(ex, request, method);
-                response.getWriter().write(JSON.toJSONString(BaseResult.error(warnMsg.get("msg"))));
+                response.getWriter().write(jsonUtils.toJSON(BaseResult.error(warnMsg.get("msg"))));
                 log.error("系统错误", ex);
             }
         } catch (IOException e) {
@@ -172,7 +175,7 @@ public class ControllerAspect {
         StringBuilder sb = new StringBuilder(200);
         sb.append(NEW_LINE).append(getRequestInfoStr(request, method));
         if (result != null) {
-            String msg = (result instanceof String) ? (String) result : JSON.toJSONString(result);
+            String msg = (result instanceof String) ? (String) result : jsonUtils.toJSON(result);
             sb.append("return: ").append(msg);
         }
         if (log.isInfoEnabled()) {

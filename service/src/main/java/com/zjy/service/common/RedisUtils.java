@@ -1,9 +1,10 @@
 package com.zjy.service.common;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.common.RedisKeyUtils;
+import com.zjy.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.DefaultTypedTuple;
@@ -27,6 +28,9 @@ public class RedisUtils {
     @Lazy
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private JsonUtils jsonUtils;
 
     /**
      * 加锁
@@ -319,7 +323,7 @@ public class RedisUtils {
         if (CollectionUtils.isNotEmpty(instanceIds)) {
             return 0;
         }
-        log.info("开始处理超时工单：{}", JSON.toJSONString(instanceIds));
+        log.info("开始处理超时工单：{}", jsonUtils.toJSON(instanceIds));
         for (String instanceId : instanceIds) {
             log.info("handleTimeoutGov. id: {}", instanceId);
             // todo: handle something

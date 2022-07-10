@@ -1,6 +1,5 @@
 package com.zjy.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.dao.vo.UpgradeLogVo;
 import com.zjy.entity.model.UpgradeLog;
@@ -43,7 +42,7 @@ public class UpgradeLogControlelr extends BaseController{
     @PostMapping("/save")
     public BaseResult<String> save(UpgradeLogVo vo) {
         if(CollectionUtils.isNotEmpty(vo.getContentList())) {
-            vo.setContent(JSON.toJSONString(vo.getContentList()));
+            vo.setContent(jsonUtils.toJSON(vo.getContentList()));
         }
         upgradeLogService.save(vo);
         return BaseResult.ok();

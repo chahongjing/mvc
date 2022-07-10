@@ -6,9 +6,10 @@ import com.zjy.common.MyCustomDateEditor;
 import com.zjy.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.model.UserInfo;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.common.RedisUtils;
 import com.zjy.service.component.BaseServiceImpl;
-import com.zjy.service.common.EnumUtils;
+import com.zjy.common.utils.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.ui.Model;
@@ -31,6 +32,8 @@ public class BaseController {
     protected HttpServletResponse response;
     @Autowired
     protected RedisUtils redisUtils;
+    @Autowired
+    protected JsonUtils jsonUtils;
 
     @ModelAttribute
     public void init(Model model) {

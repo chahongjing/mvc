@@ -1,9 +1,9 @@
 package com.zjy.service.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.interfaces.ICache;
-import com.zjy.service.common.EnumBean;
-import com.zjy.service.common.EnumUtils;
+import com.zjy.common.utils.EnumBean;
+import com.zjy.common.utils.EnumUtils;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.enums.SwitchEnum;
 import com.zjy.service.service.CommonService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,8 @@ public class CommonServiceImpl implements CommonService {
     private ICache cache;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private JsonUtils jsonUtils;
 
     @Override
     public String getEnums() {
@@ -27,7 +29,7 @@ public class CommonServiceImpl implements CommonService {
         StringBuilder sb = new StringBuilder();
         sb.append("window.enumMap={};");
         for (Map.Entry<String, Map<String, EnumBean>> classMapEntry : enumBeanList.entrySet()) {
-            sb.append(String.format("window.enumMap.%s=%s;%n", classMapEntry.getKey(), JSON.toJSONString(classMapEntry.getValue())));
+            sb.append(String.format("window.enumMap.%s=%s;%n", classMapEntry.getKey(), jsonUtils.toJSON(classMapEntry.getValue())));
         }
         return sb.toString();
     }

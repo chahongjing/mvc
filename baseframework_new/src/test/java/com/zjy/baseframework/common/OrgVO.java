@@ -14,5 +14,4 @@ public class OrgVO implements IHierarchyBase<OrgVO> {
     private Long pid;
     private int seq;
     private List<OrgVO> children;
-
 }

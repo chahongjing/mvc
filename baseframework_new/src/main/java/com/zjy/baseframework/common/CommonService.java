@@ -43,6 +43,11 @@ public class CommonService {
         return firstLevelTreeNodeList;
     }
 
+    public static <T extends IHierarchyBase> boolean isRootNode(T node) {
+        if(node == null) return false;
+        return node.getPid() == null || node.getPid() == 0L;
+    }
+
     public static <T extends ISeq> void exchange(T one, T two) {
         if(one == null || two == null) {
             return;

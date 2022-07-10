@@ -1,6 +1,5 @@
 package com.zjy.service.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.dao.UpgradeLogDao;
 import com.zjy.dao.vo.UpgradeLogItem;
 import com.zjy.dao.vo.UpgradeLogVo;
@@ -78,7 +77,7 @@ public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, Upgrad
 
     private List<UpgradeLogItem> convertToLogItem(String content) {
         if (StringUtils.isNotBlank(content)) {
-            return JSON.parseArray(content, UpgradeLogItem.class);
+            return jsonUtils.parseList(content, UpgradeLogItem.class);
         }
         return new ArrayList<>();
     }

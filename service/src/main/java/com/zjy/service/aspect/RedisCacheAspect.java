@@ -1,8 +1,5 @@
 package com.zjy.service.aspect;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.entity.model.UserInfo;
@@ -66,16 +63,16 @@ public class RedisCacheAspect {
 //            Class<?> returnType = targetMethod.getReturnType();
 //            Class<?> trueType = getTrueType(targetMethod);
 //            if(Collection.class.isAssignableFrom(returnType)) {
-//                result = JSON.parseArray(JSON.toJSONString(result), trueType);
+//                result = jsonUtils.parseList(jsonUtils.toJSON(result), trueType);
 //            } else if(returnType.isArray()) {
-//                List<?> temp = JSON.parseArray(JSON.toJSONString(result), trueType);
+//                List<?> temp = jsonUtils.parseList(jsonUtils.toJSON(result), trueType);
 //                Object[] r = (Object[])Array.newInstance(trueType, temp.size());
 //                for (int i = 0; i < temp.size(); i++) {
 //                    r[i] = temp.get(i);
 //                }
 //                return r;
 //            } else if(result instanceof JSONObject) {
-//                result = JSON.toJavaObject((JSONObject)result, trueType);
+//                result = jsonUtils.parse((JSONObject)result, trueType);
 //            }
         }
         return result;

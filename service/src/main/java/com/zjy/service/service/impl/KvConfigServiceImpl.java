@@ -1,6 +1,5 @@
 package com.zjy.service.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.interfaces.ICache;
 import com.zjy.dao.KvConfigDao;
@@ -70,7 +69,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     public KvConfig getFromCache(String code) {
         String o = (String)cache.get(getKey(RedisKeyUtils.KV_CONFIG, code));
         if(StringUtils.isNotBlank(o)) {
-            return JSON.parseObject(o, KvConfig.class);
+            return jsonUtils.parse(o, KvConfig.class);
         }
         KvConfig byCode = this.getByCode(code);
         if(byCode != null) {

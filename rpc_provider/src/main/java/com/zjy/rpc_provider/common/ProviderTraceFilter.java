@@ -46,7 +46,7 @@ public class ProviderTraceFilter implements Filter {
 //            serviceResponse.setArgs(invocation.getArguments());
 //            serviceResponse.setResult(new Object[] {result.getValue()});
 //            serviceResponse.setSpendTime(elapsed);
-//            LOGGER.info("dubbo服务响应成功,返回数据: " + JSON.toJSONString(serviceResponse));
+//            LOGGER.info("dubbo服务响应成功,返回数据: " + jsonUtils.toJSON(serviceResponse));
             return result;
         } finally {
             MDC.remove(UNIQUE_ID);

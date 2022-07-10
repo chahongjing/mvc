@@ -1,12 +1,12 @@
 package com.zjy.service.aspect;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.LogMessage;
 import com.zjy.baseframework.common.Constants;
 import com.zjy.baseframework.common.DownloadException;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
+import com.zjy.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -18,6 +18,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -50,6 +51,10 @@ public class RequestAspect {
     // region 属性
     // 请求信息，用于web相关项目
     private HttpServletRequest request;
+
+    @Autowired
+    private JsonUtils jsonUtils;
+
     private static Logger dbLogger = LoggerFactory.getLogger("dbLogger");
 
     public String getUserId() {
@@ -95,9 +100,9 @@ public class RequestAspect {
         try {
             object = joinPoint.proceed();
             if(annotation == null || annotation.doLog()) {
-                log.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), JSON.toJSONString(object));
+                log.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), jsonUtils.toJSON(object));
             }
-            dbLogger.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), JSON.toJSONString(object), method);
+            dbLogger.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), jsonUtils.toJSON(object), method);
         } catch (Throwable ex) {
             if(ex instanceof ServiceException || ex instanceof DownloadException) {
                 log.warn("完成返回【{}】。{}。结果：业务提示", getTimeSpan(begin), msg.toString(), ex);
@@ -163,7 +168,7 @@ public class RequestAspect {
                 if (param[i] instanceof String) {
                     v = (String) param[i];
                 } else if (param[i] != null) {
-                    v = JSON.toJSONString(param[i]);
+                    v = jsonUtils.toJSON(param[i]);
                 } else {
                     v = "";
                 }

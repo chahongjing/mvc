@@ -1,11 +1,11 @@
 package com.zjy.service.aspect;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -34,6 +34,8 @@ import java.util.concurrent.TimeUnit;
 public class NoRepeatAspect {
     @Resource
     private RedisUtils redisUtils;
+    @Resource
+    private JsonUtils jsonUtils;
 
     // 排除不能序列化的类
     Class[] list = new Class[]{HttpSession.class, BindingResult.class, HttpServletResponse.class,
@@ -70,7 +72,7 @@ public class NoRepeatAspect {
         }
         if(noRepeatOp.withParam()) {
             Object[] argArr = Arrays.stream(pjp.getArgs()).filter(this::includeArg).toArray();
-            argsJson = JSON.toJSONString(argArr);
+            argsJson = jsonUtils.toJSON(argArr);
         }
         String hash = DigestUtils.md5Hex(pjp.toShortString() + userId + argsJson);
         return RedisKeyUtils.REPEAT_OP + ":" + hash;

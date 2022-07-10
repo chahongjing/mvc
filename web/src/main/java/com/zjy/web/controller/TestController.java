@@ -1,6 +1,5 @@
 package com.zjy.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.zjy.baseframework.annotations.LimitByCount;
@@ -172,14 +171,14 @@ public class TestController extends BaseController {
         BaseActionParam baseActionParam = new CreateParam();
         ((CreateParam) baseActionParam).setType("1");
         BaseActionResult baseActionResult = eventDispatcher.fireAction(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
+        log.info("result:{}", jsonUtils.toJSON(baseActionResult));
         baseActionParam = new CloseParam();
         baseActionResult = eventDispatcher.fireAction(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
+        log.info("result:{}", jsonUtils.toJSON(baseActionResult));
 
 
         baseActionResult = eventDispatcher.publishEvent(baseActionParam);
-        log.info("result:{}", JSON.toJSONString(baseActionResult));
+        log.info("result:{}", jsonUtils.toJSON(baseActionResult));
         return "abc";
     }
 

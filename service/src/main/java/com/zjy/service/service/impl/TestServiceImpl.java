@@ -3,9 +3,10 @@ package com.zjy.service.service.impl;
 import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.annotations.LogMethod;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.common.JacksonUtil;
+import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.service.TestService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class TestServiceImpl implements TestService {
+    @Autowired
+    private JsonUtils jsonUtils;
     @LogMethod
     @Override
     @LimitByCount(count = 4, expire = 10)
@@ -22,6 +25,6 @@ public class TestServiceImpl implements TestService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return JacksonUtil.toJSON(userInfo);
+        return jsonUtils.toJSON(userInfo);
     }
 }

@@ -1,6 +1,5 @@
 package com.zjy.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.dao.vo.RoleInfoVo;
@@ -64,7 +63,7 @@ public class RoleInfoController extends BaseController{
     @PostMapping("saveRolePermission")
     @RequiresPermissions("grantPermission")
     public BaseResult saveRolePermission(Long targetId, String listStr) {
-        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+        List<PermissionCheckVo> list = jsonUtils.parseList(listStr, PermissionCheckVo.class);
         rolePermissionService.savePermission(list);
         return BaseResult.ok();
     }

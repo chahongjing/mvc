@@ -1,6 +1,5 @@
 package com.zjy.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.dao.vo.PermissionCheckVo;
 import com.zjy.service.service.UserRoleService;
@@ -30,7 +29,7 @@ public class UserRoleController extends BaseController{
     @RequestMapping("saveUserRole")
     @RequiresPermissions("userRole")
     public BaseResult saveUserRole(String listStr) {
-        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+        List<PermissionCheckVo> list = jsonUtils.parseList(listStr, PermissionCheckVo.class);
         userRoleService.saveUserRole(list);
         return BaseResult.ok();
     }
@@ -38,14 +37,14 @@ public class UserRoleController extends BaseController{
     @RequestMapping("getUserPermission")
     @RequiresPermissions("userGrantPermission")
     public BaseResult getUserPermission(String listStr) {
-        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+        List<PermissionCheckVo> list = jsonUtils.parseList(listStr, PermissionCheckVo.class);
         userRoleService.saveUserRole(list);
         return BaseResult.ok();
     }
     @PostMapping("saveUserPermission")
     @RequiresPermissions("userGrantPermission")
     public BaseResult saveUserPermission(String listStr) {
-        List<PermissionCheckVo> list = JSON.parseArray(listStr, PermissionCheckVo.class);
+        List<PermissionCheckVo> list = jsonUtils.parseList(listStr, PermissionCheckVo.class);
 //        rolePermissionService.savePermission(list);
         return BaseResult.ok();
     }

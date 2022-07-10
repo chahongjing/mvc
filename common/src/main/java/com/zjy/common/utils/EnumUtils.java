@@ -1,11 +1,8 @@
-package com.zjy.service.common;
+package com.zjy.common.utils;
 
 import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.enums.YesNo;
 import com.zjy.baseframework.interfaces.IBaseEnum;
-import com.zjy.common.utils.ReflectionHelper;
-import com.zjy.entity.enums.UserStatus;
-import com.zjy.service.enums.RedisOpType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Description;
 
@@ -32,8 +29,8 @@ public class EnumUtils {
 
     public static void initAllSerializeEnum() {
         List<String> enumPackages = Arrays.asList(YesNo.class.getPackage().getName(),
-                UserStatus.class.getPackage().getName(),
-                RedisOpType.class.getPackage().getName());
+                "com.zjy.entity.enums",
+                "com.zjy.service.enums");
         List<Class> classList = ReflectionHelper.getProjectClassList(enumPackages);
         initAllSerializeEnum(classList);
     }
