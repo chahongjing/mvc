@@ -9,7 +9,8 @@ public enum RedisOpType implements IBaseEnum {
     SET(1, "设置（覆盖）"),
     DEL(2, "删除"),
     ADD_ITEM(3, "添加一项"),
-    DEL_ITEM(4, "删除一项");
+    DEL_ITEM(4, "删除一项"),
+    TTL(5, "获取存活时间");
 
     private final int value;
     private final String name;

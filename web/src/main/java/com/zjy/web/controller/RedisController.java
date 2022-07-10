@@ -2,23 +2,20 @@ package com.zjy.web.controller;
 
 import com.zjy.baseframework.common.Constants;
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.common.utils.DateUtils;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.enums.RedisDataType;
 import com.zjy.service.enums.RedisOpType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.DefaultTypedTuple;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,6 +52,10 @@ public class RedisController extends BaseController{
         if(opType == RedisOpType.DEL) {
             redisUtils.del(key);
             return BaseResult.ok();
+        }
+        if(opType == RedisOpType.TTL) {
+            Long expire = redisUtils.getExpire(key);
+            return BaseResult.ok(getTTL(expire));
         }
         Map<String, Object> result = null;
         switch (dataType) {
@@ -159,5 +160,18 @@ public class RedisController extends BaseController{
             redisUtils.hSet(key, field, value);
         }
         return map;
+    }
+
+    private String getTTL(Long second) {
+        if(second == null) {
+            return "error";
+        }
+        if(second == -2) {
+            return "key not exists";
+        }
+        if(second == -1) {
+            return "forever";
+        }
+        return DateUtils.getTimeFromLong(second * 1000);
     }
 }

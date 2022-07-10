@@ -162,8 +162,8 @@ public class ShiroConfiguration {
      */
     @Bean
     @ConditionalOnBean(RedisConfig.class)
-    public RedisCacheManager<String, Object> redisCacheManager(@Autowired @Qualifier("shiroObjRedisTemplate") RedisTemplate<String, Object> shiroObjRedisTemplate) {
-        return new RedisCacheManager<>(shiroObjRedisTemplate);
+    public RedisCacheManager<String, Object> redisCacheManager() {
+        return new RedisCacheManager<>();
     }
     // endregion
 
@@ -180,29 +180,4 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-
-//    @Bean
-//    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-//        return new LifecycleBeanPostProcessor();
-//    }
-
-//    @Bean
-//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-//        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
-//        proxyCreator.setProxyTargetClass(true);
-//        return proxyCreator;
-//    }
-
-//    @Bean(name="simpleMappingExceptionResolver")
-//    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
-//        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
-//        Properties mappings = new Properties();
-//        mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
-//        mappings.setProperty("UnauthorizedException","/user/403");
-//        r.setExceptionMappings(mappings);  // None by default
-//        r.setDefaultErrorView("error");    // No default
-//        r.setExceptionAttribute("exception");     // Default is "exception"
-//        //r.setWarnLogCategory("example.MvcLogger");     // No default
-//        return r;
-//    }
 }

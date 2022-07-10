@@ -1,6 +1,7 @@
 package com.zjy.common.shiro;
 
 import com.zjy.baseframework.common.RedisKeyUtils;
+import com.zjy.common.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
@@ -20,35 +21,34 @@ public class RedisCache<K, V> implements Cache<K, V> {
     private long globExpire = 30;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public RedisCache(final String name, final RedisTemplate<K, V> redisTemplate) {
+    public RedisCache(final String name) {
         this.cacheKey = PREFIX + name + ":";
-        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public V get(K key) throws CacheException {
         log.debug("Shiro从缓存中获取数据KEY值["+key+"]");
-        redisTemplate.boundValueOps(getCacheKey(key)).expire(globExpire, TimeUnit.MINUTES);
-        return redisTemplate.boundValueOps(getCacheKey(key)).get();
+        getRedisTemplate().boundValueOps(getCacheKey(key)).expire(globExpire, TimeUnit.MINUTES);
+        return getRedisTemplate().boundValueOps(getCacheKey(key)).get();
     }
 
     @Override
     public V put(K key, V value) throws CacheException {
         V old = get(key);
-        redisTemplate.boundValueOps(getCacheKey(key)).set(value);
+        getRedisTemplate().boundValueOps(getCacheKey(key)).set(value);
         return old;
     }
 
     @Override
     public V remove(K key) throws CacheException {
         V old = get(key);
-        redisTemplate.delete(getCacheKey(key));
+        getRedisTemplate().delete(getCacheKey(key));
         return old;
     }
 
     @Override
     public void clear() throws CacheException {
-        redisTemplate.delete(keys());
+        getRedisTemplate().delete(keys());
 
     }
 
@@ -59,7 +59,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public Set<K> keys() {
-        return redisTemplate.keys(getCacheKey("*"));
+        return getRedisTemplate().keys(getCacheKey("*"));
     }
 
     @Override
@@ -75,5 +75,11 @@ public class RedisCache<K, V> implements Cache<K, V> {
     @SuppressWarnings("unchecked")
     private K getCacheKey(Object k) {
         return (K) (this.cacheKey + k);
+    }
+
+    private RedisTemplate<K, V> getRedisTemplate() {
+        if(redisTemplate != null) return redisTemplate;
+        this.redisTemplate = (RedisTemplate<K, V>)SpringContextHolder.getBean("shiroObjRedisTemplate");
+        return redisTemplate;
     }
 }

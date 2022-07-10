@@ -48,7 +48,7 @@
                      v-model='score' :disabled='allDisabled'/>
             </div>
           </div>
-          <div class="form-group" v-if="opType === 0">
+          <div class="form-group" v-if="opType === 0 || opType === 5">
             <label class="form-label req colon">结果</label>
             <div class="form-content">
                <textarea type="text" class="form-control" placeholder="结果"

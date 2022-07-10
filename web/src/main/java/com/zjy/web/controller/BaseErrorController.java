@@ -32,4 +32,17 @@ public class BaseErrorController implements ErrorController {
         String path = (String)body.get("path");
         return BaseResult.error("访问路径被外星人截走了！path：" + path);
     }
+
+    //    @Bean(name="simpleMappingExceptionResolver")
+//    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+//        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
+//        Properties mappings = new Properties();
+//        mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
+//        mappings.setProperty("UnauthorizedException","/user/403");
+//        r.setExceptionMappings(mappings);  // None by default
+//        r.setDefaultErrorView("error");    // No default
+//        r.setExceptionAttribute("exception");     // Default is "exception"
+//        //r.setWarnLogCategory("example.MvcLogger");     // No default
+//        return r;
+//    }
 }

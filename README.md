@@ -20,7 +20,7 @@
 |service||服务模块，限流，防重，缓存注解，请求日志，异常日志|
 |web|[【8088】](http://localhost:8088)|springboot-mvc, shiro+permission，vue，动态数据源(先区分mapper，再区分master,slave)，重复请求注解，大数据量下载，mybatis枚举映射,mybatis-plus，pagehelper分页，打印sql日志拦截|
 |webvue|[【8099】](http://localhost:8099)|vue前端|
-|监控|[prometheus【9090】](http://localhost:9090) \ [grafana【3000】](http://localhost:3000)|4701:jvm监控模板|
+|监控|[prometheus【9090】](http://localhost:9090) \ [grafana【3000】](http://localhost:3000)|4701:jvm监控模板;springboot2:11378;|
 
 spring-shiro；
 1. Subject.loging(UsernamePasswordToken)登录
@@ -80,5 +80,4 @@ scrape_configs:
       - targets: ['127.0.0.1:8088']
 ```
 启动prometheus:`./prometheus --config.file=prometheus.yml`
-启动grafana:`grafana-server --config=/etc/grafana/grafana.ini --homepath=/usr/share/grafana
-`
+启动grafana:`grafana-server --config=/etc/grafana/grafana.ini --homepath=/usr/share/grafana`
