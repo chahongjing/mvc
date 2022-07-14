@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     @Autowired
     private RpcService rpcService;
+
     /**
      * 首页
+     *
      * @return
      */
     @GetMapping("/")

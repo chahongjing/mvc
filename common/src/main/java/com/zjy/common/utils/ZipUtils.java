@@ -49,9 +49,9 @@ public class ZipUtils {
      * 使用给定密码解压指定的ZIP压缩文件到指定目录
      * 如果指 定目录不存在,可以自动创建,不合法的路径将导致异常被抛出
      *
-     * @param zipFile    指定的ZIP压缩文件
-     * @param dest   解压目录
-     * @param passwd ZIP文件的密码
+     * @param zipFile 指定的ZIP压缩文件
+     * @param dest    解压目录
+     * @param passwd  ZIP文件的密码
      * @return 解压后文件数组
      * @throws ZipException 压缩文件有损坏或者解压缩失败抛出
      */
@@ -87,7 +87,7 @@ public class ZipUtils {
      * 压缩指定文件到当前文件夹
      *
      * @param src 要压缩的指定文件
-     * @return 最终的压缩文件存放的绝对路径,如果为null则说明压缩失败.
+     * @return 最终的压缩文件存放的绝对路径, 如果为null则说明压缩失败.
      */
     public static String zip(String src) {
         return zip(src, null);

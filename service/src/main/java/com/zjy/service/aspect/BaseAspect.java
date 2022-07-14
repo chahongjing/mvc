@@ -24,11 +24,11 @@ public class BaseAspect {
     protected String getKey(String keyPrefix, boolean withUser, boolean withParam, ProceedingJoinPoint pjp) {
         String argsJson = null;
         Long userId = null;
-        if(withUser) {
+        if (withUser) {
             IUserInfo shiroUser = ShiroRealmUtils.getCurrentUser();
             userId = shiroUser == null ? null : shiroUser.getId();
         }
-        if(withParam) {
+        if (withParam) {
             argsJson = jsonUtils.toJSON(Arrays.stream(pjp.getArgs()).filter(this::includeArg).toArray());
         }
         String hash = DigestUtils.md5Hex(pjp.toShortString() + argsJson);

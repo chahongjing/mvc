@@ -42,7 +42,7 @@ public class ExcelUtils {
     // endregion
 
     // region excle转list
-    public static <T> List<T> excelToList(InputStream in, String sheetName, Class<T> clazz, List<ExcelHeader> headers) throws Exception{
+    public static <T> List<T> excelToList(InputStream in, String sheetName, Class<T> clazz, List<ExcelHeader> headers) throws Exception {
         List<T> list = new ArrayList<>();
         Workbook workbook;
         try {
@@ -165,13 +165,13 @@ public class ExcelUtils {
     }
 
     /**
-     * @Description: 多表头写入excel
-     * @Author: fei.wei
-     * @Date: 2020/8/12 11:13
      * @param multiHeaderVOList
      * @param sheetName
      * @param os
      * @param suffix
+     * @Description: 多表头写入excel
+     * @Author: fei.wei
+     * @Date: 2020/8/12 11:13
      * @Return:
      */
     public static <T> void listToMultiHeaderExcel(List<MultiHeaderVO> multiHeaderVOList, String sheetName, OutputStream os, FileSuffix suffix) {
@@ -179,9 +179,9 @@ public class ExcelUtils {
         try {
             int rowNum = 0;
 
-            for(MultiHeaderVO vo : multiHeaderVOList){
-                listToMultiHeaderExcel(workbook,vo.getData(),vo.getHeader(),sheetName,rowNum,0);
-                rowNum = vo.getData().size()+1+rowNum;  // 多表头时，计算表头所占一行
+            for (MultiHeaderVO vo : multiHeaderVOList) {
+                listToMultiHeaderExcel(workbook, vo.getData(), vo.getHeader(), sheetName, rowNum, 0);
+                rowNum = vo.getData().size() + 1 + rowNum;  // 多表头时，计算表头所占一行
             }
             workbook.write(os);
             os.flush();
@@ -191,10 +191,10 @@ public class ExcelUtils {
     }
 
     /**
+     * @param suffix
      * @Description: 创建不同版本的Workbook
      * @Author: fei.wei
      * @Date: 2020/8/12 11:15
-     * @param suffix
      * @Return:
      */
     private static Workbook createWorkbook(FileSuffix suffix) {
@@ -248,12 +248,13 @@ public class ExcelUtils {
 
     /**
      * 多sheet
+     *
      * @param workbook
      * @param sheetNameToList
      * @param headers
      */
-    public static <T> void listToMultiSheetExcel(Workbook workbook,Map<String,List<T>> sheetNameToList,List<ExcelHeader> headers) {
-        sheetNameToList.forEach((sheetName,value)->{
+    public static <T> void listToMultiSheetExcel(Workbook workbook, Map<String, List<T>> sheetNameToList, List<ExcelHeader> headers) {
+        sheetNameToList.forEach((sheetName, value) -> {
             listToExcel(workbook, value, headers, sheetName, 0);
         });
 
@@ -303,9 +304,9 @@ public class ExcelUtils {
     // endregion
 
     /**
-     * @Description:  多表头导出 单sheet页 多header  此类型不适用行数超过maxRows
+     * @Description: 多表头导出 单sheet页 多header  此类型不适用行数超过maxRows
      * @Author: fei.wei
-     * @Date:  2020/9/16 18:03
+     * @Date: 2020/9/16 18:03
      **/
     public static <T> void listToMultiHeaderExcel(Workbook workbook, List<T> list, List<ExcelHeader> headers, String sheetName, int rowNum, int headerOffset) {
         if (StringUtils.isBlank(sheetName)) {
@@ -323,7 +324,7 @@ public class ExcelUtils {
                 sheet.createFreezePane(0, 1, 0, 1);
                 setWidth(sheet, headers);
             }
-        }else{
+        } else {
             if (CollectionUtils.isNotEmpty(headers)) {
                 setHeader(CellUtil.getRow(rowNum, sheet), headers);
                 setWidth(sheet, headers);
@@ -354,18 +355,18 @@ public class ExcelUtils {
                     cell.setCellStyle(headers.get(i).getCellStyle());
                 }
                 // 如果是超链接
-                if(headers.get(i) instanceof HyperlinkExcelHeader) {
-                    if(objValue != null && StringUtils.isNotBlank(objValue.toString())) {
+                if (headers.get(i) instanceof HyperlinkExcelHeader) {
+                    if (objValue != null && StringUtils.isNotBlank(objValue.toString())) {
                         String[] split = objValue.toString().split(",|;");
                         cell.setHyperlink(getHyperlink(workbook, split[0]));
-                        if(headers.get(i).getCellStyle() != null) {
+                        if (headers.get(i).getCellStyle() != null) {
                             cell.setCellStyle(headers.get(i).getCellStyle());
                         } else {
                             cell.setCellStyle(getLinkStyle(workbook));
                         }
                         cell.setCellValue(StringUtils.join(split, " "));
                     }
-                } else if (objValue!=null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
+                } else if (objValue != null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
                     // 超链接
                     Hyperlink link = row.getSheet().getWorkbook().getCreationHelper().createHyperlink(HyperlinkType.URL);
                     link.setAddress(objValue.toString());
@@ -379,6 +380,7 @@ public class ExcelUtils {
             rowNum++;
         }
     }
+
     // region 辅助函数
     private static <T> void fillSheetOld(Sheet sheet, List<T> list, Map<String, String> headers, CellStyle cellDateStyle, CellStyle cellDataStyle) {
         // 设置标题
@@ -441,18 +443,18 @@ public class ExcelUtils {
                     cell.setCellStyle(headers.get(i).getCellStyle());
                 }
                 // 如果是超链接
-                if(headers.get(i) instanceof HyperlinkExcelHeader) {
-                    if(objValue != null && StringUtils.isNotBlank(objValue.toString())) {
+                if (headers.get(i) instanceof HyperlinkExcelHeader) {
+                    if (objValue != null && StringUtils.isNotBlank(objValue.toString())) {
                         String[] split = objValue.toString().split(",|;");
                         cell.setHyperlink(getHyperlink(book, split[0]));
-                        if(headers.get(i).getCellStyle() != null) {
+                        if (headers.get(i).getCellStyle() != null) {
                             cell.setCellStyle(headers.get(i).getCellStyle());
                         } else {
                             cell.setCellStyle(getLinkStyle(book));
                         }
                         cell.setCellValue(StringUtils.join(split, " "));
                     }
-                } else if (objValue!=null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
+                } else if (objValue != null && (objValue.toString().startsWith("http://") || objValue.toString().startsWith("https://"))) {
                     // 超链接
 //                    Hyperlink link = row.getSheet().getWorkbook().getCreationHelper().createHyperlink(HyperlinkType.URL);
 //                    link.setAddress(objValue.toString());
@@ -798,7 +800,7 @@ public class ExcelUtils {
 
     private static Hyperlink getHyperlink(Workbook workbook, String value) {
         Hyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
-        if(StringUtils.isBlank(value)) return link;
+        if (StringUtils.isBlank(value)) return link;
         try {
             // 处理特殊字符
             value = value.replace(" ", "+");
@@ -814,7 +816,7 @@ public class ExcelUtils {
         CellStyle cellStyle;
         for (ExcelHeader header : headers) {
             if (header.getCellStyle() == null && StringUtils.isNotBlank(header.getFormat())) {
-                if("link".equalsIgnoreCase(header.getFormat())) {
+                if ("link".equalsIgnoreCase(header.getFormat())) {
                     Hyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
                     header.setHyperlink(link);
                     header.setCellStyle(getLinkStyle(workbook));
@@ -836,7 +838,7 @@ public class ExcelUtils {
 
     private static void setWidth(Sheet sheet, List<ExcelHeader> headers) {
         for (int i = 0; i < headers.size(); i++) {
-            if(headers.get(i) instanceof DateTimeExcelHeader) {
+            if (headers.get(i) instanceof DateTimeExcelHeader) {
                 sheet.setColumnWidth(i, 4500);
                 continue;
             }
@@ -855,12 +857,12 @@ public class ExcelUtils {
     }
 
     private static int getWorkbookMaxRow(Workbook workbook) {
-        if(workbook == null) return XLSMaxSheetRow;
-        if(workbook instanceof HSSFWorkbook) {
+        if (workbook == null) return XLSMaxSheetRow;
+        if (workbook instanceof HSSFWorkbook) {
             return XLSMaxSheetRow;
-        } else if(workbook instanceof XSSFWorkbook) {
+        } else if (workbook instanceof XSSFWorkbook) {
             return XLSXMaxSheetRow;
-        } else if(workbook instanceof SXSSFWorkbook) {
+        } else if (workbook instanceof SXSSFWorkbook) {
             return XLSXMaxSheetRow;
         } else {
             return XLSMaxSheetRow;

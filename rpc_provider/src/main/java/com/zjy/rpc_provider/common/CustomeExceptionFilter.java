@@ -48,15 +48,14 @@ public class CustomeExceptionFilter extends ExceptionFilter {
 //                log.error(String.format("dubbo接口执行警告"), throwable);
 //            }
 //            else{
-                log.warn(String.format("dubbo接口执行警告"), throwable);
+            log.warn(String.format("dubbo接口执行警告"), throwable);
 //            }
-        }
-        else {
+        } else {
             msg = "工单系统异常！";
             log.error(String.format("dubbo接口执行出错"), throwable);
             try {
 //                Monitor.alarm(PoolConfig.MONITOR_KEY, "【客服工作台rpc】" + throwable.getMessage());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.error("发送飞书报警异常！", e);
             }
         }

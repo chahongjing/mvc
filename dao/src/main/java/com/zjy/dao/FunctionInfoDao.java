@@ -12,6 +12,7 @@ import java.util.Map;
 @Mapper
 public interface FunctionInfoDao extends BaseDao<FunctionInfo> {
     List<FunctionInfoVo> queryAllFunctionList();
+
     Map<String, Integer> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
 
     List<FunctionInfoVo> queryFunctionList();

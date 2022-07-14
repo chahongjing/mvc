@@ -9,7 +9,7 @@ public class StringUtils {
         for (int i = 0; i < str.length(); i++) {
             sb.append("\\u");
             String s = Integer.toHexString(str.charAt(i) & 0xffff);
-            if(s.length() < 4) sb.append("0000".substring(0, 4 - s.length()));
+            if (s.length() < 4) sb.append("0000".substring(0, 4 - s.length()));
             sb.append(s);
         }
         return sb.toString();

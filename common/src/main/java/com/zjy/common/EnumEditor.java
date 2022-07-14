@@ -16,7 +16,7 @@ public class EnumEditor<T extends Enum<T> & IBaseEnum> extends PropertyEditorSup
 
     @Override
     public void setAsText(String text) {
-        if (text== null || "".equals(text.trim())) {
+        if (text == null || "".equals(text.trim())) {
             setValue(null);
             return;
         }

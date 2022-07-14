@@ -32,7 +32,7 @@ public class ThreadPoolConfiguration extends AsyncConfigurerSupport {
         // 设置默认线程名称
         executor.setThreadNamePrefix("workExecutor-thread-");
         executor.setWaitForTasksToCompleteOnShutdown(true);
-        executor.setAwaitTerminationSeconds((int)MINUTES.toSeconds(15L));
+        executor.setAwaitTerminationSeconds((int) MINUTES.toSeconds(15L));
         // 设置拒绝策略(实例)
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;

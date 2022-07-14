@@ -10,7 +10,10 @@ import java.util.List;
 
 public interface OperateLogService extends BaseService<OperateLog> {
     OperateLogVo getVo(Long id);
+
     int deleteAll();
+
     PageBean<OperateLogVo> queryPageList(OperateLogRequest request);
+
     List<OperateLogVo> queryList(OperateLogVo vo);
 }

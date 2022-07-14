@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Date;
 
-public abstract class BaseEventHandler<P extends BaseActionParam, R extends BaseActionResult> implements Comparable<BaseEventHandler<P, R>>{
+public abstract class BaseEventHandler<P extends BaseActionParam, R extends BaseActionResult> implements Comparable<BaseEventHandler<P, R>> {
     @Resource
     protected EventDispatcher eventDispatcher;
 
@@ -17,9 +17,9 @@ public abstract class BaseEventHandler<P extends BaseActionParam, R extends Base
         return true;
     }
 
-    public R execute(ActionEvent<P, R> event){
+    public R execute(ActionEvent<P, R> event) {
         this.perpare(event);
-        if(!this.check(event)) {
+        if (!this.check(event)) {
             throw new RuntimeException("check false");
         }
         this.beforeDo(event);
@@ -33,7 +33,9 @@ public abstract class BaseEventHandler<P extends BaseActionParam, R extends Base
         return other.getOrder() - this.getOrder();
     }
 
-    public int getOrder() { return 0; }
+    public int getOrder() {
+        return 0;
+    }
 
     public abstract EventHandlerType getEventEnum();
 
@@ -42,16 +44,20 @@ public abstract class BaseEventHandler<P extends BaseActionParam, R extends Base
         // 获取实例的旧数据
 //        event.setOldIns(null);
     }
-    public boolean check(ActionEvent<P, R> event){
+
+    public boolean check(ActionEvent<P, R> event) {
 //        return event.getOldIns() != null;
         return true;
     }
-    public void beforeDo(ActionEvent<P, R> event){
+
+    public void beforeDo(ActionEvent<P, R> event) {
 
     }
+
     public void opDo(ActionEvent<P, R> event) {
 
     }
-    public void afterDo(ActionEvent<P, R> event){
+
+    public void afterDo(ActionEvent<P, R> event) {
     }
 }

@@ -59,7 +59,7 @@ public class RequestAspect {
 
     public String getUserId() {
         IUserInfo currentUser = ShiroRealmUtils.getCurrentUser();
-        if(currentUser != null && currentUser.getId() != null) {
+        if (currentUser != null && currentUser.getId() != null) {
             return currentUser.getId().toString();
         }
         return "";
@@ -67,6 +67,7 @@ public class RequestAspect {
     // endregion
 
     // region aop
+
     /**
      * 切点
      */
@@ -88,26 +89,26 @@ public class RequestAspect {
 
         StringBuilder msg = new StringBuilder();
         msg.append(String.format("用户【%s】请求", getUserId()));
-        if(isController(request, method)) {
+        if (isController(request, method)) {
             msg.append(String.format("url【%s】,", request.getRequestURI()));
         }
         msg.append(String.format("方法【%s】", getRequestMethodStr(method)));
         String requestPamramStr = getRequestParamStr(method, joinPoint, request);
-        if(annotation == null || annotation.doLog()) {
+        if (annotation == null || annotation.doLog()) {
             log.info("{}。请求参数：{}", msg.toString(), requestPamramStr);
         }
         long begin = System.currentTimeMillis();
         try {
             object = joinPoint.proceed();
-            if(annotation == null || annotation.doLog()) {
+            if (annotation == null || annotation.doLog()) {
                 log.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), jsonUtils.toJSON(object));
             }
             dbLogger.info("完成返回【{}】。{}。结果：{}", getTimeSpan(begin), msg.toString(), jsonUtils.toJSON(object), method);
         } catch (Throwable ex) {
-            if(ex instanceof ServiceException || ex instanceof DownloadException) {
+            if (ex instanceof ServiceException || ex instanceof DownloadException) {
                 log.warn("完成返回【{}】。{}。结果：业务提示", getTimeSpan(begin), msg.toString(), ex);
                 dbLogger.warn(msg.toString(), method);
-            } else if(ex instanceof UnauthorizedException || ex instanceof UnauthenticatedException) {
+            } else if (ex instanceof UnauthorizedException || ex instanceof UnauthenticatedException) {
             } else {
                 log.info("完成返回【{}】。{}。结果：业务异常", getTimeSpan(begin), msg.toString(), ex);
                 dbLogger.error(msg.toString(), method);
@@ -288,7 +289,7 @@ public class RequestAspect {
     }
 
     private String getRequestParamStr(Method method, ProceedingJoinPoint joinPoint, HttpServletRequest request) {
-        if(isController(request, method)) {
+        if (isController(request, method)) {
             String paramString;
             try {
                 paramString = getParamString(request.getParameterMap());

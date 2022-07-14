@@ -62,7 +62,7 @@ public class EmailServiceImpl {
      */
     public void sendEmail(List<String> to, List<String> cc, String subject, String content, boolean isContentHtml, List<String> attachments) {
         List<File> attachmentFiles = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(attachments)) {
+        if (CollectionUtils.isNotEmpty(attachments)) {
             for (String attachment : attachments) {
                 attachmentFiles.add(new File(attachment));
             }
@@ -83,10 +83,10 @@ public class EmailServiceImpl {
     public void sendEmailWithFile(List<String> to, List<String> cc, String subject, String content, boolean isContentHtml, List<File> attachments) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
-        if(CollectionUtils.isEmpty(to)) {
+        if (CollectionUtils.isEmpty(to)) {
             throw new ServiceException("邮件接收人不能为空！");
         }
-        if(CollectionUtils.isEmpty(cc)) {
+        if (CollectionUtils.isEmpty(cc)) {
             cc = new ArrayList<>();
         }
         try {
@@ -103,7 +103,7 @@ public class EmailServiceImpl {
                     String fileName = file.getFilename();
                     try {
                         fileName = MimeUtility.encodeText(fileName);
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
                     helper.addAttachment(fileName, file);

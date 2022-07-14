@@ -22,12 +22,12 @@ public class MyCustomZonedDateEditor extends PropertyEditorSupport {
 
     // LocalDateTime.now(ZoneId.of("UTC"));
 
-    static{
-        SimpleDateFormat sdf = (SimpleDateFormat)MyCustomDateEditor.getUtcSfd();
+    static {
+        SimpleDateFormat sdf = (SimpleDateFormat) MyCustomDateEditor.getUtcSfd();
         String pattern = sdf.toPattern();
         utcDtf = DateTimeFormatter.ofPattern(pattern).withZone(ZoneOffset.UTC);
 
-        sdf = (SimpleDateFormat)MyCustomDateEditor.getGmtSdf();
+        sdf = (SimpleDateFormat) MyCustomDateEditor.getGmtSdf();
         pattern = sdf.toPattern();
         //gmtDtf = DateTimeFormatter.ofPattern(pattern.replace("'GMT'", StringUtils.EMPTY), Locale.US);
         gmtDtf = DateTimeFormatter.ofPattern(pattern, Locale.US).withZone(ZoneId.of("GMT"));
@@ -40,7 +40,7 @@ public class MyCustomZonedDateEditor extends PropertyEditorSupport {
     public void setAsText(String text) {
         ZonedDateTime date = null;
         Date val = MyCustomDateEditor.parse(text);
-        if(val != null) {
+        if (val != null) {
             // date = LocalDateTime.ofInstant(Instant.ofEpochSecond(val.toInstant().getEpochSecond()), ZoneOffset.UTC);
             date = ZonedDateTime.ofInstant(Instant.ofEpochSecond(val.toInstant().getEpochSecond()), ZoneOffset.UTC);
         }

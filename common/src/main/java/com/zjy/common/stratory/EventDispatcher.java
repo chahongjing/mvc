@@ -30,7 +30,7 @@ public class EventDispatcher implements ApplicationListener<ActionEvent>, Applic
     public void register(BaseEventHandler baseEventHandler) {
         EventHandlerType eventType = baseEventHandler.getEventEnum();
         List<BaseEventHandler> list = actionMap.get(eventType);
-        if(list == null) {
+        if (list == null) {
             list = new ArrayList<>();
             actionMap.put(eventType, list);
         }
@@ -40,19 +40,19 @@ public class EventDispatcher implements ApplicationListener<ActionEvent>, Applic
 
     public <R extends BaseActionResult> R fireAction(BaseActionParam param) {
         ActionEvent event = new ActionEvent(param);
-        return (R)fireAction(event);
+        return (R) fireAction(event);
     }
 
     public <P extends BaseActionParam, R extends BaseActionResult> R fireAction(ActionEvent<P, R> event) {
         List<BaseEventHandler> actionList = actionMap.get(event.getParam().getEventEnum());
-        if(CollectionUtils.isEmpty(actionList)) {
+        if (CollectionUtils.isEmpty(actionList)) {
             log.warn("no action found for {}", event.getParam().getEventEnum());
             throw new IllegalArgumentException("unknown event type " + event.getParam().getEventEnum());
         }
-        for(BaseEventHandler baseEventHandler : actionList) {
-            if(baseEventHandler.matches(event.getParam())) {
+        for (BaseEventHandler baseEventHandler : actionList) {
+            if (baseEventHandler.matches(event.getParam())) {
                 try {
-                    return (R)baseEventHandler.execute(event);
+                    return (R) baseEventHandler.execute(event);
                 } catch (Exception ex) {
                     log.error("fireAction error!", ex);
                     throw ex;

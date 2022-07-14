@@ -25,15 +25,13 @@ public class DownloadUtils {
         return bytes;
     }
 
-    public static byte[] toPrimitives(Byte[] oBytes)
-    {
+    public static byte[] toPrimitives(Byte[] oBytes) {
         byte[] bytes = new byte[oBytes.length];
-        for(int i = 0; i < oBytes.length; i++) {
+        for (int i = 0; i < oBytes.length; i++) {
             bytes[i] = oBytes[i];
         }
         return bytes;
     }
-
 
 
     public static void download(String filePath, HttpServletResponse response) throws IOException {
@@ -89,7 +87,7 @@ public class DownloadUtils {
         String credentials = response.getHeader("Access-Control-Allow-Credentials");
         String origin = response.getHeader("Access-Control-Allow-Origin");
         // 清空response
-        if(!response.isCommitted()) {
+        if (!response.isCommitted()) {
             response.reset();
         }
         response.setStatus(httpStatus);

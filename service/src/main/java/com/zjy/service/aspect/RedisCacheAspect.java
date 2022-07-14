@@ -19,7 +19,6 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import javax.annotation.Resource;
 import java.lang.reflect.*;
@@ -104,7 +103,7 @@ public class RedisCacheAspect {
         Matcher matcher = pattern.matcher(key);
         String newKey = key;
         while (matcher.find()) {
-            if(spelContext == null) {
+            if (spelContext == null) {
                 spelContext = bindParam(method, pjp.getArgs());
             }
             Object value = parser.parseExpression("#" + matcher.group(1)).getValue(spelContext);
@@ -118,7 +117,7 @@ public class RedisCacheAspect {
         EvaluationContext context = new StandardEvaluationContext();
         //获取方法的参数名
         String[] params = discoverer.getParameterNames(method);
-        if(params == null) return context;
+        if (params == null) return context;
         for (int len = 0; len < params.length; len++) {
             context.setVariable(params[len], args[len]);
         }

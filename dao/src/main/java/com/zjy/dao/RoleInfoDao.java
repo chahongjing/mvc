@@ -12,5 +12,6 @@ import java.util.Map;
 @Mapper
 public interface RoleInfoDao extends BaseDao<RoleInfo> {
     List<RoleInfoVo> queryAllRole();
+
     Map<String, Integer> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
 }

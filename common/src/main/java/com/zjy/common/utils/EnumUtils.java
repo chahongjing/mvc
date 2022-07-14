@@ -12,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class EnumUtils {
 
-    private EnumUtils() {}
+    private EnumUtils() {
+    }
 
     private static List<Class<IBaseEnum>> serializeEnumList = new ArrayList<>();
+
     @SuppressWarnings("restriction")
     public static String getDescription(Enum<?> enu) throws NoSuchFieldException {
         Class<? extends Enum> sc = enu.getClass();
@@ -60,7 +62,7 @@ public class EnumUtils {
             for (IBaseEnum item : list) {
                 //add by jian.tang
                 try {
-                    if(item.getClass().getField(item.toString()).isAnnotationPresent( Deprecated.class )) continue;
+                    if (item.getClass().getField(item.toString()).isAnnotationPresent(Deprecated.class)) continue;
 //                    if(item.getClass().getField(item.toString()).isAnnotationPresent( NoShowEnumItem.class )) continue;
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();

@@ -52,7 +52,7 @@ public class DateFormaterFilter implements ValueFilter {
         while (clazz != null) {
             try {
                 Field declaredField = clazz.getDeclaredField(name);
-                if(declaredField != null) return declaredField;
+                if (declaredField != null) return declaredField;
             } catch (Exception ex) {
 
             }

@@ -67,12 +67,12 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
 
     @Override
     public KvConfig getFromCache(String code) {
-        String o = (String)cache.get(getKey(RedisKeyUtils.KV_CONFIG, code));
-        if(StringUtils.isNotBlank(o)) {
+        String o = (String) cache.get(getKey(RedisKeyUtils.KV_CONFIG, code));
+        if (StringUtils.isNotBlank(o)) {
             return jsonUtils.parse(o, KvConfig.class);
         }
         KvConfig byCode = this.getByCode(code);
-        if(byCode != null) {
+        if (byCode != null) {
             cache.set(getKey(RedisKeyUtils.KV_CONFIG, code), byCode.getValue());
         }
         return byCode;
@@ -93,7 +93,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
     @Transactional
     public int delete(Long id, UserInfo user) {
         KvConfig kvConfig = this.get(id);
-        if(kvConfig != null) {
+        if (kvConfig != null) {
             int delete = super.delete(id);
             cache.delete(getKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
             kvConfigLogService.insert(kvConfig, user);
@@ -122,7 +122,7 @@ public class KvConfigServiceImpl extends BaseServiceImpl<KvConfigDao, KvConfig> 
 
     @Override
     public void removeAllCache() {
-        List<KvConfig> list = (List<KvConfig>)super.query(new KvConfig());
+        List<KvConfig> list = (List<KvConfig>) super.query(new KvConfig());
         for (KvConfig kvConfig : list) {
             cache.delete(getKey(RedisKeyUtils.KV_CONFIG, kvConfig.getCode()));
         }

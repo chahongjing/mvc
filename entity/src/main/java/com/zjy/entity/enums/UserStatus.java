@@ -8,8 +8,7 @@ import lombok.Getter;
 @SerializeEnum
 public enum UserStatus implements IBaseEnum {
     NORMAL(0, "正常"),
-    DELETED(1, "已删除")
-    ;
+    DELETED(1, "已删除");
     private final int value;
     private final String name;
 

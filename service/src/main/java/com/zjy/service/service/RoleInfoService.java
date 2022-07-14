@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface RoleInfoService extends BaseService<RoleInfo> {
     List<RoleInfoVo> queryAllRole();
+
     void save(RoleInfoVo vo);
+
     PageBean<RoleInfoVo> queryPageList(RoleInfoRequest request);
+
     RoleInfoVo getVo(Long id);
+
     int delete(Long id);
 }

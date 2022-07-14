@@ -14,6 +14,7 @@ public @interface LogMessage {
 
     /**
      * 是否记录日志
+     *
      * @return
      */
     boolean doLog() default true;

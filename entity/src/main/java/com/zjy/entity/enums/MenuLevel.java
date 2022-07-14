@@ -17,6 +17,7 @@ public enum MenuLevel implements IBaseEnum {
         this.value = value;
         this.name = name;
     }
+
     public static MenuLevel getByValue(int value) {
         return IBaseEnum.getByValue(MenuLevel.class, value);
     }

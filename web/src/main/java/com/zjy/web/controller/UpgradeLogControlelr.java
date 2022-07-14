@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/upgradeLog")
-public class UpgradeLogControlelr extends BaseController{
+public class UpgradeLogControlelr extends BaseController {
     //region 属性
     @Autowired
     private UpgradeLogService upgradeLogService;
@@ -41,7 +41,7 @@ public class UpgradeLogControlelr extends BaseController{
 
     @PostMapping("/save")
     public BaseResult<String> save(UpgradeLogVo vo) {
-        if(CollectionUtils.isNotEmpty(vo.getContentList())) {
+        if (CollectionUtils.isNotEmpty(vo.getContentList())) {
             vo.setContent(jsonUtils.toJSON(vo.getContentList()));
         }
         upgradeLogService.save(vo);

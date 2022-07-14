@@ -8,6 +8,8 @@ import java.util.List;
  */
 public interface IHierarchyBase<T extends IHierarchyBase> extends ISeq {
     Long getId();
+
     Long getPid();
+
     void setChildren(List<T> children);
 }

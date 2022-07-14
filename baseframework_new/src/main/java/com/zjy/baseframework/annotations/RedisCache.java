@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RedisCache {
     String key() default Constants.EMPTY_STRING;
+
     long expire() default 1;
+
     TimeUnit timeUnit() default TimeUnit.MINUTES;
 }

@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface UserPermissionDao extends BaseDao<UserPermission> {
     List<PermissionVo> queryByUserIdList(List<Long> userIdList);
+
     int deleteEntity(UserPermission entity);
+
     int deleteByPermission(@Param("permissionId") Long permissionId);
 }

@@ -20,6 +20,7 @@ public class FastJsonConfiguration {
     private ObjectMapper objectMapper;
     @Autowired
     private FastJsonConfig fastJsonConfig;
+
     @Bean
     public HttpMessageConverters fastJsonMsgConverters() {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
@@ -32,7 +33,8 @@ public class FastJsonConfiguration {
         StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
         return new HttpMessageConverters(converter, stringHttpMessageConverter);
     }
-//    @Bean
+
+    //    @Bean
     public HttpMessageConverters jacksonMsgConvert() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         List<MediaType> supportedMediaTypes = new ArrayList<>();

@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface KvConfigDao extends BaseDao<KvConfig> {
     KvConfig getByCode(String code);
+
     List<KvConfigVo> query(KvConfig entity);
 }

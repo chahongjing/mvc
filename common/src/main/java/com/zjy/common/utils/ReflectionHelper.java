@@ -152,7 +152,7 @@ public class ReflectionHelper {
     public String getCallerMethodName() {
         try {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-            if(stackTrace.length > 2) {
+            if (stackTrace.length > 2) {
                 return String.format("%s.%s", stackTrace[2].getClassName(), stackTrace[2].getMethodName()).replace(".", "_");
             }
         } catch (Exception ex) {

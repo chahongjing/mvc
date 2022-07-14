@@ -16,10 +16,11 @@ import java.lang.reflect.Type;
 
 public class EnumSerializer extends JsonSerializer<IBaseEnum> implements ObjectSerializer, ObjectDeserializer {
     public static final EnumSerializer instance = new EnumSerializer();
+
     @Override
     public void serialize(IBaseEnum e, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         Integer value = getValue(e);
-        if(value == null) {
+        if (value == null) {
             jsonGenerator.writeNull();
         } else {
             jsonGenerator.writeNumber(value);
@@ -28,8 +29,8 @@ public class EnumSerializer extends JsonSerializer<IBaseEnum> implements ObjectS
 
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
         SerializeWriter out = serializer.out;
-        Integer value = getValue((IBaseEnum)object);
-        if(value == null) {
+        Integer value = getValue((IBaseEnum) object);
+        if (value == null) {
             out.writeNull();
         } else {
             out.writeInt(value);
@@ -37,16 +38,16 @@ public class EnumSerializer extends JsonSerializer<IBaseEnum> implements ObjectS
     }
 
     private Integer getValue(IBaseEnum value) {
-        if(value == null) return null;
+        if (value == null) return null;
         return value.getValue();
     }
 
     @Override
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object o) {
         Integer intValue = parser.parseObject(int.class);
-        if(intValue != null) {
+        if (intValue != null) {
             for (T enumConstant : ((Class<T>) type).getEnumConstants()) {
-                if(intValue.equals(((IBaseEnum)enumConstant).getValue())) {
+                if (intValue.equals(((IBaseEnum) enumConstant).getValue())) {
                     return enumConstant;
                 }
             }

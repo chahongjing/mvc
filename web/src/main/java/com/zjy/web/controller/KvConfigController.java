@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/kvConfig")
-public class KvConfigController extends BaseController{
+public class KvConfigController extends BaseController {
     //region 属性
     @Autowired
     private KvConfigService kvConfigService;

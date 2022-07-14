@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface FunctionInfoService extends BaseService<FunctionInfo> {
     List<FunctionInfoVo> queryAllFunctionList();
+
     FunctionInfoVo getVo(Long id);
+
     PageBean<? extends FunctionInfo> queryPageList(FunctionInfoRequest request);
+
     List<FunctionInfoVo> queryFunctionList();
+
     void save(FunctionInfoVo vo);
 }

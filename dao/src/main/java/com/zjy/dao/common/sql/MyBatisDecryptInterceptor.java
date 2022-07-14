@@ -14,8 +14,8 @@ import java.util.*;
  */
 @Intercepts({
         @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})
-      //  @Signature(type = Executor.class,method = "query",args={MappedStatement.class,Object.class, RowBounds.class, ResultHandler.class}),
-       // @Signature(type = Executor.class,method = "query",args={MappedStatement.class,Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})
+        //  @Signature(type = Executor.class,method = "query",args={MappedStatement.class,Object.class, RowBounds.class, ResultHandler.class}),
+        // @Signature(type = Executor.class,method = "query",args={MappedStatement.class,Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})
 })
 //@Component
 @Slf4j
@@ -84,10 +84,10 @@ public class MyBatisDecryptInterceptor implements Interceptor {
     }
 
     /**
+     * @param object
      * @Description: 实体是否需要解决
      * @Author: fei.wei
      * @Date: 2020/9/4 13:45
-     * @param object
      * @Return:
      */
     private boolean needToDecrypt(Object object) {

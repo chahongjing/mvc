@@ -13,8 +13,9 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class FastJsonUtils implements JsonUtils{
+public class FastJsonUtils implements JsonUtils {
     FastJsonConfig fastJsonConfig;
+
     private FastJsonUtils() {
         fastJsonConfig = getFastJsonConfig();
     }
@@ -29,7 +30,7 @@ public class FastJsonUtils implements JsonUtils{
 
     public <T> T[] parseArray(String json, Class<T> tClass) {
         List<T> list = parseList(json, tClass);
-        if(list == null) return null;
+        if (list == null) return null;
         T[] result = (T[]) Array.newInstance(tClass, list.size());
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);

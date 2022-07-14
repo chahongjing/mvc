@@ -34,13 +34,13 @@ public class LimitByCountAspect extends BaseAspect {
     public Object around(ProceedingJoinPoint pjp, LimitByCount limitByCount) throws Throwable {
         String key = getKey(RedisKeyUtils.LIMIT_OP, limitByCount.withUser(), limitByCount.withParam(), pjp);
         Long opNum = redisUtils.incrLimitExp(key, limitByCount.count(), limitByCount.expire());
-        if(opNum != null && opNum < 0) {
+        if (opNum != null && opNum < 0) {
             throw new ServiceException("服务繁忙");
         }
         try {
             return pjp.proceed();
         } finally {
-            if(limitByCount.autoDecr() && redisUtils.hasKey(key)) {
+            if (limitByCount.autoDecr() && redisUtils.hasKey(key)) {
                 redisUtils.decr(key);
             }
         }

@@ -20,14 +20,14 @@ public class RedisCache<K, V> implements Cache<K, V> {
     private String cacheKey;
     private long globExpire = 30;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public RedisCache(final String name) {
         this.cacheKey = PREFIX + name + ":";
     }
 
     @Override
     public V get(K key) throws CacheException {
-        log.debug("Shiro从缓存中获取数据KEY值["+key+"]");
+        log.debug("Shiro从缓存中获取数据KEY值[" + key + "]");
         getRedisTemplate().boundValueOps(getCacheKey(key)).expire(globExpire, TimeUnit.MINUTES);
         return getRedisTemplate().boundValueOps(getCacheKey(key)).get();
     }
@@ -78,8 +78,8 @@ public class RedisCache<K, V> implements Cache<K, V> {
     }
 
     private RedisTemplate<K, V> getRedisTemplate() {
-        if(redisTemplate != null) return redisTemplate;
-        this.redisTemplate = (RedisTemplate<K, V>)SpringContextHolder.getBean("shiroObjRedisTemplate");
+        if (redisTemplate != null) return redisTemplate;
+        this.redisTemplate = (RedisTemplate<K, V>) SpringContextHolder.getBean("shiroObjRedisTemplate");
         return redisTemplate;
     }
 }

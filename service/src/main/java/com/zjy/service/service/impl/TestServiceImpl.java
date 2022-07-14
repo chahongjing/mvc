@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class TestServiceImpl implements TestService {
     @Autowired
     private JsonUtils jsonUtils;
+
     @LogMethod
     @Override
     @LimitByCount(count = 4, expire = 10)

@@ -50,7 +50,7 @@ public class MyControllerAdvice {
             PrintWriter writer = response.getWriter();
             if (ex instanceof ServiceException) {
                 writer.write(jsonUtils.toJSON(BaseResult.no(msg)));
-            } else if(ex instanceof DownloadException) {
+            } else if (ex instanceof DownloadException) {
                 response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 writer.write(jsonUtils.toJSON(BaseResult.no(msg)));
             } else if (ex instanceof UnauthorizedException) {

@@ -29,7 +29,7 @@ public class OperateLogServiceImpl extends BaseServiceImpl<OperateLogDao, Operat
 
     @Override
     public List<OperateLogVo> queryList(OperateLogVo vo) {
-        return (List<OperateLogVo>)dao.query(vo);
+        return (List<OperateLogVo>) dao.query(vo);
     }
 
     /**

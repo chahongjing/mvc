@@ -30,7 +30,7 @@ public class DynamicDataSourceAspect {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method targetMethod = methodSignature.getMethod();
         DataSourceKey dataSource = targetMethod.getAnnotation(DBSource.class).value();
-        if(dataSource == null || dataSource == DataSourceKey.RANDOM) {
+        if (dataSource == null || dataSource == DataSourceKey.RANDOM) {
             dataSource = DynamicDataSourceContextHolder.getRandomDB();
         }
         //设置数据源

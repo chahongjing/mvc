@@ -37,7 +37,7 @@ public class RegExpUtils {
             String url = "https://my.net/kbs/9f868108-a634-40a5-b6a7-31becf12447l_-1645066060367%20(2)-1654566788261.webp?GalaxyAccessKeyId=AKLDHO7N6X4PBYAVAA&amp;Expires=1659283200000&amp;Signature=z2fCbB77zt7YdeRd/KUt8Qsg/p8=";
             URI uri = new URI(url);
             String path = uri.getPath();
-            if(path != null && !"".equals(path.trim())) {
+            if (path != null && !"".equals(path.trim())) {
                 String[] arr = path.split("/");
                 String fileName = arr[arr.length - 1];
                 fileName = URLEncoder.encode(URLDecoder.decode(fileName, StandardCharsets.UTF_8.name()), StandardCharsets.UTF_8.name());
@@ -61,7 +61,7 @@ public class RegExpUtils {
 
     public static Set<String> parseUrl(String content) {
         Set<String> set = new TreeSet<>();
-        if(content == null || "".equals(content.trim())) return set;
+        if (content == null || "".equals(content.trim())) return set;
         Matcher matcher = urlReg.matcher(content);
         while (matcher.find()) {
             set.add(matcher.group());

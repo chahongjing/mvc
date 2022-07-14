@@ -23,7 +23,6 @@ import com.zjy.service.service.UserInfoService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -223,7 +222,7 @@ public class TestController extends BaseController {
         userInfo = new UserInfo();
         userInfo.setId(2L);
         userInfo.setName("dsfsd");
-        list[1] =(userInfo);
+        list[1] = (userInfo);
         return list;
     }
 

@@ -21,7 +21,7 @@ public class UserService {
         PageHelper.startPage(1, 1);
         PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoDao.getList("45b90fb3-d794-4f8f-b0f6-f4744cb9a704"));
         UserInfo userInfo = null;
-        if(pageInfo.getTotal() > 0) {
+        if (pageInfo.getTotal() > 0) {
             userInfo = pageInfo.getList().get(0);
             log.info("user random: {}", userInfo.getName());
         }

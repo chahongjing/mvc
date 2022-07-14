@@ -26,6 +26,7 @@ public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, Upgrad
         UpgradeLog upgradeLog = super.get(id);
         return entityToVo(upgradeLog);
     }
+
     /**
      * 保存用户
      *
@@ -64,7 +65,7 @@ public class UpgradeLogServiceImpl extends BaseServiceImpl<UpgradeLogDao, Upgrad
     }
 
     private UpgradeLogVo entityToVo(UpgradeLog log) {
-        if(log == null) return null;
+        if (log == null) return null;
         UpgradeLogVo vo = new UpgradeLogVo();
         vo.setId(log.getId());
         vo.setUpgradeTime(log.getUpgradeTime());

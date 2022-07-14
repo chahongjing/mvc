@@ -8,8 +8,7 @@ import lombok.Getter;
 @SerializeEnum
 public enum PsermissionIncludeType implements IBaseEnum {
     INCLUDE(0, "包含"),
-    EXCLUDE(1, "排除")
-    ;
+    EXCLUDE(1, "排除");
     private final int value;
     private final String name;
 

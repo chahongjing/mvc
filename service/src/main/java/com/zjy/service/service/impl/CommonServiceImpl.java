@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 @Slf4j
@@ -37,5 +39,11 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public boolean isSwitchOpen(SwitchEnum se) {
         return SwitchEnum.SWITCH_OPEN.equals(cache.hGet(SwitchEnum.SWITCH_KEY, se.toString()));
+    }
+
+    public String getMsg(String code) {
+        Object[] param = new Object[1];
+        param[0] = new Date();
+        return messageSource.getMessage(code, param, Locale.getDefault());
     }
 }

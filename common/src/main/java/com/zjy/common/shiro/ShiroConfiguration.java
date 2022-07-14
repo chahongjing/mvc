@@ -75,7 +75,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/logout", DefaultFilter.logout.name());
         filterChainDefinitionMap.put("/**", DefaultFilter.authc.name());
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        return (AbstractShiroFilter)shiroFilterFactoryBean.getObject();
+        return (AbstractShiroFilter) shiroFilterFactoryBean.getObject();
     }
 
     @Bean
@@ -145,6 +145,7 @@ public class ShiroConfiguration {
 
     /**
      * session放在本地内存中
+     *
      * @return
      */
     @Bean
@@ -155,6 +156,7 @@ public class ShiroConfiguration {
 
     /**
      * session放在redis中，用redis管理。也可使用EnableRedisHttpSession注解
+     *
      * @return
      */
     @Bean

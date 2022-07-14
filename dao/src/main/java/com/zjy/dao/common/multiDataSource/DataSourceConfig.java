@@ -127,7 +127,7 @@ public class DataSourceConfig {
             // 默认自增长主键
             dbConfig.setIdType(IdType.AUTO);
             sqlSessionFactoryBean.setTypeEnumsPackage(UserStatus.class.getPackage().getName());
-            if(sqlPrint != null) {
+            if (sqlPrint != null) {
                 sqlSessionFactoryBean.setPlugins(sqlPrint);
             }
 

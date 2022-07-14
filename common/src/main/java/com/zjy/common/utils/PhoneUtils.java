@@ -3,7 +3,6 @@ package com.zjy.common.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author
@@ -23,9 +22,10 @@ public class PhoneUtils {
 
     /**
      * 校验手机号码格式，座机号不通过校验
-     * @author
+     *
      * @param mobiles
      * @return
+     * @author
      */
     public static boolean isMobile(String mobiles) {
         if (StringUtils.isBlank(mobiles)) {

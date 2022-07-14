@@ -151,7 +151,7 @@ public class ControllerAspect {
                 String msg = warnMsg.get("msgLog") + "。" + NEW_LINE + "请求信息" + NEW_LINE + getRequestInfoStr(request, method);
                 Throwable rootCause = ExceptionUtils.getRootCause(ex);
                 log.warn(msg, rootCause);
-            }else if(ex instanceof UnauthorizedException) {
+            } else if (ex instanceof UnauthorizedException) {
                 response.getWriter().write(jsonUtils.toJSON(BaseResult.no("未授权")));
             } else {
                 Map<String, String> warnMsg = getErrorMsg(ex, request, method);

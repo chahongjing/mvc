@@ -15,6 +15,7 @@ public class BeanConfiguration {
     public ICache redisCache(RedisUtils redisUtils) {
         return new CacheFromRedis(redisUtils);
     }
+
     @Bean
     @ConditionalOnMissingBean(RedisConfig.class)
     public ICache localCache() {

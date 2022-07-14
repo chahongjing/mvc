@@ -61,7 +61,7 @@ public class DynamicDataSourceContextHolder {
      * 当使用只读数据源时通过轮循方式选择要使用的数据源
      */
     public static DataSourceKey getRandomDB() {
-        int index = (int)(Math.random() * slaveDataSourceKeys.size() * 100);
+        int index = (int) (Math.random() * slaveDataSourceKeys.size() * 100);
         int datasourceKeyIndex = index % slaveDataSourceKeys.size();
         return slaveDataSourceKeys.get(datasourceKeyIndex);
     }

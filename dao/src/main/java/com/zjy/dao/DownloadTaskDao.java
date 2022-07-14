@@ -9,5 +9,6 @@ import java.util.List;
 @Mapper
 public interface DownloadTaskDao extends BaseDao<DownloadTask> {
     int update(DownloadTask task);
+
     List<DownloadTask> queryList();
 }

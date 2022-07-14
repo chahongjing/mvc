@@ -36,7 +36,7 @@ public class MyAuthorizingRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         IUserInfo user = iUserService.getByCode(token.getUsername());
-        if(user == null) return null;
+        if (user == null) return null;
 //        UserInfo user = new UserInfo();
 //        user.setCode("zjy");
 //        if(token.getCredentials() == null) {

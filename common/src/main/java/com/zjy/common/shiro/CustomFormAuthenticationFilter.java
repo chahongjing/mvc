@@ -23,6 +23,7 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 
     /**
      * isAccessAllowed：判断是否登录,在登录的情况下会走此方法，此方法返回true,则不会再调用onAccessDenied方法,如果isAccessAllowed方法返回Flase,则会继续调用onAccessDenied方法
+     *
      * @param request
      * @param response
      * @return
@@ -62,8 +63,9 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
     }
 
     private JsonUtils getJsonUtils() {
-        if(jsonUtils != null) return jsonUtils;
-        return SpringContextHolder.getBean(JsonUtils.class);
+        if (jsonUtils != null) return jsonUtils;
+        jsonUtils = SpringContextHolder.getBean(JsonUtils.class);
+        return jsonUtils;
     }
 
 //    @Override

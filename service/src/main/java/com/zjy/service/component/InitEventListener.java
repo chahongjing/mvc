@@ -35,7 +35,8 @@ public class InitEventListener implements ApplicationListener<ApplicationEvent> 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         //root application context 没有parent，他就是老大.
-        if (event instanceof ContextRefreshedEvent && ((ContextRefreshedEvent) event).getApplicationContext().getParent() != null) return;
+        if (event instanceof ContextRefreshedEvent && ((ContextRefreshedEvent) event).getApplicationContext().getParent() != null)
+            return;
         //需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
         if (event instanceof ContextClosedEvent) {
             log.debug(event.getClass().getSimpleName() + " 事件已发生！");

@@ -8,5 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OperateLogDao extends BaseDao<OperateLog> {
     OperateLogVo getVo(Long id);
+
     int deleteAll();
 }

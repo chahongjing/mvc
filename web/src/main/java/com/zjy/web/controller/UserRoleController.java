@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/userRole")
-public class UserRoleController extends BaseController{
+public class UserRoleController extends BaseController {
     @Autowired
     private UserRoleService userRoleService;
 
@@ -41,6 +41,7 @@ public class UserRoleController extends BaseController{
         userRoleService.saveUserRole(list);
         return BaseResult.ok();
     }
+
     @PostMapping("saveUserPermission")
     @RequiresPermissions("userGrantPermission")
     public BaseResult saveUserPermission(String listStr) {

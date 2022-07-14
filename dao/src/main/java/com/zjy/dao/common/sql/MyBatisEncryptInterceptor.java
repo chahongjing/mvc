@@ -14,13 +14,13 @@ import java.util.Properties;
  */
 @Intercepts({
         @Signature(type = ParameterHandler.class, method = "setParameters", args = PreparedStatement.class)
-       // @Signature(type = Executor.class,method = "update",args={MappedStatement.class,Object.class})
+        // @Signature(type = Executor.class,method = "update",args={MappedStatement.class,Object.class})
 
 })
 //@Component
 @Slf4j
 public class MyBatisEncryptInterceptor implements Interceptor {
-//    @Autowired
+    //    @Autowired
 //    private SecurityService securityService;
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

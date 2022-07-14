@@ -33,6 +33,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取用户权限表中的权限数据
+     *
      * @param userId
      * @return
      */
@@ -46,6 +47,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取用户权限表中的权限数据
+     *
      * @param userIdList
      * @return
      */
@@ -57,6 +59,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取用户角色表中的权限数据
+     *
      * @param userId
      * @return
      */
@@ -70,6 +73,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取用户角色表中的权限数据
+     *
      * @param userIdList
      * @return
      */
@@ -83,6 +87,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取联合用户角色表，用户权限表后的用户权限数据
+     *
      * @param userId
      * @return
      */
@@ -97,6 +102,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
 
     /**
      * 获取联合用户角色表，用户权限表后的用户权限数据
+     *
      * @param userIdList
      * @return
      */
@@ -127,9 +133,9 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
         List<PermissionVo> includeUserPermissionList = new ArrayList<>();
         Set<Long> excludeUserPermissionList = new HashSet<>();
         for (PermissionVo permissionVo : userPermissionList) {
-            if(permissionVo.getIncludeType() == PsermissionIncludeType.INCLUDE) {
+            if (permissionVo.getIncludeType() == PsermissionIncludeType.INCLUDE) {
                 includeUserPermissionList.add(permissionVo);
-            } else if(permissionVo.getIncludeType() == PsermissionIncludeType.EXCLUDE) {
+            } else if (permissionVo.getIncludeType() == PsermissionIncludeType.EXCLUDE) {
                 excludeUserPermissionList.add(permissionVo.getId());
             }
         }
@@ -155,7 +161,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
     }
 
     @Override
-    public int deleteByPermission(Long permissionId){
+    public int deleteByPermission(Long permissionId) {
         return dao.deleteByPermission(permissionId);
     }
 
@@ -174,7 +180,7 @@ public class UserPermissionServiceImpl extends BaseServiceImpl<UserPermissionDao
                 // role中没有，并插入
                 ur.setIncludeType(PsermissionIncludeType.INCLUDE);
                 dao.insert(ur);
-            } else if(!item.getIsCheck() && permissionIdList.contains(ur.getPermissionId())) {
+            } else if (!item.getIsCheck() && permissionIdList.contains(ur.getPermissionId())) {
                 // role中有，添加排除
                 ur.setIncludeType(PsermissionIncludeType.EXCLUDE);
                 dao.insert(ur);

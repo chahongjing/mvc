@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommonController {
     @Autowired
     private CommonService commonService;
+
     /**
      * 返回所有枚举对象
      *

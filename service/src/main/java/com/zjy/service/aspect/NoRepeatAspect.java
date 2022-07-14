@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Order(130)
 @Component
-public class NoRepeatAspect extends BaseAspect{
+public class NoRepeatAspect extends BaseAspect {
     @Resource
     private RedisUtils redisUtils;
 

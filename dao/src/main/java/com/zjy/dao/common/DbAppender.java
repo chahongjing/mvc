@@ -53,8 +53,8 @@ public class DbAppender extends DBAppenderBase<LoggingEvent> {
         StackTraceElement caller = StackTraceElementHelper.extractFirstCaller(loggingEvent.getCallerData());
         if (caller == null) caller = CallerData.naInstance();
         Object[] canshus = loggingEvent.getArgumentArray();
-        if(ArrayUtils.isNotEmpty(canshus) && canshus[canshus.length - 1] instanceof Method) {
-            Method method = (Method)canshus[canshus.length - 1];
+        if (ArrayUtils.isNotEmpty(canshus) && canshus[canshus.length - 1] instanceof Method) {
+            Method method = (Method) canshus[canshus.length - 1];
             stmt.setString(2, method.getDeclaringClass().getName());
             stmt.setString(3, method.getName());
         } else {

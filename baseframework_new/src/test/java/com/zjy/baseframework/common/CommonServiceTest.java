@@ -110,8 +110,8 @@ public class CommonServiceTest {
 
     private void printOrgTree(List<OrgVO> tree) {
         for (OrgVO vo : tree) {
-            System.out.printf("id:%d, pid:%d, name:%s, seq:%d%n",vo.getId(), vo.getPid(), vo.getName(), vo.getSeq());
-            if(!CollectionUtils.isEmpty(vo.getChildren())) {
+            System.out.printf("id:%d, pid:%d, name:%s, seq:%d%n", vo.getId(), vo.getPid(), vo.getName(), vo.getSeq());
+            if (!CollectionUtils.isEmpty(vo.getChildren())) {
                 printOrgTree(vo.getChildren());
             }
         }

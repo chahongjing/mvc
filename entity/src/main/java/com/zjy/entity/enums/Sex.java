@@ -8,8 +8,7 @@ import lombok.Getter;
 @SerializeEnum
 public enum Sex implements IBaseEnum {
     MALE(0, "男"),
-    FEMALE(1, "女")
-    ;
+    FEMALE(1, "女");
     private final int value;
     private final String name;
 

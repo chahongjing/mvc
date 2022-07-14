@@ -14,20 +14,21 @@ public class CacheFromLocal implements ICache {
 
     @Override
     public <T> T get(String key, Class<T> clazz) {
-        return (T)map.get(key);
+        return (T) map.get(key);
     }
+
     @Override
     public Object get(String key) {
         return map.get(key);
     }
 
     @Override
-    public <T> void set(String key, T value){
+    public <T> void set(String key, T value) {
         map.put(key, value);
     }
 
     @Override
-    public boolean delete(String key){
+    public boolean delete(String key) {
         map.remove(key);
         return true;
     }
@@ -60,7 +61,7 @@ public class CacheFromLocal implements ICache {
 
     public long hDelete(String key) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if(entry.getKey().startsWith(key)) {
+            if (entry.getKey().startsWith(key)) {
                 map.remove(getHKey(key, entry.getKey()));
             }
         }

@@ -318,8 +318,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         UserInfo user2 = new UserInfo();
         user2.setName("2");
         user2.setCode("2");
-        int a=1,b=0;
-        int c = a/b;
+        int a = 1, b = 0;
+        int c = a / b;
         dao.insert(user2);
     }
 }

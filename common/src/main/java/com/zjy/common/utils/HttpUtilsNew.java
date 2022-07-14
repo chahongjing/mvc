@@ -44,8 +44,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @description http请求工具类
  * @author junyi.zeng
+ * @description http请求工具类
  * @date 2021-01-20 17:55
  */
 public class HttpUtilsNew {
@@ -90,25 +90,29 @@ public class HttpUtilsNew {
     }
 
     // region get请求
+
     /**
      * get请求
-     * @param url url
+     *
+     * @param url    url
      * @param params url参数
      * @return 返回字符串
      */
     public static String doGet(String url, List<NameValuePair> params) {
         return doGet(url, params, null);
     }
+
     /**
      * get请求
-     * @param url url
-     * @param params url参数
+     *
+     * @param url     url
+     * @param params  url参数
      * @param headers header参数
      * @return 返回字符串
      */
     public static String doGet(String url, List<NameValuePair> params, List<Header> headers) {
         byte[] bytes = doHttp(new HttpGet(), url, params, null, headers);
-        if(bytes != null && bytes.length > 0) {
+        if (bytes != null && bytes.length > 0) {
             return new String(bytes, StandardCharsets.UTF_8);
         }
         return "";
@@ -116,73 +120,81 @@ public class HttpUtilsNew {
     // endregion
 
     // region post请求
+
     /**
      * post请求
-     * @param url url
-     * @param urlParams url参数
+     *
+     * @param url        url
+     * @param urlParams  url参数
      * @param bodyParams body参数
      * @return 返回字符串
      */
     public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams) {
         return doPost(url, urlParams, bodyParams, null, null);
     }
+
     /**
      * post请求
-     * @param url url
-     * @param urlParams url参数
+     *
+     * @param url        url
+     * @param urlParams  url参数
      * @param bodyParams body参数
-     * @param mediaType 内容类型，如json
+     * @param mediaType  内容类型，如json
      * @return 返回字符串
      */
     public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams, MediaType mediaType) {
         return doPost(url, urlParams, bodyParams, null, mediaType);
     }
+
     /**
      * post请求
-     * @param url url
-     * @param urlParams url参数
+     *
+     * @param url        url
+     * @param urlParams  url参数
      * @param bodyParams body参数
-     * @param headers header参数
+     * @param headers    header参数
      * @return 返回字符串
      */
-    public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams, List<Header> headers){
+    public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams, List<Header> headers) {
         return doPost(url, urlParams, bodyParams, headers, null);
     }
+
     /**
      * post请求
-     * @param url url
-     * @param urlParams url参数
+     *
+     * @param url        url
+     * @param urlParams  url参数
      * @param bodyParams body参数
-     * @param headers 请求header
-     * @param mediaType 内容类型，如json
+     * @param headers    请求header
+     * @param mediaType  内容类型，如json
      * @return 返回字符串
      */
-    public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams, List<Header> headers, MediaType mediaType){
+    public static String doPost(String url, List<NameValuePair> urlParams, Map<String, Object> bodyParams, List<Header> headers, MediaType mediaType) {
         HttpEntity entity = null;
         //设置请求参数
-        if(MapUtils.isNotEmpty(bodyParams)){
+        if (MapUtils.isNotEmpty(bodyParams)) {
             // json格式传参
-            if(mediaType == MediaType.APPLICATION_JSON) {
+            if (mediaType == MediaType.APPLICATION_JSON) {
                 JSONObject content = new JSONObject();
                 for (Map.Entry<String, Object> entry : bodyParams.entrySet()) {
-                    if(entry.getValue() == null) continue;
+                    if (entry.getValue() == null) continue;
                     content.put(entry.getKey(), entry.getValue());
                 }
                 entity = new StringEntity(JSON.toJSONString(content), StandardCharsets.UTF_8);
-                ((StringEntity)entity).setContentType(MediaType.APPLICATION_JSON_VALUE);
-                ((StringEntity)entity).setContentEncoding(StandardCharsets.UTF_8.name());
+                ((StringEntity) entity).setContentType(MediaType.APPLICATION_JSON_VALUE);
+                ((StringEntity) entity).setContentEncoding(StandardCharsets.UTF_8.name());
             } else {
                 // form表单形式传参
                 List<BasicNameValuePair> bodyP = new ArrayList<>();
                 for (Map.Entry<String, Object> entry : bodyParams.entrySet()) {
-                    if(entry.getValue() == null) continue;
+                    if (entry.getValue() == null) continue;
                     bodyP.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
                 }
                 entity = new UrlEncodedFormEntity(bodyP, StandardCharsets.UTF_8);
             }
         }
         byte[] bytes = doHttp(new HttpPost(), url, urlParams, entity, headers);
-        if(bytes != null && bytes.length > 0) {
+        if (bytes != null && bytes.length > 0) {
             return new String(bytes, StandardCharsets.UTF_8);
         }
         return "";
@@ -190,13 +202,15 @@ public class HttpUtilsNew {
     // endregion
 
     // region 最底层的请求，返回字节数组，支持处理文件相关
+
     /**
      * post请求，返回字符串
+     *
      * @param httpMethod 请求方式，如get, post
-     * @param url url
-     * @param urlParams url参数
-     * @param entity body参数
-     * @param headers header参数
+     * @param url        url
+     * @param urlParams  url参数
+     * @param entity     body参数
+     * @param headers    header参数
      * @return 返回字节码
      */
     public static byte[] doHttp(HttpRequestBase httpMethod, String url, List<NameValuePair> urlParams, HttpEntity entity, List<Header> headers) {
@@ -212,7 +226,7 @@ public class HttpUtilsNew {
 //        return name + "=" + value;
 //    }).collect(Collectors.joining(";"));
 //    NameValuePair header = new BasicNameValuePair("Cookie", cookiesString);
-        if(CollectionUtils.isNotEmpty(headers)) {
+        if (CollectionUtils.isNotEmpty(headers)) {
             for (Header header : headers) {
                 httpMethod.setHeader(header);
             }
@@ -243,7 +257,7 @@ public class HttpUtilsNew {
         } catch (Exception ex) {
             logger.error(String.format("调用http请求失败！【%s】url：%s。header：%s", httpMethod.getMethod(), url, JSON.toJSONString(headers)), ex);
         } finally {
-            if(response != null) {
+            if (response != null) {
                 try {
                     response.close();
                 } catch (Exception ex) {

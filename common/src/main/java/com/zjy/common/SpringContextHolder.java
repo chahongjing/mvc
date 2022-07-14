@@ -53,7 +53,7 @@ public class SpringContextHolder implements ApplicationContextAware, ServletCont
         T bean = null;
         try {
             bean = (T) applicationContext.getBean(name);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return bean;

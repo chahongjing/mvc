@@ -33,7 +33,7 @@ public class TestStockThread {
 
         List<Future<Result>> futuresList = new ArrayList<>();
         CountDownLatch countDownLatch = new CountDownLatch(10);
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             final Long orderId = i + 100L;
             final Long userId = Long.valueOf(i);
             Future<Result> future = executorService.submit(() -> {
@@ -67,12 +67,12 @@ public class TestStockThread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(!enqueueSuccess) {
+            if (!enqueueSuccess) {
                 return new Result(false, "系统繁忙");
             }
-            try{
+            try {
                 requestPromise.wait(200);
-                if(requestPromise.getResult() == null) {
+                if (requestPromise.getResult() == null) {
                     return new Result(false, "超时");
                 }
             } catch (InterruptedException ex) {
@@ -85,8 +85,8 @@ public class TestStockThread {
     public void mergeJob() {
         new Thread(() -> {
             List<RequestPromise> list;
-            while(true) {
-                if(queue.isEmpty()) {
+            while (true) {
+                if (queue.isEmpty()) {
                     try {
                         Thread.sleep(10);
                         continue;
@@ -101,7 +101,7 @@ public class TestStockThread {
                 }
                 System.out.println(Thread.currentThread().getName() + "合并库存：" + list);
                 int sum = list.stream().mapToInt(e -> e.getUserRequest().getCount()).sum();
-                if(sum <= stock) {
+                if (sum <= stock) {
                     stock -= sum;
                     list.forEach(requestPromise -> {
                         requestPromise.setResult(new Result(true, "ok"));
@@ -113,7 +113,7 @@ public class TestStockThread {
                 }
                 for (RequestPromise requestPromise : list) {
                     int count = requestPromise.getUserRequest().getCount();
-                    if(count <= stock) {
+                    if (count <= stock) {
                         stock -= count;
                         requestPromise.setResult(new Result(true, "ok"));
                     } else {
@@ -130,7 +130,7 @@ public class TestStockThread {
 
 @Getter
 @Setter
-class RequestPromise{
+class RequestPromise {
     private UserRequest userRequest;
     private Result result;
 

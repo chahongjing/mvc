@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/permission")
-public class PermissionController extends BaseController{
+public class PermissionController extends BaseController {
     @Autowired
     private PermissionService permissionService;
 

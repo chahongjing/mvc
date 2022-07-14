@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class CacheFromRedis implements ICache {
 
-//    @Autowired
+    //    @Autowired
     private RedisUtils redisUtils;
 
     public CacheFromRedis(RedisUtils redisUtils) {
@@ -26,9 +26,10 @@ public class CacheFromRedis implements ICache {
         String val = redisUtils.get(key);
         return deserialize(val);
     }
+
     @Override
     public <T> T get(String key, Class<T> clazz) {
-        return (T)redisUtils.get(key);
+        return (T) redisUtils.get(key);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CacheFromRedis implements ICache {
 
     private static Object deserialize(String str) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(str));
-             ObjectInputStream ois = new ObjectInputStream(bis);){
+             ObjectInputStream ois = new ObjectInputStream(bis);) {
             return ois.readObject();
         } catch (Exception e) {
             throw new RuntimeException("deserialize session error", e);
@@ -53,7 +54,7 @@ public class CacheFromRedis implements ICache {
 
     private static String serialize(Object obj) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(bos);){
+             ObjectOutputStream oos = new ObjectOutputStream(bos);) {
             oos.writeObject(obj);
             return Base64.encodeToString(bos.toByteArray());
         } catch (Exception e) {
@@ -73,7 +74,7 @@ public class CacheFromRedis implements ICache {
     public Map<String, String> hGetAll(String key) {
         Map<String, String> result = new HashMap<>();
         Map<Object, Object> kv = redisUtils.hGetAll(key);
-        if(MapUtils.isNotEmpty(kv)) {
+        if (MapUtils.isNotEmpty(kv)) {
             for (Map.Entry<Object, Object> entry : kv.entrySet()) {
                 result.put(entry.getKey().toString(), Objects.toString(entry.getValue(), Constants.EMPTY_STRING));
             }

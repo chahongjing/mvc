@@ -32,6 +32,7 @@ public class SwitchController extends BaseController {
 
     /**
      * 开关列表
+     *
      * @return
      */
     @GetMapping("/queryAllSwitchList")
@@ -42,10 +43,10 @@ public class SwitchController extends BaseController {
         }
         Map<String, String> switchList = cache.hGetAll(SwitchEnum.SWITCH_KEY);
 //        Map<String, String> switchList = switchMap;
-        if(MapUtils.isNotEmpty(switchList)) {
+        if (MapUtils.isNotEmpty(switchList)) {
             for (Map.Entry<String, String> entry : switchs.entrySet()) {
                 String o = switchList.get(entry.getKey());
-                if(SwitchEnum.SWITCH_OPEN.equals(o)) {
+                if (SwitchEnum.SWITCH_OPEN.equals(o)) {
                     entry.setValue(o);
                 }
             }
@@ -63,18 +64,19 @@ public class SwitchController extends BaseController {
 
     /**
      * 打开关闭开关
+     *
      * @param key
      * @param value
      * @return
      */
     @GetMapping("/updateSwitch")
     public BaseResult<String> updateSwitch(String key, String value) {
-        if(StringUtils.isBlank(key)) {
+        if (StringUtils.isBlank(key)) {
             return BaseResult.no("开关不能为空！");
         }
         String op;
         SwitchEnum sw = SwitchEnum.valueOf(key);
-        if(SwitchEnum.SWITCH_OPEN.equals(value)) {
+        if (SwitchEnum.SWITCH_OPEN.equals(value)) {
 //            switchMap.put(key, value);
             cache.hSet(SwitchEnum.SWITCH_KEY, sw.toString(), value);
             op = "打开";

@@ -34,8 +34,9 @@ public class RedisUtils {
 
     /**
      * 加锁
+     *
      * @param key
-     * @param value 一般用threadid
+     * @param value    一般用threadid
      * @param timeout
      * @param timeUnit
      * @return
@@ -47,7 +48,7 @@ public class RedisUtils {
 
     public boolean lockRetry(String key, String value, int timeout, TimeUnit timeUnit, int retryTimes, long sleepMillis) {
         boolean result = lock(key, value, timeout, timeUnit);
-        while((!result) && retryTimes-- > 0){
+        while ((!result) && retryTimes-- > 0) {
             try {
                 log.debug("lock failed, retrying..." + retryTimes);
                 Thread.sleep(sleepMillis);
@@ -140,7 +141,7 @@ public class RedisUtils {
         return RedisScript.of(new ClassPathResource("lua/incrLimitExp.lua"), Long.class);
     }
 
-    public Long incrEx(String key, long expireSecond){
+    public Long incrEx(String key, long expireSecond) {
         String script = "local current = redis.call('incr', KEYS[1]);" +
                 "redis.call('expire', KEYS[1], ARGV[1]); " +
                 "return current;";
@@ -152,7 +153,7 @@ public class RedisUtils {
 //        return Integer.valueOf(result.toString());
     }
 
-    public Long incrLimitExp(String key, Integer count, long expireSecond){
+    public Long incrLimitExp(String key, Integer count, long expireSecond) {
         String script = "local i = redis.call('get', KEYS[1]);" +
                 "if (not i or tonumber(i) < tonumber(ARGV[1])) then " +
                 "  local r = redis.call('incr', KEYS[1]);" +
@@ -282,10 +283,12 @@ public class RedisUtils {
     public void zAdd(String key, String value, double score) {
         stringRedisTemplate.opsForZSet().add(key, value, score);
     }
+
     public void zAddSet(String key, Map<String, Double> map) {
         Set<ZSetOperations.TypedTuple<String>> set = map.entrySet().stream().map(entry -> new DefaultTypedTuple<>(entry.getKey(), entry.getValue())).collect(Collectors.toSet());
         stringRedisTemplate.opsForZSet().add(key, set);
     }
+
     public void zRemove(String key, String value) {
         stringRedisTemplate.opsForZSet().remove(key, value);
         stringRedisTemplate.opsForZSet().range(key, 0, -1); // -1表示所有元素
@@ -293,9 +296,11 @@ public class RedisUtils {
         stringRedisTemplate.opsForZSet().removeRange(key, 0, 20);
         stringRedisTemplate.opsForZSet().removeRangeByScore(key, 0, 100);
     }
+
     public Set<String> range(String key, double minScore, double maxScore) {
         return stringRedisTemplate.opsForZSet().rangeByScore(key, minScore, maxScore);
     }
+
     public Set<ZSetOperations.TypedTuple<String>> range(String key, long start, long end) {
         return stringRedisTemplate.opsForZSet().rangeWithScores(key, start, end);
     }
@@ -346,7 +351,7 @@ public class RedisUtils {
 //        stringRedisTemplate.opsForSet().add(key, idList);
         Set<String> strings = stringRedisTemplate.opsForSet().distinctRandomMembers(key, 200L);
 //        Set<String> codeList = stringRedisTemplate.opsForSet().members(key);
-        if(CollectionUtils.isNotEmpty(strings)) {
+        if (CollectionUtils.isNotEmpty(strings)) {
 //            String[] idList = strings.stream().toArray(String[]::new);
             String[] idList = strings.toArray(new String[0]);
             stringRedisTemplate.opsForSet().remove(key, idList);

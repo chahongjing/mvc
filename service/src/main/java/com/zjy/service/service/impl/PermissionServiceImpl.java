@@ -117,7 +117,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
     }
 
     public PermissionVo queryByTarget(Long targetId, PermissionType type) {
-        if(targetId == null && !EnumSet.of(PermissionType.Menu, PermissionType.FunctionItem).contains(type)) {
+        if (targetId == null && !EnumSet.of(PermissionType.Menu, PermissionType.FunctionItem).contains(type)) {
             return null;
         }
         return dao.queryByTarget(targetId, type);
@@ -125,6 +125,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDao, Permis
 
     /**
      * 获取菜单，功能，权限树
+     *
      * @return
      */
     public List<PermissionCheckVo> getAllPermissionTree() {

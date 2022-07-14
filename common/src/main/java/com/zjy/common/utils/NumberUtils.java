@@ -11,20 +11,23 @@ import java.util.regex.Pattern;
  * @date 2019-12-03 11:37:28
  */
 public class NumberUtils {
-    private NumberUtils() {}
+    private NumberUtils() {
+    }
+
     public static String formatNumber(long duration) {
         DecimalFormat df = new DecimalFormat("###,##0");
         return duration == 0 ? "-" : df.format(duration);
     }
+
     public static String getPercentage(Number number) {
-        if(number == null) {
+        if (number == null) {
             return "-";
         }
         DecimalFormat df = new DecimalFormat("0.00%");
         return df.format(number);
     }
 
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
         if (StringUtils.isBlank(str)) {
             return Boolean.FALSE;
         }
@@ -41,6 +44,7 @@ public class NumberUtils {
 
     /**
      * 金额展示或计算用
+     *
      * @return
      */
     public static BigDecimal displayForMoney(Long money) {

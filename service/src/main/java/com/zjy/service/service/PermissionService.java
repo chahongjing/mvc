@@ -12,10 +12,16 @@ import java.util.List;
 
 public interface PermissionService extends BaseService<Permission> {
     List<PermissionVo> queryAllPermissionList();
+
     void save(PermissionVo vo);
+
     PageBean<? extends Permission> queryPageList(PermissionRequest request);
+
     PermissionVo getVo(Long id);
+
     List<PermissionCheckVo> getAllPermissionTree();
+
     PermissionVo queryByTarget(Long targetId, PermissionType type);
+
     void beforeCheck(Permission po);
 }

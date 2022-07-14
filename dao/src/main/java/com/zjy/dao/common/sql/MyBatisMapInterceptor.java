@@ -13,7 +13,7 @@ import java.util.*;
  * @date Date : 2020年08月06日 11:19
  */
 //@Component
-@Intercepts(@Signature(method="handleResultSets", type= ResultSetHandler.class, args={Statement.class}))
+@Intercepts(@Signature(method = "handleResultSets", type = ResultSetHandler.class, args = {Statement.class}))
 public class MyBatisMapInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -54,7 +54,7 @@ public class MyBatisMapInterceptor implements Interceptor {
 
     }
 
-    private Object result2Map(Statement statement) throws Throwable{
+    private Object result2Map(Statement statement) throws Throwable {
         ResultSet resultSet = statement.getResultSet();
         if (resultSet == null) {
             return null;

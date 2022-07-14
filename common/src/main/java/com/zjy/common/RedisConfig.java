@@ -21,6 +21,7 @@ public class RedisConfig {
     private FastJsonConfig fastJsonConfig;
     @Autowired
     private ObjectMapper objectMapper;
+
     @Bean
     @Primary
     public RedisTemplate<String, Object> objRedisTemplate(RedisConnectionFactory connectionFactory) {

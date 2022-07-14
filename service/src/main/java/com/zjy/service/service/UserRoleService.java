@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface UserRoleService extends BaseService<UserRole> {
     List<UserRoleVo> queryListByUserId(Long userId);
+
     List<UserRoleVo> queryListByUserId(List<Long> userIdList);
+
     List<PermissionCheckVo> queryAllRoleWithUserRole(Long id);
 
     void saveUserRole(List<PermissionCheckVo> list);

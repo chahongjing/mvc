@@ -24,14 +24,13 @@ public class BeanUtils {
         SerializedLambda lambda = getSerializedLambda(fn);
         String methodName = lambda.getImplMethodName();
         String prefix = null;
-        if(methodName.startsWith("get")){
+        if (methodName.startsWith("get")) {
             prefix = "get";
-        }
-        else if(methodName.startsWith("is")){
+        } else if (methodName.startsWith("is")) {
             prefix = "is";
         }
-        if(prefix == null){
-            log.warn("无效的getter方法: "+methodName);
+        if (prefix == null) {
+            log.warn("无效的getter方法: " + methodName);
             return methodName;
         } else {
             String temp = methodName.replaceFirst(prefix, "");
@@ -44,11 +43,11 @@ public class BeanUtils {
      * @param fn
      * @return
      */
-    public static <T,R> String convertToFieldName(ISetter<T,R> fn) {
+    public static <T, R> String convertToFieldName(ISetter<T, R> fn) {
         SerializedLambda lambda = getSerializedLambda(fn);
         String methodName = lambda.getImplMethodName();
-        if(!methodName.startsWith("set")){
-            log.warn("无效的setter方法: "+methodName);
+        if (!methodName.startsWith("set")) {
+            log.warn("无效的setter方法: " + methodName);
             return methodName;
         } else {
             String temp = methodName.replaceFirst("set", "");
@@ -61,18 +60,17 @@ public class BeanUtils {
      * @param fn
      * @return
      */
-    private static SerializedLambda getSerializedLambda(Serializable fn){
+    private static SerializedLambda getSerializedLambda(Serializable fn) {
         //先检查缓存中是否已存在
         SerializedLambda lambda = CLASS_LAMDBA_CACHE.get(fn.getClass());
-        if(lambda == null){
-            try{//提取SerializedLambda并缓存
+        if (lambda == null) {
+            try {//提取SerializedLambda并缓存
                 Method method = fn.getClass().getDeclaredMethod("writeReplace");
                 method.setAccessible(Boolean.TRUE);
                 lambda = (SerializedLambda) method.invoke(fn);
                 CLASS_LAMDBA_CACHE.put(fn.getClass(), lambda);
-            }
-            catch (Exception e){
-                log.error("获取SerializedLambda异常, class="+fn.getClass().getSimpleName(), e);
+            } catch (Exception e) {
+                log.error("获取SerializedLambda异常, class=" + fn.getClass().getSimpleName(), e);
             }
         }
         return lambda;
@@ -80,17 +78,20 @@ public class BeanUtils {
 
     //32为是char类型大小写的差数，-32是小写变大写，+32是大写变小写
     // /**     * 首字母小写     * @param str     * @return     */
-    public static String lowerFirstCase(String str){
+    public static String lowerFirstCase(String str) {
         char[] chars = str.toCharArray();
         //首字母小写方法，大写会变成小写，如果小写首字母会消失
-        chars[0] +=32;
+        chars[0] += 32;
         return String.valueOf(chars);
     }
-    /**     * 首字母大写     * @param str     * @return     */
-    public static String upperFirstCase(String str){
+
+    /**
+     * 首字母大写     * @param str     * @return
+     */
+    public static String upperFirstCase(String str) {
         char[] chars = str.toCharArray();
         //首字母小写方法，大写会变成小写，如果小写首字母会消失
-        chars[0] -=32;
+        chars[0] -= 32;
         return String.valueOf(chars);
     }
 

@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface UserRoleDao extends BaseDao<UserRole> {
     List<UserRoleVo> queryListByUserId(UserRoleVo vo);
+
     int deleteEntity(UserRole entity);
 }

@@ -1,7 +1,6 @@
 package com.zjy.service.enums;
 
 import com.zjy.baseframework.common.RedisKeyUtils;
-import com.zjy.baseframework.enums.ResultStatus;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 
 public enum SwitchEnum implements IBaseEnum {

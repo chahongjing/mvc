@@ -35,6 +35,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     private UserPermissionService userPermissionService;
     @Autowired
     private PermissionService permissionService;
+
     @Override
     public List<MenuVo> queryPermissionMenu() {
         Long userId = getCurrentUser().getId();
@@ -95,7 +96,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     public int delete(Long id) {
         // 删除权限点
         PermissionVo permissionVo = permissionService.queryByTarget(id, PermissionType.Menu);
-        if(permissionVo != null) {
+        if (permissionVo != null) {
             permissionService.delete(permissionVo.getId());
         }
         return super.delete(id);
@@ -111,7 +112,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     public void save(MenuVo vo) {
         MenuVo voDb = getVo(vo.getId());
         PermissionVo permission = permissionService.queryByTarget(vo.getId(), PermissionType.Menu);
-        if(permission == null) {
+        if (permission == null) {
             permission = new PermissionVo();
             //        permission.setId();
 //        permission.setFunctionId();
@@ -142,7 +143,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuDao, Menu> implements M
     public MenuVo get(Long id) {
         MenuVo vo = null;
         Menu menu = super.get(id);
-        if(menu != null) {
+        if (menu != null) {
             vo = new MenuVo();
             vo.setId(menu.getId());
             vo.setName(menu.getName());

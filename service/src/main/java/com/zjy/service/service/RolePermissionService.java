@@ -9,10 +9,16 @@ import java.util.List;
 
 public interface RolePermissionService extends BaseService<RolePermission> {
     List<PermissionVo> queryRolePermission(Long roleId);
+
     List<PermissionVo> queryRolePermission(List<Long> roleIdList);
+
     List<PermissionCheckVo> getRolePermission(Long id);
+
     void savePermission(List<PermissionCheckVo> list);
+
     void flatTree(List<PermissionCheckVo> list, List<PermissionCheckVo> result);
+
     int deleteByPermission(Long permissionId);
+
     int deleteByRole(Long roleId);
 }

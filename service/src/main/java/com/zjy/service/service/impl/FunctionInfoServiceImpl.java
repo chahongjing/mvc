@@ -31,6 +31,7 @@ public class FunctionInfoServiceImpl extends BaseServiceImpl<FunctionInfoDao, Fu
     public List<FunctionInfoVo> queryAllFunctionList() {
         return dao.queryAllFunctionList();
     }
+
     @Override
     public FunctionInfoVo getVo(Long id) {
         FunctionInfo db = get(id);
@@ -50,26 +51,30 @@ public class FunctionInfoServiceImpl extends BaseServiceImpl<FunctionInfoDao, Fu
         }
         return vo;
     }
+
     @Override
     public PageBean<? extends FunctionInfo> queryPageList(FunctionInfoRequest request) {
         FunctionInfo po = new FunctionInfo();
         po.setName(request.getName());
         return super.queryPage(request, po);
     }
+
     @Override
     public List<FunctionInfoVo> queryFunctionList() {
         return dao.queryFunctionList();
     }
+
     @Override
     @Transactional
     public int delete(Long id) {
         // 删除权限点
         PermissionVo permissionVo = permissionService.queryByTarget(id, PermissionType.FunctionItem);
-        if(permissionVo != null) {
+        if (permissionVo != null) {
             permissionService.delete(permissionVo.getId());
         }
         return super.delete(id);
     }
+
     /**
      * 保存用户
      *
@@ -80,7 +85,7 @@ public class FunctionInfoServiceImpl extends BaseServiceImpl<FunctionInfoDao, Fu
     public void save(FunctionInfoVo vo) {
         FunctionInfoVo db = getVo(vo.getId());
         PermissionVo permission = permissionService.queryByTarget(vo.getId(), PermissionType.Menu);
-        if(permission == null) {
+        if (permission == null) {
             permission = new PermissionVo();
             permission.setSeq(1);
         }

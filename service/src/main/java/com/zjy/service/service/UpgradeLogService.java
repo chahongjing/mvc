@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface UpgradeLogService extends BaseService<UpgradeLog> {
     void save(UpgradeLog config);
+
     PageBean<UpgradeLogVo> queryPageList(UpgradeLogRequest request);
+
     List<UpgradeLogVo> queryList(UpgradeLog log);
 }

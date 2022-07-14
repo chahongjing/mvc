@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface KvConfigLogDao extends BaseDao<KvConfigLog> {
     List<KvConfigLogVo> queryByCode(String code);
+
     List<KvConfigLogVo> query(KvConfigLog entity);
 }

@@ -22,32 +22,32 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class JacksonUtil implements JsonUtils{
+public class JacksonUtil implements JsonUtils {
     private static ObjectMapper MAPPER;
 
     public JacksonUtil() {
     }
 
     public <T> T parse(String json, Class<T> clazz) {
-        return parse(json, clazz, (TypeReference<T>) null, (JavaType)null);
+        return parse(json, clazz, (TypeReference<T>) null, (JavaType) null);
     }
 
     public static <T> T parse(String json, TypeReference<T> type) {
-        return parse(json, (Class<T>) null, type, (JavaType)null);
+        return parse(json, (Class<T>) null, type, (JavaType) null);
     }
 
     public static <T> T parse(String json, JavaType type) {
-        return (T) parse(json, (Class)null, (TypeReference)null, type);
+        return (T) parse(json, (Class) null, (TypeReference) null, type);
     }
 
     public <T> List<T> parseList(String json, Class<T> tClass) {
         CollectionType javaType = MAPPER.getTypeFactory().constructCollectionType(List.class, tClass);
-        return (List)parse(json, (Class)null, (TypeReference)null, javaType);
+        return (List) parse(json, (Class) null, (TypeReference) null, javaType);
     }
 
     public <T> T[] parseArray(String json, Class<T> tClass) {
         ArrayType arrayType = MAPPER.getTypeFactory().constructArrayType(tClass);
-        return (T[]) parse(json, (Class)null, (TypeReference)null, arrayType);
+        return (T[]) parse(json, (Class) null, (TypeReference) null, arrayType);
     }
 
     private static JsonNode getJsonNode(String json) {

@@ -29,15 +29,16 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRole> 
     private ICache cacheHelper;
 
     @Override
-    public List<UserRoleVo> queryListByUserId(Long userId){
-        if(userId == null) return new ArrayList<>();
+    public List<UserRoleVo> queryListByUserId(Long userId) {
+        if (userId == null) return new ArrayList<>();
         List<Long> idList = new ArrayList<>();
         idList.add(userId);
         return queryListByUserId(idList);
     }
+
     @Override
-    public List<UserRoleVo> queryListByUserId(List<Long> userIdList){
-        if(CollectionUtils.isEmpty(userIdList)) return new ArrayList<>();
+    public List<UserRoleVo> queryListByUserId(List<Long> userIdList) {
+        if (CollectionUtils.isEmpty(userIdList)) return new ArrayList<>();
         UserRoleVo urv = new UserRoleVo();
         urv.setUserIdList(userIdList);
         return dao.queryListByUserId(urv);

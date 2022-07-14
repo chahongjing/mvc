@@ -132,7 +132,7 @@ public class BaseServiceImpl<Dao extends BaseDao<T>, T> implements BaseService<T
 
     public static UserInfo getCurrentUser() {
         IUserInfo shiroUser = ShiroRealmUtils.getCurrentUser();
-        if(shiroUser == null) return null;
+        if (shiroUser == null) return null;
         UserInfo user = new UserInfo();
         user.setId(shiroUser.getId());
         user.setCode(shiroUser.getCode());

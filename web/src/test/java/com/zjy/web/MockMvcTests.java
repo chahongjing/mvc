@@ -22,9 +22,9 @@ public class MockMvcTests {
     @DisplayName("我的测试用例")
     public void testOne() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/test/testCache")
-                .header("h1", "1")
-                .param("id", "2")
-        )
+                        .header("h1", "1")
+                        .param("id", "2")
+                )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(1))

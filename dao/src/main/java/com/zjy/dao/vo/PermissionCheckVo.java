@@ -27,6 +27,7 @@ public class PermissionCheckVo {
     public void setIsCheck(boolean isCheck) {
         this.isCheck = isCheck;
     }
+
     public boolean getIsCheck() {
         return this.isCheck;
     }

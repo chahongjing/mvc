@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     @Autowired
     private TestService testService;
+
     /**
      * 首页
+     *
      * @return
      */
     @GetMapping("/")

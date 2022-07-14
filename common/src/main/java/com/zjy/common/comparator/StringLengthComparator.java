@@ -4,11 +4,13 @@ import java.util.Comparator;
 import java.util.TreeSet;
 
 public class StringLengthComparator implements Comparator<String> {
-    private StringLengthComparator() { }
+    private StringLengthComparator() {
+    }
+
     public int compare(String s1, String s2) {
-        if(s1 == null && s2 == null) return 0;
-        if(s1 == null) return -1;
-        if(s2 == null) return 1;
+        if (s1 == null && s2 == null) return 0;
+        if (s1 == null) return -1;
+        if (s2 == null) return 1;
         int length = s1.length() - s2.length();
         return length == 0 ? s1.compareTo(s2) : length;
     }

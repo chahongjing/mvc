@@ -4,7 +4,6 @@ import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.CellStyle;
 
 /**
- *
  * @author
  * @date 2019-12-12 22:24:53
  */
@@ -23,24 +22,28 @@ public class ExcelHeader {
     private CellStyle cellStyle;
     private CellStyle headerCellStyle;
     private Hyperlink hyperlink;
+
     public ExcelHeader(String fieldName) {
         this(fieldName, null);
     }
+
     public ExcelHeader(String fieldName, String name) {
         this(fieldName, name, null);
     }
+
     /**
-     * @deprecated
-     * @see DateTimeExcelHeader  时间格式
-     * @see NumberExcelHeader  数字格式
      * @param fieldName
      * @param name
      * @param format
+     * @see DateTimeExcelHeader  时间格式
+     * @see NumberExcelHeader  数字格式
+     * @deprecated
      */
     @Deprecated
     public ExcelHeader(String fieldName, String name, String format) {
         this(fieldName, name, format, -1);
     }
+
     public ExcelHeader(String fieldName, String name, String format, int columnIndex) {
         this.fieldName = fieldName;
         this.name = (name != null && !name.trim().equals("")) ? name : fieldName;

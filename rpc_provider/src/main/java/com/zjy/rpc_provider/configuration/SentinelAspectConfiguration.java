@@ -9,6 +9,7 @@ public class SentinelAspectConfiguration {
 
     /**
      * 使用限流注解@SentinelResource
+     *
      * @return
      */
     @Bean

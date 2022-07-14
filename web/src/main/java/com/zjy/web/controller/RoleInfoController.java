@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/role")
-public class RoleInfoController extends BaseController{
+public class RoleInfoController extends BaseController {
     @Autowired
     private RoleInfoService roleInfoService;
     @Autowired

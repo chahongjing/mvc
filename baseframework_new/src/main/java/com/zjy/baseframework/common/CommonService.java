@@ -9,6 +9,7 @@ import java.util.*;
 public class CommonService {
     /**
      * 通过列表构建树
+     *
      * @param list
      * @param <T>
      * @return
@@ -27,12 +28,12 @@ public class CommonService {
         // 开始构建树
         for (T node : list) {
             // 一级数据，是需要返回的
-            if (node.getPid() == null || Constants.EMPTY_STRING.equals(node.getPid())){
+            if (node.getPid() == null || Constants.EMPTY_STRING.equals(node.getPid())) {
                 firstLevelTreeNodeList.add(node);
             }
             // 设置当前节点的孩子节点
             children = group.computeIfAbsent(node.getId(), k -> new ArrayList<>());
-            if(children.size() > 0) {
+            if (children.size() > 0) {
                 // 子集排序
                 children.sort(Comparator.comparing(IHierarchyBase::getSeq));
             }
@@ -44,12 +45,12 @@ public class CommonService {
     }
 
     public static <T extends IHierarchyBase> boolean isRootNode(T node) {
-        if(node == null) return false;
+        if (node == null) return false;
         return node.getPid() == null || node.getPid() == 0L;
     }
 
     public static <T extends ISeq> void exchange(T one, T two) {
-        if(one == null || two == null) {
+        if (one == null || two == null) {
             return;
         }
         two.setSeq(one.getSeq() + two.getSeq());

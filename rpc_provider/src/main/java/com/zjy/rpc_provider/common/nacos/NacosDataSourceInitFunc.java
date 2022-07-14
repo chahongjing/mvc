@@ -42,13 +42,13 @@ public class NacosDataSourceInitFunc implements InitFunc {
 
     private static final String DATA_ID = "dataId";
 
-    private static final String FLOW = PREFIX+ ".flow." + DATA_ID;
+    private static final String FLOW = PREFIX + ".flow." + DATA_ID;
 
-    private static final String DEGRADE = PREFIX+ ".degrade." + DATA_ID;
+    private static final String DEGRADE = PREFIX + ".degrade." + DATA_ID;
 
-    private static final String PARAM_FLOW = PREFIX+ ".param-flow." + DATA_ID;
+    private static final String PARAM_FLOW = PREFIX + ".param-flow." + DATA_ID;
 
-    private static final String SYSTEM = PREFIX+ ".system." + DATA_ID;
+    private static final String SYSTEM = PREFIX + ".system." + DATA_ID;
 
 
     @Override
@@ -71,25 +71,30 @@ public class NacosDataSourceInitFunc implements InitFunc {
             switch (dataIdKey) {
                 case FLOW:
                     ReadableDataSource<String, List<FlowRule>> flowDataSource = new NacosDataSource<>(properties, groupId, dataId,
-                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<FlowRule>>() { }));
+                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<FlowRule>>() {
+                            }));
                     FlowRuleManager.register2Property(flowDataSource.getProperty());
                     break;
                 case DEGRADE:
                     ReadableDataSource<String, List<DegradeRule>> degradeDataSource = new NacosDataSource<>(properties, groupId, dataId,
-                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<DegradeRule>>() { }));
+                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<DegradeRule>>() {
+                            }));
                     DegradeRuleManager.register2Property(degradeDataSource.getProperty());
                     break;
                 case PARAM_FLOW:
                     ReadableDataSource<String, List<ParamFlowRule>> paramFlowDataSource = new NacosDataSource<>(properties, groupId, dataId,
-                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<ParamFlowRule>>() { }));
+                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<ParamFlowRule>>() {
+                            }));
                     ParamFlowRuleManager.register2Property(paramFlowDataSource.getProperty());
                     break;
                 case SYSTEM:
                     ReadableDataSource<String, List<SystemRule>> systemDataSource = new NacosDataSource<>(properties, groupId, dataId,
-                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<SystemRule>>() { }));
+                            source -> isBlank(source) ? Collections.EMPTY_LIST : JacksonUtils.toObj(source, new TypeReference<List<SystemRule>>() {
+                            }));
                     SystemRuleManager.register2Property(systemDataSource.getProperty());
                     break;
-                default: break;
+                default:
+                    break;
             }
 
         } catch (Exception e) {
@@ -121,6 +126,7 @@ public class NacosDataSourceInitFunc implements InitFunc {
         }
         return properties;
     }
+
     private boolean isBlank(String v) {
         return v == null || "".equals(v.trim());
     }

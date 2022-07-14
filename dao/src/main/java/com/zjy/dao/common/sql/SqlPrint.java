@@ -124,10 +124,10 @@ public class SqlPrint implements Interceptor {
 
                     if (value == null) {
                         parameters.add("null");
-                    } else if(value instanceof Number) {
+                    } else if (value instanceof Number) {
                         parameters.add(String.valueOf(value));
                     } else if (value instanceof IBaseEnum) {
-                        parameters.add(String.valueOf(((IBaseEnum)value).getValue()));
+                        parameters.add(String.valueOf(((IBaseEnum) value).getValue()));
                     } else {
                         StringBuilder builder = new StringBuilder();
                         builder.append("'");
@@ -153,7 +153,7 @@ public class SqlPrint implements Interceptor {
         // 目标方法
         String targetMethodName = getMapperMethodName(fullMapperMethod);
         // 拿不到参数类型列表?, 这里循环下, 正好mybatis不能重载
-        return ! Arrays.stream(mapperClass.getMethods())
+        return !Arrays.stream(mapperClass.getMethods())
                 .filter(method -> method.getName().equals(targetMethodName))
                 .findFirst()
                 .map(method -> {
@@ -167,7 +167,7 @@ public class SqlPrint implements Interceptor {
     }
 
     private String getMapperMethodName(String fullMapperMethod) {
-        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf (".",fullMapperMethod.lastIndexOf(".") - 1) + 1);
+        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf(".", fullMapperMethod.lastIndexOf(".") - 1) + 1);
 //        return fullMapperMethod.substring(fullMapperMethod.lastIndexOf(".") + 1);
     }
 

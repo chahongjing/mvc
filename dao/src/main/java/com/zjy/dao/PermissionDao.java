@@ -13,6 +13,8 @@ import java.util.Map;
 @Mapper
 public interface PermissionDao extends BaseDao<Permission> {
     List<PermissionVo> queryAllPermissionList();
+
     Map<String, Integer> queryRepeatCount(@Param("id") Long id, @Param("code") String code);
+
     PermissionVo queryByTarget(@Param("targetId") Long targetId, @Param("type") PermissionType type);
 }

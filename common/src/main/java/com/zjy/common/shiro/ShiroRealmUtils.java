@@ -66,7 +66,7 @@ public class ShiroRealmUtils {
                 .setSalt(salt)
                 .setSource(password)
                 .build();
-        String res =  hashService.computeHash(request).toHex();
+        String res = hashService.computeHash(request).toHex();
         System.out.println(res);
         return res;
     }
@@ -84,10 +84,10 @@ public class ShiroRealmUtils {
         String realmName = subject.getPrincipals().getRealmNames().iterator().next();
         SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, realmName);
         subject.runAs(principals);
-        if(myShiroRealm.isAuthenticationCachingEnabled()) {
+        if (myShiroRealm.isAuthenticationCachingEnabled()) {
             myShiroRealm.getAuthenticationCache().remove(principals);
         }
-        if(myShiroRealm.isAuthorizationCachingEnabled()) {
+        if (myShiroRealm.isAuthorizationCachingEnabled()) {
             // 删除指定用户shiro权限
             myShiroRealm.getAuthorizationCache().remove(principals);
         }

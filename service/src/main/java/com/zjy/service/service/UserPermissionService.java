@@ -10,12 +10,20 @@ import java.util.Map;
 
 public interface UserPermissionService extends BaseService<UserPermission> {
     List<PermissionCheckVo> getUserPermissionTree(Long userId);
+
     void savePermission(Long userId, List<PermissionCheckVo> list);
+
     List<PermissionVo> queryUserPermission(Long userId);
+
     List<PermissionVo> queryUserPermission(List<Long> userIdList);
+
     List<PermissionVo> queryUserRolePermission(Long userId);
+
     List<PermissionVo> queryUserRolePermission(List<Long> userIdList);
+
     List<PermissionVo> queryUserCombinePermission(Long userId);
-    Map<Long, List<PermissionVo>>  queryUserCombinePermission(List<Long> userIdList);
+
+    Map<Long, List<PermissionVo>> queryUserCombinePermission(List<Long> userIdList);
+
     int deleteByPermission(Long permissionId);
 }
