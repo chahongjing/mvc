@@ -244,6 +244,14 @@ public class TestController extends BaseController {
         return list;
     }
 
+    @GetMapping("/testCache5")
+    @RedisCache(key = "#{userInfo.name}:#{userInfo.id}", timeUnit = TimeUnit.SECONDS, expire = 10)
+    public Map<Long, UserInfo> testCache5(UserInfo userInfo) {
+        Map<Long, UserInfo> list = new HashMap<>();
+        list.put(userInfo.getId(), userInfo);
+        return list;
+    }
+
     @GetMapping("/testTransaction")
     @NoRepeatOp
     public BaseResult<Map<String, Object>> testTransaction() {
@@ -288,8 +296,8 @@ public class TestController extends BaseController {
     }
 
     @GetMapping("/r")
-    @LimitByCount(count = 2)
-    public String testR() {
+    @LimitByCount(count = 2, withParam = true)
+    public String testR(Long id) {
         try {
             TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException e) {

@@ -11,8 +11,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
@@ -30,7 +35,9 @@ public class RedisCacheAspect {
     @Lazy
     @Resource
     private RedisTemplate<String, Object> objRedisTemplate;
-    Pattern pattern = Pattern.compile("\\#\\{([^}]+)\\}");
+    Pattern pattern = Pattern.compile("#\\{([^}]+)}");
+    SpelExpressionParser parser = new SpelExpressionParser();
+    LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
     @Pointcut("@annotation(com.zjy.baseframework.annotations.RedisCache)")
     public void cache() {
@@ -39,16 +46,16 @@ public class RedisCacheAspect {
     @Around(value = "cache() && @annotation(redisCache)")
     public Object around(ProceedingJoinPoint pjp, RedisCache redisCache) throws Throwable {
         Signature signature = pjp.getSignature();
-        MethodSignature methodSignature = (MethodSignature)signature;
+        MethodSignature methodSignature = (MethodSignature) signature;
         Method targetMethod = methodSignature.getMethod();
-        if(redisCache == null) {
+        if (redisCache == null) {
             return pjp.proceed();
         }
         Parameter[] parameters = targetMethod.getParameters();
-        String key = getKey(redisCache, parameters, pjp);
+        String key = getKey(redisCache, parameters, pjp, targetMethod);
         Object result = objRedisTemplate.opsForValue().get(key);
         // 没有值
-        if(result == null) {
+        if (result == null) {
             Boolean exists = objRedisTemplate.hasKey(key);
             // 缓存的null，直接返回
             if (exists != null && exists) {
@@ -81,9 +88,9 @@ public class RedisCacheAspect {
     public Class getTrueType(Method method) {
         Type genericReturnType = method.getGenericReturnType();
         Class realType;
-        if(Collection.class.isAssignableFrom(method.getReturnType())) {
-            realType = (Class)((ParameterizedType) genericReturnType).getActualTypeArguments()[0];
-        } else if(method.getReturnType().isArray()) {
+        if (Collection.class.isAssignableFrom(method.getReturnType())) {
+            realType = (Class) ((ParameterizedType) genericReturnType).getActualTypeArguments()[0];
+        } else if (method.getReturnType().isArray()) {
             realType = method.getReturnType().getComponentType();
         } else {
             realType = method.getReturnType();
@@ -91,22 +98,42 @@ public class RedisCacheAspect {
         return realType;
     }
 
-    private String getKey(RedisCache redisCache, Parameter[] parameters, ProceedingJoinPoint pjp) {
-        Map<String, Object> map = new HashMap<>();
+    private String getKey(RedisCache redisCache, Parameter[] parameters, ProceedingJoinPoint pjp, Method method) {
         String key = RedisKeyUtils.KEY_PREFIX + pjp.toShortString() + ":" + redisCache.key();
-        if(parameters != null && parameters.length > 0 && key.contains("#{")) {
-            for (int i = 0; i < parameters.length; i++) {
-                map.put(parameters[i].getName(), pjp.getArgs()[i]);
-            }
-        }
+        EvaluationContext spelContext = null;
         Matcher matcher = pattern.matcher(key);
         String newKey = key;
         while (matcher.find()) {
-            if(map.containsKey(matcher.group(1))) {
-                newKey = newKey.replace(matcher.group(0), String.valueOf(map.get(matcher.group(1))));
+            if(spelContext == null) {
+                spelContext = bindParam(method, pjp.getArgs());
             }
+            Object value = parser.parseExpression("#" + matcher.group(1)).getValue(spelContext);
+            newKey = newKey.replace(matcher.group(0), Objects.toString(value));
         }
         return newKey;
+    }
+
+    private EvaluationContext bindParam(Method method, Object[] args) {
+        //将参数名与参数值对应起来
+        EvaluationContext context = new StandardEvaluationContext();
+        //获取方法的参数名
+        String[] params = discoverer.getParameterNames(method);
+        if(params == null) return context;
+        for (int len = 0; len < params.length; len++) {
+            context.setVariable(params[len], args[len]);
+        }
+        return context;
+    }
+
+    public static void main(String[] args) {
+        SpelExpressionParser parser = new SpelExpressionParser();
+        Expression expression = parser.parseExpression("#root.name");
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(1L);
+        userInfo.setName("张三");
+        System.out.println(expression.getValue(userInfo));
+//        EvaluationContext context = this.bindParam(method, parameters);
+//        expression.getValue(context);
     }
 }
 

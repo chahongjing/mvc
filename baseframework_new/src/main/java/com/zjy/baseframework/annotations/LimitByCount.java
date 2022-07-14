@@ -16,4 +16,6 @@ public @interface LimitByCount {
     boolean withUser() default false;
     // 生成的key是否包含参数信息
     boolean withParam() default false;
+    // 调用完成是否自动减count
+    boolean autoDecr() default true;
 }
