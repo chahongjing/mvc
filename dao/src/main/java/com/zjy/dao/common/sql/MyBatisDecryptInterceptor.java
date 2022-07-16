@@ -2,10 +2,16 @@ package com.zjy.dao.common.sql;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
-import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Intercepts;
+import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Plugin;
+import org.apache.ibatis.plugin.Signature;
 
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Properties;
 
 /**
  * @author : fei.wei

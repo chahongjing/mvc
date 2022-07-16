@@ -1,7 +1,7 @@
 package com.zjy.common.shiro;
 
 import com.zjy.baseframework.common.RedisKeyUtils;
-import com.zjy.common.SpringContextHolder;
+import com.zjy.common.common.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;

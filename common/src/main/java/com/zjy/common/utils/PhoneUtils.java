@@ -3,6 +3,7 @@ package com.zjy.common.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author
@@ -13,13 +14,12 @@ public class PhoneUtils {
         if (StringUtils.isBlank(phone)) {
             return null;
         }
+        phone = phone.trim();
         if (phone.length() < 11) {
             return phone;
         }
-        phone = phone.trim();
         return phone.substring(0, 3) + "****" + phone.substring(7);
     }
-
     /**
      * 校验手机号码格式，座机号不通过校验
      *

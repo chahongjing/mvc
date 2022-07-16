@@ -1,5 +1,7 @@
 package com.zjy.common.utils;
 
+import com.zjy.common.common.IGetter;
+import com.zjy.common.common.ISetter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;

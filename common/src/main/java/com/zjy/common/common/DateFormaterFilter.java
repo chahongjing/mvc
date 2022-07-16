@@ -1,8 +1,7 @@
-package com.zjy.common.utils;
+package com.zjy.common.common;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ValueFilter;
-import com.zjy.common.MyCustomDateEditor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 

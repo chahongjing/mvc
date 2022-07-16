@@ -1,12 +1,12 @@
 package com.zjy.service.component;
 
 import com.zjy.baseframework.enums.YesNo;
-import com.zjy.common.SpringContextHolder;
+import com.zjy.common.common.SpringContextHolder;
 import com.zjy.common.shiro.IUserService;
 import com.zjy.common.shiro.MyAuthorizingRealm;
-import com.zjy.entity.enums.UserStatus;
 import com.zjy.common.utils.EnumUtils;
-import com.zjy.common.utils.ReflectionHelper;
+import com.zjy.common.utils.ReflectionUtils;
+import com.zjy.entity.enums.UserStatus;
 import com.zjy.service.enums.RedisOpType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
@@ -46,7 +46,7 @@ public class InitEventListener implements ApplicationListener<ApplicationEvent> 
             List<String> enumPackages = Arrays.asList(YesNo.class.getPackage().getName(),
                     UserStatus.class.getPackage().getName(),
                     RedisOpType.class.getPackage().getName());
-            List<Class> classList = ReflectionHelper.getProjectClassList(enumPackages);
+            List<Class> classList = ReflectionUtils.getProjectClassList(enumPackages);
             // 初始化要序列化的枚举
             EnumUtils.initAllSerializeEnum(classList);
             MyAuthorizingRealm realm = SpringContextHolder.getBean(MyAuthorizingRealm.class);

@@ -1,9 +1,8 @@
-package com.zjy.common.utils;
+package com.zjy.common.common;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
-import com.zjy.common.MyCustomDateEditor;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.io.IOException;

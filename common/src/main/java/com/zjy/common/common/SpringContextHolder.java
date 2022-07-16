@@ -1,4 +1,4 @@
-package com.zjy.common;
+package com.zjy.common.common;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;

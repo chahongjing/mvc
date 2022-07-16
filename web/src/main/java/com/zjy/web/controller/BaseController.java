@@ -1,15 +1,17 @@
 package com.zjy.web.controller;
 
+import com.zjy.baseframework.common.ServiceException;
+import com.zjy.baseframework.enums.ErrorCodeEnum;
 import com.zjy.baseframework.interfaces.IBaseEnum;
-import com.zjy.common.EnumEditor;
-import com.zjy.common.MyCustomDateEditor;
-import com.zjy.common.MyCustomZonedDateEditor;
+import com.zjy.common.common.EnumEditor;
+import com.zjy.common.common.MyCustomDateEditor;
+import com.zjy.common.common.MyCustomZonedDateEditor;
 import com.zjy.common.shiro.ShiroRealmUtils;
-import com.zjy.entity.model.UserInfo;
+import com.zjy.common.utils.EnumUtils;
 import com.zjy.common.utils.JsonUtils;
+import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.RedisUtils;
 import com.zjy.service.component.BaseServiceImpl;
-import com.zjy.common.utils.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.ui.Model;
@@ -37,7 +39,7 @@ public class BaseController {
 
     @ModelAttribute
     public void init(Model model) {
-        model.addAttribute("user", getCurrentUser());
+        model.addAttribute("user", getCurrentUserWithNoEx());
     }
 
     @InitBinder
@@ -51,8 +53,20 @@ public class BaseController {
         }
     }
 
-    public static UserInfo getCurrentUser() {
+    public static UserInfo getCurrentUserWithNoEx() {
         return BaseServiceImpl.getCurrentUser();
+    }
+
+    public static UserInfo getCurrentUser() {
+        UserInfo currentUser = getCurrentUserWithNoEx();
+        if(currentUser == null) {
+            throw new ServiceException(ErrorCodeEnum.UNAUTHENTICATION);
+        }
+        return currentUser;
+    }
+
+    public static Long getCurrentUserId() {
+        return getCurrentUser().getId();
     }
 
     public static boolean isPermitted(String permission) {

@@ -4,20 +4,27 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.zjy.baseframework.annotations.LogMethod;
 import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
+import com.zjy.baseframework.enums.ErrorCodeEnum;
 import com.zjy.baseframework.enums.ResultStatus;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.dao.UserInfoDao;
-import com.zjy.dao.vo.*;
+import com.zjy.dao.vo.PermissionVo;
+import com.zjy.dao.vo.UserInfoVo;
+import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.enums.UserStatus;
 import com.zjy.entity.enums.UserTypeEnum;
 import com.zjy.entity.model.Permission;
 import com.zjy.entity.model.UserInfo;
-import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.request.UserInfoRequest;
-import com.zjy.service.service.*;
+import com.zjy.service.service.PermissionService;
+import com.zjy.service.service.RolePermissionService;
+import com.zjy.service.service.UserInfoService;
+import com.zjy.service.service.UserPermissionService;
+import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -28,7 +35,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -241,11 +251,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
     public void changePassword(String code, String oldPassword, String newPassword) {
         UserInfo currentUser = getCurrentUser();
         if (currentUser == null) {
-            throw new ServiceException("用户未登录！");
+            throw new ServiceException(ErrorCodeEnum.UNAUTHENTICATION);
         }
         String userCodeCur = currentUser.getCode();
         if (!userCodeCur.equals(code)) {
-            throw new ServiceException("参数错误！");
+            throw new ServiceException(ErrorCodeEnum.PARAM_ERROR);
         }
         UserInfo user = this.getVoByCode(userCodeCur);
         if (user == null) {

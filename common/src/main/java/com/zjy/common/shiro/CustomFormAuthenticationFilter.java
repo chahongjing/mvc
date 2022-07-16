@@ -2,7 +2,7 @@ package com.zjy.common.shiro;
 
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.ResultStatus;
-import com.zjy.common.SpringContextHolder;
+import com.zjy.common.common.SpringContextHolder;
 import com.zjy.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;

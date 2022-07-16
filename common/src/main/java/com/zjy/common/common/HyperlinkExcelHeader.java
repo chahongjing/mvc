@@ -1,4 +1,4 @@
-package com.zjy.common.utils;
+package com.zjy.common.common;
 
 public class HyperlinkExcelHeader extends ExcelHeader {
     public HyperlinkExcelHeader(String fieldName) {

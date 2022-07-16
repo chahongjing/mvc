@@ -3,6 +3,7 @@ package com.zjy.service.aspect;
 import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
+import com.zjy.baseframework.enums.ErrorCodeEnum;
 import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -33,9 +34,9 @@ public class LimitByCountAspect extends BaseAspect {
     @Around(value = "limit() && @annotation(limitByCount)")
     public Object around(ProceedingJoinPoint pjp, LimitByCount limitByCount) throws Throwable {
         String key = getKey(RedisKeyUtils.LIMIT_OP, limitByCount.withUser(), limitByCount.withParam(), pjp);
-        Long opNum = redisUtils.incrLimitExp(key, limitByCount.count(), limitByCount.expire());
+        Long opNum = redisUtils.incrLimitExp(key, limitByCount.count(), limitByCount.timeout());
         if (opNum != null && opNum < 0) {
-            throw new ServiceException("服务繁忙");
+            throw new ServiceException(ErrorCodeEnum.SERVICE_BUSY);
         }
         try {
             return pjp.proceed();

@@ -12,6 +12,7 @@ public class StringLengthComparator implements Comparator<String> {
         if (s1 == null) return -1;
         if (s2 == null) return 1;
         int length = s1.length() - s2.length();
+//        ComparatorUtils.nullHighComparator()
         return length == 0 ? s1.compareTo(s2) : length;
     }
 

@@ -1,7 +1,7 @@
 package com.zjy.service.service.impl;
 
 import com.zjy.baseframework.interfaces.ICache;
-import com.zjy.common.utils.EnumBean;
+import com.zjy.common.common.EnumBean;
 import com.zjy.common.utils.EnumUtils;
 import com.zjy.common.utils.JsonUtils;
 import com.zjy.service.enums.SwitchEnum;

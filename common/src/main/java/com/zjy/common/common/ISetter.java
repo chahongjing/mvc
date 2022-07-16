@@ -1,4 +1,4 @@
-package com.zjy.common.utils;
+package com.zjy.common.common;
 
 import java.io.Serializable;
 

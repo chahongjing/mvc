@@ -1,11 +1,12 @@
 package com.zjy.service.service.impl;
 
 import com.zjy.baseframework.common.ServiceException;
+import com.zjy.baseframework.enums.ErrorCodeEnum;
 import com.zjy.dao.RoleInfoDao;
 import com.zjy.dao.vo.RoleInfoVo;
 import com.zjy.entity.model.RoleInfo;
-import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.common.PageBean;
+import com.zjy.service.component.BaseServiceImpl;
 import com.zjy.service.request.RoleInfoRequest;
 import com.zjy.service.service.RoleInfoService;
 import com.zjy.service.service.RolePermissionService;
@@ -86,7 +87,7 @@ public class RoleInfoServiceImpl extends BaseServiceImpl<RoleInfoDao, RoleInfo> 
         Long id = po.getId() == null ? 0L : po.getId();
         Map<String, Integer> map = dao.queryRepeatCount(id, po.getCode());
         if (map != null && map.containsKey("codeCount") && map.get("codeCount").intValue() > 0) {
-            throw new ServiceException("名称重复！");
+            throw new ServiceException(ErrorCodeEnum.DUPLICATE_NAME);
         }
     }
 }

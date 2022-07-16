@@ -1,7 +1,9 @@
 package com.zjy.service.service.impl;
 
 import com.zjy.dao.UserPermissionDao;
-import com.zjy.dao.vo.*;
+import com.zjy.dao.vo.PermissionCheckVo;
+import com.zjy.dao.vo.PermissionVo;
+import com.zjy.dao.vo.UserRoleVo;
 import com.zjy.entity.enums.PsermissionIncludeType;
 import com.zjy.entity.model.Permission;
 import com.zjy.entity.model.UserPermission;
@@ -16,7 +18,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j

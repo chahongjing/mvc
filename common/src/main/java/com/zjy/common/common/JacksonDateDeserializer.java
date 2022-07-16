@@ -1,9 +1,8 @@
-package com.zjy.common.utils;
+package com.zjy.common.common;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
-import com.zjy.common.MyCustomDateEditor;
 
 import java.io.IOException;
 import java.util.Date;

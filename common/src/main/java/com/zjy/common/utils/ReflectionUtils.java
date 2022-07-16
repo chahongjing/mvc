@@ -21,9 +21,9 @@ import java.util.List;
  * Created by chahongjing on 2017/10/8.
  */
 @Slf4j
-public class ReflectionHelper {
+public class ReflectionUtils {
     static List<Class> allClassList = new ArrayList<>();
-    static Logger logger = LoggerFactory.getLogger(ReflectionHelper.class);
+    static Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
 
     public static Class getClass(Class clazz) {
         Type superClass = clazz.getGenericSuperclass();
@@ -45,7 +45,7 @@ public class ReflectionHelper {
             for (String enumPackage : enumPackages) {
                 for (String pack : enumPackage.split(",|;")) {
                     // 枚举所在的包
-                    allClassList.addAll(ReflectionHelper.getClassFromPackage(pack.replace('.', '/')));
+                    allClassList.addAll(ReflectionUtils.getClassFromPackage(pack.replace('.', '/')));
                 }
             }
         }
@@ -60,7 +60,7 @@ public class ReflectionHelper {
      * @throws IOException
      */
     public static List<Class> getClassFromPackage(String packagePath) {
-        ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver(ReflectionHelper.class.getClassLoader());
+        ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver(ReflectionUtils.class.getClassLoader());
         Resource[] resources = new Resource[0];
         try {
             resources = resourceResolver.getResources("classpath*:" + packagePath + "/**/*.class");
@@ -75,7 +75,7 @@ public class ReflectionHelper {
                 className = preserveSubpackageName(resource.getURI().toString());
                 className = className.replace('/', '.').replaceAll("\\.class", StringUtils.EMPTY);
                 if (className.indexOf("BaseTestCase") > -1) continue;
-                Class<?> aClass = Class.forName(className, false, ReflectionHelper.class.getClassLoader());
+                Class<?> aClass = Class.forName(className, false, ReflectionUtils.class.getClassLoader());
                 classList.add(aClass);
             } catch (Exception e) {
                 logger.error("获取枚举类信息失败！", e);

@@ -85,8 +85,7 @@ public class SwitchController extends BaseController {
             cache.hDelete(SwitchEnum.SWITCH_KEY, sw.toString());
             op = "关闭";
         }
-        UserInfo userInfo = getCurrentUser();
-        log.info("【{}】 {} 开关:{}", userInfo.getId(), op, sw.getName());
+        log.info("【{}】 {} 开关:{}", getCurrentUserId(), op, sw.getName());
         return BaseResult.ok(String.format("%s 开关 【%s】 成功！", op, sw.getName()));
     }
 }

@@ -1,4 +1,4 @@
-package com.zjy.common;
+package com.zjy.common.common;
 
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;

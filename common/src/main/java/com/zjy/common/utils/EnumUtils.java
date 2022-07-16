@@ -3,11 +3,17 @@ package com.zjy.common.utils;
 import com.zjy.baseframework.annotations.SerializeEnum;
 import com.zjy.baseframework.enums.YesNo;
 import com.zjy.baseframework.interfaces.IBaseEnum;
+import com.zjy.common.common.EnumBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Description;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EnumUtils {
@@ -33,7 +39,7 @@ public class EnumUtils {
         List<String> enumPackages = Arrays.asList(YesNo.class.getPackage().getName(),
                 "com.zjy.entity.enums",
                 "com.zjy.service.enums");
-        List<Class> classList = ReflectionHelper.getProjectClassList(enumPackages);
+        List<Class> classList = ReflectionUtils.getProjectClassList(enumPackages);
         initAllSerializeEnum(classList);
     }
 

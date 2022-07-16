@@ -2,11 +2,11 @@ package com.zjy.web.controller;
 
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.dao.vo.PermissionCheckVo;
+import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.entity.model.UserInfo;
 import com.zjy.service.common.PageBean;
 import com.zjy.service.request.UserInfoRequest;
 import com.zjy.service.service.UserInfoService;
-import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.service.service.UserPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;

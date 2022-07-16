@@ -6,13 +6,19 @@ import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.DownloadException;
-import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.common.stratory.BaseActionParam;
 import com.zjy.common.stratory.BaseActionResult;
 import com.zjy.common.stratory.EventDispatcher;
-import com.zjy.common.utils.*;
+import com.zjy.common.utils.BeanUtils;
+import com.zjy.common.common.DateTimeExcelHeader;
+import com.zjy.common.utils.DownloadUtils;
+import com.zjy.common.common.ExcelHeader;
+import com.zjy.common.utils.ExcelUtils;
+import com.zjy.common.utils.FileUtils;
+import com.zjy.common.common.HyperlinkExcelHeader;
+import com.zjy.common.common.NumberExcelHeader;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.model.DownloadTask;
 import com.zjy.entity.model.TestDownloadRecord;
@@ -103,7 +109,7 @@ public class TestController extends BaseController {
      * @param response
      */
     @RequestMapping("/bigDataDownload")
-    @LimitByCount(expire = 3600)
+    @LimitByCount(timeout = 3600)
     public void bigDataDownload(Boolean withError, HttpServletResponse response) {
         List<ExcelHeader> headers = new ArrayList<>();
         headers.add(new ExcelHeader(BeanUtils.convertToFieldName(TestDownloadRecord::getUserId), "工单号"));

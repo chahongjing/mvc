@@ -3,6 +3,7 @@ package com.zjy.service.aspect;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.common.RedisKeyUtils;
 import com.zjy.baseframework.common.ServiceException;
+import com.zjy.baseframework.enums.ErrorCodeEnum;
 import com.zjy.service.common.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,9 +39,11 @@ public class NoRepeatAspect extends BaseAspect {
             try {
                 return pjp.proceed();
             } finally {
-                redisUtils.del(key);
+                if(noRepeatOp.del()) {
+                    redisUtils.del(key);
+                }
             }
         }
-        throw new ServiceException("重复请求");
+        throw new ServiceException(ErrorCodeEnum.DUPLICATE_REQUEST);
     }
 }

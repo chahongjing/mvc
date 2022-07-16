@@ -4,7 +4,11 @@ import com.zjy.baseframework.interfaces.IHierarchyBase;
 import com.zjy.baseframework.interfaces.ISeq;
 import com.zjy.baseframework.model.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CommonService {
     /**
@@ -14,7 +18,7 @@ public class CommonService {
      * @param <T>
      * @return
      */
-    public static <T extends IHierarchyBase> List<T> buildTree(List<T> list) {
+    public static <T extends IHierarchyBase<T>> List<T> buildTree(List<T> list) {
         // 先按父级分组
         Map<Long, List<T>> group = new HashMap<>();
         List<T> children;
@@ -28,7 +32,7 @@ public class CommonService {
         // 开始构建树
         for (T node : list) {
             // 一级数据，是需要返回的
-            if (node.getPid() == null || Constants.EMPTY_STRING.equals(node.getPid())) {
+            if (isRootNode(node)) {
                 firstLevelTreeNodeList.add(node);
             }
             // 设置当前节点的孩子节点
@@ -44,7 +48,7 @@ public class CommonService {
         return firstLevelTreeNodeList;
     }
 
-    public static <T extends IHierarchyBase> boolean isRootNode(T node) {
+    public static <T extends IHierarchyBase<T>> boolean isRootNode(T node) {
         if (node == null) return false;
         return node.getPid() == null || node.getPid() == 0L;
     }

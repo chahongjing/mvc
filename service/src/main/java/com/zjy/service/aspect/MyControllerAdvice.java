@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @ControllerAdvice
+//@RestControllerAdvice(basePackages = {"com.bugpool.leilema"})   implements ResponseBodyAdvice<Object>
 public class MyControllerAdvice {
     @Autowired
     private JsonUtils jsonUtils;

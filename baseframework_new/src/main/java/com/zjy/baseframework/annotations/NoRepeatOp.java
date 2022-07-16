@@ -19,4 +19,7 @@ public @interface NoRepeatOp {
 
     // 生成的key是否包含参数信息
     boolean withParam() default true;
+
+    // 请求完成后是否删除key
+    boolean del() default true;
 }

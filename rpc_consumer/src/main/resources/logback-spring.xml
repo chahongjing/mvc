@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
+    <property scope="context" name="pattern_console" value="[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%highlight(%-5p)] [%20.20t] %cyan(%30.30c) [%magenta(%L)] %m%n"/>
+    <property scope="context" name="pattern_file" value="[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%-5p] [%t] [%c] [%L] %m%n"/>
     <!-- 从配置文件中读取文件存放路径 -->
-    <springProperty name="log.path" source="log.path" scope="context" />
-    <springProperty name="log.level" source="log.level" scope="context" />
+    <springProperty scope="context" name="logging.file.path" source="logging.file.path" />
+<!--    <springProperty scope="context" name="logging.level.root" source="logging.level.root" />-->
+    <springProperty scope="context" name="db.driverClassName" source="spring.datasource.master.driver-class-name" />
+    <springProperty scope="context" name="db.jdbcUrl" source="spring.datasource.master.jdbcUrl" />
+    <springProperty scope="context" name="db.userName" source="spring.datasource.master.username" />
+    <springProperty scope="context" name="db.password" source="spring.datasource.master.password" />
 
     <!-- 控制台颜色 -->
     <!-- black, highlight, gray, white, boldWhite, red, boldRed, green, boldGreen, yellow, boldYellow, blue, boldBlue,
@@ -11,7 +17,7 @@
     <!-- DENY，日志将立即被抛弃不再经过其他过滤器；返回NEUTRAL，有序列表里的下个过滤器过接着处理日志；返回ACCEPT，日志会被立即处理，不再经过剩余过滤器。 -->
     <appender name="CONSOLE-LOG" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%highlight(%-5p)] [%t] %cyan(%30.30c) [%magenta(%L)] %m%n</pattern>
+            <pattern>${pattern_console}</pattern>
         </layout>
     </appender>
     <!--获取比info级别高(包括info级别)但除error级别的日志-->
@@ -23,12 +29,12 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%-5p] [%t] [%c] [%L] %m%n</pattern>
+            <pattern>${pattern_file}</pattern>
         </encoder>
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>${log.path}//info_%d.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/info_%d.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
@@ -38,12 +44,12 @@
             <level>ERROR</level>
         </filter>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd' 'HH:mm:ss.sss}] [%-5p] [%t] [%c] [%L] %m%n</pattern>
+            <pattern>${pattern_file}</pattern>
         </encoder>
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>${log.path}//error_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/error_%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
@@ -66,9 +72,47 @@
         <appender-ref ref="ERROR-LOG"/>
     </appender>
 
-    <root level="${log.level}">
+    <appender name="dBAppender" class="com.zjy.dao.common.DbAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>
+                    event.getLoggerName().contains("dbLogger")
+                </expression>
+            </evaluator>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <!--            <onMatch>ACCEPT</onMatch>-->
+            <!--            <onMismatch>DENY</onMismatch>-->
+        </filter>
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+            <dataSource class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <driverClassName>${db.driverClassName}</driverClassName>
+                <url>${db.jdbcUrl}</url>
+                <username>${db.userName}</username>
+                <password>${db.password}</password>
+            </dataSource>
+        </connectionSource>
+    </appender>
+
+    <appender name="ASYNC-DB" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="dBAppender"/>
+    </appender>
+
+    <root>
         <appender-ref ref="CONSOLE-LOG" />
         <appender-ref ref="ASYNC-INFO"/>
         <appender-ref ref="ASYNC-ERROR"/>
     </root>
+    <!-- additivity为false表示此logger打印的日志不会添加到root中再输出一遍， -->
+    <logger name="dbLogger" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNC-DB"/>
+    </logger>
 </configuration>
