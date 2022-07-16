@@ -2,13 +2,14 @@ package com.zjy.baseframework.common;
 
 import com.zjy.baseframework.interfaces.IHierarchyBase;
 import com.zjy.baseframework.interfaces.ISeq;
-import com.zjy.baseframework.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CommonService {
     /**
@@ -62,17 +63,96 @@ public class CommonService {
         two.setSeq(two.getSeq() - one.getSeq());
     }
 
+    /**
+     * 取交集
+     * @param lists
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> retainAll(List<T>... lists) {
+        if(lists == null || lists.length == 0) {
+            return new ArrayList<>();
+        } else if(lists.length == 1) {
+            return lists[0];
+        }
+        long minSize = Long.MAX_VALUE;
+        List<T> min = lists[0];
+        List<Set<T>> oSet = new ArrayList<>();
+        for (List<T> ts : lists) {
+            if(ts.size() < minSize) {
+                minSize = ts.size();
+                min = ts;
+            }
+        }
+        for (List<T> ts : lists) {
+            if(ts != min) {
+                oSet.add(new HashSet<>(ts));
+            }
+        }
+        int i = 0;
+        boolean allContains;
+        List<T> target = new ArrayList<>((int)minSize);
+        while(i < minSize) {
+            T t = min.get(i);
+            i++;
+            allContains = true;
+            for (Set<T> ts : oSet) {
+                if(!ts.contains(t)) {
+                    allContains = false;
+                    break;
+                }
+            }
+            if (allContains) target.add(t);
+        }
+        return target;
+    }
+
     public static void main(String[] args) {
-        TreeNode one = new TreeNode();
-        one.setId(1L);
-        one.setName("1");
-        one.setSeq(3);
-        TreeNode two = new TreeNode();
-        two.setId(2L);
-        two.setName("2");
-        two.setSeq(5);
-        exchange(one, two);
-        System.out.println(one.getSeq());
-        System.out.println(two.getSeq());
+//        TreeNode one = new TreeNode();
+//        one.setId(1L);
+//        one.setName("1");
+//        one.setSeq(3);
+//        TreeNode two = new TreeNode();
+//        two.setId(2L);
+//        two.setName("2");
+//        two.setSeq(5);
+//        exchange(one, two);
+//        System.out.println(one.getSeq());
+//        System.out.println(two.getSeq());
+
+        List<Long> l1 = new ArrayList<>();
+        List<Long> l2 = new ArrayList<>();
+        List<Long> l3 = new ArrayList<>();
+        int num = 100000;
+        for(int i = 0; i < num; i++) {
+            l1.add((long)(Math.random() * num));
+        }
+        for(int i = 0; i < num + 1; i++) {
+            l2.add((long)(Math.random() * num));
+        }
+        for(int i = 0; i < num - 1; i++) {
+            l3.add((long)(Math.random() * num));
+        }
+        System.out.println("l1");
+        for (Long aLong : l1) {
+            System.out.printf("%d\t", aLong);
+        }
+        System.out.println("");
+        System.out.println("l2");
+        for (Long aLong : l2) {
+            System.out.printf("%d\t", aLong);
+        }
+        System.out.println("");
+        System.out.println("l3");
+        for (Long aLong : l3) {
+            System.out.printf("%d\t", aLong);
+        }
+        long t = System.currentTimeMillis();
+        List<Long> ts = retainAll(l1, l2, l3);
+        System.out.printf("%ntime: %d%n", System.currentTimeMillis() - t);
+        System.out.println("res");
+        for (Long aLong : ts) {
+            System.out.printf("%d\t", aLong);
+        }
     }
 }
