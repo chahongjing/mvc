@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-public class EmailServiceUtils {
+public class EmailUtils {
 
     @Autowired(required = false)
     private JavaMailSenderImpl mailSender;
@@ -95,8 +95,8 @@ public class EmailServiceUtils {
         }
         try {
             helper = new MimeMessageHelper(message, true);
-            helper.setTo(to.toArray(new String[to.size()]));
-            helper.setCc(cc.toArray(new String[cc.size()]));
+            helper.setTo(to.toArray(new String[0]));
+            helper.setCc(cc.toArray(new String[0]));
             helper.setSubject(subject);
             helper.setText(content, isContentHtml);
             helper.setFrom(mailSender.getUsername());

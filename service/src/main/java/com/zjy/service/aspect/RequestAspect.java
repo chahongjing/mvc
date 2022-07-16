@@ -49,9 +49,6 @@ import java.util.Objects;
 @Component
 public class RequestAspect {
     // region 属性
-    // 请求信息，用于web相关项目
-    private HttpServletRequest request;
-
     @Autowired
     private JsonUtils jsonUtils;
 
@@ -82,7 +79,7 @@ public class RequestAspect {
 
     @Around("cstAspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        request = getRequest();
+        HttpServletRequest request = getRequest();
         Object object;
         Method method = getMethod(joinPoint);
         LogMessage annotation = method.getAnnotation(LogMessage.class);

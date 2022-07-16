@@ -53,6 +53,7 @@
         <commons.io.version>2.6</commons.io.version>
         <sentinel.version>1.8.4</sentinel.version>
         <logback.db.version>1.2.11.1</logback.db.version>
+        <zip4j.version>2.11.1</zip4j.version>
     </properties>
 
     <dependencyManagement>
@@ -222,6 +223,11 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>2.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>net.lingala.zip4j</groupId>
+                <artifactId>zip4j</artifactId>
+                <version>${zip4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

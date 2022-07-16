@@ -3,8 +3,8 @@ package com.zjy.baseframework.common;
 /**
  * Created by Administrator on 2018/12/22.
  */
-public class StackTraceElementHelper {
-    private StackTraceElementHelper() {
+public class StackTraceElementUtils {
+    private StackTraceElementUtils() {
     }
 
     public static StackTraceElement extractFirstCaller(StackTraceElement[] callerDataArray) {

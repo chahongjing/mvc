@@ -55,9 +55,10 @@ public class DownloadUtils {
 
     public static void download(File file, HttpServletResponse response, String fileName) throws IOException {
         if (!file.exists()) throw new FileNotFoundException("未找到文件" + file);
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-        download(bis, (fileName == null || fileName.trim().equals("")) ? file.getName() : fileName, response);
-        bis.close();
+        try(FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream bis = new BufferedInputStream(fis)) {
+            download(bis, (fileName == null || fileName.trim().equals("")) ? file.getName() : fileName, response);
+        }
     }
 
     public static void download(InputStream is, String fileName, HttpServletResponse response) throws IOException {

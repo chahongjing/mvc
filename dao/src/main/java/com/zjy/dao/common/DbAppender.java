@@ -2,7 +2,7 @@ package com.zjy.dao.common;
 
 import ch.qos.logback.classic.spi.CallerData;
 import ch.qos.logback.classic.spi.LoggingEvent;
-import com.zjy.baseframework.common.StackTraceElementHelper;
+import com.zjy.baseframework.common.StackTraceElementUtils;
 import com.zjy.common.shiro.IUserInfo;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.entity.enums.LogLevel;
@@ -50,7 +50,7 @@ public class DbAppender extends DBAppenderBase<LoggingEvent> {
     }
 
     private void bindLoggingEventWithInsertStatement(PreparedStatement stmt, LoggingEvent loggingEvent) throws SQLException {
-        StackTraceElement caller = StackTraceElementHelper.extractFirstCaller(loggingEvent.getCallerData());
+        StackTraceElement caller = StackTraceElementUtils.extractFirstCaller(loggingEvent.getCallerData());
         if (caller == null) caller = CallerData.naInstance();
         Object[] canshus = loggingEvent.getArgumentArray();
         if (ArrayUtils.isNotEmpty(canshus) && canshus[canshus.length - 1] instanceof Method) {

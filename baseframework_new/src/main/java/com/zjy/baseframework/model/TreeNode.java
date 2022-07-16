@@ -9,9 +9,6 @@ public class TreeNode implements IHierarchyBase<TreeNode> {
     private Long pid;
     private String name;
     private int seq;
-    private boolean isLeaf;
-    private boolean isOpen;
-    private boolean selected;
     private Object data;
     private List<TreeNode> children;
 
@@ -56,30 +53,6 @@ public class TreeNode implements IHierarchyBase<TreeNode> {
 
     public void setData(Object data) {
         this.data = data;
-    }
-
-    public boolean getIsLeaf() {
-        return isLeaf;
-    }
-
-    public void setIsLeaf(boolean isLeaf) {
-        this.isLeaf = isLeaf;
-    }
-
-    public boolean getIsOpen() {
-        return isOpen;
-    }
-
-    public void setIsOpen(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 
     @Override

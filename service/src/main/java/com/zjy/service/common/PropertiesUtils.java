@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropertiesHelper {
+public class PropertiesUtils {
     private HashMap<String, String> properties = new HashMap<>();
 
-    private PropertiesHelper() {
+    private PropertiesUtils() {
     }
 
-    private static PropertiesHelper instance = new PropertiesHelper();
+    private static PropertiesUtils instance = new PropertiesUtils();
 
     static {
-        PropertiesHelper.getInstance().init();
+        PropertiesUtils.getInstance().init();
     }
 
-    public static PropertiesHelper getInstance() {
+    public static PropertiesUtils getInstance() {
         return instance;
     }
 
@@ -38,7 +38,7 @@ public class PropertiesHelper {
                 String key = (String) kp.getKey();
                 String value = (String) kp.getValue();
 
-                PropertiesHelper.getInstance().setProperties(key, value);
+                PropertiesUtils.getInstance().setProperties(key, value);
             }
         } catch (Exception e) {
         }

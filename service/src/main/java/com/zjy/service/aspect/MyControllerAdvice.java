@@ -38,7 +38,7 @@ public class MyControllerAdvice {
         }
 
         response.setStatus(HttpStatus.OK.value());
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, must-revalidate");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, credentials);
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);

@@ -4,9 +4,11 @@ import com.zjy.baseframework.interfaces.IHierarchyBase;
 import com.zjy.baseframework.interfaces.ISeq;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,32 +71,31 @@ public class CommonService {
      * @param <T>
      * @return
      */
-    public static <T> List<T> retainAll(List<T>... lists) {
+    public static <T> Collection<T> retainAll(Collection<T>... lists) {
         if(lists == null || lists.length == 0) {
             return new ArrayList<>();
         } else if(lists.length == 1) {
             return lists[0];
         }
         long minSize = Long.MAX_VALUE;
-        List<T> min = lists[0];
+        Collection<T> min = lists[0];
         List<Set<T>> oSet = new ArrayList<>();
-        for (List<T> ts : lists) {
+        for (Collection<T> ts : lists) {
             if(ts.size() < minSize) {
                 minSize = ts.size();
                 min = ts;
             }
         }
-        for (List<T> ts : lists) {
+        for (Collection<T> ts : lists) {
             if(ts != min) {
                 oSet.add(new HashSet<>(ts));
             }
         }
-        int i = 0;
         boolean allContains;
+        Iterator<T> iterator = min.iterator();
         List<T> target = new ArrayList<>((int)minSize);
-        while(i < minSize) {
-            T t = min.get(i);
-            i++;
+        while (iterator.hasNext()) {
+            T t = iterator.next();
             allContains = true;
             for (Set<T> ts : oSet) {
                 if(!ts.contains(t)) {
@@ -133,26 +134,26 @@ public class CommonService {
         for(int i = 0; i < num - 1; i++) {
             l3.add((long)(Math.random() * num));
         }
-        System.out.println("l1");
-        for (Long aLong : l1) {
-            System.out.printf("%d\t", aLong);
-        }
-        System.out.println("");
-        System.out.println("l2");
-        for (Long aLong : l2) {
-            System.out.printf("%d\t", aLong);
-        }
-        System.out.println("");
-        System.out.println("l3");
-        for (Long aLong : l3) {
-            System.out.printf("%d\t", aLong);
-        }
+//        System.out.println("l1");
+//        for (Long aLong : l1) {
+//            System.out.printf("%d\t", aLong);
+//        }
+//        System.out.println("");
+//        System.out.println("l2");
+//        for (Long aLong : l2) {
+//            System.out.printf("%d\t", aLong);
+//        }
+//        System.out.println("");
+//        System.out.println("l3");
+//        for (Long aLong : l3) {
+//            System.out.printf("%d\t", aLong);
+//        }
         long t = System.currentTimeMillis();
-        List<Long> ts = retainAll(l1, l2, l3);
+        Collection<Long> ts1 = retainAll(l1, l2, l3);
         System.out.printf("%ntime: %d%n", System.currentTimeMillis() - t);
-        System.out.println("res");
-        for (Long aLong : ts) {
-            System.out.printf("%d\t", aLong);
-        }
+//        System.out.println("res");
+//        for (Long aLong : ts) {
+//            System.out.printf("%d\t", aLong);
+//        }
     }
 }

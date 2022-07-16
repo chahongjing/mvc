@@ -31,13 +31,17 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import sun.net.www.protocol.ftp.FtpURLConnection;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.servlet.http.HttpServletRequest;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
@@ -301,5 +305,24 @@ public class HttpUtilsNew {
             }
         }
         return ipAddress;
+    }
+
+    public static boolean testUrlWithTimeOut(String urlString, int timeOutMillSeconds){
+        long lo = System.currentTimeMillis();
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection co = (HttpURLConnection)url.openConnection();
+            co.setConnectTimeout(timeOutMillSeconds);
+            co.connect();
+            return co.getResponseCode() == HttpURLConnection.HTTP_OK;
+        } catch (Exception ignore) {
+
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String url = "http://localhost:8088/static/js/manifest.697c382e1893556e4ee21.js";
+        System.out.println(testUrlWithTimeOut(url, 100));
     }
 }
