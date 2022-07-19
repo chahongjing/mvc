@@ -19,6 +19,7 @@ import com.zjy.common.utils.ExcelUtils;
 import com.zjy.common.utils.FileUtils;
 import com.zjy.common.common.HyperlinkExcelHeader;
 import com.zjy.common.common.NumberExcelHeader;
+import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.entity.enums.Sex;
 import com.zjy.entity.model.DownloadTask;
 import com.zjy.entity.model.TestDownloadRecord;
@@ -28,6 +29,7 @@ import com.zjy.service.UserService;
 import com.zjy.service.service.UserInfoService;
 import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
+import com.zjy.web.MyImportExcel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -37,11 +39,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,6 +74,8 @@ public class TestController extends BaseController {
 
     @Autowired
     private EventDispatcher eventDispatcher;
+    @Autowired
+    MyImportExcel myImportExcel;
 
     @GetMapping("/index")
     public BaseResult<Map<String, Object>> index() {
@@ -341,4 +350,13 @@ public class TestController extends BaseController {
 //            }
 //        }
 //    }
+
+    @GetMapping("/testImportExcel")
+    public void testImportExcel(HttpServletResponse response) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(new File("/home/zjy/a.xlsx"));
+        List<ExcelHeader> headers = new ArrayList<>();
+        headers.add(new ExcelHeader("name", "姓名"));
+        headers.add(new ExcelHeader("sex", "性别"));
+        myImportExcel.importExcel(fileInputStream, "Sheet1", UserInfoVo.class, headers, response);
+    }
 }

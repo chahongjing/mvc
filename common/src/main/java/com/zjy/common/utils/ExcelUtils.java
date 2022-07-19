@@ -4,6 +4,7 @@ import com.zjy.baseframework.enums.FileSuffix;
 import com.zjy.baseframework.interfaces.IBaseEnum;
 import com.zjy.common.common.DateTimeExcelHeader;
 import com.zjy.common.common.ExcelHeader;
+import com.zjy.common.common.ExcelRowData;
 import com.zjy.common.common.HyperlinkExcelHeader;
 import com.zjy.common.common.MultiHeaderVO;
 import org.apache.commons.collections4.CollectionUtils;
@@ -68,7 +69,7 @@ public class ExcelUtils {
     // endregion
 
     // region excle转list
-    public static <T> List<T> excelToList(InputStream in, String sheetName, Class<T> clazz, List<ExcelHeader> headers) throws Exception {
+    public static <T extends ExcelRowData> List<T> excelToList(InputStream in, String sheetName, Class<T> clazz, List<ExcelHeader> headers) {
         List<T> list = new ArrayList<>();
         Workbook workbook;
         try {
@@ -123,7 +124,9 @@ public class ExcelUtils {
                 try {
                     setFieldValueByName(header.getFieldName(), cellValue, entity);
                 } catch (Exception e) {
-                    log.error(String.format("excel的 %s 页签第 %d 行第 %s 列的内容不正确:%s！", sheet.getSheetName(), i, header.getName(), cellValue));
+                    String msg = String.format("excel的 %s 页签第 %d 行第 %s 列的内容不正确:%s！", sheet.getSheetName(), i + 1, header.getName(), cellValue);
+                    entity.setErrorMsg(msg);
+                    log.error(msg);
                 }
             }
             list.add(entity);
@@ -223,7 +226,7 @@ public class ExcelUtils {
      * @Date: 2020/8/12 11:15
      * @Return:
      */
-    private static Workbook createWorkbook(FileSuffix suffix) {
+    public static Workbook createWorkbook(FileSuffix suffix) {
         Workbook workbook;
         if (suffix != null && suffix.equals(FileSuffix.XLSX)) {
             workbook = new XSSFWorkbook();
@@ -806,6 +809,7 @@ public class ExcelUtils {
                         return;
                     }
                 }
+                throw new RuntimeException(fieldName + "值不正确");
             } else {
                 field.set(o, strValue);
             }
