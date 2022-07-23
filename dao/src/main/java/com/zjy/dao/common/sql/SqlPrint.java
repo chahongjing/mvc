@@ -33,7 +33,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Intercepts({
         @Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
-        @Signature(type = StatementHandler.class, method = "update", args = {Statement.class})
+        @Signature(type = StatementHandler.class, method = "update", args = {Statement.class}),
+        @Signature(type = StatementHandler.class, method = "batch", args = {Statement.class})
 })
 public class SqlPrint implements Interceptor {
 

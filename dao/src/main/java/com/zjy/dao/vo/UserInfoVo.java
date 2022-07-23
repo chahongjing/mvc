@@ -5,6 +5,8 @@ import com.zjy.entity.model.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -17,7 +19,7 @@ public class UserInfoVo extends UserInfo implements ExcelRowData {
     private Set<String> permissionList;
     private String interests;
     private Set<Integer> interestList;
-    private String errorMsg;
+    private List<String> errorMsg;
 
     public boolean getIsSave() {
         return isSave;
@@ -25,5 +27,11 @@ public class UserInfoVo extends UserInfo implements ExcelRowData {
 
     public void setIsSave(boolean isSave) {
         this.isSave = isSave;
+    }
+
+    @Override
+    public void appendErrorMsg(String errorMsg) {
+        if(this.errorMsg == null) this.errorMsg = new ArrayList<>();
+        this.errorMsg.add(errorMsg);
     }
 }

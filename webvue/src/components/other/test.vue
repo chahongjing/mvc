@@ -167,6 +167,9 @@
           <button type="button" class="btn btn-purple mr5" @click="downloadCsv(false)" :disabled="allDisabled">生成csv,并处理下载进度</button>
           <button type="button" class="btn btn-purple mr5" @click="jqueryUpload" :disabled="allDisabled">jquery上传</button>
           <button type="button" class="btn btn-purple mr5" @click="jsDownload" :disabled="allDisabled">js下载</button>
+          <button type="button" class="btn btn-purple mr5" @click="importExcel(false, true)" :disabled="allDisabled">导入excel,报错提示且导入</button>
+          <button type="button" class="btn btn-purple mr5" @click="importExcel(false, false)" :disabled="allDisabled">导入excel,报错提示且不导入</button>
+          <button type="button" class="btn btn-purple mr5" @click="importExcel(true, true)" :disabled="allDisabled">导入excel,报错下载excel</button>
         </div>
         <div>
           <progress id="progress" max="100" value="0" style="width:100%;height:30px;"></progress>
@@ -484,6 +487,40 @@
       },
       jsDownload() {
         Utility.jsDownload('http://localhost:21000/ToolSiteMvc4J/learn/download');
+      },
+      importExcel(isDownloadError, importCorrectData) {
+        var me = this;
+        me.allDisabled = true;
+        var files = $('#testFile')[0].files;
+        if(!files || files.length == 0) {
+          me.$toaster.warning('请选择excel！');
+          return;
+        }
+        var formData = new FormData();
+        formData.append("downloadError", !!isDownloadError);
+        formData.append("importCorrectData", !!importCorrectData);
+        if (files && files.length > 0) {
+          for (var i = 0; i < files.length; i++) {
+            formData.append('myfile', files[i]);
+          }
+        }
+        this.$axios.postDownload('/test/testImportExcel', formData).then(function (resp) {
+          me.allDisabled = false;
+          if(isDownloadError) {
+            if(resp.data.byteLength == 0) {
+              me.$toaster.success('上传成功！');
+            } else {
+              Utility.downloadAfterAjax(resp.data, resp.headers);
+            }
+          } else {
+            resp = JSON.parse(Utility.readArrayBufferAsText(resp.data));
+            if (resp.status == ResultStatus.OK.value) {
+              me.$toaster.success(resp.value || '上传成功！');
+            } else {
+              me.$toaster.warning(resp.value.join("。"));
+            }
+          }
+        });
       },
       getFormData: function() {
         var formData = new FormData();

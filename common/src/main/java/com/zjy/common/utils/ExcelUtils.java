@@ -125,7 +125,7 @@ public class ExcelUtils {
                     setFieldValueByName(header.getFieldName(), cellValue, entity);
                 } catch (Exception e) {
                     String msg = String.format("excel的 %s 页签第 %d 行第 %s 列的内容不正确:%s！", sheet.getSheetName(), i + 1, header.getName(), cellValue);
-                    entity.setErrorMsg(msg);
+                    entity.appendErrorMsg(msg);
                     log.error(msg);
                 }
             }

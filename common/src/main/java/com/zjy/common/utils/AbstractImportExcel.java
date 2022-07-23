@@ -36,6 +36,13 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
     protected ImportExcelDataType importExcelDataType = ImportExcelDataType.IMPORT_CORRECT_DATA;
     protected HandleImportErrorType handleImportErrorType = HandleImportErrorType.RETURN_ERROR_MESSAGE;
 
+    public void setImportExcelDataType(ImportExcelDataType importExcelDataType) {
+        this.importExcelDataType = importExcelDataType;
+    }
+    public void setHandleImportErrorType(HandleImportErrorType handleImportErrorType) {
+        this.handleImportErrorType = handleImportErrorType;
+    }
+
     /**
      * 导入excel
      * @param is
@@ -43,8 +50,8 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
      * @param clazz
      * @param headers
      */
-    public void importExcel(InputStream is, String sheetName, Class<T> clazz, List<ExcelHeader> headers){
-        importExcel(is, sheetName, clazz, headers, null);
+    public List<String> importExcel(InputStream is, String sheetName, Class<T> clazz, List<ExcelHeader> headers){
+        return importExcel(is, sheetName, clazz, headers, null);
     }
 
     /**
@@ -55,7 +62,7 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
      * @param headers
      * @param response
      */
-    public void importExcel(InputStream is, String sheetName, Class<T> clazz, List<ExcelHeader> headers, HttpServletResponse response){
+    public List<String> importExcel(InputStream is, String sheetName, Class<T> clazz, List<ExcelHeader> headers, HttpServletResponse response){
         // read excel
         List<T> excelRowData = ExcelUtils.excelToList(is, sheetName, clazz, headers);
         checkRow(excelRowData);
@@ -63,17 +70,18 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
         List<T> correctDataList = new ArrayList<>();
         List<T> errorDataList = new ArrayList<>();
         for (T row : excelRowData) {
-            if(row.getErrorMsg() == null || Constants.EMPTY_STRING.equals(row.getErrorMsg().trim())) {
+            if(row.getErrorMsg() == null || row.getErrorMsg().size() == 0) {
                 correctDataList.add(row);
             } else {
                 errorDataList.add(row);
             }
         }
-        handleErrorRow(errorDataList, headers, sheetName, response);
+        List<String> errorMsgList = handleErrorRow(errorDataList, headers, sheetName, response);
         // 没有异常数据或正确的数据下导入
-        if(errorDataList.size() == 0 || importExcelDataType == ImportExcelDataType.IMPORT_CORRECT_DATA) {
+        if (correctDataList.size() > 0 && importExcelDataType == ImportExcelDataType.IMPORT_CORRECT_DATA) {
             doImport(correctDataList);
         }
+        return errorMsgList;
     }
 
     /**
@@ -90,16 +98,16 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
      * @param sheetName
      * @param response
      */
-    protected void handleErrorRow(List<T> list, List<ExcelHeader> headers, String sheetName, HttpServletResponse response){
+    protected List<String> handleErrorRow(List<T> list, List<ExcelHeader> headers, String sheetName, HttpServletResponse response){
+        List<String> errorList = new ArrayList<>();
         if(list == null || list.size() == 0) {
-            return;
+            return errorList;
         }
         if(handleImportErrorType == HandleImportErrorType.RETURN_ERROR_MESSAGE) {
             StringBuilder sb = new StringBuilder();
             for (T errRow : list) {
-                sb.append(errRow.getErrorMsg()).append(Constants.NEW_LINE);
+                errorList.add(String.join(";", errRow.getErrorMsg()));
             }
-            throw new ServiceException(sb.toString());
         } else {
             Workbook workbook = ExcelUtils.createWorkbook(FileSuffix.XLS);
 
@@ -128,6 +136,7 @@ public abstract class AbstractImportExcel<T extends ExcelRowData> {
                 throw new DownloadException("生成excel出错！", e);
             }
         }
+        return errorList;
     }
 
     /**

@@ -9,6 +9,8 @@ import com.zjy.baseframework.enums.ResultStatus;
 import com.zjy.common.shiro.ShiroRealmUtils;
 import com.zjy.common.shiro.ShiroUserInfo;
 import com.zjy.dao.UserInfoDao;
+import com.zjy.dao.common.multiDataSource.DBSource;
+import com.zjy.dao.common.multiDataSource.DataSourceKey;
 import com.zjy.dao.vo.PermissionVo;
 import com.zjy.dao.vo.UserInfoVo;
 import com.zjy.dao.vo.UserRoleVo;
@@ -27,6 +29,9 @@ import com.zjy.service.service.UserPermissionService;
 import com.zjy.service.service.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -48,6 +53,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> implements UserInfoService {
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
 
     @Autowired
     protected UserRoleService userRoleService;
@@ -331,5 +339,39 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfoDao, UserInfo> 
         int a = 1, b = 0;
         int c = a / b;
         dao.insert(user2);
+    }
+
+    @Override
+    @DBSource(DataSourceKey.MASTER)
+    public List<UserInfo> testBatchInsert() {
+        SqlSession session = null;
+        List<UserInfo> list = new ArrayList<>();
+        try {
+            // autoCommit 为false
+            session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+            UserInfoDao mapper = session.getMapper(UserInfoDao.class);
+            UserInfo user1 = new UserInfo();
+            user1.setName("batchOne");
+            user1.setCode("batchOne");
+            mapper.insert(user1);
+            list.add(user1);
+
+            UserInfo user2 = new UserInfo();
+            user2.setName("batchTwo");
+            user2.setCode("batchTwo");
+            mapper.insert(user2);
+            list.add(user2);
+
+            // 下面两条可以多次执行，如每10条提交一次
+            session.commit();
+            session.clearCache();
+        } catch (Exception ex) {
+            if(session != null) session.rollback();
+        } finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+        return list;
     }
 }

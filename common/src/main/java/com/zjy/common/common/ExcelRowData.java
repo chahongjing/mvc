@@ -1,6 +1,8 @@
 package com.zjy.common.common;
 
+import java.util.List;
+
 public interface ExcelRowData {
-    void setErrorMsg(String errorMsg);
-    String getErrorMsg();
+    void appendErrorMsg(String errorMsg);
+    List<String> getErrorMsg();
 }

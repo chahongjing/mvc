@@ -6,8 +6,11 @@ import com.zjy.baseframework.annotations.LimitByCount;
 import com.zjy.baseframework.annotations.NoRepeatOp;
 import com.zjy.baseframework.annotations.RedisCache;
 import com.zjy.baseframework.common.DownloadException;
+import com.zjy.baseframework.common.ServiceException;
 import com.zjy.baseframework.enums.BaseResult;
 import com.zjy.baseframework.enums.FileSuffix;
+import com.zjy.common.enums.HandleImportErrorType;
+import com.zjy.common.enums.ImportExcelDataType;
 import com.zjy.common.stratory.BaseActionParam;
 import com.zjy.common.stratory.BaseActionResult;
 import com.zjy.common.stratory.EventDispatcher;
@@ -31,6 +34,7 @@ import com.zjy.service.stratory.close.CloseParam;
 import com.zjy.service.stratory.create.CreateParam;
 import com.zjy.web.MyImportExcel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,15 +43,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -351,12 +354,32 @@ public class TestController extends BaseController {
 //        }
 //    }
 
-    @GetMapping("/testImportExcel")
-    public void testImportExcel(HttpServletResponse response) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(new File("/home/zjy/a.xlsx"));
+    @PostMapping("/testImportExcel")
+    public BaseResult testImportExcel(MultipartFile myfile, HttpServletResponse response, Boolean downloadError, Boolean importCorrectData) throws IOException {
+        if(downloadError == null) downloadError = false;
+        if(importCorrectData == null) importCorrectData = false;
+//        FileInputStream fileInputStream = new FileInputStream(new File("/home/zjy/a.xlsx"));
         List<ExcelHeader> headers = new ArrayList<>();
         headers.add(new ExcelHeader("name", "姓名"));
         headers.add(new ExcelHeader("sex", "性别"));
-        myImportExcel.importExcel(fileInputStream, "Sheet1", UserInfoVo.class, headers, response);
+        myImportExcel.setHandleImportErrorType(downloadError ? HandleImportErrorType.DOWNLOAD_EXCEL_WITH_MESSAGE : HandleImportErrorType.RETURN_ERROR_MESSAGE);
+        myImportExcel.setImportExcelDataType(importCorrectData ? ImportExcelDataType.IMPORT_CORRECT_DATA : ImportExcelDataType.INTERUPT_WHEN_ERROR);
+        List<String> errorMsgList = myImportExcel.importExcel(myfile.getInputStream(), "Sheet1", UserInfoVo.class, headers, response);
+
+        if(downloadError) {
+            return null;
+        } else {
+            if(CollectionUtils.isNotEmpty(errorMsgList)) {
+                return BaseResult.no("导入失败！", errorMsgList);
+            } else {
+                return BaseResult.ok("导入成功！");
+            }
+        }
+    }
+
+    @GetMapping("/testBatchInsert")
+    public List<UserInfo> testBatchInsert() {
+        List<UserInfo> userInfos = userInfoService.testBatchInsert();
+        return userInfos;
     }
 }

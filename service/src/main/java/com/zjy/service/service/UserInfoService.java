@@ -38,4 +38,6 @@ public interface UserInfoService extends BaseService<UserInfo>, IUserService {
     void changePassword(String userCode, String oldPassword, String newPassword);
 
     void resetPassword(String code, String password);
+
+    List<UserInfo> testBatchInsert();
 }

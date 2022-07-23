@@ -3,6 +3,9 @@ logging:
     path: /home/zjy/tmp/logs
   level:
     root: info
+    com:
+      zjy:
+        dao: info
 #spring:
 #  mail:
 #    host: smtp.exmail.qq.com
